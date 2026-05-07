@@ -205,3 +205,7 @@ MIT
 ## Contributing
 
 Run the system, let the retrospector accumulate lessons, share what your team learned. If you build a new team, submit it with the research SYNTHESIS that designed it.
+
+## v0.2-rc — Security/Testing/Docs teams activated (2026-05-01)
+
+The three teams drafted-but-unactivated in v0.1 — **Security**, **Testing**, **Docs** — are now installable. v0.2 was validated end-to-end on `gpucheck v1.0.0rc1` (4-track parallel implementation + 26-process kernel-fuzzer swarm + ~100 distinct agent dispatches). See `RELEASE_NOTES_v0.2.md` for measured deltas, known limitations, and install steps.
