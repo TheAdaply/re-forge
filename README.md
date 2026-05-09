@@ -1,8 +1,46 @@
 # claude-forge
 
-A self-evolving multi-agent workforce for [Claude Code](https://claude.ai/code). Research teams that investigate, engineering teams that ship, a capability forge that builds new skills, and a memory layer that makes every session smarter than the last.
+claude-forge is a hardened operating procedure for [Claude Code](https://claude.ai/code)'s native subagent and agent-teams primitives — adversarial gating, institutional memory, and on-disk evidence baked into a multi-role research protocol. It is for operators who need their agents to disagree, audit each other, and remember, not for users who just need one assistant to edit a file.
 
-Built by dispatching Claude to research how to build itself, then executing those findings, then researching how to improve the execution, recursively. Every design decision traces to primary sources: Anthropic's published multi-agent patterns, the MAST failure taxonomy (14 failure modes, NeurIPS 2025), the ACE playbook pattern (Stanford), and empirically validated concurrency protocols.
+**Get started in 5 minutes →** see [QUICKSTART.md](./QUICKSTART.md).
+
+<!-- TODO record demo before v0.4 final ships -->
+[![asciinema demo](https://asciinema.org/a/PLACEHOLDER.svg)](https://asciinema.org/a/PLACEHOLDER)
+
+## Slash commands
+
+Six user-callable commands. Type `/<name>` in any Claude Code session after `bash setup.sh` and a restart. Cost/time figures are typical, calibrated against the v0.2 validation session (`BENCHMARKS_v0.2.md`); a single dispatch can fan out to 17+ specialists in parallel.
+
+| Command | Dispatches | Typical wall-clock | Typical token cost |
+|---|---|---|---|
+| `/research` | Research Team (17 specialists) — multi-source investigation with adversarial gates (skeptic + adversary + moderator + evaluator) and a 5-dim evaluator rubric | 2–30 min | 50K–500K |
+| `/engineer` | Engineering Team (12 specialists) — plan → architect → skeptic → executor → verifier → reviewer loop; reads a research SYNTHESIS as binding spec | 5–60 min | 100K–800K |
+| `/security` | Security & Review Team — CVE check, secrets scan, threat model, license audit; auto-detects language/dependency manager | 3–10 min | 30K–150K |
+| `/testing` | Testing & QA Team — coverage, mutation testing, property tests, regression detection | 5–30 min | 50K–300K |
+| `/docs` | Documentation Team — author + verify README/API docs/changelogs/architecture | 3–15 min | 20K–120K |
+| `/forge` | Capability Forge — gap detection → MCP/marketplace scout → draft → test → promote new skills | 5–20 min | 30K–200K |
+
+A first-run `/research` on a deliberately-narrow toy question (see QUICKSTART) lands a SYNTHESIS in 2–3 minutes for well under 50K tokens.
+
+## How claude-forge compares
+
+claude-forge is **a hardened operating procedure for Claude Code's native subagent + agent-teams primitives**, not a runtime, not a graph engine. The differentiators that survive a skeptical engineer:
+
+1. **Adversarial gating is contractual** (every SYNTHESIS re-audited by skeptic + adversary).
+2. **Cross-session memory with helpful/harmful counters** (vanilla agent-teams stores nothing across sessions).
+3. **A forge meta-agent that evolves the workforce** (none of the alternatives below attempts this).
+
+| Alternative | Install | Why pick claude-forge over it |
+|---|---|---|
+| Claude Code native subagents + agent-teams | bundled | adversarial gating + cross-session memory + on-disk EVIDENCE substrate |
+| LangGraph | `pip install langgraph` | stay inside Claude Code REPL; no graph runtime to deploy |
+| AutoGen | `pip install autogen-agentchat` | **AutoGen is in maintenance mode** (Microsoft now points users at Microsoft Agent Framework) |
+| CrewAI | `uv pip install crewai` | built-in adversary/skeptic/moderator vs polite-collaboration default |
+| Mastra / Inngest / Trigger.dev | `npm create mastra` etc. | claude-forge is interactive investigations; these are HTTP-endpoint workflows |
+| Goose (block/goose) | `curl … \| bash` | claude-forge optimizes for Claude protocols, not provider portability |
+| Aider | `pip install aider-install` | different problem class — single-agent pair programming |
+
+**Persona this is built for:** a research-heavy IC or 2–5 person team running multi-week investigations across multiple codebases who has already noticed Claude Code single-sessions hallucinate citations, anchor early, and forget yesterday's lessons.
 
 ## What's inside
 
@@ -90,14 +128,16 @@ cd ~/my-project
 claude
 
 # Research something
-> research how vLLM handles MoE routing
+/research how vLLM handles MoE routing
 
 # Implement from research
-> implement Hook A from the memory-layer research
+/engineer implement Hook A from the memory-layer research
 
 # Check workforce gaps
-> what capability are we missing?
+/forge what capability are we missing?
 ```
+
+For a deliberately narrow first dispatch (toy question, low token cost, SYNTHESIS in 2–3 min) follow [QUICKSTART.md](./QUICKSTART.md).
 
 ### Dashboard
 
@@ -148,7 +188,7 @@ Most multi-agent systems fail by adding agents without adding verification. Clau
 - **Moderator** runs structured debates on contradictions (FM-2.5)
 - **Evaluator** grades output on 5 dimensions (FM-3.2)
 
-The adversary caught [MemPalace's fraudulent benchmarks](https://github.com/milla-jovovich/mempalace/issues/214) (21K stars, 96.6% LongMemEval score that actually measured ChromaDB, not MemPalace) during the first pilot. The skeptic alone couldn't have caught this.
+The adversary caught [MemPalace's misleading benchmarks](https://github.com/MemPalace/mempalace/issues/214) (50K+ stars, 96.6% LongMemEval R@5 score that actually measured a vanilla ChromaDB lookup, not MemPalace's palace architecture) during the first pilot. The skeptic alone couldn't have caught this — the corpus claim looked plausible until the adversary read the benchmark file.
 
 ### Parallel execution
 
@@ -165,7 +205,7 @@ Memory segregation: retrospectors write to `staging/<slug>.md`, scribes merge vi
 
 Follow the self-evolving principle:
 ```
-> research how a Testing/QA team should be structured
+/research how a Testing/QA team should be structured
 ```
 
 Research-lead produces a SYNTHESIS with a ready-to-write team design. Write the files and pilot.
@@ -173,7 +213,7 @@ Research-lead produces a SYNTHESIS with a ready-to-write team design. Write the 
 ### Adding skills via the Forge
 
 ```
-> build a skill that wraps the Semantic Scholar API
+/forge build a skill that wraps the Semantic Scholar API
 ```
 
 The Forge wraps Claude Code's official `skill-creator` and `mcp-builder`.
