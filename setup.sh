@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# claude-forge installer
+# claude-forge installer (v0.4)
 # Copies agents, protocols, scripts, hooks, skills, and forge to ~/.claude/
 # Backs up existing files before overwriting.
 
@@ -43,31 +43,46 @@ copy_file() {
   fi
 }
 
+# Map repo team dir name (e.g. "research-team") to install dir name (e.g. "research").
+team_install_name() {
+  local repo_team="$1"
+  echo "${repo_team%-team}"
+}
+
 # --- agents ---
+# Loop over EVERY agents/*-team/ in the repo so adding a new team in agents/
+# does not require editing setup.sh. Each team installs its persona files to
+# ~/.claude/agents/<team>/ and its PROTOCOL.md to ~/.claude/teams/<team>/.
 echo "Installing agents..."
-for team in research-team engineering-team; do
-  src_dir="$SCRIPT_DIR/agents/$team"
-  if [ "$team" = "research-team" ]; then
-    dst_dir="$CLAUDE_DIR/agents/research"
-  else
-    dst_dir="$CLAUDE_DIR/agents/engineering"
+mkdir -p "$CLAUDE_DIR/teams"
+installed_teams=()
+for team_dir in "$SCRIPT_DIR"/agents/*-team/; do
+  [ -d "$team_dir" ] || continue
+  repo_team="$(basename "$team_dir")"
+  install_team="$(team_install_name "$repo_team")"
+  dst_agents="$CLAUDE_DIR/agents/$install_team"
+  dst_protocol_dir="$CLAUDE_DIR/teams/$install_team"
+  echo "  team: $repo_team -> $install_team"
+  backup_if_exists "$dst_agents"
+  mkdir -p "$dst_agents"
+  # Persona files (everything except PROTOCOL.md)
+  for f in "$team_dir"*.md; do
+    [ -f "$f" ] || continue
+    [ "$(basename "$f")" = "PROTOCOL.md" ] && continue
+    cp "$f" "$dst_agents/$(basename "$f")"
+  done
+  # Protocol file
+  if [ -f "$team_dir/PROTOCOL.md" ]; then
+    mkdir -p "$dst_protocol_dir"
+    copy_file "$team_dir/PROTOCOL.md" "$dst_protocol_dir/PROTOCOL.md"
   fi
-  if [ -d "$src_dir" ]; then
-    backup_if_exists "$dst_dir"
-    copy_dir "$src_dir" "$dst_dir"
-  fi
+  installed_teams+=("$install_team")
 done
 
 # Forge lead (single file, not a team subdir)
 if [ -f "$SCRIPT_DIR/agents/forge/forge-lead.md" ]; then
   copy_file "$SCRIPT_DIR/agents/forge/forge-lead.md" "$CLAUDE_DIR/agents/forge-lead.md"
 fi
-
-# --- protocols ---
-echo "Installing protocols..."
-mkdir -p "$CLAUDE_DIR/teams/research" "$CLAUDE_DIR/teams/engineering"
-copy_file "$SCRIPT_DIR/agents/research-team/PROTOCOL.md" "$CLAUDE_DIR/teams/research/PROTOCOL.md"
-copy_file "$SCRIPT_DIR/agents/engineering-team/PROTOCOL.md" "$CLAUDE_DIR/teams/engineering/PROTOCOL.md"
 
 # --- scripts ---
 echo "Installing scripts..."
@@ -87,23 +102,26 @@ done
 chmod +x "$CLAUDE_DIR/hooks/"*.sh 2>/dev/null || true
 
 # --- memory seeds ---
+# Loop over EVERY memory/*.md so a new <team>-lead.md memory seed in repo
+# automatically reaches ~/.claude/agent-memory/<team>-lead/MEMORY.md.
 echo "Installing memory seeds..."
-for agent in research-lead engineering-lead forge-lead research-retrospector; do
-  src="$SCRIPT_DIR/memory/${agent}.md"
+seeded_agents=()
+for src in "$SCRIPT_DIR"/memory/*.md; do
+  [ -f "$src" ] || continue
+  agent="$(basename "$src" .md)"
   dst="$CLAUDE_DIR/agent-memory/$agent/MEMORY.md"
-  if [ -f "$src" ]; then
-    mkdir -p "$(dirname "$dst")"
-    if [ -f "$dst" ]; then
-      echo "  skip (exists): $agent/MEMORY.md"
-    else
-      cp "$src" "$dst"
-      echo "  seeded: $agent/MEMORY.md"
-    fi
+  mkdir -p "$(dirname "$dst")"
+  if [ -f "$dst" ]; then
+    echo "  skip (exists): $agent/MEMORY.md"
+  else
+    cp "$src" "$dst"
+    echo "  seeded: $agent/MEMORY.md"
   fi
+  seeded_agents+=("$agent")
 done
 
-# Create staging dirs
-for agent in research-lead engineering-lead; do
+# Create staging dirs for every memory-seeded lead
+for agent in "${seeded_agents[@]}"; do
   mkdir -p "$CLAUDE_DIR/agent-memory/$agent/staging"
 done
 
@@ -171,12 +189,19 @@ fi
 # --- verification ---
 echo ""
 echo "=== Verification ==="
-echo -n "Research agents:    "; ls "$CLAUDE_DIR/agents/research/"*.md 2>/dev/null | wc -l
-echo -n "Engineering agents: "; ls "$CLAUDE_DIR/agents/engineering/"*.md 2>/dev/null | wc -l
-echo -n "Forge skills:       "; ls "$CLAUDE_DIR/forge/skills/"*/SKILL.md 2>/dev/null | wc -l
-echo -n "Scripts:            "; ls "$CLAUDE_DIR/scripts/" 2>/dev/null | wc -l
-echo -n "Hooks:              "; ls "$CLAUDE_DIR/hooks/" 2>/dev/null | wc -l
+for team in "${installed_teams[@]}"; do
+  count=$(ls "$CLAUDE_DIR/agents/$team/"*.md 2>/dev/null | wc -l | tr -d ' ')
+  printf "  %-22s %s agents\n" "$team:" "$count"
+done
+forge_skill_count=$(ls "$CLAUDE_DIR/forge/skills/"*/SKILL.md 2>/dev/null | wc -l | tr -d ' ')
+script_count=$(ls "$CLAUDE_DIR/scripts/" 2>/dev/null | wc -l | tr -d ' ')
+hook_count=$(ls "$CLAUDE_DIR/hooks/" 2>/dev/null | wc -l | tr -d ' ')
+printf "  %-22s %s\n" "Forge skills:"  "$forge_skill_count"
+printf "  %-22s %s\n" "Scripts:"       "$script_count"
+printf "  %-22s %s\n" "Hooks:"         "$hook_count"
 
+echo ""
+echo "Run 'bash scripts/doctor.sh' to verify the install end-to-end."
 echo ""
 echo "=== Done ==="
 echo "Restart Claude Code to pick up the new agents and hooks."

@@ -51,10 +51,11 @@ Built by dispatching Claude to research how to build itself, then executing thos
 ```bash
 git clone https://github.com/Akasxh/claude-forge.git
 cd claude-forge
-bash setup.sh
+bash setup.sh           # installs all 5 teams (research, engineering, security, testing, docs) + forge
+bash scripts/doctor.sh  # verify install
 ```
 
-The installer copies agents, protocols, scripts, hooks, skills, and the forge to `~/.claude/`. It backs up anything it would overwrite.
+The installer copies agents, protocols, scripts, hooks, skills, and the forge to `~/.claude/`. It backs up anything it would overwrite. As of v0.2 it auto-discovers every `agents/*-team/` and every `memory/*.md`, so all five teams ship out of the box (no manual loop required).
 
 ### What gets installed
 
@@ -197,6 +198,10 @@ This system was built by Claude researching how to build itself:
 5. **Infrastructure hardening**: 15 agents upgraded to Opus, Stop hook installed, arxiv MCP, scope model refactored
 
 Total: ~2M tokens, ~600 tool calls, ~8 hours of agent compute across 2 days.
+
+## Troubleshooting
+
+If `/research`, `/security`, `/testing`, or `/docs` fails with a missing-file error, your install drifted from the repo. Run `bash scripts/doctor.sh` from inside the `claude-forge` clone — it diffs every `agents/*-team/` and every `memory/*.md` against `~/.claude/` and reports each missing file. Pass `--fix` to re-run `setup.sh` and repair drift in place: `bash scripts/doctor.sh --fix`. Exit code 0 means clean; 1 means drift detected.
 
 ## License
 
