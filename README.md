@@ -198,6 +198,10 @@ This system was built by Claude researching how to build itself:
 
 Total: ~2M tokens, ~600 tool calls, ~8 hours of agent compute across 2 days.
 
+## How this framework is exercised
+
+claude-forge is validated by using it. Concrete paste-able session prompts that drove real engineering targets — and the deltas between prompt versions as we learned what works — live at [`docs/agentic-development/`](./docs/agentic-development/). Read [`docs/agentic-development/README.md`](./docs/agentic-development/README.md) before opening a new Claude session against this repo.
+
 ## License
 
 MIT
