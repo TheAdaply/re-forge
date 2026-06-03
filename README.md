@@ -87,8 +87,8 @@ re-forge is **a hardened operating procedure for Claude Code's native subagent +
 ### Installation
 
 ```bash
-git clone https://github.com/Akasxh/claude-forge.git
-cd claude-forge
+git clone https://github.com/Akasxh/re-forge.git
+cd re-forge
 bash setup.sh           # installs all 5 teams (research, engineering, security, testing, docs) + forge
 bash scripts/doctor.sh  # verify install
 ```
@@ -241,7 +241,7 @@ Total: ~2M tokens, ~600 tool calls, ~8 hours of agent compute across 2 days.
 
 ## Troubleshooting
 
-If `/research`, `/security`, `/testing`, or `/docs` fails with a missing-file error, your install drifted from the repo. Run `bash scripts/doctor.sh` from inside the re-forge repo (the `claude-forge` clone) — it diffs every `agents/*-team/` and every `memory/*.md` against `~/.claude/` and reports each missing file. Pass `--fix` to re-run `setup.sh` and repair drift in place: `bash scripts/doctor.sh --fix`. Exit code 0 means clean; 1 means drift detected.
+If `/research`, `/security`, `/testing`, or `/docs` fails with a missing-file error, your install drifted from the repo. Run `bash scripts/doctor.sh` from inside the re-forge repo clone — it diffs every `agents/*-team/` and every `memory/*.md` against `~/.claude/` and reports each missing file. Pass `--fix` to re-run `setup.sh` and repair drift in place: `bash scripts/doctor.sh --fix`. Exit code 0 means clean; 1 means drift detected.
 
 ## License
 

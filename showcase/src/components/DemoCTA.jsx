@@ -24,7 +24,7 @@ export default function DemoCTA({ onDemo }) {
               </button>
               <a
                 className="btn btn-ghost"
-                href="https://github.com/Akasxh/claude-forge"
+                href="https://github.com/Akasxh/re-forge"
                 target="_blank"
                 rel="noreferrer"
               >

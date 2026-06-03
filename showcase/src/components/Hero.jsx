@@ -11,14 +11,15 @@ export default function Hero({ onDemo }) {
     <section id="about" className="sec hero-sec hero-center">
       <div className="wrap hero-stack">
         <motion.div {...rise(0)} className="eyebrow">
-          Hackathon showcase · Claude Code skill stack
+          Multi-agent operating procedure · Claude Code · Cursor · Codex
         </motion.div>
         <motion.h1 {...rise(0.06)} className="display h1 hero-title">
           One prompt. A whole engineering org's worth of rigor.
         </motion.h1>
         <motion.p {...rise(0.14)} className="lead hero-lead">
-          re-forge turns Claude Code into a hardened multi-agent operating procedure with
-          adversarial gates, durable memory, and evidence files. See it run a real task below.
+          re-forge turns your coding agent — Claude Code, Cursor, Codex and beyond — into a hardened
+          multi-agent operating procedure with adversarial gates, durable memory, and evidence files.
+          See it run a real task below.
         </motion.p>
         <motion.div {...rise(0.22)} className="hero-actions">
           <button className="btn btn-primary" onClick={onDemo} type="button">

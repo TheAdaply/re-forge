@@ -9,9 +9,9 @@ export default function Footer({ onDemo }) {
           </button>
         </div>
         <div className="footer-meta">
-          <span>re-forge hackathon showcase</span>
-          <a href="https://github.com/Akasxh/claude-forge" target="_blank" rel="noreferrer">
-            github.com/Akasxh/claude-forge
+          <span>re-forge — multi-agent operating procedure for coding agents</span>
+          <a href="https://github.com/Akasxh/re-forge" target="_blank" rel="noreferrer">
+            github.com/Akasxh/re-forge
           </a>
         </div>
       </div>

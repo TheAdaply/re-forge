@@ -16,8 +16,8 @@ advanced features later).
 ## Install (60 seconds)
 
 ```bash
-git clone https://github.com/Akasxh/claude-forge.git ~/src/claude-forge
-cd ~/src/claude-forge
+git clone https://github.com/Akasxh/re-forge.git ~/src/re-forge
+cd ~/src/re-forge
 bash setup.sh
 ```
 

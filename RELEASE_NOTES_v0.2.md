@@ -66,7 +66,7 @@ Each was scouted against the MCP Registry and `anthropics/skills` before authori
 ## How to install v0.2
 
 ```bash
-# from the claude-forge clone
+# from the re-forge clone
 for team in security testing docs; do
   mkdir -p ~/.claude/agents/$team ~/.claude/teams/$team
   find agents/${team}-team -maxdepth 1 -name '*.md' ! -name 'PROTOCOL.md' \

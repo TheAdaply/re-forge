@@ -40,7 +40,7 @@ Final consolidation: 2026-05-04T01:30+ IST (post-credit-reset)
 ## v0.3 carry-overs (from this session's measurements)
 
 1. **Subagent-write restriction documented in PROTOCOL.md** (carried from v0.2 known-limitations).
-2. **Launcher script bash hygiene.** Ship `claude-forge/scripts/launch-swarm.sh` as a tested artifact, not inline.
+2. **Launcher script bash hygiene.** Ship `re-forge/scripts/launch-swarm.sh` as a tested artifact, not inline.
 3. **Bounded monitor lifetimes** — default 2h timeout, explicit opt-in for persistence.
 4. **Wheel-availability pre-check** for multi-version matrix tasks (queries PyPI before promising version count).
 5. **Credit-cap-aware retry logic** — Agent dispatches that fail with credit-cap should be queued for retry post-reset, not abandoned.

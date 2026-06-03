@@ -3,7 +3,7 @@ export default function Nav({ onDemo }) {
     <header className="site-nav">
       <div className="wrap nav-inner">
         <a href="#top" className="brand" aria-label="re-forge home">
-          <span className="brand-dot" />
+          <img className="brand-logo" src="/logo.jpeg" alt="re-forge logo" width="32" height="32" />
           <span className="brand-name">re-forge</span>
           <span className="mono brand-sub">agent ops</span>
         </a>

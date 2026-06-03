@@ -8,7 +8,7 @@ export default function Commands() {
         <div className="section-copy centered">
           <div className="seclabel centered-label">
             <span className="tick" />
-            <span className="eyebrow">04 / six commands</span>
+            <span className="eyebrow">seven commands</span>
           </div>
           <h2 className="display h2">One interface, multiple expert teams.</h2>
         </div>

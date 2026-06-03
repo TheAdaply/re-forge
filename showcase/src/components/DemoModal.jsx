@@ -6,7 +6,7 @@ const steps = [
     n: "1",
     title: "Install the skill",
     note: "Clones the repo and installs all teams into ~/.claude/.",
-    code: "git clone https://github.com/Akasxh/claude-forge.git\ncd claude-forge\nbash setup.sh",
+    code: "git clone https://github.com/Akasxh/re-forge.git\ncd re-forge\nbash setup.sh",
   },
   {
     n: "2",
@@ -116,7 +116,7 @@ export default function DemoModal({ open, onClose }) {
               <span className="mono">Requires Claude Code · Python 3.11+ · gh CLI</span>
               <a
                 className="btn btn-primary"
-                href="https://github.com/Akasxh/claude-forge"
+                href="https://github.com/Akasxh/re-forge"
                 target="_blank"
                 rel="noreferrer"
               >
