@@ -1,0 +1,15 @@
+{
+  // Correctness-focused config: catch broken structure, skip pure style.
+  // Style rules (line length, emphasis markers, list indent width) are
+  // intentionally off — 200+ skill docs from many authors, zero reader value.
+  "config": {
+    "default": false,
+    "MD011": true,  // reversed link syntax
+    "MD040": false, // fenced-code language tags: desirable but 1000s of legacy fences
+    "MD042": true,  // no empty links
+    "MD045": true,  // images need alt text
+    "MD052": true,  // reference links must resolve
+    "MD053": false
+  },
+  "ignores": ["node_modules", "**/node_modules", ".playwright-mcp", "showcase/dist"]
+}

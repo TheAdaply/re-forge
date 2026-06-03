@@ -216,7 +216,7 @@ for layer in range(model.cfg.n_layers):
 
 ## Workflow 3: Induction Head Detection
 
-Find induction heads that implement [A][B]...[A] → [B] pattern.
+Find induction heads that implement \[A]\[B]...\[A] → \[B] pattern.
 
 ```python
 from transformer_lens import HookedTransformer
