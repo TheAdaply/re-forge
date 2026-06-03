@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# claude-forge installer (v0.4)
+# re-forge installer (v0.4)
 # Copies agents, protocols, scripts, hooks, skills, and forge to ~/.claude/
 # Backs up existing files before overwriting.
 
@@ -9,7 +9,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 CLAUDE_DIR="$HOME/.claude"
 BACKUP_TS="$(date +%Y%m%d-%H%M%S)"
 
-echo "=== claude-forge installer ==="
+echo "=== re-forge installer ==="
 echo "Source:  $SCRIPT_DIR"
 echo "Target:  $CLAUDE_DIR"
 echo ""
@@ -178,6 +178,11 @@ if 'Stop' not in hooks:
 if 'PostToolUse' not in hooks:
     hooks['PostToolUse'] = [{'matcher': 'Write|Edit', 'hooks': [{'type': 'command', 'command': '\$HOME/.claude/hooks/log-evidence-writes.sh'}]}]
     print('  added: PostToolUse hook')
+
+# Add SessionStart hook (Evolution Team upstream-watch beat) if missing
+if 'SessionStart' not in hooks:
+    hooks['SessionStart'] = [{'matcher': '', 'hooks': [{'type': 'command', 'command': '\$HOME/.claude/hooks/evolution-scout.sh'}]}]
+    print('  added: SessionStart hook (evolution-scout)')
 
 with open('$SETTINGS', 'w') as f:
     json.dump(settings, f, indent=2)

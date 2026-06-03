@@ -12,7 +12,7 @@ set -euo pipefail
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 CLAUDE_DIR="$HOME/.claude"
 
-echo "=== claude-forge sync ==="
+echo "=== re-forge sync ==="
 echo "From: $CLAUDE_DIR"
 echo "To:   $REPO_DIR"
 echo ""
@@ -146,7 +146,7 @@ if [ "${1:-}" = "--push" ]; then
   fi
 
   echo "Changes: $CHANGES"
-  git commit -m "sync: update claude-forge from ~/.claude/ $(date -I)
+  git commit -m "sync: update re-forge from ~/.claude/ $(date -I)
 
 Synced agents, protocols, skills, scripts, hooks, and memory seeds.
 No project-specific content included.

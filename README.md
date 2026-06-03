@@ -1,6 +1,6 @@
-# claude-forge
+# re-forge
 
-claude-forge is a hardened operating procedure for [Claude Code](https://claude.ai/code)'s native subagent and agent-teams primitives — adversarial gating, institutional memory, and on-disk evidence baked into a multi-role research protocol. It is for operators who need their agents to disagree, audit each other, and remember, not for users who just need one assistant to edit a file.
+re-forge is a hardened operating procedure for [Claude Code](https://claude.ai/code)'s native subagent and agent-teams primitives — adversarial gating, institutional memory, and on-disk evidence baked into a multi-role research protocol. It is for operators who need their agents to disagree, audit each other, and remember, not for users who just need one assistant to edit a file.
 
 **Get started in 5 minutes →** see [QUICKSTART.md](./QUICKSTART.md).
 
@@ -22,22 +22,22 @@ Six user-callable commands. Type `/<name>` in any Claude Code session after `bas
 
 A first-run `/research` on a deliberately-narrow toy question (see QUICKSTART) lands a SYNTHESIS in 2–3 minutes for well under 50K tokens.
 
-## How claude-forge compares
+## How re-forge compares
 
-claude-forge is **a hardened operating procedure for Claude Code's native subagent + agent-teams primitives**, not a runtime, not a graph engine. The differentiators that survive a skeptical engineer:
+re-forge is **a hardened operating procedure for Claude Code's native subagent + agent-teams primitives**, not a runtime, not a graph engine. The differentiators that survive a skeptical engineer:
 
 1. **Adversarial gating is contractual** (every SYNTHESIS re-audited by skeptic + adversary).
 2. **Cross-session memory with helpful/harmful counters** (vanilla agent-teams stores nothing across sessions).
 3. **A forge meta-agent that evolves the workforce** (none of the alternatives below attempts this).
 
-| Alternative | Install | Why pick claude-forge over it |
+| Alternative | Install | Why pick re-forge over it |
 |---|---|---|
 | Claude Code native subagents + agent-teams | bundled | adversarial gating + cross-session memory + on-disk EVIDENCE substrate |
 | LangGraph | `pip install langgraph` | stay inside Claude Code REPL; no graph runtime to deploy |
 | AutoGen | `pip install autogen-agentchat` | **AutoGen is in maintenance mode** (Microsoft now points users at Microsoft Agent Framework) |
 | CrewAI | `uv pip install crewai` | built-in adversary/skeptic/moderator vs polite-collaboration default |
-| Mastra / Inngest / Trigger.dev | `npm create mastra` etc. | claude-forge is interactive investigations; these are HTTP-endpoint workflows |
-| Goose (block/goose) | `curl … \| bash` | claude-forge optimizes for Claude protocols, not provider portability |
+| Mastra / Inngest / Trigger.dev | `npm create mastra` etc. | re-forge is interactive investigations; these are HTTP-endpoint workflows |
+| Goose (block/goose) | `curl … \| bash` | re-forge optimizes for Claude protocols, not provider portability |
 | Aider | `pip install aider-install` | different problem class — single-agent pair programming |
 
 **Persona this is built for:** a research-heavy IC or 2–5 person team running multi-week investigations across multiple codebases who has already noticed Claude Code single-sessions hallucinate citations, anchor early, and forget yesterday's lessons.
@@ -181,7 +181,7 @@ Memory is global (transfers across projects). Sessions are per-project (evidence
 
 ### Why adversarial gates matter
 
-Most multi-agent systems fail by adding agents without adding verification. Claude-forge imports the [MAST taxonomy](https://arxiv.org/abs/2503.13657) and assigns each failure mode to a specialist:
+Most multi-agent systems fail by adding agents without adding verification. Re-forge imports the [MAST taxonomy](https://arxiv.org/abs/2503.13657) and assigns each failure mode to a specialist:
 
 - **Skeptic** attacks reasoning (FM-3.3)
 - **Adversary** attacks sources: SEO farms, benchmark fraud, citation laundering (FM-3.3 corpus variant)
@@ -241,7 +241,7 @@ Total: ~2M tokens, ~600 tool calls, ~8 hours of agent compute across 2 days.
 
 ## Troubleshooting
 
-If `/research`, `/security`, `/testing`, or `/docs` fails with a missing-file error, your install drifted from the repo. Run `bash scripts/doctor.sh` from inside the `claude-forge` clone — it diffs every `agents/*-team/` and every `memory/*.md` against `~/.claude/` and reports each missing file. Pass `--fix` to re-run `setup.sh` and repair drift in place: `bash scripts/doctor.sh --fix`. Exit code 0 means clean; 1 means drift detected.
+If `/research`, `/security`, `/testing`, or `/docs` fails with a missing-file error, your install drifted from the repo. Run `bash scripts/doctor.sh` from inside the re-forge repo (the `claude-forge` clone) — it diffs every `agents/*-team/` and every `memory/*.md` against `~/.claude/` and reports each missing file. Pass `--fix` to re-run `setup.sh` and repair drift in place: `bash scripts/doctor.sh --fix`. Exit code 0 means clean; 1 means drift detected.
 
 ## License
 

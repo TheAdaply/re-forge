@@ -1,6 +1,6 @@
-# claude-forge — 5-minute quickstart
+# re-forge — 5-minute quickstart
 
-You'll: install claude-forge, dispatch the Research Team on a toy question,
+You'll: install re-forge, dispatch the Research Team on a toy question,
 and see a SYNTHESIS file land in your project directory.
 
 ## Prereqs (30 seconds to verify)

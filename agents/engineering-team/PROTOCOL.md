@@ -106,6 +106,35 @@ Default bias: when in doubt, pick the higher tier.
 | Round N+1 | Close — Evaluator | 5-dim rubric | evaluator.md PASS/FAIL |
 | Close | Retrospection + scribe + handback | — | MEMORY.md updated, INDEX.md entry |
 
+## Eval-Driven Development (EDD) gate
+
+This team follows `agents/EDD-ADDENDUM.md`. EDD layers onto the existing
+round structure without replacing it — it constrains the definition of "done"
+and names two evidence files the team already has room for.
+
+**Evals first (Phase A).** Before the executor writes any code, the planner and
+architect jointly author `EXPECTED_EVALS.md` next to `PLAN.md`. It states the
+measurable quality criteria the work must meet across the relevant dimensions —
+**correctness, security, a11y/perf (as relevant), and maintainability** — with
+an explicit pass condition per criterion. The plan-gate verdict (skeptic +
+adversary clear) now also requires `EXPECTED_EVALS.md` to exist and cover every
+PLAN task. No Phase B build begins without it.
+
+**Verification loop (Phase B).** Per build iteration, after the executor's diff,
+the verifier runs the EDD verification-loop checklist FRESH — syntax/type check,
+tests, lint/style, security scan, performance baseline, and eval reconciliation
+— and records raw results in `EVIDENCE/verification.md`. This file cross-
+references `VERIFY_LOG.md` (raw run output) rather than duplicating it, and is
+owned solely by `engineering-verifier`. Each check is `PASS`, `FAIL`, or
+`EXCEPTION (<reason>)`. The verifier may not report PASS for an iteration while
+any applicable check is unchecked and unexcepted.
+
+**Gate on evidence (Close).** The reviewer may not record PASS, and the
+`engineering-evaluator` may not clear its strict dimensions, until every
+`EXPECTED_EVALS.md` criterion is met by `EVIDENCE/verification.md` or covered by
+a documented exception (which eval is unmet, why shipping is acceptable, the
+risk, follow-up). An unrecorded gap is a FAIL, not an advisory note.
+
 ### Round 0 — Intake
 
 1. Lead runs intake-and-amplification protocol.
@@ -314,9 +343,11 @@ Cross-team research SYNTHESIS path: `<cwd>/.claude/teams/research/<research-slug
 .claude/teams/engineering/<slug>/
 ├── CHARTER.md              # owned by lead (Round 0)
 ├── PLAN.md                 # owned by lead (Phase A close)
+├── EXPECTED_EVALS.md       # planner + architect (Phase A, evals-first; see EDD-ADDENDUM.md)
 ├── EVIDENCE/
 │   ├── planner.md          # engineering-planner
 │   ├── architect.md        # engineering-architect
+│   ├── verification.md     # engineering-verifier (EDD verification-loop checklist + raw checks)
 │   ├── skeptic.md          # engineering-skeptic
 │   ├── adversary.md        # engineering-adversary
 │   ├── executor.md         # engineering-executor (running log)
@@ -347,6 +378,8 @@ Team-wide files:
 |---|---|---|
 | `CHARTER.md` | `engineering-lead` | everyone |
 | `PLAN.md` | `engineering-lead` (integrates planner + architect) | everyone |
+| `EXPECTED_EVALS.md` | `engineering-planner` + `engineering-architect` (Phase A, before build) | everyone |
+| `EVIDENCE/verification.md` | `engineering-verifier` (EDD verification loop) | reviewer + evaluator |
 | `EVIDENCE/<name>.md` | only the named specialist | everyone |
 | `DIFF_LOG.md` | `engineering-executor` (per edit) | everyone |
 | `VERIFY_LOG.md` | `engineering-verifier` (per run) | everyone |

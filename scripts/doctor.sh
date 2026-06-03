@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# claude-forge doctor — verify that bash setup.sh produced a complete install.
+# re-forge doctor — verify that bash setup.sh produced a complete install.
 # Compares the repo (source-of-truth) against ~/.claude/ (install target) and
 # reports drift. Exit 0 if all checks pass; exit 1 if any fail.
 #
@@ -26,14 +26,14 @@ note() { printf "  %s•%s %s\n" "$YELLOW" "$RESET" "$1"; }
 
 # --- --fix flag ---
 if [ "${1:-}" = "--fix" ]; then
-  echo "=== claude-forge doctor (--fix) ==="
+  echo "=== re-forge doctor (--fix) ==="
   echo "Running setup.sh to repair drift..."
   bash "$REPO_DIR/setup.sh"
   echo ""
   echo "=== Re-running checks ==="
 fi
 
-echo "=== claude-forge doctor ==="
+echo "=== re-forge doctor ==="
 echo "Repo:    $REPO_DIR"
 echo "Install: $CLAUDE_DIR"
 echo ""

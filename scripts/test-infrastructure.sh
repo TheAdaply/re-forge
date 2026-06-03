@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Infrastructure self-test for claude-forge
+# Infrastructure self-test for re-forge
 # Verifies that all components are installed and functional.
 # Run: bash ~/.claude/scripts/test-infrastructure.sh
 
@@ -31,7 +31,7 @@ warn_check() {
   fi
 }
 
-echo "=== Claude-Forge Infrastructure Self-Test ==="
+echo "=== Re-Forge Infrastructure Self-Test ==="
 echo ""
 
 echo "--- Agent files ---"

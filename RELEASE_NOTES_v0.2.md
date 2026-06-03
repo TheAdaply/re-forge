@@ -1,4 +1,4 @@
-# claude-forge v0.2-rc — Release Notes
+# re-forge v0.2-rc — Release Notes
 
 **Date:** 2026-05-01
 **Validation session:** gpucheck v1.0.0rc1 multi-team build
@@ -79,4 +79,4 @@ done
 
 ## Co-author
 
-🤖 Generated with [Claude Code](https://claude.com/claude-code) via the claude-forge protocol.
+🤖 Generated with [Claude Code](https://claude.com/claude-code) via the re-forge protocol.

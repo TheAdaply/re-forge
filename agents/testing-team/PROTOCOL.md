@@ -107,6 +107,41 @@ Default bias: when in doubt, pick the higher tier.
 | Round N+1 | Close — Evaluator | 6-dim rubric | evaluator.md PASS/FAIL |
 | Close | Retrospection + scribe + handback | — | MEMORY.md updated |
 
+## Eval-Driven Development (EDD) gate
+
+This team follows `agents/EDD-ADDENDUM.md`. EDD layers onto the existing
+coverage/property/mutation work without replacing it — tests are written
+against quality criteria defined up front, and the runner proves those
+criteria are met before close.
+
+**Evals first (Phase A).** Before any test is generated, the planner authors
+`EXPECTED_EVALS.md` next to `TEST_PLAN.md`. It states the measurable quality
+criteria the test work must meet across the relevant dimensions —
+**correctness, security, a11y/perf (as relevant), and maintainability** — with
+an explicit pass condition per criterion (e.g. coverage delta target, mutation
+score threshold, property invariants to hold, flakiness ceiling). Coverage gaps
+become eval criteria; property invariants become eval criteria; mutation
+survivors-to-kill become eval criteria. The skeptic pre-flight now also requires
+`EXPECTED_EVALS.md` to exist and cover every TEST_PLAN target. No Phase B
+generation begins without it.
+
+**Verification loop (Phase B).** The generated tests are written *against* the
+`EXPECTED_EVALS.md` criteria, not against implementation detail. Per iteration,
+the runner executes the EDD verification-loop checklist FRESH — syntax/type
+check, tests (the 3x execution), lint/style, security scan, performance baseline
+(if relevant), and eval reconciliation — and records results in
+`EVIDENCE/verification.md`. This file cross-references `TEST_LOG.md` (raw run
+output) rather than duplicating it, and is owned solely by `testing-runner`.
+Each check is `PASS`, `FAIL`, or `EXCEPTION (<reason>)`. The runner may not
+report PASS for an iteration while any applicable check is unchecked and
+unexcepted.
+
+**Gate on evidence (Close).** The `testing-evaluator` may not clear its strict
+dimensions until every `EXPECTED_EVALS.md` criterion is met by
+`EVIDENCE/verification.md` or covered by a documented exception (which eval is
+unmet, why shipping is acceptable, the risk, follow-up). An unrecorded gap is a
+FAIL, not an advisory note.
+
 ### Round 0 — Intake + Detection
 
 1. Lead runs intake-and-amplification protocol.
@@ -257,9 +292,11 @@ This is the release gate input. No release without evaluator PASS.
 .claude/teams/testing/<slug>/
 ├── CHARTER.md              # owned by lead (Round 0)
 ├── TEST_PLAN.md            # owned by lead (Phase A close)
+├── EXPECTED_EVALS.md       # testing-planner (Phase A, evals-first; see EDD-ADDENDUM.md)
 ├── EVIDENCE/
 │   ├── detector.md         # testing-detector
 │   ├── planner.md          # testing-planner
+│   ├── verification.md     # testing-runner (EDD verification-loop checklist + raw checks)
 │   ├── writer.md           # testing-writer
 │   ├── property.md         # testing-property
 │   ├── mutator.md          # testing-mutator
@@ -293,6 +330,8 @@ flock+timeout+atomic-rename merge, lockless reads.
 |---|---|---|
 | `CHARTER.md` | `testing-lead` | everyone |
 | `TEST_PLAN.md` | `testing-lead` (integrates planner + skeptic) | everyone |
+| `EXPECTED_EVALS.md` | `testing-planner` (Phase A, before generation) | everyone |
+| `EVIDENCE/verification.md` | `testing-runner` (EDD verification loop) | evaluator + lead |
 | `EVIDENCE/<name>.md` | only the named specialist | everyone |
 | `TEST_LOG.md` | `testing-runner` (per execution) | everyone |
 | `LOG.md` | everyone (append-only) | everyone |

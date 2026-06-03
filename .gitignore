@@ -6,7 +6,7 @@
 .claude/teams/*/
 .playwright-mcp/
 
-# Legacy files not part of claude-forge
+# Legacy files not part of re-forge
 agents/_deprecated/
 agents/research/
 agents/git-manager.md
@@ -31,6 +31,7 @@ __pycache__/
 
 # Node
 node_modules/
+showcase/dist/
 
 # Temp files
 *.tmp

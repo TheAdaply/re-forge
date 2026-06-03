@@ -1,4 +1,4 @@
-# BENCHMARKS — claude-forge v0.2-rc
+# BENCHMARKS — re-forge v0.2-rc
 
 **Date:** 2026-05-04 (session ran 2026-05-01 → 2026-05-04 across credit-cap pause)
 **Workload:** gpucheck v1.0.0rc1 multi-team build (validation session)
