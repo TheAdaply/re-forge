@@ -1,5 +1,5 @@
 ---
-name: evaluating-cosmos-policy
+name: cosmos-policy
 description: Evaluates NVIDIA Cosmos Policy on LIBERO and RoboCasa simulation environments. Use when setting up cosmos-policy for robot manipulation evaluation, running headless GPU evaluations with EGL rendering, or profiling inference latency on cluster or local GPU machines.
 version: 1.0.0
 author: Orchestra Research

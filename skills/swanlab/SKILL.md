@@ -1,5 +1,5 @@
 ---
-name: experiment-tracking-swanlab
+name: swanlab
 description: Provides guidance for experiment tracking with SwanLab. Use when you need open-source run tracking, local or self-hosted dashboards, and lightweight media logging for ML workflows.
 version: 1.0.0
 author: Orchestra Research
