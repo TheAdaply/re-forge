@@ -517,10 +517,3 @@ def moe_inference(x, model, top_k=2):
 - **HuggingFace MoE Guide**: https://huggingface.co/blog/moe
 - **NVIDIA MoE Blog**: https://developer.nvidia.com/blog/applying-mixture-of-experts-in-llm-architectures/
 
-## See Also
-
-- `references/architectures.md` - MoE model architectures (Mixtral, Switch, DeepSeek-V3)
-- `references/training.md` - Advanced training techniques and optimization
-- `references/inference.md` - Production deployment and serving patterns
-
-

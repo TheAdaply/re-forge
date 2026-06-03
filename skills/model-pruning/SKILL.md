@@ -410,9 +410,11 @@ pruned_results = evaluator.simple_evaluate(
 )
 
 # Compare
-print(f"Original: {original_results['results']['arc_easy']['acc']:.3f}")
-print(f"Pruned:   {pruned_results['results']['arc_easy']['acc']:.3f}")
-print(f"Degradation: {(original_results - pruned_results):.3f}")
+original_acc = original_results['results']['arc_easy']['acc']
+pruned_acc = pruned_results['results']['arc_easy']['acc']
+print(f"Original: {original_acc:.3f}")
+print(f"Pruned:   {pruned_acc:.3f}")
+print(f"Degradation: {(original_acc - pruned_acc):.3f}")
 
 # Typical results at 50% sparsity:
 # - Wanda: <1% accuracy loss

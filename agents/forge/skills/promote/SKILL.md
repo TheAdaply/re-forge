@@ -9,7 +9,7 @@ allowed-tools: Read Write Edit Bash(cp *) Bash(mv *) Bash(python *)
 
 ## Method
 
-1. **Final validation**: re-run `python -m scripts.quick_validate <draft-path>/SKILL.md` one more time.
+1. **Final validation**: re-run `python -m scripts.quick_validate <draft-path>/SKILL.md` one more time — this runs from the skill-creator plugin directory (`~/.claude/plugins/cache/claude-plugins-official/skill-creator/d53f6ca4cdb0/`), using skill-creator's `scripts.quick_validate`, not re-forge's own `scripts/`.
 2. **Destination decision**:
    - **Personal skill**: move to `~/.claude/skills/<name>/`. This makes it available in all Akash's projects per the personal scope rule in `code.claude.com/docs/en/skills`.
    - **Plugin-bundled**: move to `~/.claude/forge/outputs/<plugin>/skills/<name>/`. This lets Akash publish as a plugin later.
@@ -40,11 +40,11 @@ Eval pass rate: <N>/<M>
 
 Next: to install as a plugin, run:
   /plugin install <name>@forge
-Or to publish:
+Or to publish (from the skill-creator plugin directory, using its scripts.package_skill — not re-forge's scripts/):
   python -m scripts.package_skill <destination>
 ```
 
-6. **Optional packaging**: if Akash confirms, run `python -m scripts.package_skill <destination>` to produce a `.skill` file.
+6. **Optional packaging**: if Akash confirms, run `python -m scripts.package_skill <destination>` from the skill-creator plugin directory (skill-creator's `scripts.package_skill`, not re-forge's `scripts/`) to produce a `.skill` file.
 
 ## Counter reconciliation (session-start, not promotion)
 
@@ -57,7 +57,7 @@ At the start of every Forge session, `forge-lead` reads MEMORY.md and runs the r
   - Update `last_triggered` if any mention.
 - Bullets with `harmful_count > 2 * helpful_count` are flagged for deprecation review.
 
-This is NOT part of promotion (promotion is author-time); it's a start-of-session hook per `EVIDENCE/skeptic.md` attack #2.
+This is NOT part of promotion (promotion is author-time); it's a start-of-session hook.
 
 ## Hard rules
 

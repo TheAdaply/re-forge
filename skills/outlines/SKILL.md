@@ -622,7 +622,7 @@ class Article(BaseModel):
 ## Performance Characteristics
 
 **Speed:**
-- **Zero overhead**: Structured generation as fast as unconstrained
+- **Low overhead**: Per-token logit filtering adds minimal cost on top of generation
 - **Fast-forward optimization**: Skips deterministic tokens
 - **1.2-2x faster** than post-generation validation approaches
 
@@ -638,15 +638,8 @@ class Article(BaseModel):
 
 ## Resources
 
-- **Documentation**: https://outlines-dev.github.io/outlines
-- **GitHub**: https://github.com/outlines-dev/outlines (8k+ stars)
+- **Documentation**: https://dottxt-ai.github.io/outlines
+- **GitHub**: https://github.com/dottxt-ai/outlines (8k+ stars)
 - **Discord**: https://discord.gg/R9DSu34mGd
 - **Blog**: https://blog.dottxt.co
-
-## See Also
-
-- `references/json_generation.md` - Comprehensive JSON and Pydantic patterns
-- `references/backends.md` - Backend-specific configuration
-- `references/examples.md` - Production-ready examples
-
 

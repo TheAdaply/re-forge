@@ -531,11 +531,6 @@ python inference.py \
 | Slow data transfer | Use filesystem in same region |
 | GPU not detected | Reboot instance, check drivers |
 
-## References
-
-- **[Advanced Usage](references/advanced-usage.md)** - Multi-node training, API automation
-- **[Troubleshooting](references/troubleshooting.md)** - Common issues and solutions
-
 ## Resources
 
 - **Documentation**: https://docs.lambda.ai

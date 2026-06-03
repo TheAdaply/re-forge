@@ -24,7 +24,7 @@ Structured frameworks for discovering the next research idea. This skill provide
 **Do NOT use this skill when**:
 - You already have a well-defined research question and need execution guidance
 - You need help with experimental design or methodology (use domain-specific skills)
-- You want a literature review (use `scientific-skills:literature-review`)
+- You want a literature review
 
 ---
 

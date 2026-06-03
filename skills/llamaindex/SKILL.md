@@ -550,12 +550,6 @@ while True:
 - Want more flexibility
 - Complex multi-step workflows
 
-## References
-
-- **[Query Engines Guide](references/query_engines.md)** - Query modes, customization, streaming
-- **[Agents Guide](references/agents.md)** - Tool creation, RAG agents, multi-step reasoning
-- **[Data Connectors Guide](references/data_connectors.md)** - 300+ connectors, custom loaders
-
 ## Resources
 
 - **GitHub**: https://github.com/run-llama/llama_index ⭐ 45,100+

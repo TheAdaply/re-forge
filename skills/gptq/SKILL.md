@@ -434,12 +434,6 @@ model = AutoGPTQForCausalLM.from_quantized(
 - **Yi, Falcon, BLOOM, OPT**
 - **100+ models** on HuggingFace
 
-## References
-
-- **[Calibration Guide](references/calibration.md)** - Dataset selection, quantization process, quality optimization
-- **[Integration Guide](references/integration.md)** - Transformers, PEFT, vLLM, TensorRT-LLM
-- **[Troubleshooting](references/troubleshooting.md)** - Common issues, performance optimization
-
 ## Resources
 
 - **GitHub**: https://github.com/AutoGPTQ/AutoGPTQ

@@ -462,12 +462,6 @@ splitter = SemanticChunker(OpenAIEmbeddings())
 - Building multi-agent systems
 - Production apps with complex logic
 
-## References
-
-- **[Agents Guide](references/agents.md)** - ReAct, tool calling, streaming
-- **[RAG Guide](references/rag.md)** - Document loaders, retrievers, QA chains
-- **[Integration Guide](references/integration.md)** - Vector stores, LangSmith, deployment
-
 ## Resources
 
 - **GitHub**: https://github.com/langchain-ai/langchain ⭐ 119,000+

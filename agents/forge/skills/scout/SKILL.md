@@ -16,7 +16,7 @@ allowed-tools: Bash(gh api *) Bash(gh search *) Read Glob WebFetch
    - Public read, no auth.
 
 2. **anthropics/skills** (STRONG-PRIMARY): `gh api repos/anthropics/skills/contents/skills`
-   - Returns the 17 official Anthropic skill directories.
+   - Returns the official Anthropic skill directories.
    - For each match: `gh api repos/anthropics/skills/contents/skills/<name>/SKILL.md` to pull the frontmatter.
 
 3. **Installed marketplaces** (STRONG-PRIMARY, on disk): `~/.claude/plugins/marketplaces/*/`
@@ -47,7 +47,7 @@ Input: capability description (e.g., "Semantic Scholar paper search") from `forg
 Steps:
 
 1. **MCP Registry**: `gh api "https://registry.modelcontextprotocol.io/v0/servers?search=<keyword>&limit=50"`. If nothing found, broaden to synonyms.
-2. **anthropics/skills**: check if one of the 17 official skills already covers the capability (use the name + description match).
+2. **anthropics/skills**: check if one of the official skills already covers the capability (use the name + description match).
 3. **Installed marketplaces**: Glob for `SKILL.md` matching keywords in their description.
 4. **Apply trust heuristic** to each candidate.
 5. **Cross-validate high-value candidates** by fetching the candidate's README or SKILL.md (via WebFetch or on-disk Read).

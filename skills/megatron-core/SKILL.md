@@ -332,16 +332,6 @@ Stabilize training:
 --hidden-dropout 0.0  # No dropout in FFN
 ```
 
-## Advanced topics
-
-**Parallelism strategies**: See [references/parallelism-guide.md](references/parallelism-guide.md) for detailed comparison of TP/PP/DP/CP/EP with performance analysis and when to use each.
-
-**Performance benchmarks**: See [references/benchmarks.md](references/benchmarks.md) for MFU numbers across different model sizes and GPU configurations.
-
-**Production configurations**: See [references/production-examples.md](references/production-examples.md) for real-world setups from LLaMA 3 405B, Nemotron-4 340B, and DeepSeek-V3 671B.
-
-**Training recipes**: See [references/training-recipes.md](references/training-recipes.md) for complete hyperparameter configurations for GPT/LLaMA/Mixtral architectures.
-
 ## Hardware requirements
 
 - **GPU**: NVIDIA Ampere+ (A100, H100, B200)

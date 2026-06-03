@@ -185,14 +185,6 @@ Enable gradient checkpointing:
 gradient_checkpointing: true
 ```
 
-## Advanced topics
-
-**Loss functions**: See [references/loss-functions.md](references/loss-functions.md) for sigmoid vs hinge loss, mathematical formulations, and when to use each.
-
-**Hyperparameter tuning**: See [references/hyperparameters.md](references/hyperparameters.md) for beta, gamma, learning rate selection guide, and model-size-specific recommendations.
-
-**Dataset preparation**: See [references/datasets.md](references/datasets.md) for preference data formats, quality filtering, and custom dataset creation.
-
 ## Hardware requirements
 
 - **GPU**: NVIDIA A100/H100 recommended

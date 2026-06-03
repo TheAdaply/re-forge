@@ -243,12 +243,6 @@ cat prompts.txt | ./llama-cli \
 
 **Find models**: https://huggingface.co/models?library=gguf
 
-## References
-
-- **[Quantization Guide](references/quantization.md)** - GGUF formats, conversion, quality comparison
-- **[Server Deployment](references/server.md)** - API endpoints, Docker, monitoring
-- **[Optimization](references/optimization.md)** - Performance tuning, hybrid CPU+GPU
-
 ## Resources
 
 - **GitHub**: https://github.com/ggerganov/llama.cpp

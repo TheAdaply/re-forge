@@ -550,11 +550,6 @@ for desc in descriptions:
 | Audio artifacts | Try different temperature |
 | Stereo not working | Use stereo model variant |
 
-## References
-
-- **[Advanced Usage](references/advanced-usage.md)** - Training, fine-tuning, deployment
-- **[Troubleshooting](references/troubleshooting.md)** - Common issues and solutions
-
 ## Resources
 
 - **GitHub**: https://github.com/facebookresearch/audiocraft

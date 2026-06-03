@@ -20,8 +20,6 @@ Use Instructor when you need to:
 - **Stream partial results** for real-time processing
 - **Support multiple LLM providers** with consistent API
 
-**GitHub Stars**: 15,000+ | **Battle-tested**: 100,000+ developers
-
 ## Installation
 
 ```bash
@@ -730,11 +728,4 @@ class PartialData(BaseModel):
 - **GitHub**: https://github.com/jxnl/instructor (15k+ stars)
 - **Cookbook**: https://python.useinstructor.com/examples
 - **Discord**: Community support available
-
-## See Also
-
-- `references/validation.md` - Advanced validation patterns
-- `references/providers.md` - Provider-specific configuration
-- `references/examples.md` - Real-world use cases
-
 

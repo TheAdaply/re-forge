@@ -224,14 +224,6 @@ from mamba_ssm.models.mixer_seq_simple import MambaLMHeadModel
 model = MambaLMHeadModel.from_pretrained("state-spaces/mamba-2.8b")
 ```
 
-## Advanced topics
-
-**Selective SSM**: See [references/selective-ssm.md](references/selective-ssm.md) for mathematical formulation, state-space equations, and how selectivity enables O(n) complexity.
-
-**Mamba-2 architecture**: See [references/mamba2-details.md](references/mamba2-details.md) for multi-head structure, tensor parallelism, and distributed training setup.
-
-**Performance optimization**: See [references/performance.md](references/performance.md) for hardware-aware design, CUDA kernels, and memory efficiency techniques.
-
 ## Hardware requirements
 
 - **GPU**: NVIDIA with CUDA 11.6+

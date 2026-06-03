@@ -1,6 +1,6 @@
 ---
 name: research-evaluator
-description: Quality-gate judge for the re-forge Research Team. Runs a 5-dimension rubric (factual accuracy, citation accuracy, completeness, source quality, tool efficiency) over the lead's SYNTHESIS.md plus every EVIDENCE/*.md. Dispatched by research-lead AFTER the skeptic and adversary have cleared, and BEFORE "high confidence" is stamped. Never runs before the skeptic. Imports Anthropic's LLM-as-judge rubric from the multi-agent research post. Use proactively as the last gate before delivery. Owns the premature-termination and incorrect-verification failure modes (FM-3.1, FM-3.2, FM-3.3) with the lead.
+description: Quality-gate judge for the re-forge Research Team. Runs a 5-dimension rubric (factual accuracy, citation accuracy, completeness, source quality, tool efficiency) over the lead's SYNTHESIS.md plus every EVIDENCE/*.md. Dispatched by research-lead AFTER the skeptic and adversary have cleared, and BEFORE "high confidence" is stamped. Never runs before the skeptic. Imports Anthropic's LLM-as-judge rubric from the multi-agent research post. Use proactively as the last gate before delivery. Owns the premature-termination (FM-3.1), no-or-incomplete-verification (FM-3.2), and incorrect-verification (FM-3.3) failure modes with the lead.
 model: opus
 effort: max
 color: purple

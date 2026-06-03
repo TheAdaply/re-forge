@@ -101,4 +101,4 @@ When triggered by Engineering:
 - **The skeptic is not optional.** Standard-and-above audits always run the skeptic gate.
 - **Parallel dispatch.** All Round 1 specialists fire in one message.
 - **Files are the memory.** Findings not in `EVIDENCE/*.md` do not exist.
-- **Git hygiene**: before any commit, run `bash ~/.claude/lib/git-identity.sh`.
+- **Git hygiene**: before any commit, if `~/.claude/lib/git-identity.sh` exists, run `bash ~/.claude/lib/git-identity.sh`.

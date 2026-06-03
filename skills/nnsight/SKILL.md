@@ -399,16 +399,6 @@ model = LanguageModel("gpt2", device_map="auto")  # Not vLLM
 | HuggingFace native | Yes | Reimplemented | Yes |
 | Shareable configs | No | No | Yes |
 
-## Reference Documentation
-
-For detailed API documentation, tutorials, and advanced usage, see the `references/` folder:
-
-| File | Contents |
-|------|----------|
-| [references/README.md](references/README.md) | Overview and quick start guide |
-| [references/api.md](references/api.md) | Complete API reference for LanguageModel, tracing, proxy objects |
-| [references/tutorials.md](references/tutorials.md) | Step-by-step tutorials for local and remote interpretability |
-
 ## External Resources
 
 ### Tutorials

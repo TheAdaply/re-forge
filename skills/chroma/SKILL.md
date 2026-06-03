@@ -22,12 +22,6 @@ The AI-native database for building LLM applications with memory.
 - Semantic search over documents
 - Storing embeddings with metadata
 
-**Metrics**:
-- **24,300+ GitHub stars**
-- **1,900+ forks**
-- **v1.3.3** (stable, weekly releases)
-- **Apache 2.0 license**
-
 **Use alternatives instead**:
 - **Pinecone**: Managed cloud, auto-scaling
 - **FAISS**: Pure similarity search, no metadata
@@ -397,7 +391,7 @@ collection = client.get_or_create_collection("my_docs")
 
 ## Resources
 
-- **GitHub**: https://github.com/chroma-core/chroma ⭐ 24,300+
+- **GitHub**: https://github.com/chroma-core/chroma
 - **Docs**: https://docs.trychroma.com
 - **Discord**: https://discord.gg/MMeYNTmh3x
 - **Version**: 1.3.3+

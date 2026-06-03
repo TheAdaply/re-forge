@@ -227,8 +227,6 @@ line.set_global_opts(
 swanlab.log({"charts/loss_curve": line})
 ```
 
-See [references/visualization.md](references/visualization.md) for more chart and media patterns.
-
 ### 5. Local and Self-Hosted Workflows
 
 ```python
@@ -286,8 +284,6 @@ trainer = Trainer(
 trainer.train()
 ```
 
-See [references/integrations.md](references/integrations.md) for callback-based setups and additional framework patterns.
-
 ### PyTorch Lightning
 
 ```python
@@ -327,8 +323,6 @@ learn.fit(
     ],
 )
 ```
-
-See [references/integrations.md](references/integrations.md) for fuller framework examples.
 
 ## Best Practices
 
@@ -388,19 +382,9 @@ run.finish()
 # Inspect later with: swanlab watch -l ./swanlog
 ```
 
-### 5. Keep Advanced Patterns in References
-
-- Use [references/visualization.md](references/visualization.md) for advanced chart and media patterns
-- Use [references/integrations.md](references/integrations.md) for callback-based and framework-specific integration details
-
 ## Resources
 
 - [Official docs (Chinese)](https://docs.swanlab.cn)
 - [Official docs (English)](https://docs.swanlab.cn/en)
 - [GitHub repo](https://github.com/SwanHubX/SwanLab)
 - [Self-hosted repo](https://github.com/SwanHubX/self-hosted)
-
-## See Also
-
-- [references/integrations.md](references/integrations.md) - Framework-specific examples
-- [references/visualization.md](references/visualization.md) - Charts and media logging patterns

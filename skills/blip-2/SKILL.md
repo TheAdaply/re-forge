@@ -550,11 +550,6 @@ processor = Blip2Processor.from_pretrained("Salesforce/blip2-opt-2.7b")
 | Hallucinations | Lower temperature, use beam search |
 | Wrong answers | Rephrase question, provide context |
 
-## References
-
-- **[Advanced Usage](references/advanced-usage.md)** - Fine-tuning, integration, deployment
-- **[Troubleshooting](references/troubleshooting.md)** - Common issues and solutions
-
 ## Resources
 
 - **Paper**: https://arxiv.org/abs/2301.12597

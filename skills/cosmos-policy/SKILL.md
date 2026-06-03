@@ -386,13 +386,6 @@ assert cuda_dev == egl_dev, f"GPU mismatch: CUDA={cuda_dev}, EGL={egl_dev}"
 print(f"Rendering on GPU {cuda_dev}")
 ```
 
----
-
-## Advanced topics
-
-**LIBERO command matrix**: See [references/libero-commands.md](references/libero-commands.md)
-**RoboCasa command matrix**: See [references/robocasa-commands.md](references/robocasa-commands.md)
-
 ## Resources
 
 - Cosmos Policy repository: https://github.com/NVlabs/cosmos-policy

@@ -186,7 +186,7 @@ optimized_qa = optimizer.compile(qa, trainset=trainset)
 # Now optimized_qa performs better!
 ```
 
-#### MIPRO (Most Important Prompt Optimization)
+#### MIPRO (Multiprompt Instruction Proposal Optimizer)
 Iteratively improves prompts:
 
 ```python
@@ -580,11 +580,4 @@ for call in dspy.settings.trace:
 - **Discord**: https://discord.gg/XCGy2WDCQB
 - **Twitter**: @DSPyOSS
 - **Paper**: "DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines"
-
-## See Also
-
-- `references/modules.md` - Detailed module guide (Predict, ChainOfThought, ReAct, ProgramOfThought)
-- `references/optimizers.md` - Optimization algorithms (BootstrapFewShot, MIPRO, BootstrapFinetune)
-- `references/examples.md` - Real-world examples (RAG, agents, classifiers)
-
 

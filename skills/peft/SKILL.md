@@ -417,11 +417,6 @@ TrainingArguments(learning_rate=1e-4)
 6. **Evaluate on held-out data** before merging
 7. **Use QLoRA for 70B+ models** on consumer hardware
 
-## References
-
-- **[Advanced Usage](references/advanced-usage.md)** - DoRA, LoftQ, rank stabilization, custom modules
-- **[Troubleshooting](references/troubleshooting.md)** - Common errors, debugging, optimization
-
 ## Resources
 
 - **GitHub**: https://github.com/huggingface/peft

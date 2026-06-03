@@ -44,7 +44,7 @@
 | [`gguf`](../skills/gguf/SKILL.md) | GGUF format and llama.cpp quantization for efficient CPU/GPU inference |
 | [`git-workflow`](../skills/git-workflow/SKILL.md) | Use this skill in re-forge when choosing a branching strategy, writing commit messages or PR descriptions, deciding merge vs rebase, resolv… |
 | [`gptq`](../skills/gptq/SKILL.md) | Post-training 4-bit quantization for LLMs with minimal accuracy loss |
-| [`grpo-rl-training`](../skills/grpo-rl-training/SKILL.md) | Expert guidance for GRPO/RL fine-tuning with TRL for reasoning and task-specific model training |
+| [`grpo-rl-training`](../skills/grpo-rl-training/SKILL.md) | Guidance for GRPO/RL fine-tuning with TRL for reasoning and task-specific model training |
 | [`guidance`](../skills/guidance/SKILL.md) | Control LLM output with regex and grammars, guarantee valid JSON/XML/code generation, enforce structured formats, and build multi-step work… |
 | [`hn-search`](../skills/hn-search/SKILL.md) | Search Hacker News via the Algolia API -- full-text search of stories and comments, comment tree retrieval by item ID, and filtering by dat… |
 | [`hqq`](../skills/hqq/SKILL.md) | Half-Quadratic Quantization for LLMs without calibration data |
@@ -56,7 +56,7 @@
 | [`langsmith`](../skills/langsmith/SKILL.md) | LLM observability platform for tracing, evaluation, and monitoring |
 | [`litgpt`](../skills/litgpt/SKILL.md) | Implements and trains LLMs using Lightning AI's LitGPT with 20+ pretrained architectures (Llama, Gemma, Phi, Qwen, Mistral) |
 | [`llama-cpp`](../skills/llama-cpp/SKILL.md) | Runs LLM inference on CPU, Apple Silicon, and consumer GPUs without NVIDIA hardware |
-| [`llama-factory`](../skills/llama-factory/SKILL.md) | Expert guidance for fine-tuning LLMs with LLaMA-Factory - WebUI no-code, 100+ models, 2/3/4/5/6/8-bit QLoRA, multimodal support |
+| [`llama-factory`](../skills/llama-factory/SKILL.md) | Pointer to LLaMA-Factory, a framework for fine-tuning LLMs (WebUI no-code, 100+ models, QLoRA, multimodal) |
 | [`llamaguard`](../skills/llamaguard/SKILL.md) | Meta's 7-8B specialized moderation model for LLM input/output filtering |
 | [`llamaindex`](../skills/llamaindex/SKILL.md) | Data framework for building LLM applications with RAG |
 | [`llava`](../skills/llava/SKILL.md) | Large Language and Vision Assistant |
@@ -115,7 +115,7 @@
 | [`torchtitan`](../skills/torchtitan/SKILL.md) | Provides PyTorch-native distributed LLM pretraining using torchtitan with 4D parallelism (FSDP2, TP, PP, CP) |
 | [`transformer-lens`](../skills/transformer-lens/SKILL.md) | Provides guidance for mechanistic interpretability research using TransformerLens to inspect and manipulate transformer internals via HookP… |
 | [`trl-fine-tuning`](../skills/trl-fine-tuning/SKILL.md) | Fine-tune LLMs using reinforcement learning with TRL - SFT for instruction tuning, DPO for preference alignment, PPO/GRPO for reward optimi… |
-| [`unsloth`](../skills/unsloth/SKILL.md) | Expert guidance for fast fine-tuning with Unsloth - 2-5x faster training, 50-80% less memory, LoRA/QLoRA optimization |
+| [`unsloth`](../skills/unsloth/SKILL.md) | Pointers for fast fine-tuning with Unsloth - 2-5x faster training, 50-80% less memory, LoRA/QLoRA optimization |
 | [`verification-loop`](../skills/verification-loop/SKILL.md) | Use this skill to run a comprehensive quality gate after completing a feature, before opening a PR, or after refactoring in re-forge |
 | [`verl`](../skills/verl/SKILL.md) | Provides guidance for training LLMs with reinforcement learning using verl (Volcano Engine RL) |
 | [`vllm`](../skills/vllm/SKILL.md) | Serves LLMs with high throughput using vLLM's PagedAttention and continuous batching |

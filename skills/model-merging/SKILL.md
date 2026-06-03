@@ -60,8 +60,11 @@ dtype: bfloat16
 # Run merge
 mergekit-yaml config.yml ./merged-model --cuda
 
-# Use merged model
-python -m transformers.models.auto --model_name_or_path ./merged-model
+# Load and verify merged model
+python -c "from transformers import AutoModelForCausalLM, AutoTokenizer; \
+m = AutoModelForCausalLM.from_pretrained('./merged-model'); \
+t = AutoTokenizer.from_pretrained('./merged-model'); \
+print(m.config.model_type, sum(p.numel() for p in m.parameters()))"
 ```
 
 ### SLERP Merge (Best for 2 Models)

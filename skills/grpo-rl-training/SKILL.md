@@ -1,6 +1,6 @@
 ---
 name: grpo-rl-training
-description: Expert guidance for GRPO/RL fine-tuning with TRL for reasoning and task-specific model training
+description: Guidance for GRPO/RL fine-tuning with TRL for reasoning and task-specific model training
 version: 1.0.0
 author: Orchestra Research
 license: MIT
@@ -10,7 +10,7 @@ dependencies: [transformers>=4.47.0, trl>=0.14.0, datasets>=3.2.0, peft>=0.14.0,
 
 # GRPO/RL Training with TRL
 
-Expert-level guidance for implementing Group Relative Policy Optimization (GRPO) using the Transformer Reinforcement Learning (TRL) library. This skill provides battle-tested patterns, critical insights, and production-ready workflows for fine-tuning language models with custom reward functions.
+Guidance for implementing Group Relative Policy Optimization (GRPO) using the Transformer Reinforcement Learning (TRL) library. This skill provides patterns and workflows for fine-tuning language models with custom reward functions.
 
 ## When to Use This Skill
 

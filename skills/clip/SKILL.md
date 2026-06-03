@@ -23,7 +23,6 @@ OpenAI's model that understands images from natural language.
 - Cross-modal retrieval (image→text, text→image)
 
 **Metrics**:
-- **25,300+ GitHub stars**
 - Trained on 400M image-text pairs
 - Matches ResNet-50 on ImageNet (zero-shot)
 - MIT License
@@ -245,7 +244,7 @@ results = collection.query(
 
 ## Resources
 
-- **GitHub**: https://github.com/openai/CLIP ⭐ 25,300+
+- **GitHub**: https://github.com/openai/CLIP
 - **Paper**: https://arxiv.org/abs/2103.00020
 - **Colab**: https://colab.research.google.com/github/openai/clip/
 - **License**: MIT

@@ -1,6 +1,6 @@
 ---
 name: sglang
-description: Fast structured generation and serving for LLMs with RadixAttention prefix caching. Use for JSON/regex outputs, constrained decoding, agentic workflows with tool calls, or when you need 5× faster inference than vLLM with prefix sharing. Powers 300,000+ GPUs at xAI, AMD, NVIDIA, and LinkedIn.
+description: Fast structured generation and serving for LLMs with RadixAttention prefix caching. Use for JSON/regex outputs, constrained decoding, agentic workflows with tool calls, or when you want faster inference than vLLM on workloads with heavy prefix sharing. The project reports adoption across large GPU deployments at organizations including xAI, AMD, NVIDIA, and LinkedIn.
 version: 1.0.0
 author: Orchestra Research
 license: MIT
@@ -425,12 +425,6 @@ response = client.chat.completions.create(
 **AMD**: MI300, MI250 (ROCm 6.0+)
 **Intel**: Xeon with GPU (coming soon)
 **Apple**: M1/M2/M3 via MPS (experimental)
-
-## References
-
-- **[Structured Generation Guide](references/structured-generation.md)** - JSON schemas, regex, grammars, validation
-- **[RadixAttention Deep Dive](references/radix-attention.md)** - How it works, optimization, benchmarks
-- **[Production Deployment](references/deployment.md)** - Multi-GPU, monitoring, autoscaling
 
 ## Resources
 

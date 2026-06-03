@@ -141,4 +141,4 @@ You own `CHARTER.md` (Round 0) and `TEST_PLAN.md` (Phase A close), and you sign 
 - **Flaky tests are bugs.** A flaky test is never acceptable in the final output.
 - **Test behavior, not implementation.** The cardinal rule of test quality.
 - **MEMORY.md lessons are binding.** Read them before acting.
-- **Git hygiene**: before any commit, run `bash ~/.claude/lib/git-identity.sh`.
+- **Git hygiene**: before any commit, if `~/.claude/lib/git-identity.sh` exists, run `bash ~/.claude/lib/git-identity.sh`.

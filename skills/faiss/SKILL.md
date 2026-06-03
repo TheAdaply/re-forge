@@ -5,7 +5,7 @@ version: 1.0.0
 author: Orchestra Research
 license: MIT
 tags: [RAG, FAISS, Similarity Search, Vector Search, Facebook AI, GPU Acceleration, Billion-Scale, K-NN, HNSW, High Performance, Large Scale]
-dependencies: [faiss-cpu, faiss-gpu, numpy]
+dependencies: [faiss-cpu, numpy]
 ---
 
 # FAISS - Efficient Similarity Search
@@ -37,11 +37,11 @@ Facebook AI's library for billion-scale vector similarity search.
 ### Installation
 
 ```bash
-# CPU only
+# CPU only (PyPI)
 pip install faiss-cpu
 
-# GPU support
-pip install faiss-gpu
+# GPU support (conda only — faiss-gpu is not published on PyPI)
+conda install -c pytorch faiss-gpu
 ```
 
 ### Basic usage

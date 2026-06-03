@@ -67,6 +67,7 @@ wget https://dl.fbaipublicfiles.com/segment_anything/sam_vit_b_01ec64.pth
 ### Basic usage with SamPredictor
 
 ```python
+import cv2
 import numpy as np
 from segment_anything import sam_model_registry, SamPredictor
 
@@ -485,11 +486,6 @@ mask_generator = SamAutomaticMaskGenerator(
 | Poor mask quality | Try different prompts, use box + points |
 | Edge artifacts | Use stability_score filtering |
 | Small objects missed | Increase points_per_side |
-
-## References
-
-- **[Advanced Usage](references/advanced-usage.md)** - Batching, fine-tuning, integration
-- **[Troubleshooting](references/troubleshooting.md)** - Common issues and solutions
 
 ## Resources
 

@@ -328,11 +328,6 @@ if __name__ == "__main__":
 | Image build fails | Pin dependency versions, check CUDA compatibility |
 | Timeout errors | Increase `timeout`, add checkpointing |
 
-## References
-
-- **[Advanced Usage](references/advanced-usage.md)** - Multi-GPU, distributed training, cost optimization
-- **[Troubleshooting](references/troubleshooting.md)** - Common issues and solutions
-
 ## Resources
 
 - **Documentation**: https://modal.com/docs

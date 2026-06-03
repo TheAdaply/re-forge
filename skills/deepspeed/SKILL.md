@@ -82,51 +82,14 @@ from deepspeed.ops.op_builder import AsyncIOBuilder
 aio_handle = AsyncIOBuilder().load().aio_handle()
 ```
 
-## Reference Files
-
-This skill includes comprehensive documentation in `references/`:
-
-- **08.md** - 08 documentation
-- **09.md** - 09 documentation
-- **2020.md** - 2020 documentation
-- **2023.md** - 2023 documentation
-- **assets.md** - Assets documentation
-- **mii.md** - Mii documentation
-- **other.md** - Other documentation
-- **tutorials.md** - Tutorials documentation
-
-Use `view` to read specific reference files when detailed information is needed.
-
 ## Working with This Skill
-
-### For Beginners
-Start with the getting_started or tutorials reference files for foundational concepts.
-
-### For Specific Features
-Use the appropriate category reference file (api, guides, etc.) for detailed information.
 
 ### For Code Examples
 The quick reference section above contains common patterns extracted from the official docs.
 
-## Resources
-
-### references/
-Organized documentation extracted from official sources. These files contain:
-- Detailed explanations
-- Code examples with language annotations
-- Links to original documentation
-- Table of contents for quick navigation
-
-### scripts/
-Add helper scripts here for common automation tasks.
-
-### assets/
-Add templates, boilerplate, or example projects here.
-
 ## Notes
 
 - This skill was automatically generated from official documentation
-- Reference files preserve the structure and examples from source docs
 - Code examples include language detection for better syntax highlighting
 - Quick reference patterns are extracted from common usage examples in the docs
 

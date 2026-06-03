@@ -390,11 +390,6 @@ poetry run prisma migrate deploy
 docker compose restart executor
 ```
 
-## References
-
-- **[Advanced Usage](references/advanced-usage.md)** - Custom blocks, deployment, scaling
-- **[Troubleshooting](references/troubleshooting.md)** - Common issues, debugging
-
 ## Resources
 
 - **Documentation**: https://docs.agpt.co

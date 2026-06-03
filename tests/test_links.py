@@ -18,6 +18,8 @@ from conftest import REPO_ROOT, iter_markdown_files
 
 MARKDOWN_LINK = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
 BARE_URL = re.compile(r"<(https?://[^>\s]+)>")
+FENCED_CODE = re.compile(r"^(```|~~~).*?^\1\s*$", re.MULTILINE | re.DOTALL)
+INLINE_CODE = re.compile(r"`[^`\n]+`")
 
 # Hosts that habitually reject scripted requests yet serve browsers fine.
 BOT_BLOCKED_OK = {403, 405, 429, 503}
@@ -28,6 +30,9 @@ def _links() -> list[tuple[Path, str]]:
     found = []
     for md in iter_markdown_files():
         text = md.read_text(encoding="utf-8", errors="replace")
+        # Code blocks routinely contain dict[key](call) Python that is not a link.
+        text = FENCED_CODE.sub("", text)
+        text = INLINE_CODE.sub("", text)
         for m in MARKDOWN_LINK.finditer(text):
             found.append((md, m.group(1)))
         for m in BARE_URL.finditer(text):

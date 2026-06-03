@@ -310,11 +310,6 @@ for features, labels in tf_ds:
 - **ByteDance**: Scaling offline inference with multi-modal LLMs
 - **Spotify**: ML platform for batch inference
 
-## References
-
-- **[Transformations Guide](references/transformations.md)** - Map, filter, groupby operations
-- **[Integration Guide](references/integration.md)** - Ray Train, PyTorch, TensorFlow
-
 ## Resources
 
 - **Docs**: https://docs.ray.io/en/latest/data/data.html

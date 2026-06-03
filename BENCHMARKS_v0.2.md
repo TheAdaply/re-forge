@@ -14,6 +14,8 @@
 | Tier-3 headless `claude -p` swarm | **28** | spawn ladder of 10/wave | v1's 26 + v2's first 28 (rest aborted at credit cap) |
 | Total distinct named agents over session | **~120** | 3-day session window | research 17 + engineering 18 + security 11 + testing 9 + docs 10 + forge 5 + R2 8 + R3 6 + depth 2 + tier-3 28 + heartbeat 1 |
 
+> Note: these specialist tallies (e.g. docs 10, total ~120) were taken at a later cut point than the ones in `RELEASE_NOTES_v0.2.md` (Tier-2 line: docs 7, total 67); the two were measured at different points in the session and differ. No single reconciled number is asserted.
+
 ## Cost-of-parallelism observations
 
 1. **Subagent harness has a write-restriction.** Security-lead dispatched as a sub-Agent could not write `FINDINGS.md`; orchestrator materialized it from the inline return value. v0.3 should document this in PROTOCOL.md.
@@ -32,7 +34,7 @@
 Session start:      2026-05-01T08:58Z (estimated)
 v2 expansion start: 2026-05-01T09:00Z
 Credit cap hit:     2026-05-01T09:43Z (43 min into v2)
-Heartbeat resumed:  2026-05-01T09:29Z onward (every 10 min for 3 days)
+Heartbeat resumed:  2026-05-01T09:29Z onward (every 10 min for 3 days)  [erratum: 09:29Z precedes the 09:43Z credit-cap it claims to resume after — the logged ordering is internally inconsistent; the true resume time was not recovered from the heartbeat log]
 Monitor stopped:    2026-05-03T20:09Z (manual TaskStop)
 Final consolidation: 2026-05-04T01:30+ IST (post-credit-reset)
 ```

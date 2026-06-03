@@ -380,14 +380,6 @@ model = AutoModelForCausalLM.from_pretrained(
 )
 ```
 
-## Advanced topics
-
-**QLoRA training guide**: See [references/qlora-training.md](references/qlora-training.md) for complete fine-tuning workflows, hyperparameter tuning, and multi-GPU training.
-
-**Quantization formats**: See [references/quantization-formats.md](references/quantization-formats.md) for INT8, NF4, FP4 comparison, double quantization, and custom quantization configs.
-
-**Memory optimization**: See [references/memory-optimization.md](references/memory-optimization.md) for CPU offloading strategies, gradient checkpointing, and memory profiling.
-
 ## Hardware requirements
 
 - **GPU**: NVIDIA with compute capability 7.0+ (Turing, Ampere, Hopper)

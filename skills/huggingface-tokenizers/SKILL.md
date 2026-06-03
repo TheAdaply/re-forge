@@ -498,13 +498,6 @@ Pre-trained tokenizers available via `from_pretrained()`:
 
 Browse all: https://huggingface.co/models?library=tokenizers
 
-## References
-
-- **[Training Guide](references/training.md)** - Train custom tokenizers, configure trainers, handle large datasets
-- **[Algorithms Deep Dive](references/algorithms.md)** - BPE, WordPiece, Unigram explained in detail
-- **[Pipeline Components](references/pipeline.md)** - Normalizers, pre-tokenizers, post-processors, decoders
-- **[Transformers Integration](references/integration.md)** - AutoTokenizer, PreTrainedTokenizerFast, special tokens
-
 ## Resources
 
 - **Docs**: https://huggingface.co/docs/tokenizers

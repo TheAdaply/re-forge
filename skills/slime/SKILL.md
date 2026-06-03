@@ -10,7 +10,7 @@ dependencies: [sglang-router>=0.2.3, ray, torch>=2.0.0, transformers>=4.40.0]
 
 # slime: LLM Post-Training Framework for RL Scaling
 
-slime is an LLM post-training framework from Tsinghua's THUDM team, powering GLM-4.5, GLM-4.6, and GLM-4.7. It connects Megatron-LM for training with SGLang for high-throughput rollout generation.
+slime is an LLM post-training framework from Tsinghua's THUDM team, used in post-training the GLM-4.x model series (per the project's own materials). It connects Megatron-LM for training with SGLang for high-throughput rollout generation.
 
 ## When to Use slime
 
@@ -403,7 +403,7 @@ class RolloutDataSourceWithBuffer(RolloutDataSource):
 
 | Model Family | Configurations |
 |--------------|----------------|
-| GLM | GLM-4.5, GLM-4.6, GLM-4.7, GLM-Z1-9B |
+| GLM | GLM-4.x series (e.g. GLM-4.5, GLM-4.6), GLM-Z1-9B |
 | Qwen | Qwen3 (4B, 8B, 30B-A3B), Qwen3-MoE, Qwen2.5 |
 | DeepSeek | V3, V3.1, R1 |
 | Llama | Llama 3 (8B, 70B) |

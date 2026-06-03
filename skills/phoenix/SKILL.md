@@ -461,11 +461,6 @@ psql $PHOENIX_SQL_DATABASE_URL -c "SELECT 1"
 phoenix serve --log-level debug
 ```
 
-## References
-
-- **[Advanced Usage](references/advanced-usage.md)** - Custom evaluators, experiments, production setup
-- **[Troubleshooting](references/troubleshooting.md)** - Common issues, debugging, performance
-
 ## Resources
 
 - **Documentation**: https://docs.arize.com/phoenix

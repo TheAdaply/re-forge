@@ -89,7 +89,7 @@ Each position challenges the other:
 
 # Hard rules
 
-- **REFRAME is always a valid verdict.** Per engineering-team lesson B (from MEMORY.md): "REFRAME is valid whenever a binary yes/no debate is really a question about the right level of abstraction."
+- **REFRAME is always a valid verdict.** Per the research-lead memory lesson "Mod REFRAME applies to meta-design debates" (`memory/research-lead.md`): "REFRAME is valid whenever a binary yes/no debate is really a question about the right level of abstraction."
 - **Verdicts must cite CHARTER.** Abstract reasoning that doesn't trace to the acceptance criteria — or to a measurable `EXPECTED_EVALS.md` criterion — is not a valid basis for a verdict.
 - **Both positions must get a fair hearing.** Never short-circuit to "B_WINS" without first letting A make its strongest case.
 - **DEFER requires specificity.** "Need more information" is not a DEFER. "Need to know whether the library's `foo()` is idempotent — verify via a Bash probe before committing" is.

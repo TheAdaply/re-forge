@@ -429,17 +429,20 @@ trainer.fit(model, datamodule=dm)
 
 ```python
 import wandb
-from wandb.keras import WandbCallback
+from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint
 
 # Initialize
 wandb.init(project="keras-demo")
 
-# Add callback
+# Add callbacks (WandbCallback is deprecated)
 model.fit(
     x_train, y_train,
     validation_data=(x_val, y_val),
     epochs=10,
-    callbacks=[WandbCallback()]  # Auto-logs metrics
+    callbacks=[
+        WandbMetricsLogger(),            # Auto-logs metrics
+        WandbModelCheckpoint("models")   # Saves checkpoints as artifacts
+    ]
 )
 ```
 
@@ -580,11 +583,5 @@ print(f"Share this URL: {run.url}")
 - **Examples**: https://github.com/wandb/examples
 - **Community**: https://wandb.ai/community
 - **Discord**: https://wandb.me/discord
-
-## See Also
-
-- `references/sweeps.md` - Comprehensive hyperparameter optimization guide
-- `references/artifacts.md` - Data and model versioning patterns
-- `references/integrations.md` - Framework-specific examples
 
 

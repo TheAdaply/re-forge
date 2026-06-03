@@ -251,14 +251,6 @@ Check model name:
 init_from = 'gpt2'  # Valid: gpt2, gpt2-medium, gpt2-large, gpt2-xl
 ```
 
-## Advanced topics
-
-**Model architecture**: See [references/architecture.md](references/architecture.md) for GPT block structure, multi-head attention, and MLP layers explained simply.
-
-**Training loop**: See [references/training.md](references/training.md) for learning rate schedule, gradient accumulation, and distributed data parallel setup.
-
-**Data preparation**: See [references/data.md](references/data.md) for tokenization strategies (character-level vs BPE) and binary format details.
-
 ## Hardware requirements
 
 - **Shakespeare (char-level)**:

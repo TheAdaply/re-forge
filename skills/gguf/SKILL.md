@@ -413,11 +413,6 @@ python server.py --model model-q4_k_m.gguf --loader llama.cpp --n-gpu-layers 35
 ./llama-quantize --imatrix model.imatrix model-f16.gguf model-q4_k_m.gguf Q4_K_M
 ```
 
-## References
-
-- **[Advanced Usage](references/advanced-usage.md)** - Batching, speculative decoding, custom builds
-- **[Troubleshooting](references/troubleshooting.md)** - Common issues, debugging, benchmarks
-
 ## Resources
 
 - **Repository**: https://github.com/ggml-org/llama.cpp

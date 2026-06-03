@@ -37,17 +37,25 @@ Access tracking (AKL): each read adds +3 importance; each insert starts at 50.0.
 
 ## Setup
 
+memory-mcp is a manual opt-in: `setup.sh` does NOT install it. To enable it, run
+the bootstrap script from the repo yourself.
+
 ```bash
 # One-time bootstrap: create DB + import existing MEMORY.md files
-bash ~/.claude/memory-mcp/bootstrap.sh
+bash memory-mcp/bootstrap.sh
 
 # Verify tools are exposed
 echo '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' \
-  | python3 ~/.claude/memory-mcp/server.py
+  | python3 memory-mcp/server.py
 
 # Check imported entry count
 sqlite3 ~/.claude/memory-mcp/memory.db "SELECT COUNT(*) FROM memories"
 ```
+
+Bootstrap is optional: `server.py` falls back to the `schema.sql` shipped next to
+it, so a bare `python3 memory-mcp/server.py` creates and serves a working database
+without running bootstrap first (covered by `tests/test_memory_mcp.py`). Run
+bootstrap only when you also want to import existing `MEMORY.md` files.
 
 ## MCP registration (`~/.claude/mcp.json`)
 
@@ -56,7 +64,7 @@ sqlite3 ~/.claude/memory-mcp/memory.db "SELECT COUNT(*) FROM memories"
   "mcpServers": {
     "memory": {
       "command": "python3",
-      "args": ["/home/akash/.claude/memory-mcp/server.py"]
+      "args": ["~/.claude/memory-mcp/server.py"]
     }
   }
 }

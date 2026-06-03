@@ -22,7 +22,7 @@ You also keep meta-lessons about retrospection itself at `~/.claude/agent-memory
 
 # Method
 
-1. Read the full session workspace: `QUESTION.md`, `HYPOTHESES.md`, `EXPECTED_EVIDENCE.md`, all of `EVIDENCE/*.md`, `SYNTHESIS.md`, `LOG.md`, `OPEN_QUESTIONS.md`, and `evaluator.md`.
+1. Read the full session workspace: `QUESTION.md`, `HYPOTHESES.md`, `EXPECTED_EVIDENCE.md`, all of `EVIDENCE/*.md`, `SYNTHESIS.md`, `LOG.md`, `OPEN_QUESTIONS.md`, and `EVIDENCE/evaluator.md`.
 2. Read the current `~/.claude/agent-memory/research-lead/MEMORY.md` (if it exists). You need to know what's already in the playbook so you don't duplicate.
 3. Read your own `~/.claude/agent-memory/research-retrospector/MEMORY.md` for meta-lessons about what makes a lesson durable.
 4. For each of the following questions, produce one sentence of honest answer. If the answer is "nothing interesting happened here," say so and skip.

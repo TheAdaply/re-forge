@@ -98,36 +98,41 @@ for chunk in chunks(long_document, chunk_size=1024):
 # Memory usage: O(1) (constant, not O(n)!)
 ```
 
-### Workflow 3: Fine-tuning RWKV
+### Workflow 3: Inference with the PIPELINE helper
 
-**Standard fine-tuning workflow**:
+The `rwkv` pip package is inference-only. For a full generation loop, use
+`rwkv.model.RWKV` together with `rwkv.utils.PIPELINE`:
+
 ```python
-# Training script
-import pytorch_lightning as pl
+import os
+os.environ["RWKV_JIT_ON"] = '1'
+os.environ["RWKV_CUDA_ON"] = '1'
+
 from rwkv.model import RWKV
-from rwkv.trainer import RWKVTrainer
+from rwkv.utils import PIPELINE, PIPELINE_ARGS
 
-# Configure model
-config = {
-    'n_layer': 24,
-    'n_embd': 1024,
-    'vocab_size': 50277,
-    'ctx_len': 1024
-}
+model = RWKV(model='/path/to/RWKV-4-Pile-1B5-20220903-8040', strategy='cuda fp16')
+pipeline = PIPELINE(model, "20B_tokenizer.json")
 
-# Setup trainer
-trainer = pl.Trainer(
-    accelerator='gpu',
-    devices=8,
-    precision='bf16',
-    strategy='deepspeed_stage_2',
-    max_epochs=1
+args = PIPELINE_ARGS(
+    temperature=1.0,
+    top_p=0.7,
+    token_count=200,
+    alpha_frequency=0.25,
+    alpha_presence=0.25,
 )
 
-# Train
-model = RWKV(config)
-trainer.fit(model, train_dataloader)
+prompt = "The future of AI is"
+result = pipeline.generate(prompt, token_count=200, args=args)
+print(result)
 ```
+
+**Training**: the `rwkv` package does not provide a training API. To train or
+fine-tune RWKV, use the official training code in the
+[BlinkDL/RWKV-LM](https://github.com/BlinkDL/RWKV-LM) repository (its
+`RWKV-v4neo` / later training scripts, which use PyTorch Lightning + DeepSpeed),
+or the community [RWKV-LM-LoRA](https://github.com/Blealtan/RWKV-LM-LoRA) fork
+for LoRA fine-tuning.
 
 ### Workflow 4: RWKV vs Transformer comparison
 
@@ -220,14 +225,6 @@ out2, _ = model.forward(tokens2, None)  # No context from tokens1!
 out1, state = model.forward(tokens1, None)
 out2, state = model.forward(tokens2, state)  # Has context from tokens1
 ```
-
-## Advanced topics
-
-**Time-mixing and channel-mixing**: See [references/architecture-details.md](references/architecture-details.md) for WKV operation, time-decay mechanism, and receptance gates.
-
-**State management**: See [references/state-management.md](references/state-management.md) for att_x_prev, att_kv, ffn_x_prev states, and numerical stability considerations.
-
-**RWKV-7 improvements**: See [references/rwkv7.md](references/rwkv7.md) for latest architectural improvements (March 2025) and multimodal capabilities.
 
 ## Hardware requirements
 

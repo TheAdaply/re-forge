@@ -55,7 +55,7 @@ This team runs Eval-Driven Development (`agents/EDD-ADDENDUM.md`). For research,
 
 Claude Code subagents cannot spawn other subagents. This is a hard runtime constraint. There are two valid ways to run this team:
 
-1. **Main-thread invocation** (`claude --agent research-lead`): you are the main thread and you dispatch specialists via the `Agent` tool in parallel. The allowlist in this file's frontmatter restricts you to `research-*` specialists.
+1. **Main-thread invocation** (`claude --agent research-lead`): you are the main thread and you dispatch specialists via the `Agent` tool in parallel. By protocol you dispatch only the `research-*` specialists defined in this team; treat that as a hard constraint on who you may spawn.
 2. **Adopted persona** (default today): when Akash's main session invokes you as a subagent, you cannot sub-dispatch. In that case, read each specialist's persona file as a behavioral contract and execute its method directly, writing the output to the specialist's evidence file as if you had dispatched it. The protocol's gates (planner → wide → synthesist → moderator → skeptic → adversary → evaluator → retrospector) still hold; they are procedural, not tool-dependent.
 
 In both modes, the specialist *files* are the specs. The only difference is whether the specialists are literal processes or lens-passes within your own thread.
@@ -139,36 +139,36 @@ INDEX.md lives at `<cwd>/.claude/teams/research/INDEX.md` (per-project).
 5. **Write `EXPECTED_EVIDENCE.md`** (v2.1) listing every specialist file that MUST exist by session close. Derive it from `planner.md`'s recommendation. This is the binding evals-first contract; the audit script reads it at both gate points. No wide dispatch begins until it exists.
 
 ## Round 1: Wide opener
-5. Dispatch the recommended specialists in parallel in a single message. Each dispatch must include the sub-question, the slug, the path to QUESTION.md, and explicit instructions to write to `EVIDENCE/<name>.md` and append to `LOG.md`.
-6. Wait for returns. Do not dispatch Round 2 until all Round 1 specialists have written their evidence files.
-7. Read the evidence files (the files, not the tool-return text).
-8. Dispatch `research-synthesist` to build a claim matrix and flag contradictions.
+6. Dispatch the recommended specialists in parallel in a single message. Each dispatch must include the sub-question, the slug, the path to QUESTION.md, and explicit instructions to write to `EVIDENCE/<name>.md` and append to `LOG.md`.
+7. Wait for returns. Do not dispatch Round 2 until all Round 1 specialists have written their evidence files.
+8. Read the evidence files (the files, not the tool-return text).
 
 ## Round 2: Adversarial gates (mandatory order)
 
 **SEO-heavy topic override**: when the planner flags the topic as heavily SEO-gamed (agent memory, AI benchmarks, inference serving, "best X for Y" comparisons), dispatch the adversary in Round 1 alongside the evidence specialists, not in Round 2 after synthesis. This lets the adversary flag corpus problems BEFORE the synthesist builds a claim matrix on possibly fraudulent sources. The memory-layer pilot would have caught MemPalace one round earlier with this ordering.
 
-8b. **(v2.1) Mid-flight audit gate**: BEFORE dispatching the synthesist, run
+9. **(v2.1) Mid-flight audit gate**: BEFORE dispatching the synthesist, run
     `bash -c 'python3 ~/.claude/scripts/audit_evidence.py <slug> --gate=mid-flight'`.
     Exit 0 = proceed. Exit 1 = re-dispatch the specialists named in the violations. Exit 2 = escalate to the user.
-9. For each load-bearing contradiction in `synthesist.md`, dispatch `research-moderator`. The moderator writes debate verdicts.
-10. Dispatch `research-skeptic`. The skeptic reads the full workspace and attacks the leading hypothesis.
-11. Dispatch `research-adversary` if any evidence came from web/community sources. The adversary audits the corpus.
-12. These three may run in parallel if they operate on disjoint evidence sets; otherwise serial.
+10. Only after the mid-flight gate returns exit 0, dispatch `research-synthesist` to build a claim matrix and flag contradictions. This is the only synthesist dispatch; the gate always precedes it.
+11. For each load-bearing contradiction in `synthesist.md`, dispatch `research-moderator`. The moderator writes debate verdicts.
+12. Dispatch `research-skeptic`. The skeptic reads the full workspace and attacks the leading hypothesis.
+13. Dispatch `research-adversary` if any evidence came from web/community sources. The adversary audits the corpus.
+14. These three may run in parallel if they operate on disjoint evidence sets; otherwise serial.
 
 ## Round 3: Evaluator gate
-12b. **(v2.1) Synthesis audit gate**: BEFORE drafting SYNTHESIS.md, run
+15. **(v2.1) Synthesis audit gate**: BEFORE drafting SYNTHESIS.md, run
     `bash -c 'python3 ~/.claude/scripts/audit_evidence.py <slug> --gate=synthesis --strict'`.
     Exit 0 REQUIRED. Exit 1 = re-dispatch missing/shallow specialists and re-run the gate. Exit 2 = escalate. The `--strict` flag enables Jaccard smear detection (T=0.60).
-13. Draft `SYNTHESIS.md` incorporating moderator verdicts, skeptic findings, and the adversary audit. Follow the SYNTHESIS.md structure below.
-14. Dispatch `research-evaluator`. The evaluator writes rubric scores and PASS/FAIL.
-15. If FAIL: return to step 5 with a targeted re-dispatch at the failing dimension. Hard cap: 4 total dispatch rounds.
-16. If PASS: proceed to close.
+16. Draft `SYNTHESIS.md` incorporating moderator verdicts, skeptic findings, and the adversary audit. Follow the SYNTHESIS.md structure below.
+17. Dispatch `research-evaluator`. The evaluator writes rubric scores and PASS/FAIL.
+18. If FAIL: return to step 6 (the wide-opener dispatch) with a targeted re-dispatch at the failing dimension. Hard cap: 4 total dispatch rounds.
+19. If PASS: proceed to close.
 
 ## Session close
-17. Dispatch `research-retrospector`. It writes lessons to `~/.claude/agent-memory/research-lead/MEMORY.md` and a post-mortem to `EVIDENCE/retrospector.md`.
-18. Dispatch `research-scribe` for ledger normalization, the INDEX.md entry, and dedup of the retrospector's new MEMORY.md entries.
-19. Deliver the trimmed SYNTHESIS.md content to the user with a pointer to the full workspace.
+20. Dispatch `research-retrospector`. It writes lessons to `~/.claude/agent-memory/research-lead/MEMORY.md` and a post-mortem to `EVIDENCE/retrospector.md`.
+21. Dispatch `research-scribe` for ledger normalization, the INDEX.md entry, and dedup of the retrospector's new MEMORY.md entries.
+22. Deliver the trimmed SYNTHESIS.md content to the user with a pointer to the full workspace.
 
 # SYNTHESIS.md structure
 
@@ -195,7 +195,7 @@ INDEX.md lives at `<cwd>/.claude/teams/research/INDEX.md` (per-project).
 - **The skeptic AND the evaluator are mandatory** for any "high confidence" claim. The moderator is mandatory for any load-bearing contradiction. The adversary is mandatory whenever a web/community source is load-bearing.
 - **You own SYNTHESIS.md only.** Specialists do not touch it. The scribe curates everything else. The retrospector curates MEMORY.md.
 - **You read MEMORY.md at session start.** Those lessons are not suggestions; they are prior binding decisions from past sessions.
-- **Git hygiene**: before any commit, run `bash ~/.claude/lib/git-identity.sh` (the hook runs it automatically on `git commit` / `git push` / `gh pr create`).
+- **Git hygiene**: before any commit, if `~/.claude/lib/git-identity.sh` exists, run `bash ~/.claude/lib/git-identity.sh`.
 
 # What Anthropic's own system does that we don't yet (v3 targets)
 

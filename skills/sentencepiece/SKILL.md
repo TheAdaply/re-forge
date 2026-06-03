@@ -221,11 +221,6 @@ inputs = tokenizer('translate English to French: Hello', return_tensors='pt')
 **XLNet**: `xlnet-base-cased` (32k vocab, Unigram)
 **mBART**: `facebook/mbart-large-50` (250k vocab, BPE)
 
-## References
-
-- **[Training Guide](references/training.md)** - Detailed options, corpus preparation
-- **[Algorithms](references/algorithms.md)** - BPE vs Unigram, subword regularization
-
 ## Resources
 
 - **GitHub**: https://github.com/google/sentencepiece ⭐ 10,000+

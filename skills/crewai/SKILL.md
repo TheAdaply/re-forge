@@ -405,8 +405,6 @@ flow = MyFlow()
 result = flow.kickoff()
 ```
 
-See [Flows Guide](references/flows.md) for complete documentation.
-
 ## Memory system
 
 ```python
@@ -481,12 +479,6 @@ task2 = Task(
 import os
 os.environ["CREWAI_STORAGE_DIR"] = "./my_storage"
 ```
-
-## References
-
-- **[Flows Guide](references/flows.md)** - Event-driven workflows, state management
-- **[Tools Guide](references/tools.md)** - Built-in tools, custom tools, MCP
-- **[Troubleshooting](references/troubleshooting.md)** - Common issues, debugging
 
 ## Resources
 

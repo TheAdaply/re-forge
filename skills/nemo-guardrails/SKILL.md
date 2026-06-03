@@ -263,14 +263,6 @@ async def strict_fact_check(context):
     return all(verified)
 ```
 
-## Advanced topics
-
-**Colang 2.0 DSL**: See [references/colang-guide.md](references/colang-guide.md) for flow syntax, actions, variables, and advanced patterns.
-
-**Integration guide**: See [references/integrations.md](references/integrations.md) for LlamaGuard, Presidio, ActiveFence, and custom models.
-
-**Performance optimization**: See [references/performance.md](references/performance.md) for latency reduction, caching, and batching strategies.
-
 ## Hardware requirements
 
 - **GPU**: Optional (CPU works, GPU faster)

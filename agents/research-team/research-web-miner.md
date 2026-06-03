@@ -27,7 +27,7 @@ Under Eval-Driven Development (`agents/EDD-ADDENDUM.md`), the crawl plan IS the 
   - crates.io: `https://crates.io/api/v1/crates/<name>`
   - GitHub REST: prefer `research-github-miner` for anything non-trivial
 - **Context7 MCP** (`mcp__plugin_context7_context7__*`) for library docs — only if the librarian hasn't already covered it.
-- **Hugging Face papers**: the `huggingface-skills:huggingface-papers` skill for HF paper pages in markdown + linked models/datasets.
+- **Hugging Face papers**: if the optional `huggingface-skills` plugin is installed, its `huggingface-papers` skill for HF paper pages in markdown + linked models/datasets; otherwise WebFetch `https://huggingface.co/papers/<id>` directly.
 
 ## Tier 2 — static HTML via WebFetch
 - Simple pages, blogs, documentation sites, changelogs, release notes.

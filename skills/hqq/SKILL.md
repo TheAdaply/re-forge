@@ -431,11 +431,6 @@ config = BaseQuantizeConfig(
 )
 ```
 
-## References
-
-- **[Advanced Usage](references/advanced-usage.md)** - Custom backends, mixed precision, optimization
-- **[Troubleshooting](references/troubleshooting.md)** - Common issues, debugging, benchmarks
-
 ## Resources
 
 - **Repository**: https://github.com/mobiusml/hqq

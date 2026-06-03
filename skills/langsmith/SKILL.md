@@ -408,11 +408,6 @@ def my_function(data):
     pass
 ```
 
-## References
-
-- **[Advanced Usage](references/advanced-usage.md)** - Custom evaluators, distributed tracing, hub prompts
-- **[Troubleshooting](references/troubleshooting.md)** - Common issues, debugging, performance
-
 ## Resources
 
 - **Documentation**: https://docs.smith.langchain.com

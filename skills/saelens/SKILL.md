@@ -342,16 +342,6 @@ Browse pre-trained SAE features at [neuronpedia.org](https://neuronpedia.org):
 | `ActivationsStore` | Activation collection and batching |
 | `HookedSAETransformer` | TransformerLens + SAE integration |
 
-## Reference Documentation
-
-For detailed API documentation, tutorials, and advanced usage, see the `references/` folder:
-
-| File | Contents |
-|------|----------|
-| [references/README.md](references/README.md) | Overview and quick start guide |
-| [references/api.md](references/api.md) | Complete API reference for SAE, TrainingSAE, configurations |
-| [references/tutorials.md](references/tutorials.md) | Step-by-step tutorials for training, analysis, steering |
-
 ## External Resources
 
 ### Tutorials

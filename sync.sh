@@ -47,6 +47,12 @@ mkdir -p "$REPO_DIR/agents/security-team"
 cp "$CLAUDE_DIR/agents/security/"*.md "$REPO_DIR/agents/security-team/" 2>/dev/null || true
 cp "$CLAUDE_DIR/teams/security/PROTOCOL.md" "$REPO_DIR/agents/security-team/PROTOCOL.md" 2>/dev/null || true
 
+# --- Evolution Team ---
+echo "Syncing evolution team..."
+mkdir -p "$REPO_DIR/agents/evolution-team"
+cp "$CLAUDE_DIR/agents/evolution/"*.md "$REPO_DIR/agents/evolution-team/" 2>/dev/null || true
+cp "$CLAUDE_DIR/teams/evolution/PROTOCOL.md" "$REPO_DIR/agents/evolution-team/PROTOCOL.md" 2>/dev/null || true
+
 # --- Forge ---
 echo "Syncing forge..."
 mkdir -p "$REPO_DIR/agents/forge"
@@ -81,7 +87,7 @@ done
 # --- Memory seeds (sanitized — no project-specific content) ---
 echo "Syncing memory seeds..."
 mkdir -p "$REPO_DIR/memory"
-for agent in research-lead engineering-lead forge-lead research-retrospector docs-lead testing-lead security-lead; do
+for agent in research-lead engineering-lead forge-lead research-retrospector docs-lead testing-lead security-lead evolution-lead; do
   src="$CLAUDE_DIR/agent-memory/$agent/MEMORY.md"
   dst="$REPO_DIR/memory/$agent.md"
   if [ -f "$src" ]; then
@@ -97,6 +103,7 @@ echo -n "Engineering agents: "; ls "$REPO_DIR/agents/engineering-team/"*.md 2>/d
 echo -n "Docs agents:        "; ls "$REPO_DIR/agents/docs-team/"*.md 2>/dev/null | wc -l
 echo -n "Testing agents:     "; ls "$REPO_DIR/agents/testing-team/"*.md 2>/dev/null | wc -l
 echo -n "Security agents:    "; ls "$REPO_DIR/agents/security-team/"*.md 2>/dev/null | wc -l
+echo -n "Evolution agents:   "; ls "$REPO_DIR/agents/evolution-team/"*.md 2>/dev/null | wc -l
 echo -n "Forge skills:       "; ls "$REPO_DIR/agents/forge/skills/"*/SKILL.md 2>/dev/null | wc -l
 echo -n "User skills:        "; ls "$REPO_DIR/skills/"*/SKILL.md 2>/dev/null | wc -l
 echo -n "Scripts:            "; ls "$REPO_DIR/scripts/" 2>/dev/null | wc -l

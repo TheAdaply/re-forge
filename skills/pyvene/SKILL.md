@@ -435,16 +435,6 @@ pyvene works with any PyTorch model. Tested on:
 - ESM (protein models)
 - Mamba (state space)
 
-## Reference Documentation
-
-For detailed API documentation, tutorials, and advanced usage, see the `references/` folder:
-
-| File | Contents |
-|------|----------|
-| [references/README.md](references/README.md) | Overview and quick start guide |
-| [references/api.md](references/api.md) | Complete API reference for IntervenableModel, intervention types, configurations |
-| [references/tutorials.md](references/tutorials.md) | Step-by-step tutorials for causal tracing, activation patching, DAS |
-
 ## External Resources
 
 ### Tutorials

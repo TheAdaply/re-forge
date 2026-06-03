@@ -172,12 +172,6 @@ outputs = llm.generate(
 - **Vision**: LLaVA, Phi-3-vision
 - **100+ models** on HuggingFace
 
-## References
-
-- **[Optimization Guide](references/optimization.md)** - Quantization, batching, KV cache tuning
-- **[Multi-GPU Setup](references/multi-gpu.md)** - Tensor/pipeline parallelism, multi-node
-- **[Serving Guide](references/serving.md)** - Production deployment, monitoring, autoscaling
-
 ## Resources
 
 - **Docs**: https://nvidia.github.io/TensorRT-LLM/

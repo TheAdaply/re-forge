@@ -478,11 +478,6 @@ client = QdrantClient(
 )
 ```
 
-## References
-
-- **[Advanced Usage](references/advanced-usage.md)** - Distributed mode, hybrid search, recommendations
-- **[Troubleshooting](references/troubleshooting.md)** - Common issues, debugging, performance tuning
-
 ## Resources
 
 - **GitHub**: https://github.com/qdrant/qdrant (22k+ stars)

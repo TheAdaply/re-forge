@@ -506,11 +506,6 @@ pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
 image = pipe(prompt, num_inference_steps=20).images[0]
 ```
 
-## References
-
-- **[Advanced Usage](references/advanced-usage.md)** - Custom pipelines, fine-tuning, deployment
-- **[Troubleshooting](references/troubleshooting.md)** - Common issues and solutions
-
 ## Resources
 
 - **Documentation**: https://huggingface.co/docs/diffusers

@@ -341,7 +341,7 @@ All major conferences require this. Counter-intuitively, honesty helps:
 
 **Step 9: Paper Checklist**
 
-NeurIPS, ICML, and ICLR all require paper checklists. See [references/checklists.md](references/checklists.md).
+NeurIPS, ICML, and ICLR all require paper checklists.
 
 ---
 
@@ -364,10 +364,6 @@ This skill synthesizes writing philosophy from researchers who have published ex
 | **Jacob Steinhardt** (UC Berkeley) | Precision, consistent terminology | [Writing Tips](https://bounded-regret.ghost.io/) |
 | **Ethan Perez** (Anthropic) | Micro-level clarity tips | [Easy Paper Writing Tips](https://ethanperez.net/easy-paper-writing-tips/) |
 | **Andrej Karpathy** | Single contribution focus | Various lectures |
-
-**For deeper dives into any of these, see:**
-- [references/writing-guide.md](references/writing-guide.md) - Full explanations with examples
-- [references/sources.md](references/sources.md) - Complete bibliography
 
 ### Time Allocation (From Neel Nanda)
 
@@ -395,8 +391,6 @@ These principles are based on how readers actually process prose. Violating them
 | **Action in verb** | Use verbs, not nominalizations | ❌ "We performed an analysis" → ✅ "We analyzed" |
 | **Context before new** | Set stage before presenting | Explain before showing equation |
 
-**Full 7 principles with detailed examples:** See [references/writing-guide.md](references/writing-guide.md#the-7-principles-of-reader-expectations)
-
 #### Micro-Level Tips (Ethan Perez)
 
 These small changes accumulate into significantly clearer prose:
@@ -405,8 +399,6 @@ These small changes accumulate into significantly clearer prose:
 - **Verbs early**: Position verbs near sentence start
 - **Unfold apostrophes**: ❌ "X's Y" → ✅ "The Y of X" (when awkward)
 - **Delete filler words**: "actually," "a bit," "very," "really," "basically," "quite," "essentially"
-
-**Full micro-tips with examples:** See [references/writing-guide.md](references/writing-guide.md#micro-level-writing-tips)
 
 #### Word Choice (Zachary Lipton)
 
@@ -459,16 +451,12 @@ Understanding reviewer behavior helps prioritize your effort:
 | **ASPLOS 2027** | 12 pages (ACM) | varies | Rapid review on first 2 pages; dual cycles | ACM SIGPLAN |
 | **SOSP 2026** | 12 pages | varies | Optional artifact evaluation; author response | ACM SIGPLAN |
 
-**Detailed Systems conference info**: See [references/systems-conferences.md](references/systems-conferences.md) for deadlines, track descriptions, submission rules, and format conversion guides.
-
 **Universal Requirements:**
 - Double-blind review (anonymize submissions)
 - References don't count toward page limit
 - Appendices unlimited but reviewers not required to read
 - LaTeX required for all venues
 - **Systems venues**: USENIX uses custom `.sty`; ACM uses `acmart.cls`
-
-**LaTeX Templates:** See [templates/](templates/) directory for all conference templates.
 
 ---
 
@@ -671,8 +659,6 @@ Format Conversion Checklist:
 | ML → ASPLOS/SOSP | ACM SIGPLAN template; reframe for systems contribution |
 | OSDI ↔ SOSP | USENIX ↔ ACM SIGPLAN; similar page limits, different style files |
 
-**Full conversion guide**: See [references/systems-conferences.md](references/systems-conferences.md#format-conversion-ml-venue--systems-venue) for detailed guidance.
-
 **Step 2: Content Migration (NOT Template Merge)**
 
 **Never copy LaTeX preambles between templates.** Instead:
@@ -725,8 +711,6 @@ When expanding (e.g., ICML 8 → ICLR 9):
 | **NSDI 2027** | Strong Introduction (prescreening); choose track |
 | **ASPLOS 2027** | Self-contained first 2 pages (rapid review); resubmission note |
 | **SOSP 2026** | ACM SIGPLAN format; optional Artifact Evaluation |
-
-**Full requirements**: See [references/systems-conferences.md](references/systems-conferences.md#submission-rules) for details.
 
 **Step 5: Update References**
 
@@ -858,8 +842,6 @@ If you cannot verify a citation at ANY step:
 
 **🚨 NEVER generate BibTeX from memory—always fetch programmatically. 🚨**
 
-See [references/citation-workflow.md](references/citation-workflow.md) for complete API documentation.
-
 ---
 
 ## Common Issues and Solutions
@@ -910,8 +892,6 @@ Reviewers assess papers on four dimensions:
 - 2: Reject - Technical flaws
 - 1: Strong Reject - Known results or ethics issues
 
-See [references/reviewer-guidelines.md](references/reviewer-guidelines.md) for detailed reviewer instructions.
-
 ---
 
 ## Tables and Figures
@@ -951,29 +931,11 @@ Baseline & 85.2 & 45ms \\
 
 ## References & Resources
 
-### Reference Documents (Deep Dives)
+### Compiling LaTeX to PDF
 
-| Document | Contents |
-|----------|----------|
-| [writing-guide.md](references/writing-guide.md) | Gopen & Swan 7 principles, Ethan Perez micro-tips, word choice |
-| [citation-workflow.md](references/citation-workflow.md) | Citation APIs, Python code, BibTeX management |
-| [checklists.md](references/checklists.md) | NeurIPS 16-item, ICML, ICLR, ACL requirements |
-| [reviewer-guidelines.md](references/reviewer-guidelines.md) | Evaluation criteria, scoring, rebuttals |
-| [systems-conferences.md](references/systems-conferences.md) | OSDI/NSDI/ASPLOS/SOSP deadlines, tracks, rules |
-| [sources.md](references/sources.md) | Complete bibliography of all sources |
-
-### LaTeX Templates
-
-Templates in `templates/` directory:
-- **ML/AI**: ICML 2026, ICLR 2026, NeurIPS 2025, ACL/EMNLP, AAAI 2026, COLM 2025
-- **Systems**: OSDI 2026, NSDI 2027, ASPLOS 2027, SOSP 2026
-
-**Compiling to PDF:**
 - **VS Code/Cursor**: Install LaTeX Workshop extension + TeX Live → Save to auto-compile
 - **Command line**: `latexmk -pdf main.tex` or `pdflatex` + `bibtex` workflow
 - **Online**: Upload to [Overleaf](https://overleaf.com)
-
-See [templates/README.md](templates/README.md) for detailed setup instructions.
 
 ### Key External Sources
 

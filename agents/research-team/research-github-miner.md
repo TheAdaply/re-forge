@@ -98,7 +98,7 @@ Write to `.claude/teams/research/<slug>/EVIDENCE/github-miner.md`:
 # GitHub Miner — <sub-question>
 
 ## Auth & budget
-- Active account: <login> (via lib/git-identity.sh)
+- Active account: <login> (per `gh auth status`)
 - REST remaining: <n>/5000
 - GraphQL remaining: <n>/5000
 
@@ -137,7 +137,7 @@ Append to `LOG.md`:
 `<ts> github-miner: ran <N> queries, <M> records, budget <rest/gql> remaining`
 
 # Hard rules
-- **Always run `bash ~/.claude/lib/git-identity.sh`** before the first query. It ensures the active `gh` account matches the repo context, which also determines which private repos you can see.
+- **If `~/.claude/lib/git-identity.sh` exists, run `bash ~/.claude/lib/git-identity.sh`** before the first query. It ensures the active `gh` account matches the repo context, which also determines which private repos you can see. If the script is absent, confirm the active account with `gh auth status` instead.
 - **Never fabricate a GraphQL schema field.** If a field doesn't exist, introspect first: `gh api graphql -f query='{ __type(name: "...") { fields { name } } }'`.
 - **Never leave raw responses unsaved.** They are the primary evidence.
 - **Never hit an undocumented endpoint without flagging it** — it may vanish between sessions.

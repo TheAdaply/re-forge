@@ -496,11 +496,6 @@ sky jobs logs my-job
 | Slow file sync | Use `MOUNT_CACHED` mode for outputs |
 | GPU not available | Use `any_of` for fallback clouds |
 
-## References
-
-- **[Advanced Usage](references/advanced-usage.md)** - Multi-cloud, optimization, production patterns
-- **[Troubleshooting](references/troubleshooting.md)** - Common issues and solutions
-
 ## Resources
 
 - **Documentation**: https://docs.skypilot.co

@@ -367,11 +367,6 @@ cluster.close()
 - NVIDIA used NeMo Curator to prepare Nemotron-4 training data
 - Open-source datasets curated: RedPajama v2, The Pile
 
-## References
-
-- **[Filtering Guide](references/filtering.md)** - 30+ quality filters, heuristics
-- **[Deduplication Guide](references/deduplication.md)** - Exact, fuzzy, semantic methods
-
 ## Resources
 
 - **GitHub**: https://github.com/NVIDIA/NeMo-Curator ⭐ 500+

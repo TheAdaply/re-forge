@@ -339,16 +339,6 @@ Create seed checkpoint first (see Workflow 4, Step 1).
 | Llama 70B | 256 | FSDP+TP+AsyncTP | 876 | 2D parallel |
 | Llama 405B | 512 | FSDP+TP+PP | 128 | 3D parallel |
 
-## Advanced topics
-
-**FSDP2 configuration**: See [references/fsdp.md](references/fsdp.md) for detailed FSDP2 vs FSDP1 comparison and ZeRO equivalents.
-
-**Float8 training**: See [references/float8.md](references/float8.md) for tensorwise vs rowwise scaling recipes.
-
-**Checkpointing**: See [references/checkpoint.md](references/checkpoint.md) for HuggingFace conversion and async checkpointing.
-
-**Adding custom models**: See [references/custom-models.md](references/custom-models.md) for TrainSpec protocol.
-
 ## Resources
 
 - GitHub: https://github.com/pytorch/torchtitan

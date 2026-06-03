@@ -300,14 +300,6 @@ model = AutoModelForCausalLM.from_pretrained(
 # Memory: 14GB → 7GB
 ```
 
-## Advanced topics
-
-**Custom categories**: See [references/custom-categories.md](references/custom-categories.md) for fine-tuning LlamaGuard with domain-specific safety categories.
-
-**Performance benchmarks**: See [references/benchmarks.md](references/benchmarks.md) for accuracy comparison with other moderation APIs and latency optimization.
-
-**Deployment guide**: See [references/deployment.md](references/deployment.md) for Sagemaker, Kubernetes, and scaling strategies.
-
 ## Hardware requirements
 
 - **GPU**: NVIDIA T4/A10/A100

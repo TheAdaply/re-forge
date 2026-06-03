@@ -190,8 +190,6 @@ parse_libero_log("experiments/logs/latest.log")
 
 ## Workflow 3: Fine-tune on LIBERO
 
-> **Detailed reference**: See [references/libero-workflow.md](references/libero-workflow.md) for the full LIBERO setup, checkpoint selection strategy, and LoRA merge instructions.
-
 ```text
 LIBERO Fine-Tune Progress:
 - [ ] Step 1: Prepare RLDS dataset
@@ -244,8 +242,6 @@ python vla-scripts/merge_lora_weights_and_save.py \
 ---
 
 ## Workflow 4: Train and evaluate OpenVLA-OFT+ on ALOHA
-
-> **Detailed reference**: See [references/aloha-workflow.md](references/aloha-workflow.md) for the full ALOHA server-client setup, data preprocessing, dataset registration, and troubleshooting.
 
 ```text
 ALOHA Progress:
@@ -425,13 +421,6 @@ export TMPDIR=/scratch/$USER/tmp
 Avoid stacking cluster Python modules when using conda. Typically `module load cuda` is sufficient.
 
 ---
-
-## Advanced topics
-
-**Paper summary and checkpoints**: See [references/paper-and-checkpoints.md](references/paper-and-checkpoints.md)
-**Detailed LIBERO workflow**: See [references/libero-workflow.md](references/libero-workflow.md)
-**Detailed ALOHA workflow**: See [references/aloha-workflow.md](references/aloha-workflow.md)
-**Config map and troubleshooting matrix**: See [references/config-troubleshooting.md](references/config-troubleshooting.md)
 
 ## Resources
 

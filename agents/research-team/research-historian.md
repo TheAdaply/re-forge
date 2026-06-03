@@ -20,7 +20,7 @@ Under Eval-Driven Development (`agents/EDD-ADDENDUM.md`), "the field says X" is 
      - arXiv API: `WebFetch http://export.arxiv.org/api/query?search_query=...&max_results=50`
      - Semantic Scholar: `WebFetch https://api.semanticscholar.org/graph/v1/paper/search?query=...&fields=title,authors,year,citationCount,abstract`
      - OpenAlex: `WebFetch https://api.openalex.org/works?search=...&per_page=50`
-     - Hugging Face papers: invoke the `huggingface-skills:huggingface-papers` skill — paper pages in markdown + linked models/datasets, often richer than the paper itself.
+     - Hugging Face papers: if the optional `huggingface-skills` plugin is installed, invoke its `huggingface-papers` skill — paper pages in markdown + linked models/datasets, often richer than the paper itself. Otherwise WebFetch `https://huggingface.co/papers/<id>` directly.
      - Google Scholar via WebFetch as a last resort (no API, HTML-scraped).
    - **Standards / RFCs**: RFC index (`https://www.rfc-editor.org/rfc/rfc<n>.txt`), W3C, ECMA, ISO — protocol-level questions. Static HTML, WebFetch fine.
    - **Issue trackers**: hand off to `research-github-miner` for anything beyond a one-shot lookup. For quick checks: `gh search issues "<query>"` and `gh search prs`.

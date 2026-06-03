@@ -14,9 +14,9 @@ v0.2 activates the three teams that were drafted-but-unactivated in v0.1 — **S
 
 The following teams ship with v0.2 and can be installed by copying agents into `~/.claude/agents/<team>/` and `PROTOCOL.md` into `~/.claude/teams/<team>/`:
 
-- **Security Team** — 13 specialists (threat-modeler, owasp-scanner, secrets-hunter, dependency-auditor, license-auditor, config-scanner, crypto-reviewer, architecture-reviewer, planner, skeptic, evaluator, retrospector + lead). Verdict model: BLOCKER / ADVISORY / PASS. Output: `THREAT_MODEL.md`, `FINDINGS.md`, per-specialist `EVIDENCE/*.md`.
+- **Security Team** — 14 specialists (threat-modeler, owasp-scanner, secrets-hunter, dependency-auditor, license-auditor, config-scanner, crypto-reviewer, architecture-reviewer, planner, skeptic, evaluator, retrospector, scribe + lead). Verdict model: BLOCKER / ADVISORY / PASS. Output: `THREAT_MODEL.md`, `FINDINGS.md`, per-specialist `EVIDENCE/*.md`.
 - **Testing Team** — 12 specialists (planner, property, mutator, fixture, writer, runner, detector, scribe, skeptic, evaluator, retrospector + lead). Owns property tests, mutation testing, and the kernel-fuzzer swarm protocol (Tier-3 headless `claude -p` workers).
-- **Docs Team** — 11 specialists (planner, reader, detector, writer, reviewer, diagrammer, tester, skeptic, evaluator, retrospector + lead). Two-phase: Phase-1 audit + drafts, Phase-3 finalization with DIFF_LOG-bound CHANGELOG/CONTRIBUTING/MIGRATION.
+- **Docs Team** — 12 specialists (planner, reader, detector, writer, reviewer, diagrammer, tester, scribe, skeptic, evaluator, retrospector + lead). Two-phase: Phase-1 audit + drafts, Phase-3 finalization with DIFF_LOG-bound CHANGELOG/CONTRIBUTING/MIGRATION.
 
 All three teams' PROTOCOLs follow the same evidence-on-disk + adversarial-gate model as Research and Engineering.
 

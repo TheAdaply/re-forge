@@ -5,7 +5,7 @@ version: 1.0.0
 author: Orchestra Research
 license: MIT
 tags: [RAG, Pinecone, Vector Database, Managed Service, Serverless, Hybrid Search, Production, Auto-Scaling, Low Latency, Recommendations]
-dependencies: [pinecone-client]
+dependencies: [pinecone]
 ---
 
 # Pinecone - Managed Vector Database
@@ -38,7 +38,7 @@ The vector database for production AI applications.
 ### Installation
 
 ```bash
-pip install pinecone-client
+pip install pinecone
 ```
 
 ### Basic usage

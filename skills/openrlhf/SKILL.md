@@ -214,16 +214,6 @@ Enable vLLM acceleration:
 --vllm_gpu_memory_utilization 0.5
 ```
 
-## Advanced topics
-
-**Hybrid Engine GPU sharing**: See [references/hybrid-engine.md](references/hybrid-engine.md) for vLLM sleep mode, DeepSpeed sleep mode, and optimal node allocation.
-
-**Algorithm comparison**: See [references/algorithm-comparison.md](references/algorithm-comparison.md) for PPO vs GRPO vs RLOO vs REINFORCE++ benchmarks and hyperparameters.
-
-**Multi-node setup**: See [references/multi-node-training.md](references/multi-node-training.md) for Ray cluster configuration and fault tolerance.
-
-**Custom reward functions**: See [references/custom-rewards.md](references/custom-rewards.md) for reinforced fine-tuning and agent RLHF.
-
 ## Hardware requirements
 
 - **GPU**: NVIDIA A100/H100 recommended

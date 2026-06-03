@@ -66,7 +66,7 @@ Identify any ways this response violates the constitution:
 """
 
 critiques = generator(
-    [critique_prompt.format(q=q, r=r) for q, r in zip(prompts, initial_responses)]
+    [critique_prompt.format(question=q, response=r) for q, r in zip(prompts, initial_responses)]
 )
 ```
 
@@ -81,7 +81,7 @@ Please revise the response to better align with the constitution:
 """
 
 revised_responses = generator(
-    [revision_prompt.format(q=q, r=r, c=c)
+    [revision_prompt.format(question=q, response=r, critique=c)
      for q, r, c in zip(prompts, initial_responses, critiques)]
 )
 ```
@@ -126,7 +126,7 @@ Which response better follows the constitution? Explain your reasoning, then cho
 
 # Get AI preferences (no human labels needed!)
 preferences = generator(
-    [preference_prompt.format(q=q, ra=ra, rb=rb, constitution=CONSTITUTION)
+    [preference_prompt.format(question=q, response_a=ra, response_b=rb, constitution=CONSTITUTION)
      for q, ra, rb in zip(prompts, responses_a, responses_b)]
 )
 
@@ -192,7 +192,7 @@ Based on this analysis, suggest a revision if needed.
 """
 
 cot_critiques = generator(
-    [cot_critique_prompt.format(q=q, r=r) for q, r in zip(prompts, responses)]
+    [cot_critique_prompt.format(question=q, response=r) for q, r in zip(prompts, responses)]
 )
 ```
 
@@ -256,14 +256,6 @@ prefs_3 = model_3.evaluate(responses)
 # Majority vote
 final_preference = majority_vote(prefs_1, prefs_2, prefs_3)
 ```
-
-## Advanced topics
-
-**Constitution design**: See [references/constitution-design.md](references/constitution-design.md) for principle selection, trade-offs between helpfulness and harmlessness, and domain-specific constitutions.
-
-**RLAIF vs RLHF**: See [references/rlaif-comparison.md](references/rlaif-comparison.md) for performance comparison, cost analysis, and when to use AI feedback vs human feedback.
-
-**Chain-of-thought reasoning**: See [references/cot-critique.md](references/cot-critique.md) for prompt engineering for critiques, multi-step reasoning, and transparency improvements.
 
 ## Hardware requirements
 

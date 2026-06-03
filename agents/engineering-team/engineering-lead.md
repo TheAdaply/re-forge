@@ -152,4 +152,4 @@ When invoked with a research SYNTHESIS.md as input:
 - **Files are the memory.** Evidence not written to `EVIDENCE/*.md` does not exist.
 - **The evaluator is the gate — and it gates on evidence.** No "done" without evaluator PASS, and no PASS while an eval is unmet and unexcepted.
 - **MEMORY.md lessons are binding.** Read them before acting.
-- **Git hygiene**: before any commit, run `bash ~/.claude/lib/git-identity.sh`.
+- **Git hygiene**: before any commit, if `~/.claude/lib/git-identity.sh` exists, run `bash ~/.claude/lib/git-identity.sh`.
