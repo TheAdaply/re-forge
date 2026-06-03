@@ -16,8 +16,17 @@ echo ""
 
 # --- helpers ---
 backup_if_exists() {
-  local target="$1"
+  # Backs up $target before overwrite — but only when $2 (the incoming file)
+  # actually differs, so re-running setup.sh is idempotent instead of
+  # spraying .bak-<timestamp> copies on every run.
+  local target="$1" incoming="${2:-}"
   if [ -e "$target" ]; then
+    if [ -n "$incoming" ] && [ -f "$target" ] && cmp -s "$incoming" "$target"; then
+      return 0  # identical content: nothing to back up
+    fi
+    if [ -n "$incoming" ] && [ -d "$target" ] && [ -d "$incoming" ] && diff -rq "$incoming" "$target" >/dev/null 2>&1; then
+      return 0  # identical directory tree: nothing to back up
+    fi
     local backup="${target}.bak-${BACKUP_TS}"
     echo "  backup: $(basename "$target") -> $(basename "$backup")"
     cp -r "$target" "$backup"
@@ -37,7 +46,7 @@ copy_file() {
   local src="$1" dst="$2"
   mkdir -p "$(dirname "$dst")"
   if [ -f "$src" ]; then
-    backup_if_exists "$dst"
+    backup_if_exists "$dst" "$src"
     cp "$src" "$dst"
     echo "  copied: $(basename "$src")"
   fi
@@ -47,6 +56,20 @@ copy_file() {
 team_install_name() {
   local repo_team="$1"
   echo "${repo_team%-team}"
+}
+
+# True (0) when any persona file in $1 differs from its installed copy in $2,
+# so the team-dir backup only fires when this run will actually change something.
+team_files_differ() {
+  local src_dir="$1" dst_dir="$2" f base
+  [ -d "$dst_dir" ] || return 0
+  for f in "$src_dir"*.md; do
+    [ -f "$f" ] || continue
+    base="$(basename "$f")"
+    [ "$base" = "PROTOCOL.md" ] && continue
+    cmp -s "$f" "$dst_dir/$base" || return 0
+  done
+  return 1
 }
 
 # --- agents ---
@@ -63,7 +86,9 @@ for team_dir in "$SCRIPT_DIR"/agents/*-team/; do
   dst_agents="$CLAUDE_DIR/agents/$install_team"
   dst_protocol_dir="$CLAUDE_DIR/teams/$install_team"
   echo "  team: $repo_team -> $install_team"
-  backup_if_exists "$dst_agents"
+  if team_files_differ "$team_dir" "$dst_agents"; then
+    backup_if_exists "$dst_agents"
+  fi
   mkdir -p "$dst_agents"
   # Persona files (everything except PROTOCOL.md)
   for f in "$team_dir"*.md; do
@@ -188,7 +213,23 @@ with open('$SETTINGS', 'w') as f:
     json.dump(settings, f, indent=2)
 " 2>/dev/null || echo "  warning: could not merge hooks into settings.json (merge manually)"
 else
-  echo "  skip: no settings.json found (hooks will need manual registration)"
+  # No settings.json yet (fresh machine): create a minimal one carrying only
+  # our hooks. Nothing is clobbered — the file did not exist.
+  python3 -c "
+import json
+
+settings = {
+    'hooks': {
+        'Stop': [{'matcher': '', 'hooks': [{'type': 'command', 'command': '\$HOME/.claude/hooks/session-capture.sh'}]}],
+        'PostToolUse': [{'matcher': 'Write|Edit', 'hooks': [{'type': 'command', 'command': '\$HOME/.claude/hooks/log-evidence-writes.sh'}]}],
+        'SessionStart': [{'matcher': '', 'hooks': [{'type': 'command', 'command': '\$HOME/.claude/hooks/evolution-scout.sh'}]}],
+    }
+}
+
+with open('$SETTINGS', 'w') as f:
+    json.dump(settings, f, indent=2)
+print('  created: settings.json with Stop + PostToolUse + SessionStart hooks')
+" 2>/dev/null || echo "  warning: could not create settings.json (register hooks manually)"
 fi
 
 # --- verification ---
