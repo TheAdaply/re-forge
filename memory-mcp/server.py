@@ -42,8 +42,17 @@ def get_db() -> sqlite3.Connection:
             "SELECT name FROM sqlite_master WHERE type='table'"
         )
     }
-    if "memories" not in tables and SCHEMA_PATH.exists():
-        db.executescript(SCHEMA_PATH.read_text())
+    if "memories" not in tables:
+        # Prefer the installed schema (bootstrap.sh copies it to ~/.claude),
+        # fall back to the copy shipped next to this file so a bare
+        # `python3 server.py` still gets a working database.
+        schema = SCHEMA_PATH if SCHEMA_PATH.exists() else Path(__file__).parent / "schema.sql"
+        if not schema.exists():
+            raise RuntimeError(
+                f"schema.sql not found at {SCHEMA_PATH} or {Path(__file__).parent} — "
+                "run memory-mcp/bootstrap.sh or keep schema.sql next to server.py"
+            )
+        db.executescript(schema.read_text())
 
     return db
 
