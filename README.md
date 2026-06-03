@@ -1,15 +1,16 @@
 # re-forge
 
+[![CI](https://github.com/Akasxh/re-forge/actions/workflows/ci.yml/badge.svg)](https://github.com/Akasxh/re-forge/actions/workflows/ci.yml)
+
 re-forge is a hardened operating procedure for [Claude Code](https://claude.ai/code)'s native subagent and agent-teams primitives — adversarial gating, institutional memory, and on-disk evidence baked into a multi-role research protocol. It is for operators who need their agents to disagree, audit each other, and remember, not for users who just need one assistant to edit a file.
+
+Status: v0.4 pre-release. Installed and validated end-to-end in CI (fresh-HOME install + doctor on every push); team protocols are in active use but interfaces may still move before v1.
 
 **Get started in 5 minutes →** see [QUICKSTART.md](./QUICKSTART.md).
 
-<!-- TODO record demo before v0.4 final ships -->
-[![asciinema demo](https://asciinema.org/a/PLACEHOLDER.svg)](https://asciinema.org/a/PLACEHOLDER)
-
 ## Slash commands
 
-Six user-callable commands. Type `/<name>` in any Claude Code session after `bash setup.sh` and a restart. Cost/time figures are typical, calibrated against the v0.2 validation session (`BENCHMARKS_v0.2.md`); a single dispatch can fan out to 17+ specialists in parallel.
+Seven user-callable commands. Type `/<name>` in any Claude Code session after `bash setup.sh` and a restart. Cost/time figures are typical, calibrated against the v0.2 validation session (`BENCHMARKS_v0.2.md`); a single dispatch can fan out to 17+ specialists in parallel.
 
 | Command | Dispatches | Typical wall-clock | Typical token cost |
 |---|---|---|---|
@@ -19,6 +20,7 @@ Six user-callable commands. Type `/<name>` in any Claude Code session after `bas
 | `/testing` | Testing & QA Team — coverage, mutation testing, property tests, regression detection | 5–30 min | 50K–300K |
 | `/docs` | Documentation Team — author + verify README/API docs/changelogs/architecture | 3–15 min | 20K–120K |
 | `/forge` | Capability Forge — gap detection → MCP/marketplace scout → draft → test → promote new skills | 5–20 min | 30K–200K |
+| `/evolution` | Evolution Team — scouts upstream Claude Code/Cursor/Codex releases, shadows live sessions for workflow gaps, emits a ranked adoption strategy | 5–20 min | 30K–200K |
 
 A first-run `/research` on a deliberately-narrow toy question (see QUICKSTART) lands a SYNTHESIS in 2–3 minutes for well under 50K tokens.
 
@@ -29,6 +31,8 @@ re-forge is **a hardened operating procedure for Claude Code's native subagent +
 1. **Adversarial gating is contractual** (every SYNTHESIS re-audited by skeptic + adversary).
 2. **Cross-session memory with helpful/harmful counters** (vanilla agent-teams stores nothing across sessions).
 3. **A forge meta-agent that evolves the workforce** (none of the alternatives below attempts this).
+
+Comparison rows checked 2026-06; ecosystem moves fast — verify before depending on a row.
 
 | Alternative | Install | Why pick re-forge over it |
 |---|---|---|
@@ -44,13 +48,19 @@ re-forge is **a hardened operating procedure for Claude Code's native subagent +
 
 ## What's inside
 
-### 3 teams + 1 meta-agent
+### 6 teams + 1 meta-agent
 
-| Team | Leader | Specialists | Purpose |
+| Team | Leader | Agent files | Purpose |
 |---|---|---|---|
-| **Research Team v2.1** | `research-lead` | 17 | Investigate any question with adversarial gates (skeptic + adversary + moderator + evaluator) |
-| **Engineering Team v1** | `engineering-lead` | 12 | Ship code from research findings via plan-then-build with verifier + reviewer loop |
+| **Research Team v2.1** | `research-lead` | 18 | Investigate any question with adversarial gates (skeptic + adversary + moderator + evaluator) |
+| **Engineering Team v1** | `engineering-lead` | 13 | Ship code from research findings via plan-then-build with verifier + reviewer loop |
+| **Security & Review** | `security-lead` | 14 | CVE check, secrets scan, threat model, license audit |
+| **Testing & QA** | `testing-lead` | 12 | Coverage, mutation testing, property tests, regression detection |
+| **Documentation** | `docs-lead` | 12 | Author + verify README/API docs/changelogs/architecture |
+| **Evolution** | `evolution-lead` | 8 | Scout upstream releases, shadow sessions, rank what to adopt next |
 | **Capability Forge H1** | `forge-lead` | 5 sub-skills | Detect workforce gaps, scout MCP Registry + marketplaces, author new skills |
+
+The full generated inventory (every team agent + all 114 skills, with descriptions) lives in [docs/CATALOG.md](./docs/CATALOG.md) — built from frontmatter by `scripts/build_catalog.py` and drift-checked in CI, so it cannot go stale.
 
 ### Key features
 
@@ -60,7 +70,7 @@ re-forge is **a hardened operating procedure for Claude Code's native subagent +
 - **Full-activation enforcement**: Evidence-file-as-contract ensures every specialist actually runs. Audit script catches shortcuts
 - **Parallel orchestration**: Run 4+ teams concurrently with file-locked memory segregation (empirically validated: 10 concurrent writers, 70ms, zero lost writes)
 - **Per-project isolation**: Sessions are project-local (`<cwd>/.claude/teams/`), infrastructure is global (`~/.claude/`)
-- **All Opus, all max effort**: Every agent runs on the strongest model. No downgrades
+- **All Opus by default**: Every agent declares the strongest model at max effort; on lower plans dispatches fall back to the plan's strongest available model
 
 ### Research-backed design
 
@@ -79,47 +89,23 @@ re-forge is **a hardened operating procedure for Claude Code's native subagent +
 ### Prerequisites
 
 - [Claude Code](https://claude.ai/code) CLI installed
-- Claude Max plan (all agents use Opus with max effort)
+- Claude Max plan recommended (agents declare Opus at max effort; lower plans downgrade to their strongest model)
 - `gh` CLI authenticated (`gh auth login`)
-- Python 3.11+ (for audit script)
-- `uv` / `uvx` recommended (for arxiv MCP server)
+- Python 3.11+ (for the audit script and memory-mcp)
+- `uv` / `uvx` recommended (for the arxiv MCP server and the validation harness)
 
 ### Installation
 
 ```bash
 git clone https://github.com/Akasxh/re-forge.git
 cd re-forge
-bash setup.sh           # installs all 5 teams (research, engineering, security, testing, docs) + forge
-bash scripts/doctor.sh  # verify install
+bash setup.sh           # installs all 6 teams + forge + 114 skills + hooks
+bash scripts/doctor.sh  # verify install — exits 0 only on a clean, complete install
 ```
 
-The installer copies agents, protocols, scripts, hooks, skills, and the forge to `~/.claude/`. It backs up anything it would overwrite. As of v0.2 it auto-discovers every `agents/*-team/` and every `memory/*.md`, so all five teams ship out of the box (no manual loop required).
+Then restart Claude Code so it reloads agents and skills.
 
-### What gets installed
-
-```
-~/.claude/
-├── agents/
-│   ├── research/          # 18 research team agents
-│   ├── engineering/       # 13 engineering team agents
-│   └── forge-lead.md      # Capability Forge
-├── teams/
-│   ├── research/PROTOCOL.md   # Research protocol v2.1
-│   └── engineering/PROTOCOL.md # Engineering protocol v1
-├── agent-memory/
-│   ├── research-lead/MEMORY.md    # 24+ starter lessons
-│   ├── engineering-lead/MEMORY.md
-│   └── forge-lead/MEMORY.md
-├── scripts/
-│   ├── audit_evidence.py    # Full-activation gate
-│   └── team_status.sh       # Dashboard
-├── hooks/
-│   ├── session-capture.sh   # Ad-hoc session learning
-│   └── log-evidence-writes.sh
-├── forge/                   # Forge workspace + 5 sub-skills
-└── skills/
-    └── hn-search/SKILL.md   # Example authored skill
-```
+The installer copies agents, team protocols, scripts, hooks, skills, and the forge to `~/.claude/`, auto-discovering every `agents/*-team/` and every `memory/*.md`. It backs up any file it would change (and only those — re-runs are no-ops). The exact inventory is [docs/CATALOG.md](./docs/CATALOG.md); the install layout is verified by `scripts/doctor.sh` and exercised on every push by [CI](https://github.com/Akasxh/re-forge/actions/workflows/ci.yml)'s fresh-HOME smoke test.
 
 ### First run
 
@@ -223,7 +209,7 @@ The Forge wraps Claude Code's official `skill-creator` and `mcp-builder`.
 | Phase | Status | What |
 |---|---|---|
 | Hook A | Shipped | Topic-file routing for long-tail lessons |
-| Hook B | Spec ready | SQLite + FTS5 + sqlite-vec MCP server |
+| Hook B | Shipped, manual opt-in | SQLite + FTS5 MCP server ([memory-mcp/](./memory-mcp/), not auto-installed; boot-tested in CI) |
 | Hook C | Spike plan ready | LatentMAS KV-cache handoff |
 | Parametric | Direction | LoRA distillation of stable lessons |
 
@@ -241,11 +227,17 @@ Total: ~2M tokens, ~600 tool calls, ~8 hours of agent compute across 2 days.
 
 ## Troubleshooting
 
-If `/research`, `/security`, `/testing`, or `/docs` fails with a missing-file error, your install drifted from the repo. Run `bash scripts/doctor.sh` from inside the re-forge repo clone — it diffs every `agents/*-team/` and every `memory/*.md` against `~/.claude/` and reports each missing file. Pass `--fix` to re-run `setup.sh` and repair drift in place: `bash scripts/doctor.sh --fix`. Exit code 0 means clean; 1 means drift detected.
+If `/research`, `/security`, `/testing`, or `/docs` fails with a missing-file error, your install drifted from the repo. Run `bash scripts/doctor.sh` from inside your re-forge clone — it diffs every `agents/*-team/` and every `memory/*.md` against `~/.claude/` and reports each missing file. Pass `--fix` to re-run `setup.sh` and repair drift in place: `bash scripts/doctor.sh --fix`. Exit code 0 means clean; 1 means drift detected.
+
+## Showcase
+
+A small Vite/React site presenting the system lives in [showcase/](./showcase/) (built and linted in CI):
+
+![re-forge showcase site](./assets/showcase-home.png)
 
 ## License
 
-MIT
+[MIT](./LICENSE)
 
 ## Contributing
 

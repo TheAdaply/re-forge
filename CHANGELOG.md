@@ -13,9 +13,9 @@ this project adheres to [Semantic Versioning](https://semver.org/).
 - `CHANGELOG.md` (this file).
 
 ### Fixed
-- `setup.sh` no longer silently drops the Security, Testing, and Docs teams. The hard-coded `for team in research-team engineering-team` loop is replaced with `for team_dir in agents/*-team/`, so every team in the repo reaches `~/.claude/agents/<team>/` and `~/.claude/teams/<team>/PROTOCOL.md`. Closes [PC-6](EVIDENCE/empiricist-dogfood.md). (D1)
-- `setup.sh` memory-seed loop no longer hard-codes four lead names. The new `for f in memory/*.md` loop seeds every `<agent>.md` in `memory/` to `~/.claude/agent-memory/<agent>/MEMORY.md`, picking up `security-lead`, `testing-lead`, and `docs-lead` automatically. Closes [PC-7](EVIDENCE/empiricist-dogfood.md). (D1)
-- README install snippet now reflects the v0.2 reality: `bash setup.sh` installs all five teams plus forge in one shot (no manual `for team in security testing docs` loop required). Closes [PC-1](EVIDENCE/empiricist-dogfood.md).
+- `setup.sh` no longer silently drops the Security, Testing, and Docs teams. The hard-coded `for team in research-team engineering-team` loop is replaced with `for team_dir in agents/*-team/`, so every team in the repo reaches `~/.claude/agents/<team>/` and `~/.claude/teams/<team>/PROTOCOL.md`. Closes PC-6 (internal dogfood audit; evidence not committed). (D1)
+- `setup.sh` memory-seed loop no longer hard-codes four lead names. The new `for f in memory/*.md` loop seeds every `<agent>.md` in `memory/` to `~/.claude/agent-memory/<agent>/MEMORY.md`, picking up `security-lead`, `testing-lead`, and `docs-lead` automatically. Closes PC-7. (D1)
+- README install snippet now reflects the v0.2 reality: `bash setup.sh` installs all five teams plus forge in one shot (no manual `for team in security testing docs` loop required). Closes PC-1.
 - README install snippet adds a `bash scripts/doctor.sh` verify step so install success is observable before the user spends session tokens.
 
 ### Changed

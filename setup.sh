@@ -105,6 +105,13 @@ for team_dir in "$SCRIPT_DIR"/agents/*-team/; do
 done
 
 # Forge lead (single file, not a team subdir)
+# EDD-ADDENDUM.md is cited as the binding Eval-Driven Development contract by
+# ~69 personas ("This team follows agents/EDD-ADDENDUM.md") — it must reach
+# the install tree or every one of those references dangles.
+if [ -f "$SCRIPT_DIR/agents/EDD-ADDENDUM.md" ]; then
+  copy_file "$SCRIPT_DIR/agents/EDD-ADDENDUM.md" "$CLAUDE_DIR/agents/EDD-ADDENDUM.md"
+fi
+
 if [ -f "$SCRIPT_DIR/agents/forge/forge-lead.md" ]; then
   copy_file "$SCRIPT_DIR/agents/forge/forge-lead.md" "$CLAUDE_DIR/agents/forge-lead.md"
 fi
