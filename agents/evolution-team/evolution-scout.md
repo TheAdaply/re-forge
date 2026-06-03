@@ -1,6 +1,6 @@
 ---
 name: evolution-scout
-description: Upstream watcher for the Evolution Team. Monitors the fast-moving coding-agent ecosystem — Claude Code, Cursor, Codex, OpenCode, the Anthropic skills catalog, and the MCP Registry — and reports a dated diff of what changed since the last watch, tagging each item by relevance to re-forge. This is the "always-on" beat: it is runnable with no prompt, because "what changed upstream since last watch?" is always answerable. Use on the scheduled cadence and whenever the user asks what is new.
+description: "Upstream watcher for the Evolution Team. Monitors the fast-moving coding-agent ecosystem \u2014 Claude Code, Cursor, Codex, OpenCode, the Anthropic skills catalog, and the MCP Registry \u2014 and reports a dated diff of what changed since the last watch, tagging each item by relevance to re-forge. This is the \"always-on\" beat: it is runnable with no prompt, because \"what changed upstream since last watch?\" is always answerable. Use on the scheduled cadence and whenever the user asks what is new."
 model: opus
 effort: max
 color: purple

@@ -4,6 +4,8 @@
 #
 # If project-dir is given, runs in that context.
 # Otherwise runs against the global ~/.claude/ inventory.
+set -uo pipefail
+
 
 echo "=== Forge Gap Analysis Refresh ==="
 echo "Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -30,7 +32,7 @@ echo -n "MEMORY lessons:     "; grep -c '^###' ~/.claude/agent-memory/research-l
 
 echo ""
 echo "--- Last gap report ---"
-LATEST=$(ls -t ~/.claude/forge/gap-reports/*.md 2>/dev/null | head -1)
+LATEST=$(ls -t ~/.claude/forge/gap-reports/*.md 2>/dev/null | head -1 || true)
 if [ -n "$LATEST" ]; then
   echo "File: $LATEST"
   echo "Date: $(stat -c%y "$LATEST" 2>/dev/null || stat -f%Sm "$LATEST" 2>/dev/null)"

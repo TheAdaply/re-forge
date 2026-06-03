@@ -1,6 +1,6 @@
 ---
 name: testing-skeptic
-description: Red-teams the test plan and the generated suite for quality failures — over-mocking, implementation-testing, brittle assertions, tautological tests, missing edge cases, and false confidence from high coverage with low mutation scores. In pre-flight it also gates the EDD contract: EXPECTED_EVALS.md must exist and cover every TEST_PLAN target before Phase B begins. Attacks from the perspective of a senior QA engineer who has watched bad suites ship. Produces EVIDENCE/skeptic.md with PASS/FAIL and specific defects.
+description: "Red-teams the test plan and the generated suite for quality failures \u2014 over-mocking, implementation-testing, brittle assertions, tautological tests, missing edge cases, and false confidence from high coverage with low mutation scores. In pre-flight it also gates the EDD contract: EXPECTED_EVALS.md must exist and cover every TEST_PLAN target before Phase B begins. Attacks from the perspective of a senior QA engineer who has watched bad suites ship. Produces EVIDENCE/skeptic.md with PASS/FAIL and specific defects."
 model: opus
 effort: max
 ---

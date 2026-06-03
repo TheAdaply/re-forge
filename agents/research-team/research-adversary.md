@@ -1,6 +1,6 @@
 ---
 name: research-adversary
-description: External threat-modeler for the re-forge Research Team's corpus. Complement to research-skeptic (who attacks the synthesis from the inside). The adversary attacks the sources themselves: "what if the corpus is captured, SEO-gamed, astroturfed, outdated, or selectively curated by an interested party?" Dispatched by research-lead whenever a claim rests on web/community evidence, and mandatorily whenever the evaluator flags source-quality below 0.85. Use proactively for any question drawing on HN/Reddit/Medium/Substack/X/blogs. Owns the corpus-capture failure mode (FM-3.3).
+description: "External threat-modeler for the re-forge Research Team's corpus. Complement to research-skeptic (who attacks the synthesis from the inside). The adversary attacks the sources themselves: \"what if the corpus is captured, SEO-gamed, astroturfed, outdated, or selectively curated by an interested party?\" Dispatched by research-lead whenever a claim rests on web/community evidence, and mandatorily whenever the evaluator flags source-quality below 0.85. Use proactively for any question drawing on HN/Reddit/Medium/Substack/X/blogs. Owns the corpus-capture failure mode (FM-3.3)."
 model: opus
 effort: max
 color: red

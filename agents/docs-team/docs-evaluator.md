@@ -1,6 +1,6 @@
 ---
 name: docs-evaluator
-description: Runs the 5-dimension documentation quality rubric and issues a PASS or FAIL verdict, reconciled against EXPECTED_EVALS.md. The mandatory quality gate before session close. Dimensions: accuracy (strict), example correctness (strict), completeness (advisory), readability (advisory), style conformance (advisory). Reads all documentation files and all evidence. No "done" without evaluator PASS. Use as the final gate after docs-skeptic.
+description: "Runs the 5-dimension documentation quality rubric and issues a PASS or FAIL verdict, reconciled against EXPECTED_EVALS.md. The mandatory quality gate before session close. Dimensions: accuracy (strict), example correctness (strict), completeness (advisory), readability (advisory), style conformance (advisory). Reads all documentation files and all evidence. No \"done\" without evaluator PASS. Use as the final gate after docs-skeptic."
 model: opus
 effort: max
 ---

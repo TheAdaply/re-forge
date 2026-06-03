@@ -2,6 +2,8 @@
 # Setup scheduled agents for self-evolution
 # Run this once to register the schedules.
 # Requires: Claude Code with remote trigger support.
+set -euo pipefail
+
 
 cat << 'EOF'
 === Scheduled Self-Evolution Agents ===

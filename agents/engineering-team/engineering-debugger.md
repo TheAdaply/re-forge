@@ -1,6 +1,6 @@
 ---
 name: engineering-debugger
-description: Diagnoses root causes of verifier failures in Phase B. Runs when engineering-verifier returns FAIL and the executor needs a root-cause analysis before retrying. Implements a 3-failure circuit breaker: after 3 failed debug cycles on the same failure, escalates to engineering-architect for a Phase A back-edge. Writes EVIDENCE/debugger.md with a diagnosis and a minimal-fix recommendation.
+description: "Diagnoses root causes of verifier failures in Phase B. Runs when engineering-verifier returns FAIL and the executor needs a root-cause analysis before retrying. Implements a 3-failure circuit breaker: after 3 failed debug cycles on the same failure, escalates to engineering-architect for a Phase A back-edge. Writes EVIDENCE/debugger.md with a diagnosis and a minimal-fix recommendation."
 model: opus
 effort: max
 ---

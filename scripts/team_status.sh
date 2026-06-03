@@ -18,6 +18,8 @@
 #   team_status.sh research in-flight # in-flight only (no SYNTHESIS.md)
 #
 # No state, no daemon, no external deps beyond stat + awk. Exits 0 on completion.
+set -uo pipefail
+
 
 set -u
 

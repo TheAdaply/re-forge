@@ -1,6 +1,6 @@
 ---
 name: research
-description: Dispatch the Research Team on any question. Amplifies a terse prompt into a full multi-specialist investigation with adversarial gates (skeptic + adversary + moderator + evaluator). Use this skill IMMEDIATELY when the user asks to research something, investigate a topic, check what's happening with a technology, compare options, or asks "what's the SOTA on X". Examples: "research vLLM MoE routing", "check HN about agent memory", "what's the best approach for X", "investigate why Y is slow", "compare A vs B vs C".
+description: "Dispatch the Research Team on any question. Amplifies a terse prompt into a full multi-specialist investigation with adversarial gates (skeptic + adversary + moderator + evaluator). Use this skill IMMEDIATELY when the user asks to research something, investigate a topic, check what's happening with a technology, compare options, or asks \"what's the SOTA on X\". Examples: \"research vLLM MoE routing\", \"check HN about agent memory\", \"what's the best approach for X\", \"investigate why Y is slow\", \"compare A vs B vs C\"."
 ---
 
 # Research Team dispatch

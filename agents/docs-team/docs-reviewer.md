@@ -1,6 +1,6 @@
 ---
 name: docs-reviewer
-description: Reviews documentation for spec compliance, accuracy vs reader evidence, style guide conformance, and audience-appropriateness. Two-stage review: first checks accuracy (is every claim traceable to reader evidence?), then checks quality (is it clear, complete, well-structured?). Produces PASS or REQUEST_CHANGES with actionable feedback. Runs after docs-tester in the inner loop.
+description: "Reviews documentation for spec compliance, accuracy vs reader evidence, style guide conformance, and audience-appropriateness. Two-stage review: first checks accuracy (is every claim traceable to reader evidence?), then checks quality (is it clear, complete, well-structured?). Produces PASS or REQUEST_CHANGES with actionable feedback. Runs after docs-tester in the inner loop."
 model: opus
 effort: max
 ---

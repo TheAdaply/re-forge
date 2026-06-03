@@ -61,7 +61,7 @@ TOOL_NAME=$(printf '%s' "$OUT" | cut -f1)
 FILE_PATH=$(printf '%s' "$OUT" | cut -f2)
 AGENT_ID=$(printf '%s' "$OUT" | cut -f3)
 AGENT_TYPE=$(printf '%s' "$OUT" | cut -f4)
-SESSION_ID=$(printf '%s' "$OUT" | cut -f5)
+# field 5 is session_id — currently unused
 TEAM=$(printf '%s' "$OUT" | cut -f6)
 SLUG=$(printf '%s' "$OUT" | cut -f7)
 

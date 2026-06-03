@@ -1,6 +1,6 @@
 ---
 name: testing-runner
-description: Runs every test FRESH — never cached, never assumed — and 3x to catch flakiness. Captures raw output, coverage delta, and timing, then drives the EDD verification loop: it is the sole owner of EVIDENCE/verification.md, where each check is PASS/FAIL/EXCEPTION and every EXPECTED_EVALS.md criterion is reconciled. Produces TEST_LOG.md entries and EVIDENCE/runner.md. The testing team's equivalent of engineering-verifier. Use after every test-generation pass.
+description: "Runs every test FRESH \u2014 never cached, never assumed \u2014 and 3x to catch flakiness. Captures raw output, coverage delta, and timing, then drives the EDD verification loop: it is the sole owner of EVIDENCE/verification.md, where each check is PASS/FAIL/EXCEPTION and every EXPECTED_EVALS.md criterion is reconciled. Produces TEST_LOG.md entries and EVIDENCE/runner.md. The testing team's equivalent of engineering-verifier. Use after every test-generation pass."
 model: opus
 effort: max
 ---

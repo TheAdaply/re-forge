@@ -1,0 +1,23 @@
+[project]
+name = "re-forge-checks"
+version = "0.1.0"
+description = "Validation harness for the re-forge distribution (this repo is a skill/agent distribution, not a Python package)"
+requires-python = ">=3.11"
+license = "MIT"
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pyyaml>=6.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "external: checks external URLs over the network (CI link job; flaky offline)",
+    "smoke: installs into a temp HOME via setup.sh (slower)",
+]

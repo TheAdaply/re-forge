@@ -45,7 +45,12 @@ for team_dir in "$REPO_DIR"/agents/*-team/; do
   repo_team="$(basename "$team_dir")"
   install_team="${repo_team%-team}"
   dst_agents="$CLAUDE_DIR/agents/$install_team"
-  expected=$(ls "$team_dir"/*.md 2>/dev/null | grep -v '/PROTOCOL\.md$' | wc -l | tr -d ' ')
+  expected=0
+  for f in "$team_dir"/*.md; do
+    [ -f "$f" ] || continue
+    [ "$(basename "$f")" = "PROTOCOL.md" ] && continue
+    expected=$((expected+1))
+  done
   if [ ! -d "$dst_agents" ]; then
     fail "$install_team: $dst_agents missing (expected $expected agents)"
     continue

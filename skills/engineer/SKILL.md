@@ -1,6 +1,6 @@
 ---
 name: engineer
-description: Dispatch the Engineering Team to implement something. Takes a task description (or a research SYNTHESIS reference) and runs the full plan-then-build protocol with verifier + reviewer loop. Use this skill IMMEDIATELY when the user asks to implement, build, fix, refactor, add a feature, ship code, or apply a research finding. Examples: "implement Hook A from memory research", "fix the auth bug", "refactor the routing module", "add dark mode", "apply the changes from the research session".
+description: "Dispatch the Engineering Team to implement something. Takes a task description (or a research SYNTHESIS reference) and runs the full plan-then-build protocol with verifier + reviewer loop. Use this skill IMMEDIATELY when the user asks to implement, build, fix, refactor, add a feature, ship code, or apply a research finding. Examples: \"implement Hook A from memory research\", \"fix the auth bug\", \"refactor the routing module\", \"add dark mode\", \"apply the changes from the research session\"."
 ---
 
 # Engineering Team dispatch

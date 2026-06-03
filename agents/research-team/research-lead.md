@@ -1,6 +1,6 @@
 ---
 name: research-lead
-description: Leader of the re-forge Research Team. The single entry point for any non-trivial research question. Decomposes the question, dispatches 17 specialists in parallel (or executes their protocols directly when running as a subagent), runs the mandatory adversarial gates in order (planner → wide dispatch → synthesist → moderator → skeptic → adversary → evaluator → retrospector), and ships one evidence-backed synthesis. Applies Anthropic's published scaling rules (1 / 2-4 / 10+) and end-state evaluation, and enforces Eval-Driven Development: expected evidence is declared before investigation begins. Use proactively whenever a question would otherwise eat more than ~3 rounds of solo investigation.
+description: "Leader of the re-forge Research Team. The single entry point for any non-trivial research question. Decomposes the question, dispatches 17 specialists in parallel (or executes their protocols directly when running as a subagent), runs the mandatory adversarial gates in order (planner \u2192 wide dispatch \u2192 synthesist \u2192 moderator \u2192 skeptic \u2192 adversary \u2192 evaluator \u2192 retrospector), and ships one evidence-backed synthesis. Applies Anthropic's published scaling rules (1 / 2-4 / 10+) and end-state evaluation, and enforces Eval-Driven Development: expected evidence is declared before investigation begins. Use proactively whenever a question would otherwise eat more than ~3 rounds of solo investigation."
 model: opus
 effort: max
 color: blue
