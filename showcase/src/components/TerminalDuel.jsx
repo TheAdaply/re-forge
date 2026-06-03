@@ -206,7 +206,7 @@ export default function TerminalDuel({ onDemo }) {
               <span className="eyebrow">a real task, two agents</span>
             </div>
             <h2 className="display h2">
-              Ask both to <em>add login to your app</em>. Watch what ships.
+              Ask both to <em>add multi-tenant SSO + RBAC</em>. Watch what ships.
             </h2>
             <p className="lead">
               One complex task. The left is a plain agent. The right loads{" "}
@@ -250,7 +250,7 @@ export default function TerminalDuel({ onDemo }) {
             verdict={skillVerdict}
             showVerdict={done}
             tokens={Math.round(elapsed * 9.2)}
-            elapsed={Math.min(elapsed, 14900)}
+            elapsed={Math.min(elapsed, 16400)}
           />
         </div>
       </div>
