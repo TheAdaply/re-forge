@@ -69,7 +69,7 @@ Findings from both fed back into the agents' prompts (tool-registry re-prompting
 | **Evolution** | `evolution-lead` | 8 | Scout upstream releases, shadow sessions, rank what to adopt next |
 | **Capability Forge H1** | `forge-lead` | 5 sub-skills | Detect workforce gaps, scout MCP Registry + marketplaces, author new skills |
 
-The full generated inventory (every team agent + all 127 skills, with descriptions) lives in [docs/CATALOG.md](./docs/CATALOG.md) — built from frontmatter by `scripts/build_catalog.py` and drift-checked in CI, so it cannot go stale.
+The full generated inventory (every team agent + all 128 skills, with descriptions) lives in [docs/CATALOG.md](./docs/CATALOG.md) — built from frontmatter by `scripts/build_catalog.py` and drift-checked in CI, so it cannot go stale.
 
 ### Key features
 
@@ -108,7 +108,7 @@ The full generated inventory (every team agent + all 127 skills, with descriptio
 ```bash
 git clone https://github.com/Akasxh/re-forge.git
 cd re-forge
-bash setup.sh           # installs all 6 teams + forge + 127 skills + hooks
+bash setup.sh           # installs all 6 teams + forge + 128 skills + hooks
 bash scripts/doctor.sh  # verify install — exits 0 only on a clean, complete install
 ```
 
@@ -164,6 +164,10 @@ Capability Forge detects gaps
 
 Every session makes the next one smarter.
 ```
+
+### Spec-driven long-horizon flow
+
+For multi-week work, conversations drift; contracts don't. The [spec-driven](./skills/spec-driven/SKILL.md) skill freezes each feature into a requirements → design → tasks → verification chain with grep-able trace IDs, and the teams execute against it: `/research` investigates, the spec locks the contract, `/engineer` builds to it, `/testing` verifies against requirement IDs. Pairs with the EDD contract (`agents/EDD-ADDENDUM.md`) that every team already follows.
 
 ### Memory architecture
 

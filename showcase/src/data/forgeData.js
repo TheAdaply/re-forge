@@ -73,11 +73,3 @@ export const commands = [
     text: "Self-evolving team scouts Claude Code/Cursor/Codex updates, shadows live sessions, and audits orchestration for gaps.",
   },
 ];
-
-export const flow = [
-  ["01", "Lead scopes the mission", "Research, engineering, security, testing, docs, or forge selects a protocol and writes a session slug."],
-  ["02", "Specialists fan out", "Persona agents investigate in parallel instead of one assistant anchoring on the first plausible answer."],
-  ["03", "Adversaries attack", "Skeptic, adversary, moderator, and evaluator catch weak reasoning, bad sources, and missing evidence."],
-  ["04", "Evidence becomes contract", "Artifacts land under .claude/teams/; the audit script verifies that required roles ran."],
-  ["05", "Memory compounds", "Retrospector and scribe promote durable lessons, so tomorrow's session starts smarter than today's."],
-];

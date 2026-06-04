@@ -2641,3 +2641,297 @@ input[type="range"] {
   opacity: 0.45;
   padding: 0 2px;
 }
+
+/* ── Swarm — animated /research simulation (replaces Gates) ──────────────────
+   Pure SVG + framer-motion. Transforms/opacity only. Node names map 1:1 to
+   files in agents/research-team/. The red beat is the emotional peak. */
+.swarm-sec {
+  padding-top: clamp(40px, 5vw, 72px);
+}
+
+.swarm-sec .section-copy {
+  margin-inline: auto;
+}
+
+.swarm-sec .section-copy .lead {
+  margin-inline: auto;
+}
+
+.swarm-stage {
+  margin-top: clamp(28px, 3.4vw, 44px);
+  padding: 0;
+}
+
+.swarm-stage-bar {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.swarm-stage-tab {
+  color: var(--panel-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  margin-left: 10px;
+}
+
+.swarm-svg {
+  display: block;
+  height: auto;
+  position: relative;
+  width: 100%;
+  z-index: 2;
+}
+
+.swarm-bg {
+  fill: transparent;
+}
+
+/* edges */
+.swarm-edge-line {
+  stroke: rgba(122, 162, 247, 0.22);
+  stroke-width: 1.2;
+}
+
+.swarm-edge-line.is-adv {
+  stroke: rgba(239, 68, 68, 0.28);
+}
+
+.swarm-pulse {
+  fill: var(--win);
+  filter: drop-shadow(0 0 5px rgba(53, 208, 127, 0.8));
+}
+
+.swarm-pulse.is-adv {
+  fill: var(--danger);
+  filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.8));
+}
+
+/* nodes */
+.swarm-node-disc {
+  fill: rgba(122, 162, 247, 0.12);
+  stroke: rgba(122, 162, 247, 0.55);
+  stroke-width: 1.4;
+}
+
+.swarm-node-disc.is-adv {
+  fill: rgba(239, 68, 68, 0.1);
+  stroke: rgba(239, 68, 68, 0.5);
+}
+
+.swarm-node-disc.is-flare {
+  fill: rgba(239, 68, 68, 0.32);
+  stroke: var(--danger);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.7));
+}
+
+.swarm-node-flare-ring {
+  fill: none;
+  stroke: var(--danger);
+  stroke-width: 1.5;
+}
+
+.swarm-node-label {
+  fill: var(--panel-muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+/* synthesis core */
+.swarm-core {
+  fill: rgba(53, 208, 127, 0.1);
+  stroke: rgba(53, 208, 127, 0.5);
+  stroke-width: 1.6;
+}
+
+.swarm-core.is-sealed {
+  fill: rgba(53, 208, 127, 0.18);
+  stroke: var(--win);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 12px rgba(53, 208, 127, 0.4));
+}
+
+.swarm-core-label {
+  fill: var(--panel-ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.swarm-core-sub {
+  fill: var(--panel-muted);
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.04em;
+}
+
+/* finding cards */
+.swarm-card {
+  fill: rgba(122, 162, 247, 0.16);
+  stroke: rgba(122, 162, 247, 0.55);
+  stroke-width: 1;
+}
+
+.swarm-card.is-killed {
+  fill: rgba(239, 68, 68, 0.16);
+  stroke: var(--danger);
+  stroke-width: 1.4;
+}
+
+.swarm-card-line {
+  fill: rgba(192, 202, 245, 0.7);
+}
+
+.swarm-strike {
+  stroke: var(--danger);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.swarm-shard {
+  fill: var(--danger);
+}
+
+.swarm-kill-label {
+  fill: #ff7474;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.swarm-survive-pulse {
+  fill: none;
+  stroke: var(--win);
+  stroke-width: 2;
+}
+
+/* prompt pill */
+.swarm-prompt-pill {
+  fill: rgba(79, 70, 229, 0.14);
+  stroke: rgba(109, 93, 252, 0.55);
+  stroke-width: 1.4;
+}
+
+.swarm-prompt-text {
+  fill: var(--panel-ink);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.01em;
+}
+
+.swarm-prompt-static .swarm-prompt-text {
+  font-size: 12px;
+}
+
+/* artifact chips */
+.swarm-chip-file {
+  fill: rgba(53, 208, 127, 0.12);
+  stroke: rgba(53, 208, 127, 0.45);
+  stroke-width: 1.2;
+}
+
+.swarm-chip-text {
+  fill: #b7f0cf;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+}
+
+/* memory ring */
+.swarm-mem-ring {
+  fill: rgba(79, 70, 229, 0.1);
+  stroke: rgba(109, 93, 252, 0.55);
+  stroke-width: 1.6;
+}
+
+.swarm-mem-label {
+  fill: var(--panel-ink);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+}
+
+.swarm-mem-sub {
+  fill: #b7a9ff;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+}
+
+.swarm-lesson-chip {
+  fill: rgba(53, 208, 127, 0.18);
+  stroke: var(--win);
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 6px rgba(53, 208, 127, 0.5));
+}
+
+.swarm-lesson-text {
+  fill: #d6f5e3;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* subtitle / caption bar */
+.swarm-subtitle {
+  align-items: center;
+  background: rgba(0, 0, 0, 0.28);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.swarm-progress {
+  display: flex;
+  gap: 6px;
+}
+
+.swarm-progress-seg {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: var(--r-pill);
+  height: 3px;
+  transition: background 0.4s var(--ease-out);
+  width: 30px;
+}
+
+.swarm-progress-seg.is-done {
+  background: rgba(53, 208, 127, 0.4);
+}
+
+.swarm-progress-seg.is-active {
+  background: var(--win);
+  box-shadow: 0 0 8px rgba(53, 208, 127, 0.6);
+}
+
+.swarm-caption {
+  color: var(--panel-ink);
+  font-family: var(--font-mono);
+  font-size: clamp(0.82rem, 1.4vw, 0.96rem);
+  letter-spacing: 0.02em;
+  margin: 0;
+  min-height: 1.4em;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .swarm-caption {
+    font-size: 0.78rem;
+  }
+
+  .swarm-progress-seg {
+    width: 22px;
+  }
+}
