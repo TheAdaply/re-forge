@@ -206,7 +206,7 @@ export default function TerminalDuel({ onDemo }) {
               <span className="eyebrow">a real task, two agents</span>
             </div>
             <h2 className="display h2">
-              Ask both to <em>add multi-tenant SSO + RBAC</em>. Watch what ships.
+              Same prompt, two agents. <em>Watch what ships.</em>
             </h2>
             <p className="lead">
               Same task. Left: a plain agent. Right: re-forge loads{" "}

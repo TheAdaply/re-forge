@@ -15,10 +15,10 @@ const REPO = "https://github.com/Akasxh/re-forge";
 //  - docs/CATALOG.md / README.md ("6 teams + forge + 127 skills")
 //  - README.md ("Status: v0.4 pre-release")
 const trustChips = [
-  { label: "MIT licensed", href: `${REPO}/blob/main/LICENSE` },
-  { label: "CI green on every push", href: `${REPO}/actions/workflows/ci.yml` },
+  { label: "MIT", href: `${REPO}/blob/main/LICENSE` },
+  { label: "CI green", href: `${REPO}/actions/workflows/ci.yml` },
   { label: "127 skills · 6 teams + forge", href: `${REPO}/blob/main/docs/CATALOG.md` },
-  { label: "v0.4 pre-release", href: `${REPO}#readme` },
+  { label: "v0.4", href: `${REPO}#readme` },
 ];
 
 const INSTALL = "git clone https://github.com/Akasxh/re-forge.git && cd re-forge && bash setup.sh";
@@ -42,12 +42,12 @@ export default function Hero({ onDemo }) {
         <motion.div {...rise(0)} className="eyebrow">
           Multi-agent operating procedure · Claude Code · Cursor · Codex
         </motion.div>
-        <motion.h1 {...rise(0.06)} className="display h1 hero-title">
-          One prompt. A whole engineering org's worth of rigor.
+        <motion.h1 {...rise(0.06)} className="display h1 hero-title hero-title-compact">
+          One prompt. An entire engineering org.
         </motion.h1>
         <motion.p {...rise(0.14)} className="lead hero-lead">
-          Turn your coding agent into a multi-agent op: adversarial gates, durable memory, evidence
-          files. Watch it run below.
+          Adversarial gates. Durable memory. A workforce that evolves itself — every session makes
+          the next one smarter.
         </motion.p>
         <motion.div {...rise(0.22)} className="hero-actions">
           <button className="btn btn-primary" onClick={onDemo} type="button">
@@ -66,20 +66,16 @@ export default function Hero({ onDemo }) {
           </a>
         </motion.div>
 
-        <motion.ul {...rise(0.3)} className="hero-trust" aria-label="Project facts">
-          {trustChips.map((chip) => (
-            <li key={chip.label}>
-              <a
-                className="trust-chip"
-                href={chip.href}
-                target="_blank"
-                rel="noreferrer"
-              >
+        <motion.p {...rise(0.3)} className="hero-trustline mono" aria-label="Project facts">
+          {trustChips.map((chip, i) => (
+            <span key={chip.label}>
+              {i > 0 && <span className="trustline-sep"> · </span>}
+              <a className="trustline-link" href={chip.href} target="_blank" rel="noreferrer">
                 {chip.label}
               </a>
-            </li>
+            </span>
           ))}
-        </motion.ul>
+        </motion.p>
 
         <motion.div {...rise(0.38)} className="hero-install panel" aria-label="Install re-forge">
           <div className="terminal-top">

@@ -24,10 +24,10 @@ export default function App() {
           behind the agents -> act. */}
       <main>
         <Hero onDemo={openDemo} />
+        <PapersProof />
         <TerminalDuel onDemo={openDemo} />
         <Gates />
         <Receipts />
-        <PapersProof />
         <Commands />
         <Playbooks />
         <DemoCTA onDemo={openDemo} />

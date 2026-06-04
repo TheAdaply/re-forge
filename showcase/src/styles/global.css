@@ -2610,3 +2610,34 @@ input[type="range"] {
     grid-template-columns: 1fr;
   }
 }
+
+/* Hero compaction (operator feedback: headline + chips took too much space) */
+.hero-center .hero-title-compact {
+  font-size: clamp(2.1rem, 4.6vw, 3.3rem);
+  margin-top: 12px;
+}
+
+.hero-trustline {
+  color: var(--ink-soft);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  margin: 16px 0 0;
+  text-align: center;
+}
+
+.trustline-link {
+  border-bottom: 1px dotted var(--line-strong);
+  color: inherit;
+  padding-bottom: 1px;
+  transition: color 0.18s, border-color 0.18s;
+}
+
+.trustline-link:hover {
+  border-color: var(--primary);
+  color: var(--ink);
+}
+
+.trustline-sep {
+  opacity: 0.45;
+  padding: 0 2px;
+}
