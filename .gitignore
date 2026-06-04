@@ -37,3 +37,4 @@ showcase/dist/
 *.tmp
 *.swp
 *~
+.vercel/
