@@ -2785,7 +2785,7 @@ input[type="range"] {
   letter-spacing: 0.04em;
 }
 
-/* finding cards */
+/* finding cards — now carry a claim as tiny mono text */
 .swarm-card {
   fill: rgba(122, 162, 247, 0.16);
   stroke: rgba(122, 162, 247, 0.55);
@@ -2798,14 +2798,22 @@ input[type="range"] {
   stroke-width: 1.4;
 }
 
-.swarm-card-line {
-  fill: rgba(192, 202, 245, 0.7);
+.swarm-card-dot {
+  fill: var(--win);
+}
+
+.swarm-card-claim {
+  fill: var(--panel-ink);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.01em;
 }
 
 .swarm-strike {
   stroke: var(--danger);
   stroke-width: 2;
   stroke-linecap: round;
+  fill: none;
 }
 
 .swarm-shard {
@@ -2818,6 +2826,86 @@ input[type="range"] {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.04em;
+}
+
+.swarm-kill-sub {
+  fill: rgba(255, 138, 138, 0.85);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.02em;
+}
+
+/* killed finding expanded into a readable doc snippet */
+.swarm-killdoc {
+  fill: rgba(239, 68, 68, 0.12);
+  stroke: var(--danger);
+  stroke-width: 1.4;
+  filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.35));
+}
+
+.swarm-killdoc-src {
+  fill: rgba(255, 168, 168, 0.85);
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.02em;
+}
+
+.swarm-killdoc-text {
+  fill: #ffd9d9;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.01em;
+}
+
+.swarm-killdoc-meta {
+  fill: rgba(255, 138, 138, 0.7);
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.02em;
+}
+
+/* synthesis doc — the readable payoff */
+.swarm-synthdoc {
+  fill: rgba(53, 208, 127, 0.08);
+  stroke: var(--win);
+  stroke-width: 1.6;
+  filter: drop-shadow(0 0 14px rgba(53, 208, 127, 0.32));
+}
+
+.swarm-synthdoc-title {
+  fill: var(--panel-ink);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.swarm-synthdoc-check {
+  fill: none;
+  stroke: var(--win);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.swarm-synthdoc-claim {
+  fill: #d6f5e3;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.01em;
+}
+
+.swarm-synthdoc-rule {
+  stroke: rgba(53, 208, 127, 0.3);
+  stroke-width: 1;
+}
+
+.swarm-synthdoc-summary {
+  fill: #b7f0cf;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 .swarm-survive-pulse {
@@ -2836,12 +2924,12 @@ input[type="range"] {
 .swarm-prompt-text {
   fill: var(--panel-ink);
   font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 0.01em;
+  font-size: 11.5px;
+  letter-spacing: 0;
 }
 
 .swarm-prompt-static .swarm-prompt-text {
-  font-size: 12px;
+  font-size: 11.5px;
 }
 
 /* artifact chips */

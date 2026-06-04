@@ -43,8 +43,23 @@ const SPECIALISTS = [
   { id: "adversary", label: "adversary", x: 668, y: 214, kind: "adversary" },
 ];
 
-// The finding that gets killed flies in from the skeptic flank.
-const KILL_SOURCE = SPECIALISTS[4]; // skeptic
+// Five finding cards fly home, each carrying ONE plausible, honest-illustrative
+// claim (no real CVE numbers, no invented org names). Four survive the gates;
+// the fifth — "no known CVEs — blog post" — is the doomed one: the adversary
+// traces it to an SEO blog and kills it. The four survivors become the
+// readable synthesis doc at the end ("4 of 5 claims survived the gates").
+const FINDINGS = [
+  { id: "f-web", from: SPECIALISTS[0], claim: "used in prod by majors" },
+  { id: "f-github", from: SPECIALISTS[1], claim: "maintained — 3 active devs" },
+  { id: "f-librarian", from: SPECIALISTS[2], claim: "audit passed 2025" },
+  { id: "f-historian", from: SPECIALISTS[3], claim: "registry: no advisories" },
+  { id: "f-doomed", from: SPECIALISTS[5], claim: "no known CVEs — blog post", killed: true },
+];
+
+const SURVIVING_CLAIMS = FINDINGS.filter((f) => !f.killed).map((f) => f.claim);
+const KILLED_FINDING = FINDINGS.find((f) => f.killed);
+// The doomed card flies in from the adversary's flank (right side).
+const KILL_SOURCE = KILLED_FINDING.from;
 
 // ── Beat timeline ────────────────────────────────────────────────────────────
 // Each beat names its SINGLE focal action. Durations are tuned so a beat
@@ -54,12 +69,12 @@ const PHASES = [
   { id: "dispatch", caption: "the lead takes the case", ms: 1500 },
   { id: "spawn", caption: "specialists fan out — one by one", ms: 3300 },
   { id: "work", caption: "every lane goes to work", ms: 1700 },
-  { id: "findings", caption: "findings come home", ms: 3400 },
-  { id: "kill", caption: "adversaries attack before you see anything", ms: 4200 },
+  { id: "findings", caption: "findings come home — each carries a claim", ms: 3600 },
+  { id: "kill", caption: "adversaries attack before you see anything", ms: 5600 },
   {
     id: "land",
     caption: "evidence on disk · memory compounds — next session starts smarter",
-    ms: 3200,
+    ms: 4600,
   },
   { id: "rest", caption: "evidence on disk · memory compounds — next session starts smarter", ms: 600 },
 ];
@@ -78,7 +93,35 @@ function phaseReducer(index) {
   return (index + 1) % PHASES.length;
 }
 
+const PROMPT_TEXT = "/research is this auth library safe to ship?";
+
 // ── Sub-parts ────────────────────────────────────────────────────────────────
+
+// The prompt is PERSISTENT. During its entrance beat it sits centered and
+// large (the hero); from `dispatch` onward it docks small at the top-left of
+// the stage and STAYS for the whole loop, dimmed to ~55% when it is not the
+// focal actor — so a visitor landing mid-loop always sees the question.
+function PromptPill({ docked, focal }) {
+  // Hero pose: centered pill. Docked pose: small chip, top-left.
+  const pose = docked
+    ? { x: 16, y: 14, scale: 0.62, opacity: focal ? 1 : 0.55 }
+    : { x: 233, y: 184, scale: 1, opacity: 1 };
+  return (
+    <motion.g
+      className="swarm-prompt-dock"
+      initial={false}
+      animate={pose}
+      transition={{ duration: 0.7, ease: EASE }}
+      style={{ originX: "0px", originY: "0px" }}
+    >
+      {/* drawn in a local 0,0 frame so scale/translate dock cleanly */}
+      <rect x="0" y="0" width="334" height="40" rx="20" className="swarm-prompt-pill" />
+      <text x="18" y="25" className="swarm-prompt-text" textAnchor="start">
+        {PROMPT_TEXT}
+      </text>
+    </motion.g>
+  );
+}
 
 // An edge that DRAWS IN (pathLength) when `draw` flips true. `delay` lets
 // each edge ignite in lockstep with its node's spawn. Once drawn it stays a
@@ -162,57 +205,82 @@ function Node({ node, visible, spawn, delay = 0, flare, focus = true, lead }) {
   );
 }
 
-// A finding-card travelling from its node back to CORE. Emits with a tiny
-// anticipation bump (handled by the parent node) and is the focal actor while
-// in flight. `onArrive`/timing is implicit: the core pulses via `arrivals`.
-function FindingCard({ from, delay }) {
+// A finding-card travelling from its node back to CORE. Each card now CARRIES
+// its claim as tiny mono text (kept under ~26 chars so it stays legible at
+// card scale). Emits with a tiny anticipation bump; the core pulses on arrival.
+function FindingCard({ from, claim, delay }) {
   return (
     <motion.g
       initial={{ x: from.x, y: from.y, opacity: 0 }}
       animate={{ x: CORE.x, y: CORE.y, opacity: [0, 1, 1, 0] }}
-      transition={{ duration: 0.85, delay, ease: EASE }}
+      transition={{ duration: 0.95, delay, ease: EASE }}
     >
-      <rect x={-13} y={-9} width={26} height={18} rx={4} className="swarm-card" />
-      <rect x={-8} y={-4} width={16} height={2.4} rx={1} className="swarm-card-line" />
-      <rect x={-8} y={1} width={11} height={2.4} rx={1} className="swarm-card-line" />
+      <rect x={-62} y={-12} width={124} height={24} rx={5} className="swarm-card" />
+      <circle cx={-50} cy={0} r={3.2} className="swarm-card-dot" />
+      <text x={-42} y={3.6} className="swarm-card-claim" textAnchor="start">
+        {claim}
+      </text>
     </motion.g>
   );
 }
 
-// The killed card: travels in slow-mo, gets struck through, then shatters.
+// The killed card: travels in slow-mo, EXPANDS into a readable doc snippet so
+// the doomed claim is legible, gets struck through across the actual words,
+// then shatters. The label is now two lines naming the real failure.
 // Timeline (seconds, relative to kill-beat start):
 //   0.00–0.40  scene-wide stillness/dim (handled by Scene)
-//   0.40–1.70  card crawls to the interception point (slow-mo)
-//   1.70–2.05  strike-through draws
-//   2.05–2.55  card shatters
-//   1.80–3.20  KILLED label holds (~1s plateau)
+//   0.40–1.90  card crawls to the interception point (slow-mo)
+//   1.90–2.50  card expands into a doc box; claim becomes readable
+//   2.50–2.95  strike-through draws across the words
+//   2.95–3.55  card shatters
+//   2.70–4.60  two-line KILLED label holds (~1.4s plateau, time to read)
 function KilledCard() {
   const mid = { x: (KILL_SOURCE.x + CORE.x) / 2, y: (KILL_SOURCE.y + CORE.y) / 2 };
   return (
     <g>
+      {/* travelling + expanding doc */}
       <motion.g
-        initial={{ x: KILL_SOURCE.x, y: KILL_SOURCE.y, opacity: 0 }}
-        animate={{
-          x: [KILL_SOURCE.x, mid.x, mid.x],
-          y: [KILL_SOURCE.y, mid.y, mid.y],
-          opacity: [0, 1, 1, 1, 0],
-          scale: [1, 1, 1.04, 0.6],
-          rotate: [0, 0, -4, 6],
-        }}
-        transition={{ duration: 2.55, delay: 0.4, ease: EASE, times: [0, 0.5, 0.65, 0.85, 1] }}
+        initial={{ x: KILL_SOURCE.x, y: KILL_SOURCE.y }}
+        animate={{ x: [KILL_SOURCE.x, mid.x, mid.x], y: [KILL_SOURCE.y, mid.y, mid.y] }}
+        transition={{ duration: 3.55, delay: 0.4, ease: EASE, times: [0, 0.42, 1] }}
       >
-        <rect x={-15} y={-10} width={30} height={20} rx={4} className="swarm-card is-killed" />
-        <motion.line
-          x1={-15}
-          y1={0}
-          x2={15}
-          y2={0}
-          className="swarm-strike"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 0.35, delay: 1.7, ease: "easeOut" }}
-        />
+        {/* the doc snippet: small card → expanded box */}
+        <motion.g
+          initial={{ scale: 0.42, opacity: 0 }}
+          animate={{
+            scale: [0.42, 0.42, 1, 1, 0.6],
+            opacity: [0, 1, 1, 1, 0],
+            rotate: [0, 0, 0, -3, 6],
+          }}
+          transition={{ duration: 3.55, delay: 0.4, ease: EASE, times: [0, 0.42, 0.6, 0.85, 1] }}
+          style={{ originX: "0px", originY: "0px" }}
+        >
+          <rect x={-66} y={-26} width={132} height={52} rx={6} className="swarm-killdoc" />
+          <text x={-56} y={-12} className="swarm-killdoc-src" textAnchor="start">
+            blog · &ldquo;is it safe?&rdquo;
+          </text>
+          <g className="swarm-killdoc-claim">
+            <text x={-56} y={6} className="swarm-killdoc-text" textAnchor="start">
+              {KILLED_FINDING.claim}
+            </text>
+            {/* strike draws across the actual words */}
+            <motion.line
+              x1={-56}
+              y1={2}
+              x2={50}
+              y2={2}
+              className="swarm-strike"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 0.45, delay: 2.5, ease: "easeOut" }}
+            />
+          </g>
+          <text x={-56} y={20} className="swarm-killdoc-meta" textAnchor="start">
+            source: not the registry
+          </text>
+        </motion.g>
       </motion.g>
+
       {/* shatter shards */}
       {[-1, 1, -0.4, 0.6].map((dir, i) => (
         <motion.rect
@@ -226,23 +294,26 @@ function KilledCard() {
           initial={{ opacity: 0 }}
           animate={{
             opacity: [0, 1, 0],
-            x: mid.x - 2 + dir * 26,
-            y: mid.y - 2 + (i % 2 === 0 ? -1 : 1) * 18,
+            x: mid.x - 2 + dir * 30,
+            y: mid.y - 2 + (i % 2 === 0 ? -1 : 1) * 22,
           }}
-          transition={{ duration: 0.7, delay: 2.05, ease: "easeOut" }}
+          transition={{ duration: 0.7, delay: 2.95, ease: "easeOut" }}
         />
       ))}
-      <motion.text
-        x={mid.x}
-        y={mid.y - 22}
-        textAnchor="middle"
-        className="swarm-kill-label"
-        initial={{ opacity: 0, y: mid.y - 14 }}
-        animate={{ opacity: [0, 1, 1, 0], y: mid.y - 22 }}
-        transition={{ duration: 1.5, delay: 1.85, ease: EASE, times: [0, 0.18, 0.78, 1] }}
+
+      {/* two-line kill label, holds ~1.4s */}
+      <motion.g
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: [0, 1, 1, 0], y: 0 }}
+        transition={{ duration: 1.9, delay: 2.7, ease: EASE, times: [0, 0.14, 0.78, 1] }}
       >
-        KILLED — source unverified
-      </motion.text>
+        <text x={mid.x} y={mid.y - 40} textAnchor="middle" className="swarm-kill-label">
+          KILLED — claim traced to an SEO blog
+        </text>
+        <text x={mid.x} y={mid.y - 26} textAnchor="middle" className="swarm-kill-sub">
+          adversary checked the registry instead
+        </text>
+      </motion.g>
     </g>
   );
 }
@@ -251,7 +322,8 @@ function SynthesisCore({ active, sealed, dim, pulseKey }) {
   return (
     <motion.g
       initial={false}
-      animate={{ opacity: dim ? RECEDE : 1 }}
+      // when sealed (land), the circle yields to the readable doc box below
+      animate={{ opacity: sealed ? 0 : dim ? RECEDE : 1 }}
       transition={{ duration: 0.45, ease: EASE }}
     >
       <motion.circle
@@ -286,34 +358,104 @@ function SynthesisCore({ active, sealed, dim, pulseKey }) {
   );
 }
 
+// The readable payoff. When the core seals in the land beat it expands into a
+// small doc box: the surviving claim lines with green checks, then one summary
+// line. "4 of 5 claims survived the gates" is TRUE within the simulation's own
+// story (5 cards, 1 killed) — self-consistent, not an invented external metric.
+const SYNTH_DOC = { x: CORE.x - 116, y: CORE.y - 64, w: 232, h: 156 };
+function SynthesisDoc({ visible, animate }) {
+  const rows = SURVIVING_CLAIMS;
+  return (
+    <motion.g
+      initial={false}
+      animate={visible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.7 }}
+      transition={{ duration: 0.6, ease: EASE }}
+      style={{ originX: `${CORE.x}px`, originY: `${CORE.y}px` }}
+    >
+      <rect
+        x={SYNTH_DOC.x}
+        y={SYNTH_DOC.y}
+        width={SYNTH_DOC.w}
+        height={SYNTH_DOC.h}
+        rx={9}
+        className="swarm-synthdoc"
+      />
+      <text x={SYNTH_DOC.x + 16} y={SYNTH_DOC.y + 22} className="swarm-synthdoc-title" textAnchor="start">
+        SYNTHESIS · research-lead
+      </text>
+      {rows.map((claim, i) => (
+        <motion.g
+          key={claim}
+          initial={false}
+          animate={animate ? { opacity: [0, 1] } : { opacity: 1 }}
+          transition={{ duration: 0.3, delay: animate ? 0.5 + i * 0.18 : 0, ease: EASE }}
+        >
+          <path
+            className="swarm-synthdoc-check"
+            d={`M ${SYNTH_DOC.x + 16} ${SYNTH_DOC.y + 40 + i * 18} l 3.4 3.6 l 6.2 -7.4`}
+            transform="translate(0,-1)"
+          />
+          <text
+            x={SYNTH_DOC.x + 32}
+            y={SYNTH_DOC.y + 44 + i * 18}
+            className="swarm-synthdoc-claim"
+            textAnchor="start"
+          >
+            {claim}
+          </text>
+        </motion.g>
+      ))}
+      <line
+        x1={SYNTH_DOC.x + 14}
+        y1={SYNTH_DOC.y + 44 + rows.length * 18}
+        x2={SYNTH_DOC.x + SYNTH_DOC.w - 14}
+        y2={SYNTH_DOC.y + 44 + rows.length * 18}
+        className="swarm-synthdoc-rule"
+      />
+      <text
+        x={SYNTH_DOC.x + 16}
+        y={SYNTH_DOC.y + 62 + rows.length * 18}
+        className="swarm-synthdoc-summary"
+        textAnchor="start"
+      >
+        4 of 5 claims survived the gates
+      </text>
+    </motion.g>
+  );
+}
+
 // ── Static fallback (prefers-reduced-motion) ─────────────────────────────────
 function StaticDiagram() {
   return (
     <svg viewBox="0 0 800 440" className="swarm-svg" role="img"
       aria-label="The /research swarm: a lead dispatches six specialists (web-miner, github-miner, librarian, historian, skeptic, adversary); findings return to a central synthesis; the skeptic and adversary kill an unverified finding; the run lands SYNTHESIS.md and EVIDENCE on disk while memory gains a lesson.">
-      <g className="swarm-prompt-static">
-        <rect x="270" y="20" width="260" height="34" rx="17" className="swarm-prompt-pill" />
-        <text x="400" y="42" textAnchor="middle" className="swarm-prompt-text">
-          /research is this auth library safe to ship?
+      {/* docked persistent prompt */}
+      <g className="swarm-prompt-static" transform="translate(16,14) scale(0.62)">
+        <rect x="0" y="0" width="334" height="40" rx="20" className="swarm-prompt-pill" />
+        <text x="18" y="25" textAnchor="start" className="swarm-prompt-text">
+          {PROMPT_TEXT}
         </text>
       </g>
       {SPECIALISTS.map((n) => (
         <line key={n.id} x1={LEAD.x} y1={LEAD.y} x2={n.x} y2={n.y}
           className={`swarm-edge-line ${n.kind === "adversary" ? "is-adv" : ""}`} />
       ))}
-      <SynthesisCore active={false} sealed />
       {SPECIALISTS.map((n) => (
         <Node key={n.id} node={n} visible flare={false} />
       ))}
       <Node node={LEAD} visible flare={false} lead />
-      {/* killed finding, frozen */}
-      <g transform={`translate(${(KILL_SOURCE.x + CORE.x) / 2}, ${(KILL_SOURCE.y + CORE.y) / 2})`}>
-        <rect x={-15} y={-10} width={30} height={20} rx={4} className="swarm-card is-killed" />
-        <line x1={-15} y1={0} x2={15} y2={0} className="swarm-strike" />
-        <text y={-22} textAnchor="middle" className="swarm-kill-label">
-          KILLED — source unverified
-        </text>
+      {/* killed finding, frozen in its expanded doc end-state */}
+      <g transform={`translate(${(KILL_SOURCE.x + CORE.x) / 2 + 86}, ${(KILL_SOURCE.y + CORE.y) / 2 - 70})`}>
+        <rect x={-66} y={-26} width={132} height={52} rx={6} className="swarm-killdoc" />
+        <text x={-56} y={-12} className="swarm-killdoc-src" textAnchor="start">blog · &ldquo;is it safe?&rdquo;</text>
+        <text x={-56} y={6} className="swarm-killdoc-text" textAnchor="start">{KILLED_FINDING.claim}</text>
+        <line x1={-56} y1={2} x2={50} y2={2} className="swarm-strike" />
+        <text x={-56} y={20} className="swarm-killdoc-meta" textAnchor="start">source: not the registry</text>
+        <text x={0} y={-40} textAnchor="middle" className="swarm-kill-label">KILLED — claim traced to an SEO blog</text>
+        <text x={0} y={-26} textAnchor="middle" className="swarm-kill-sub">adversary checked the registry instead</text>
       </g>
+      {/* synthesis doc end-state */}
+      <SynthesisDoc visible animate={false} />
       <ArtifactChips visible />
       <MemoryRing visible grown />
     </svg>
@@ -387,8 +529,8 @@ function Scene({ phase }) {
 
   // Findings ------------------------------------------------------------------
   const showFindings = phaseId === "findings";
-  // Survivors emit one by one (skeptic's finding is the doomed one, shown in kill).
-  const survivors = SPECIALISTS.filter((s) => s.id !== KILL_SOURCE.id);
+  // The four surviving claims emit one by one; the doomed one is shown in kill.
+  const survivingFindings = FINDINGS.filter((f) => !f.killed);
 
   // Pulse dots run ONLY during the work beat. ---------------------------------
   const showPulses = phaseId === "work";
@@ -415,23 +557,9 @@ function Scene({ phase }) {
       {/* faint grid backdrop */}
       <rect x="0" y="0" width="800" height="440" className="swarm-bg" />
 
-      {/* Phase 1: prompt pill */}
-      <AnimatePresence>
-        {phaseId === "prompt" && (
-          <motion.g
-            key="prompt"
-            initial={{ x: -340, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ opacity: 0, scale: 0.8, y: 40 }}
-            transition={{ duration: 0.7, ease: EASE }}
-          >
-            <rect x="250" y="200" width="300" height="40" rx="20" className="swarm-prompt-pill" />
-            <text x="400" y="225" textAnchor="middle" className="swarm-prompt-text">
-              /research is this auth library safe to ship?
-            </text>
-          </motion.g>
-        )}
-      </AnimatePresence>
+      {/* Persistent prompt: hero during its beat, then docks top-left and
+          stays the whole loop (dimmed when not focal). */}
+      <PromptPill docked={phaseId !== "prompt"} focal={phaseId === "prompt"} />
 
       {/* Edges (under nodes) — draw in during spawn, in lockstep with nodes.
           Quiet (no pulse) outside the work beat; dim during the kill. */}
@@ -446,20 +574,24 @@ function Scene({ phase }) {
           />
         ))}
 
-      {/* Synthesis core */}
+      {/* Synthesis core (circle for working beats; yields to the doc on land) */}
       {showCore && (
         <SynthesisCore
           active={spotlight.coreActive}
           sealed={sealed}
-          dim={spotlight.coreDim || (sceneDimForKill && false)}
+          dim={spotlight.coreDim}
           pulseKey={showFindings ? `find-${phase}` : null}
         />
       )}
 
-      {/* Findings flowing home — one tight staggered train, the sole actor. */}
+      {/* Synthesis doc — the readable payoff, expands when the core seals. */}
+      <SynthesisDoc visible={sealed} animate={phaseId === "land"} />
+
+      {/* Findings flowing home — one tight staggered train, each carrying a
+          claim. The sole focal actor during this beat. */}
       {showFindings &&
-        survivors.map((s, i) => (
-          <FindingCard key={s.id} from={s} delay={i * FIND_STAGGER} />
+        survivingFindings.map((f, i) => (
+          <FindingCard key={f.id} from={f.from} claim={f.claim} delay={i * FIND_STAGGER} />
         ))}
 
       {/* The kill beat */}
@@ -475,7 +607,7 @@ function Scene({ phase }) {
           className="swarm-survive-pulse"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: [0, 0.7, 0], scale: [0.9, 1.25, 1.4] }}
-          transition={{ duration: 1.1, delay: 3.1, ease: "easeOut" }}
+          transition={{ duration: 1.1, delay: 4.0, ease: "easeOut" }}
           style={{ originX: `${CORE.x}px`, originY: `${CORE.y}px` }}
         />
       )}
