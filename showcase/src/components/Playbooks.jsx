@@ -56,8 +56,7 @@ export default function Playbooks() {
           </div>
           <h2 className="display h2">Your agents run the published playbooks.</h2>
           <p className="lead">
-            Every protocol traces back to a primary source — orchestration patterns, failure
-            taxonomies, and memory loops from the labs that wrote them down.
+            Every protocol traces to a primary source — from the labs that wrote them down.
           </p>
         </div>
         <div className="playbook-grid">
@@ -82,8 +81,7 @@ export default function Playbooks() {
           ))}
         </div>
         <p className="lead playbook-close centered">
-          Not personas pretending to be famous engineers — published methods, cited, that your
-          agents actually execute.
+          Not personas pretending to be engineers — published methods, cited, actually executed.
         </p>
       </div>
     </section>

@@ -12,12 +12,12 @@ const REPO = "https://github.com/Akasxh/re-forge";
 // Every chip is traceable to the repo:
 //  - LICENSE (MIT License header)
 //  - .github/workflows/ci.yml (fresh-HOME install + doctor on every push)
-//  - docs/CATALOG.md / README.md ("6 teams + forge + 119 skills")
+//  - docs/CATALOG.md / README.md ("6 teams + forge + 127 skills")
 //  - README.md ("Status: v0.4 pre-release")
 const trustChips = [
   { label: "MIT licensed", href: `${REPO}/blob/main/LICENSE` },
   { label: "CI green on every push", href: `${REPO}/actions/workflows/ci.yml` },
-  { label: "119 skills · 6 teams + forge", href: `${REPO}/blob/main/docs/CATALOG.md` },
+  { label: "127 skills · 6 teams + forge", href: `${REPO}/blob/main/docs/CATALOG.md` },
   { label: "v0.4 pre-release", href: `${REPO}#readme` },
 ];
 
@@ -46,9 +46,8 @@ export default function Hero({ onDemo }) {
           One prompt. A whole engineering org's worth of rigor.
         </motion.h1>
         <motion.p {...rise(0.14)} className="lead hero-lead">
-          re-forge turns your coding agent — Claude Code, Cursor, Codex and beyond — into a hardened
-          multi-agent operating procedure with adversarial gates, durable memory, and evidence files.
-          See it run a real task below.
+          Turn your coding agent into a multi-agent op: adversarial gates, durable memory, evidence
+          files. Watch it run below.
         </motion.p>
         <motion.div {...rise(0.22)} className="hero-actions">
           <button className="btn btn-primary" onClick={onDemo} type="button">

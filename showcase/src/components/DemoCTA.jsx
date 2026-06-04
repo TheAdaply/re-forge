@@ -15,8 +15,7 @@ export default function DemoCTA({ onDemo }) {
             <span className="eyebrow">Try it yourself</span>
             <h2 className="display h2">See the instructions, or test it on your own repo.</h2>
             <p className="lead">
-              Everything you watched in the terminals runs locally inside Claude Code. Open the
-              step-by-step guide and copy the exact commands.
+              It all runs locally inside Claude Code. Open the guide, copy the commands.
             </p>
             <div className="demo-cta-actions">
               <button className="btn btn-primary" onClick={onDemo} type="button">

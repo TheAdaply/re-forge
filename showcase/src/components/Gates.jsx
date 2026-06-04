@@ -14,8 +14,7 @@ export default function Gates() {
           </div>
           <h2 className="display h2">Five gates between your prompt and your answer.</h2>
           <p className="lead centered">
-            Every mission runs the same way: a lead scopes it, specialists fan out, adversaries
-            attack the synthesis, evidence becomes a contract, and memory compounds for next time.
+            Lead scopes it. Specialists fan out. Adversaries attack. Evidence locks. Memory compounds.
           </p>
         </div>
         <div className="flow-board gates-board">

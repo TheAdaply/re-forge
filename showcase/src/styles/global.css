@@ -2481,3 +2481,132 @@ input[type="range"] {
     align-self: flex-start;
   }
 }
+
+/* ── Shipped research: LaTeX-style paper cards ───────────────────────────── */
+.paper-serif {
+  font-family: "STIX Two Text", "Georgia", "Times New Roman", serif;
+}
+
+.papers-kicker {
+  margin-inline: auto;
+  margin-top: 16px;
+}
+
+.papers-grid {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 38px;
+}
+
+.paper-card {
+  background: #fbfaf6;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-md);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 18px 44px -28px rgba(17, 19, 26, 0.34),
+    0 2px 6px -2px rgba(17, 19, 26, 0.08);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  transition:
+    box-shadow 0.24s,
+    transform 0.24s var(--ease-out);
+}
+
+.paper-card:hover {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 30px 66px -30px rgba(17, 19, 26, 0.42),
+    0 3px 8px -2px rgba(17, 19, 26, 0.1);
+  transform: translateY(-6px);
+}
+
+/* folded-corner accent (top-right) */
+.paper-fold {
+  border-top: 22px solid #ece8dc;
+  border-left: 22px solid transparent;
+  filter: drop-shadow(-1px 1px 1px rgba(17, 19, 26, 0.12));
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.paper-link {
+  display: block;
+  padding: clamp(26px, 3vw, 38px) clamp(22px, 2.6vw, 34px) clamp(18px, 2vw, 24px);
+  text-align: center;
+}
+
+.paper-title {
+  color: var(--ink);
+  font-size: clamp(1.12rem, 1.6vw, 1.42rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.24;
+  margin: 0 auto;
+  max-width: 30ch;
+  text-wrap: balance;
+  transition: color 0.2s ease;
+}
+
+.paper-card:hover .paper-title {
+  color: var(--primary);
+}
+
+.paper-authors {
+  color: var(--ink-soft);
+  font-size: 1.04rem;
+  margin: 14px 0 0;
+}
+
+.paper-finding {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink-soft, #555);
+  margin: 0.6rem 0 0.8rem;
+}
+
+.paper-note {
+  color: var(--ink-faint);
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  margin-top: 16px;
+}
+
+.paper-venue {
+  align-items: center;
+  border-top: 1px solid var(--line-strong);
+  color: var(--win-soft);
+  display: flex;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  justify-content: center;
+  letter-spacing: 0.03em;
+  margin-top: auto;
+  padding: 14px 16px;
+  text-align: center;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.paper-venue:hover {
+  background: rgba(53, 208, 127, 0.08);
+  color: var(--win-soft);
+}
+
+.papers-close {
+  margin-top: 30px;
+}
+
+@media (max-width: 760px) {
+  .papers-grid {
+    grid-template-columns: 1fr;
+  }
+}
