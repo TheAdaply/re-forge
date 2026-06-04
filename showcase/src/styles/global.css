@@ -2053,12 +2053,138 @@ input[type="range"] {
   }
 }
 
+.receipts-stats {
+  margin-top: 38px;
+}
+
+.receipts-evidence {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  margin-top: 18px;
+}
+
+.receipt-feature {
+  color: var(--panel-ink);
+  display: flex;
+  flex-direction: column;
+  padding: clamp(24px, 2.8vw, 36px);
+}
+
+.receipt-feature-label {
+  color: var(--panel-muted);
+}
+
+.receipt-feature-body {
+  font-size: clamp(1.05rem, 1.5vw, 1.32rem);
+  line-height: 1.4;
+  margin: 16px 0 0;
+  max-width: 46ch;
+  position: relative;
+  z-index: 2;
+}
+
+.receipt-quote {
+  background: rgba(53, 208, 127, 0.06);
+  border: 1px solid rgba(53, 208, 127, 0.24);
+  border-radius: var(--r-md);
+  display: block;
+  margin-top: 24px;
+  padding: 16px 18px;
+  position: relative;
+  transition:
+    background 0.22s,
+    border-color 0.22s,
+    transform 0.22s var(--ease-out);
+  z-index: 2;
+}
+
+.receipt-quote:hover {
+  background: rgba(53, 208, 127, 0.1);
+  border-color: rgba(53, 208, 127, 0.45);
+  transform: translateY(-3px);
+}
+
+.receipt-quote-mark {
+  color: var(--win);
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.receipt-quote-text {
+  color: var(--panel-ink);
+  display: block;
+  font-size: 0.98rem;
+  line-height: 1.4;
+  margin-top: 8px;
+}
+
+.receipt-cite {
+  color: var(--panel-muted);
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  margin-top: 10px;
+}
+
+.receipt-links {
+  display: grid;
+  gap: 18px;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
+.receipt-chip-link {
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 22px;
+  transition:
+    background 0.22s,
+    border-color 0.22s,
+    box-shadow 0.22s,
+    transform 0.22s var(--ease-out);
+}
+
+.receipt-chip-link:hover {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: color-mix(in srgb, var(--primary) 26%, var(--line));
+  box-shadow: 0 24px 64px rgba(17, 19, 26, 0.09);
+  transform: translateY(-6px);
+}
+
+.receipt-chip-tag {
+  align-self: start;
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--win);
+}
+
+.receipt-chip-title {
+  font-size: 1.04rem;
+  letter-spacing: -0.01em;
+  line-height: 1.28;
+  margin-top: 14px;
+}
+
+.receipt-chip-link .receipt-cite {
+  color: var(--ink-faint);
+  margin-top: auto;
+  padding-top: 12px;
+}
+
 @media (max-width: 1040px) {
   .hero-grid,
   .split-grid,
   .calculator-grid,
   .demo-grid,
   .duel-grid,
+  .receipts-evidence,
   .demo-cta-card {
     grid-template-columns: 1fr;
   }
@@ -2122,5 +2248,236 @@ input[type="range"] {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+/* Playbooks */
+.playbook-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 38px;
+}
+
+.playbook-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.playbook-source {
+  color: var(--ink-faint);
+}
+
+.playbook-card h3 {
+  margin-top: 10px;
+}
+
+.playbook-card p {
+  flex: 1;
+}
+
+.playbook-link {
+  align-self: flex-start;
+  border-bottom: 1px solid color-mix(in srgb, var(--primary) 40%, transparent);
+  color: var(--primary);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  margin-top: 16px;
+  padding-bottom: 1px;
+  transition:
+    color 0.2s var(--ease-out),
+    border-color 0.2s;
+}
+
+.playbook-link:hover {
+  border-color: var(--primary);
+  color: var(--primary-bright);
+}
+
+.playbook-close {
+  margin: 30px auto 0;
+  max-width: 640px;
+}
+
+@media (max-width: 1040px) {
+  .playbook-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .playbook-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Gates — the adversarial pipeline (reuses .flow-board / .flow-node) */
+.gates-sec .section-copy .lead {
+  margin-inline: auto;
+}
+
+.gates-board {
+  align-items: start;
+}
+
+.gate-node--attack {
+  background: var(--ink);
+  border-color: color-mix(in srgb, var(--primary) 36%, var(--line-strong));
+  box-shadow: 0 26px 64px rgba(17, 19, 26, 0.16);
+}
+
+.gate-node--attack:hover {
+  background: #151827;
+  border-color: color-mix(in srgb, var(--win) 42%, var(--line-strong));
+  box-shadow: 0 30px 72px rgba(17, 19, 26, 0.22);
+}
+
+.gate-node--attack .node-index {
+  color: var(--win);
+}
+
+.gate-node--attack h3 {
+  color: #fff;
+}
+
+.gate-node--attack p {
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.gate-kicker {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--win) !important;
+  font-family: var(--font-mono);
+  font-size: 0.82rem !important;
+  line-height: 1.5 !important;
+  margin-top: 14px !important;
+  padding-top: 14px;
+}
+
+@media (max-width: 1040px) {
+  /* Let the emphasized step claim the full row when the board is 2-up. */
+  .gate-node--attack {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .gate-node--attack {
+    grid-column: auto;
+  }
+}
+
+/* ── Hero opener: trust chips + copy-paste install block ─────────────────── */
+.hero-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  justify-content: center;
+  list-style: none;
+  margin: 22px 0 0;
+  max-width: 720px;
+  padding: 0;
+}
+
+.trust-chip {
+  align-items: center;
+  background: rgba(17, 18, 27, 0.05);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  color: var(--ink-soft);
+  display: inline-flex;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  gap: 7px;
+  letter-spacing: 0.04em;
+  padding: 7px 13px;
+  transition:
+    background 0.18s,
+    border-color 0.18s,
+    color 0.18s,
+    transform 0.18s var(--ease-out);
+  white-space: nowrap;
+}
+
+.trust-chip::before {
+  background: var(--win);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(53, 208, 127, 0.16);
+  content: "";
+  height: 6px;
+  width: 6px;
+}
+
+.trust-chip:hover {
+  background: var(--paper-raised);
+  border-color: color-mix(in srgb, var(--primary) 38%, var(--line-strong));
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+
+.hero-install {
+  margin: 30px auto 0;
+  max-width: 720px;
+  padding: 16px 18px 18px;
+  text-align: left;
+  width: 100%;
+}
+
+.hero-install .terminal-top {
+  margin-bottom: 14px;
+}
+
+.hero-install-body {
+  align-items: center;
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid var(--panel-line);
+  border-radius: var(--r-md);
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 12px 14px;
+}
+
+.hero-install-cmd {
+  color: var(--panel-ink);
+  font-family: var(--font-mono);
+  font-size: clamp(0.78rem, 1.1vw, 0.9rem);
+  line-height: 1.5;
+  overflow-x: auto;
+  word-break: break-word;
+}
+
+.hero-install-prompt {
+  color: var(--win);
+  margin-right: 8px;
+  user-select: none;
+}
+
+.hero-install-copy {
+  flex-shrink: 0;
+  position: static;
+}
+
+.hero-install-verify {
+  color: var(--panel-muted);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.02em;
+  margin: 12px 0 0;
+}
+
+.hero-install-verify .hero-install-prompt {
+  color: var(--accent);
+}
+
+@media (max-width: 600px) {
+  .hero-install-body {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-install-copy {
+    align-self: flex-start;
   }
 }
