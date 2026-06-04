@@ -438,10 +438,10 @@ pyvene works with any PyTorch model. Tested on:
 ## External Resources
 
 ### Tutorials
-- [pyvene 101](https://stanfordnlp.github.io/pyvene/tutorials/pyvene_101.html)
-- [Causal Tracing Tutorial](https://stanfordnlp.github.io/pyvene/tutorials/advanced_tutorials/Causal_Tracing.html)
-- [IOI Circuit Replication](https://stanfordnlp.github.io/pyvene/tutorials/advanced_tutorials/IOI_Replication.html)
-- [DAS Introduction](https://stanfordnlp.github.io/pyvene/tutorials/advanced_tutorials/DAS_Main_Introduction.html)
+- [pyvene 101](https://stanfordnlp.github.io/pyvene/docs/tutorials/pyvene_101.html)
+- [Causal Tracing Tutorial](https://stanfordnlp.github.io/pyvene/docs/tutorials/advanced_tutorials/Causal_Tracing.html)
+- [IOI Circuit Replication](https://stanfordnlp.github.io/pyvene/docs/tutorials/advanced_tutorials/IOI_Replication.html)
+- [DAS Introduction](https://stanfordnlp.github.io/pyvene/docs/tutorials/advanced_tutorials/DAS_Main_Introduction.html)
 
 ### Papers
 - [Locating and Editing Factual Associations in GPT](https://arxiv.org/abs/2202.05262) - Meng et al. (2022)
@@ -450,7 +450,7 @@ pyvene works with any PyTorch model. Tested on:
 
 ### Official Documentation
 - [Official Docs](https://stanfordnlp.github.io/pyvene/)
-- [API Reference](https://stanfordnlp.github.io/pyvene/api/)
+- [API Reference](https://stanfordnlp.github.io/pyvene/docs/api/core.html)
 
 ## Comparison with Other Tools
 

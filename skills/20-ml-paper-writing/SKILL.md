@@ -948,7 +948,7 @@ Baseline & 85.2 & 45ms \\
 
 **APIs:** [Semantic Scholar](https://api.semanticscholar.org/api-docs/) | [CrossRef](https://www.crossref.org/documentation/retrieve-metadata/rest-api/) | [arXiv](https://info.arxiv.org/help/api/basics.html)
 
-**ML/AI Venues:** [NeurIPS](https://neurips.cc/Conferences/2025/PaperInformation/StyleFiles) | [ICML](https://icml.cc/Conferences/2025/AuthorInstructions) | [ICLR](https://iclr.cc/Conferences/2026/AuthorGuide) | [ACL](https://github.com/acl-org/acl-style-files)
+**ML/AI Venues:** [NeurIPS](https://neurips.cc/Conferences/2026/CallForPapers) | [ICML](https://icml.cc/Conferences/2025/AuthorInstructions) | [ICLR](https://iclr.cc/Conferences/2026/AuthorGuide) | [ACL](https://github.com/acl-org/acl-style-files)
 
 **Systems Venues:** [OSDI 2026](https://www.usenix.org/conference/osdi26/call-for-papers) | [NSDI 2027](https://www.usenix.org/conference/nsdi27/call-for-papers) | [ASPLOS 2027](https://www.asplos-conference.org/asplos2026/call-for-papers-asplos27/) | [SOSP 2026](https://sigops.org/s/conferences/sosp/2026/cfp.html)
 

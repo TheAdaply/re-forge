@@ -355,7 +355,7 @@ Browse pre-trained SAE features at [neuronpedia.org](https://neuronpedia.org):
 - [Sparse Autoencoders Find Highly Interpretable Features](https://arxiv.org/abs/2309.08600) - Cunningham et al. (ICLR 2024)
 
 ### Official Documentation
-- [SAELens Docs](https://jbloomaus.github.io/SAELens/)
+- [SAELens Docs](https://decoderesearch.github.io/SAELens/latest/)
 - [Neuronpedia](https://neuronpedia.org) - Feature browser
 
 ## SAE Architectures

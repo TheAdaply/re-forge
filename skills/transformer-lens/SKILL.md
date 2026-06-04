@@ -318,7 +318,7 @@ sae_acts = sae.encode(cache["resid_pre", 8])
 ### Tutorials
 - [Main Demo Notebook](https://transformerlensorg.github.io/TransformerLens/generated/demos/Main_Demo.html)
 - [Activation Patching Demo](https://colab.research.google.com/github/TransformerLensOrg/TransformerLens/blob/main/demos/Activation_Patching_in_TL_Demo.ipynb)
-- [ARENA Mech Interp Course](https://arena-foundation.github.io/ARENA/) - 200+ hours of tutorials
+- [ARENA Mech Interp Course](https://www.arena.education/chapter1) - 200+ hours of tutorials
 
 ### Papers
 - [A Mathematical Framework for Transformer Circuits](https://transformer-circuits.pub/2021/framework/index.html)

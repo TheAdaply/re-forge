@@ -402,15 +402,15 @@ model = LanguageModel("gpt2", device_map="auto")  # Not vLLM
 ## External Resources
 
 ### Tutorials
-- [Getting Started](https://nnsight.net/start/)
+- [Getting Started](https://nnsight.net/getting-started/)
 - [Features Overview](https://nnsight.net/features/)
-- [Remote Execution](https://nnsight.net/notebooks/features/remote_execution/)
-- [Applied Tutorials](https://nnsight.net/applied_tutorials/)
+- [Remote Execution](https://nnsight.net/features/13_remote_execution/)
+- [Applied Tutorials](https://nnsight.net/tutorials/)
 
 ### Official Documentation
 - [Official Docs](https://nnsight.net/documentation/)
 - [NDIF Info](https://ndif.us/)
-- [Community Forum](https://discuss.ndif.us/)
+- [Community](https://ndif.us/signup.html)
 
 ### Papers
 - [NNsight and NDIF Paper](https://arxiv.org/abs/2407.14561) - Fiotto-Kaufman et al. (ICLR 2025)

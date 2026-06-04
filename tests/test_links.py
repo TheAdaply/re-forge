@@ -48,8 +48,15 @@ def _internal_links() -> list[tuple[Path, str]]:
     ]
 
 
+# The repo's own CI badge cannot resolve until the workflow has run on GitHub,
+# and checking it from inside that same CI would be circular anyway.
+SELF_REFERENTIAL = {"https://github.com/Akasxh/re-forge/actions/workflows/ci.yml/badge.svg"}
+
+
 def _external_urls() -> list[str]:
-    return sorted({t for _, t in _links() if t.startswith(("http://", "https://"))})
+    return sorted(
+        {t for _, t in _links() if t.startswith(("http://", "https://"))} - SELF_REFERENTIAL
+    )
 
 
 @pytest.mark.parametrize(
