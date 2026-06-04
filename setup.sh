@@ -183,14 +183,19 @@ mkdir -p "$CLAUDE_DIR/forge/drafts" "$CLAUDE_DIR/forge/outputs" \
   "$CLAUDE_DIR/forge/registry-cache"
 
 # --- skills ---
+# Whole-directory copy: skills may ship references/, templates/, or scripts/
+# alongside SKILL.md (e.g. ai-friendly-project), and all of it must install.
 echo "Installing skills..."
 if [ -d "$SCRIPT_DIR/skills" ]; then
   for skill_dir in "$SCRIPT_DIR"/skills/*/; do
     skill_name=$(basename "$skill_dir")
-    mkdir -p "$CLAUDE_DIR/skills/$skill_name"
-    [ -f "$skill_dir/SKILL.md" ] && \
-      copy_file "$skill_dir/SKILL.md" "$CLAUDE_DIR/skills/$skill_name/SKILL.md"
+    [ -f "$skill_dir/SKILL.md" ] || continue
+    dst="$CLAUDE_DIR/skills/$skill_name"
+    backup_if_exists "$dst" "$skill_dir"  # no-op when content is identical
+    mkdir -p "$dst"
+    cp -r "$skill_dir". "$dst"/
   done
+  echo "  copied: $(find "$SCRIPT_DIR/skills" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ') skill directories"
 fi
 
 # --- hooks registration in settings.json ---
