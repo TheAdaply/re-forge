@@ -12,12 +12,12 @@ const REPO = "https://github.com/Akasxh/re-forge";
 // Every chip is traceable to the repo:
 //  - LICENSE (MIT License header)
 //  - .github/workflows/ci.yml (fresh-HOME install + doctor on every push)
-//  - docs/CATALOG.md / README.md ("6 teams + forge + 116 skills")
+//  - docs/CATALOG.md / README.md ("6 teams + forge + 119 skills")
 //  - README.md ("Status: v0.4 pre-release")
 const trustChips = [
   { label: "MIT licensed", href: `${REPO}/blob/main/LICENSE` },
   { label: "CI green on every push", href: `${REPO}/actions/workflows/ci.yml` },
-  { label: "116 skills · 6 teams + forge", href: `${REPO}/blob/main/docs/CATALOG.md` },
+  { label: "119 skills · 6 teams + forge", href: `${REPO}/blob/main/docs/CATALOG.md` },
   { label: "v0.4 pre-release", href: `${REPO}#readme` },
 ];
 

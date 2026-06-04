@@ -86,6 +86,11 @@ def test_external_url_alive(url: str) -> None:
                 return
         except urllib.error.HTTPError as e:
             if e.code in (404, 410):
+                # Some hosts (e.g. Kaggle) 404 HEAD requests while serving GET
+                # fine — only a GET 404 is a dead link.
+                if req.get_method() == "HEAD":
+                    req = urllib.request.Request(url, method="GET", headers=req.headers)
+                    continue
                 pytest.fail(f"{url}: HTTP {e.code} (dead link)")
             if e.code in BOT_BLOCKED_OK:
                 return  # alive but bot-shielded

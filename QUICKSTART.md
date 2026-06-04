@@ -18,7 +18,7 @@ advanced features later).
 Run the canonical install block from the [README](./README.md#installation):
 clone `Akasxh/re-forge`, then `bash setup.sh`, then `bash scripts/doctor.sh`.
 
-The installer copies 6 teams + 116 skills + hooks to `~/.claude/`; doctor
+The installer copies 6 teams + 119 skills + hooks to `~/.claude/`; doctor
 exits 0 only when the install is complete. **Restart Claude Code now**
 (quit and relaunch) so the harness reloads agents and skills.
 

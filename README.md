@@ -60,7 +60,7 @@ Comparison rows checked 2026-06; ecosystem moves fast — verify before dependin
 | **Evolution** | `evolution-lead` | 8 | Scout upstream releases, shadow sessions, rank what to adopt next |
 | **Capability Forge H1** | `forge-lead` | 5 sub-skills | Detect workforce gaps, scout MCP Registry + marketplaces, author new skills |
 
-The full generated inventory (every team agent + all 116 skills, with descriptions) lives in [docs/CATALOG.md](./docs/CATALOG.md) — built from frontmatter by `scripts/build_catalog.py` and drift-checked in CI, so it cannot go stale.
+The full generated inventory (every team agent + all 119 skills, with descriptions) lives in [docs/CATALOG.md](./docs/CATALOG.md) — built from frontmatter by `scripts/build_catalog.py` and drift-checked in CI, so it cannot go stale.
 
 ### Key features
 
@@ -99,7 +99,7 @@ The full generated inventory (every team agent + all 116 skills, with descriptio
 ```bash
 git clone https://github.com/Akasxh/re-forge.git
 cd re-forge
-bash setup.sh           # installs all 6 teams + forge + 116 skills + hooks
+bash setup.sh           # installs all 6 teams + forge + 119 skills + hooks
 bash scripts/doctor.sh  # verify install — exits 0 only on a clean, complete install
 ```
 
