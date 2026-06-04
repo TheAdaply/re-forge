@@ -2722,7 +2722,18 @@ input[type="range"] {
 
 .swarm-node-disc.is-adv {
   fill: rgba(239, 68, 68, 0.1);
-  stroke: rgba(239, 68, 68, 0.5);
+  /* adversaries read distinct even at rest: thin red outline */
+  stroke: rgba(239, 68, 68, 0.62);
+  stroke-width: 1.6;
+}
+
+/* spotlight: the focal node gets a subtle glow; receded nodes stay flat */
+.swarm-node-disc.is-focus {
+  filter: drop-shadow(0 0 7px rgba(122, 162, 247, 0.45));
+}
+
+.swarm-node-disc.is-adv.is-focus {
+  filter: drop-shadow(0 0 7px rgba(239, 68, 68, 0.4));
 }
 
 .swarm-node-disc.is-flare {

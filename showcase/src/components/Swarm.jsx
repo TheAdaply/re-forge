@@ -11,13 +11,25 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
  * real skeptic/adversary gates that reject unverified findings before
  * synthesis. No invented metrics or numbers appear anywhere in the scene.
  *
+ * Choreography grammar (documentary discipline):
+ *   ONE focal action at a time. At every instant exactly one thing moves;
+ *   everything else freezes and recedes to ~40% opacity. The spotlight
+ *   (full opacity + subtle glow) rides the current actor. Specialists spawn
+ *   one by one with a tiny overshoot; edges draw in as each node lands;
+ *   pulse dots run only during the dedicated "working" beat; findings travel
+ *   one at a time, each emitted with an anticipation bump and greeted by a
+ *   single core pulse on arrival. The kill is a held set piece: the scene
+ *   dims, the doomed card goes slow-mo, the strike draws, it shatters, the
+ *   label holds, then the world resumes.
+ *
  * Perf: animation is pure SVG transforms + opacity (no layout thrash).
  * prefers-reduced-motion renders a single static, fully-labeled end state.
  */
 
 // ── Geometry (SVG user units; viewBox 0 0 800 440) ───────────────────────────
 const LEAD = { x: 400, y: 96 };
-const CORE = { x: 400, y: 250 }; // synthesis artifact
+const CORE = { x: 400, y: 258 }; // synthesis artifact (nudged down so its
+//                                  label sits clear of the SYNTHESIS text)
 
 // Six specialist nodes fanning out in an arc below the lead. The two
 // adversarial roles (skeptic, adversary) sit on the right flank so the kill
@@ -34,19 +46,33 @@ const SPECIALISTS = [
 // The finding that gets killed flies in from the skeptic flank.
 const KILL_SOURCE = SPECIALISTS[4]; // skeptic
 
+// ── Beat timeline ────────────────────────────────────────────────────────────
+// Each beat names its SINGLE focal action. Durations are tuned so a beat
+// fully settles before the next caption crossfades in.
 const PHASES = [
-  { id: "prompt", caption: "one prompt", ms: 3000 },
-  { id: "burst", caption: "specialists fan out in parallel", ms: 3400 },
-  { id: "findings", caption: "findings come home", ms: 3000 },
-  { id: "kill", caption: "adversaries attack before you see anything", ms: 3400 },
+  { id: "prompt", caption: "one prompt", ms: 2600 },
+  { id: "dispatch", caption: "the lead takes the case", ms: 1500 },
+  { id: "spawn", caption: "specialists fan out — one by one", ms: 3300 },
+  { id: "work", caption: "every lane goes to work", ms: 1700 },
+  { id: "findings", caption: "findings come home", ms: 3400 },
+  { id: "kill", caption: "adversaries attack before you see anything", ms: 4200 },
   {
     id: "land",
     caption: "evidence on disk · memory compounds — next session starts smarter",
-    ms: 3600,
+    ms: 3200,
   },
+  { id: "rest", caption: "evidence on disk · memory compounds — next session starts smarter", ms: 600 },
 ];
 
 const EASE = [0.22, 1, 0.36, 1];
+
+// Per-specialist spawn stagger (seconds) — wide enough to read sequentially.
+const SPAWN_STAGGER = 0.46;
+// Per-finding emission stagger (seconds).
+const FIND_STAGGER = 0.58;
+
+// Receded opacity for everything that is NOT the current focal actor.
+const RECEDE = 0.4;
 
 function phaseReducer(index) {
   return (index + 1) % PHASES.length;
@@ -54,53 +80,74 @@ function phaseReducer(index) {
 
 // ── Sub-parts ────────────────────────────────────────────────────────────────
 
-function Edge({ node, active }) {
+// An edge that DRAWS IN (pathLength) when `draw` flips true. `delay` lets
+// each edge ignite in lockstep with its node's spawn. Once drawn it stays a
+// quiet static line; pulse dots live in the separate `work` beat.
+function Edge({ node, draw, delay, dim }) {
+  const isAdv = node.kind === "adversary";
   return (
-    <g className="swarm-edge">
-      <line
-        x1={LEAD.x}
-        y1={LEAD.y}
-        x2={node.x}
-        y2={node.y}
-        className={`swarm-edge-line ${node.kind === "adversary" ? "is-adv" : ""}`}
-      />
-      {active && (
-        <motion.circle
-          r="3"
-          className={`swarm-pulse ${node.kind === "adversary" ? "is-adv" : ""}`}
-          initial={{ cx: LEAD.x, cy: LEAD.y, opacity: 0 }}
-          animate={{ cx: node.x, cy: node.y, opacity: [0, 1, 1, 0] }}
-          transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut", delay: node.x / 1600 }}
-        />
-      )}
-    </g>
+    <motion.line
+      x1={LEAD.x}
+      y1={LEAD.y}
+      x2={node.x}
+      y2={node.y}
+      className={`swarm-edge-line ${isAdv ? "is-adv" : ""}`}
+      initial={false}
+      animate={{ pathLength: draw ? 1 : 0, opacity: dim ? RECEDE : 1 }}
+      transition={{
+        pathLength: { duration: 0.42, delay, ease: "easeOut" },
+        opacity: { duration: 0.45, ease: EASE },
+      }}
+    />
   );
 }
 
-function Node({ node, visible, flare }) {
+// A single travelling pulse dot — runs ONCE down an edge during the work beat.
+function PulseDot({ node, delay }) {
   const isAdv = node.kind === "adversary";
+  return (
+    <motion.circle
+      r="3"
+      className={`swarm-pulse ${isAdv ? "is-adv" : ""}`}
+      initial={{ cx: LEAD.x, cy: LEAD.y, opacity: 0 }}
+      animate={{ cx: node.x, cy: node.y, opacity: [0, 1, 1, 0] }}
+      transition={{ duration: 0.95, delay, ease: "easeInOut" }}
+    />
+  );
+}
+
+// `spawn`: when >0, the node pops with overshoot at `delay`.
+// `focus`: full opacity + glow when this node is the focal actor.
+function Node({ node, visible, spawn, delay = 0, flare, focus = true, lead }) {
+  const isAdv = node.kind === "adversary";
+  const r = lead ? 25 : 22; // lead reads slightly heavier than specialists
+  const animate = !visible
+    ? { opacity: 0, scale: 0.2 }
+    : spawn
+      ? { opacity: focus ? 1 : RECEDE, scale: [0.2, 1.06, 1] }
+      : { opacity: focus ? 1 : RECEDE, scale: 1 };
   return (
     <motion.g
       initial={false}
-      animate={
-        visible
-          ? { opacity: 1, scale: 1 }
-          : { opacity: 0, scale: 0.2 }
+      animate={animate}
+      transition={
+        spawn
+          ? { duration: 0.62, delay, ease: EASE, times: [0, 0.7, 1] }
+          : { duration: 0.5, ease: EASE }
       }
-      transition={{ duration: 0.5, ease: EASE }}
       style={{ originX: `${node.x}px`, originY: `${node.y}px` }}
     >
       <circle
         cx={node.x}
         cy={node.y}
-        r="22"
-        className={`swarm-node-disc ${isAdv ? "is-adv" : ""} ${flare ? "is-flare" : ""}`}
+        r={r}
+        className={`swarm-node-disc ${isAdv ? "is-adv" : ""} ${flare ? "is-flare" : ""} ${focus && visible ? "is-focus" : ""}`}
       />
       {flare && (
         <motion.circle
           cx={node.x}
           cy={node.y}
-          r="22"
+          r={r}
           className="swarm-node-flare-ring"
           initial={{ scale: 1, opacity: 0.8 }}
           animate={{ scale: 1.7, opacity: 0 }}
@@ -115,21 +162,15 @@ function Node({ node, visible, flare }) {
   );
 }
 
-// A small finding-card travelling from a node back toward CORE.
-function FindingCard({ from, delay, killed }) {
+// A finding-card travelling from its node back to CORE. Emits with a tiny
+// anticipation bump (handled by the parent node) and is the focal actor while
+// in flight. `onArrive`/timing is implicit: the core pulses via `arrivals`.
+function FindingCard({ from, delay }) {
   return (
     <motion.g
       initial={{ x: from.x, y: from.y, opacity: 0 }}
-      animate={
-        killed
-          ? {
-              x: [from.x, (from.x + CORE.x) / 2],
-              y: [from.y, (from.y + CORE.y) / 2],
-              opacity: [0, 1, 1],
-            }
-          : { x: CORE.x, y: CORE.y, opacity: [0, 1, 1, 0] }
-      }
-      transition={{ duration: killed ? 1 : 1.3, delay, ease: EASE }}
+      animate={{ x: CORE.x, y: CORE.y, opacity: [0, 1, 1, 0] }}
+      transition={{ duration: 0.85, delay, ease: EASE }}
     >
       <rect x={-13} y={-9} width={26} height={18} rx={4} className="swarm-card" />
       <rect x={-8} y={-4} width={16} height={2.4} rx={1} className="swarm-card-line" />
@@ -138,15 +179,27 @@ function FindingCard({ from, delay, killed }) {
   );
 }
 
-// The killed card: struck through, then shatters/dissolves with a label.
+// The killed card: travels in slow-mo, gets struck through, then shatters.
+// Timeline (seconds, relative to kill-beat start):
+//   0.00–0.40  scene-wide stillness/dim (handled by Scene)
+//   0.40–1.70  card crawls to the interception point (slow-mo)
+//   1.70–2.05  strike-through draws
+//   2.05–2.55  card shatters
+//   1.80–3.20  KILLED label holds (~1s plateau)
 function KilledCard() {
   const mid = { x: (KILL_SOURCE.x + CORE.x) / 2, y: (KILL_SOURCE.y + CORE.y) / 2 };
   return (
     <g>
       <motion.g
-        initial={{ x: mid.x, y: mid.y, opacity: 1 }}
-        animate={{ opacity: [1, 1, 0], scale: [1, 1.04, 0.6], rotate: [0, -4, 6] }}
-        transition={{ duration: 1.1, delay: 0.5, ease: EASE, times: [0, 0.55, 1] }}
+        initial={{ x: KILL_SOURCE.x, y: KILL_SOURCE.y, opacity: 0 }}
+        animate={{
+          x: [KILL_SOURCE.x, mid.x, mid.x],
+          y: [KILL_SOURCE.y, mid.y, mid.y],
+          opacity: [0, 1, 1, 1, 0],
+          scale: [1, 1, 1.04, 0.6],
+          rotate: [0, 0, -4, 6],
+        }}
+        transition={{ duration: 2.55, delay: 0.4, ease: EASE, times: [0, 0.5, 0.65, 0.85, 1] }}
       >
         <rect x={-15} y={-10} width={30} height={20} rx={4} className="swarm-card is-killed" />
         <motion.line
@@ -157,7 +210,7 @@ function KilledCard() {
           className="swarm-strike"
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
-          transition={{ duration: 0.35, delay: 0.5, ease: "easeOut" }}
+          transition={{ duration: 0.35, delay: 1.7, ease: "easeOut" }}
         />
       </motion.g>
       {/* shatter shards */}
@@ -176,7 +229,7 @@ function KilledCard() {
             x: mid.x - 2 + dir * 26,
             y: mid.y - 2 + (i % 2 === 0 ? -1 : 1) * 18,
           }}
-          transition={{ duration: 0.8, delay: 0.95, ease: "easeOut" }}
+          transition={{ duration: 0.7, delay: 2.05, ease: "easeOut" }}
         />
       ))}
       <motion.text
@@ -186,7 +239,7 @@ function KilledCard() {
         className="swarm-kill-label"
         initial={{ opacity: 0, y: mid.y - 14 }}
         animate={{ opacity: [0, 1, 1, 0], y: mid.y - 22 }}
-        transition={{ duration: 1.8, delay: 0.6, ease: EASE }}
+        transition={{ duration: 1.5, delay: 1.85, ease: EASE, times: [0, 0.18, 0.78, 1] }}
       >
         KILLED — source unverified
       </motion.text>
@@ -194,25 +247,42 @@ function KilledCard() {
   );
 }
 
-function SynthesisCore({ active, sealed }) {
+function SynthesisCore({ active, sealed, dim, pulseKey }) {
   return (
-    <g>
+    <motion.g
+      initial={false}
+      animate={{ opacity: dim ? RECEDE : 1 }}
+      transition={{ duration: 0.45, ease: EASE }}
+    >
       <motion.circle
         cx={CORE.x}
         cy={CORE.y}
         r="30"
         className={`swarm-core ${sealed ? "is-sealed" : ""}`}
-        animate={active ? { scale: [1, 1.06, 1] } : { scale: 1 }}
-        transition={{ duration: 1.4, repeat: active ? Infinity : 0, ease: "easeInOut" }}
+        // `active` = gentle perpetual breathing during the work beat.
+        // `pulseKey` = a single sharp pulse fired on each finding arrival.
+        animate={
+          active
+            ? { scale: [1, 1.06, 1] }
+            : pulseKey
+              ? { scale: [1, 1.12, 1] }
+              : { scale: 1 }
+        }
+        transition={
+          active
+            ? { duration: 1.4, repeat: Infinity, ease: "easeInOut" }
+            : { duration: 0.5, ease: "easeOut" }
+        }
         style={{ originX: `${CORE.x}px`, originY: `${CORE.y}px` }}
+        key={pulseKey || "core"}
       />
-      <text x={CORE.x} y={CORE.y - 2} textAnchor="middle" className="swarm-core-label">
+      <text x={CORE.x} y={CORE.y - 4} textAnchor="middle" className="swarm-core-label">
         SYNTHESIS
       </text>
-      <text x={CORE.x} y={CORE.y + 12} textAnchor="middle" className="swarm-core-sub">
+      <text x={CORE.x} y={CORE.y + 13} textAnchor="middle" className="swarm-core-sub">
         research-lead
       </text>
-    </g>
+    </motion.g>
   );
 }
 
@@ -235,7 +305,7 @@ function StaticDiagram() {
       {SPECIALISTS.map((n) => (
         <Node key={n.id} node={n} visible flare={false} />
       ))}
-      <Node node={LEAD} visible flare={false} />
+      <Node node={LEAD} visible flare={false} lead />
       {/* killed finding, frozen */}
       <g transform={`translate(${(KILL_SOURCE.x + CORE.x) / 2}, ${(KILL_SOURCE.y + CORE.y) / 2})`}>
         <rect x={-15} y={-10} width={30} height={20} rx={4} className="swarm-card is-killed" />
@@ -269,11 +339,13 @@ function ArtifactChips({ visible }) {
   );
 }
 
+// The memory ring is part of the LAND beat only — it fades in from nothing the
+// first time, so it must never be visible during earlier phases.
 function MemoryRing({ visible, grown }) {
   return (
     <motion.g
       initial={false}
-      animate={visible ? { opacity: 1 } : { opacity: 0.25 }}
+      animate={visible ? { opacity: 1 } : { opacity: 0 }}
       transition={{ duration: 0.6, ease: EASE }}
     >
       <motion.circle
@@ -294,18 +366,48 @@ function MemoryRing({ visible, grown }) {
 // ── Main animated scene ──────────────────────────────────────────────────────
 function Scene({ phase }) {
   const phaseId = PHASES[phase].id;
-  const showLead = phase >= 1;
-  const showSpecialists = phase >= 1;
-  const edgesActive = phaseId === "burst" || phaseId === "findings";
-  const advFlare = phaseId === "kill";
-  const showCore = phase >= 1;
-  const coreActive = phaseId === "findings" || phaseId === "kill";
-  const sealed = phaseId === "land";
-  const showFindings = phaseId === "findings" || phaseId === "kill";
-  const landed = phaseId === "land";
 
-  // surviving cards = the 5 non-killed specialists
+  // Visibility gates ----------------------------------------------------------
+  const showLead = phase >= 1; // dispatch onward
+  const showSpecialists = phase >= 2; // spawn onward
+  const showCore = phase >= 1; // appears (receded) at dispatch
+  const showMemory = phaseId === "land" || phaseId === "rest";
+
+  // Spawn / draw control ------------------------------------------------------
+  const spawning = phaseId === "spawn";
+  const edgesDrawn = phase >= 2; // edges drawn from spawn onward
+  const advFlare = phaseId === "kill";
+
+  // Spotlight: which actor is at full opacity; everyone else recedes. --------
+  const spotlight = {
+    leadFocus: phaseId === "dispatch",
+    coreActive: phaseId === "work",
+    coreDim: phaseId === "spawn" || phaseId === "dispatch",
+  };
+
+  // Findings ------------------------------------------------------------------
+  const showFindings = phaseId === "findings";
+  // Survivors emit one by one (skeptic's finding is the doomed one, shown in kill).
   const survivors = SPECIALISTS.filter((s) => s.id !== KILL_SOURCE.id);
+
+  // Pulse dots run ONLY during the work beat. ---------------------------------
+  const showPulses = phaseId === "work";
+
+  const sealed = phaseId === "land" || phaseId === "rest";
+  const landed = phaseId === "land" || phaseId === "rest";
+
+  // During the kill set-piece everything but the two adversaries + the doomed
+  // card recedes; during findings everything but the in-flight train recedes.
+  const sceneDimForKill = phaseId === "kill";
+
+  // Helper: is a given specialist a focal actor right now?
+  function nodeFocus(node) {
+    if (phaseId === "spawn") return true; // each lights as it spawns; recede handled by stagger glow
+    if (phaseId === "work") return false; // core is the actor; nodes rest at full but unglowed
+    if (phaseId === "findings") return !sceneDimForKill; // train is focal; nodes hold
+    if (phaseId === "kill") return node.kind === "adversary"; // only adversaries lit
+    return true;
+  }
 
   return (
     <svg viewBox="0 0 800 440" className="swarm-svg" role="img"
@@ -331,23 +433,40 @@ function Scene({ phase }) {
         )}
       </AnimatePresence>
 
-      {/* Edges (under nodes) */}
+      {/* Edges (under nodes) — draw in during spawn, in lockstep with nodes.
+          Quiet (no pulse) outside the work beat; dim during the kill. */}
       {showSpecialists &&
-        SPECIALISTS.map((n) => <Edge key={n.id} node={n} active={edgesActive} />)}
+        SPECIALISTS.map((n, i) => (
+          <Edge
+            key={n.id}
+            node={n}
+            draw={edgesDrawn}
+            delay={spawning ? i * SPAWN_STAGGER + 0.04 : 0}
+            dim={sceneDimForKill && n.kind !== "adversary"}
+          />
+        ))}
 
       {/* Synthesis core */}
-      {showCore && <SynthesisCore active={coreActive} sealed={sealed} />}
+      {showCore && (
+        <SynthesisCore
+          active={spotlight.coreActive}
+          sealed={sealed}
+          dim={spotlight.coreDim || (sceneDimForKill && false)}
+          pulseKey={showFindings ? `find-${phase}` : null}
+        />
+      )}
 
-      {/* Findings flowing home */}
+      {/* Findings flowing home — one tight staggered train, the sole actor. */}
       {showFindings &&
         survivors.map((s, i) => (
-          <FindingCard key={s.id} from={s} delay={i * 0.18} killed={false} />
+          <FindingCard key={s.id} from={s} delay={i * FIND_STAGGER} />
         ))}
 
       {/* The kill beat */}
       {phaseId === "kill" && <KilledCard />}
 
-      {/* Surviving cards pulse green at CORE during kill */}
+      {/* Survivors confirmed: a single green ring pulses at CORE after the
+          kill resolves (one pulse, not a loop). */}
       {phaseId === "kill" && (
         <motion.circle
           cx={CORE.x}
@@ -356,30 +475,51 @@ function Scene({ phase }) {
           className="swarm-survive-pulse"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: [0, 0.7, 0], scale: [0.9, 1.25, 1.4] }}
-          transition={{ duration: 1.2, delay: 1.6, ease: "easeOut" }}
+          transition={{ duration: 1.1, delay: 3.1, ease: "easeOut" }}
           style={{ originX: `${CORE.x}px`, originY: `${CORE.y}px` }}
         />
       )}
 
-      {/* Specialist nodes */}
-      {showSpecialists &&
-        SPECIALISTS.map((n) => (
-          <Node key={n.id} node={n} visible={showSpecialists} flare={advFlare && n.kind === "adversary"} />
+      {/* Pulse dots — ONLY during the work beat, run once down each edge. */}
+      {showPulses &&
+        SPECIALISTS.map((n, i) => (
+          <PulseDot key={n.id} node={n} delay={0.1 + (n.x / 800) * 0.5 + i * 0.04} />
         ))}
 
-      {/* Lead node */}
-      <Node node={LEAD} visible={showLead} flare={false} />
+      {/* Specialist nodes — spawn one by one; recede when not focal. */}
+      {showSpecialists &&
+        SPECIALISTS.map((n, i) => (
+          <Node
+            key={n.id}
+            node={n}
+            visible={showSpecialists}
+            spawn={spawning}
+            delay={spawning ? i * SPAWN_STAGGER : 0}
+            flare={advFlare && n.kind === "adversary"}
+            focus={nodeFocus(n)}
+          />
+        ))}
 
-      {/* Phase 5: artifacts + memory */}
+      {/* Lead node — focal only during dispatch, then holds. */}
+      <Node
+        node={LEAD}
+        visible={showLead}
+        spawn={phaseId === "dispatch"}
+        flare={false}
+        focus={spotlight.leadFocus || phaseId !== "kill"}
+        lead
+      />
+
+      {/* Land beat: artifacts + memory (memory fades in fresh here). */}
       <ArtifactChips visible={landed} />
-      <MemoryRing visible={landed} grown={landed} />
+      <MemoryRing visible={showMemory} grown={landed} />
 
-      {/* +1 lesson chip absorbed by memory ring during land */}
-      {landed && (
+      {/* +1 lesson chip absorbed by the memory ring during land. */}
+      {phaseId === "land" && (
         <motion.g
           initial={{ x: 240, y: 384, opacity: 0 }}
           animate={{ x: 92, y: 384, opacity: [0, 1, 1, 0] }}
-          transition={{ duration: 1.6, delay: 0.6, ease: EASE }}
+          transition={{ duration: 1.6, delay: 0.7, ease: EASE }}
         >
           <rect x={-30} y={-11} width={60} height={22} rx={11} className="swarm-lesson-chip" />
           <text x={0} y={4} textAnchor="middle" className="swarm-lesson-text">+1 lesson</text>
@@ -432,17 +572,35 @@ export default function Swarm() {
           <div className="swarm-subtitle" aria-live="polite">
             {!reduce && (
               <div className="swarm-progress">
-                {PHASES.map((p, i) => (
+                {PHASES.filter((p) => p.id !== "rest").map((p, i) => (
                   <span key={p.id} className={`swarm-progress-seg ${i === phase ? "is-active" : ""} ${i < phase ? "is-done" : ""}`} />
                 ))}
               </div>
             )}
-            <p className="swarm-caption">
-              {reduce ? "From one prompt: specialists fan out, adversaries kill unverified findings, evidence and memory persist." : PHASES[phase].caption}
-            </p>
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={reduce ? "static" : phaseId(phase)}
+                className="swarm-caption"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.35, ease: EASE }}
+              >
+                {reduce
+                  ? "From one prompt: specialists fan out, adversaries kill unverified findings, evidence and memory persist."
+                  : PHASES[phase].caption}
+              </motion.p>
+            </AnimatePresence>
           </div>
         </div>
       </div>
     </section>
   );
+}
+
+// Caption key helper: the `rest` beat shares the `land` caption, so they
+// crossfade as one — no flicker at the loop seam.
+function phaseId(phase) {
+  const id = PHASES[phase].id;
+  return id === "rest" ? "land" : id;
 }

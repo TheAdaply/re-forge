@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Nav from "./components/Nav.jsx";
-import TerminalDuel from "./components/TerminalDuel.jsx";
+import AgentDuel from "./components/AgentDuel.jsx";
 import Hero from "./components/Hero.jsx";
 import Swarm from "./components/Swarm.jsx";
 import Receipts from "./components/Receipts.jsx";
@@ -19,13 +19,14 @@ export default function App() {
     <>
       <Nav onDemo={openDemo} />
       {/* Narrative order: what it is (Hero, install + trust chips) -> watch it
-          run (TerminalDuel) -> watch the swarm work in one looped simulation
+          run as an animated split-stage film (AgentDuel: lone agent vs
+          coordinated teams) -> watch the swarm work in one looped simulation
           (Swarm) -> receipts -> shipped research (accepted papers) -> command
           surface -> the published playbooks behind the agents -> act. */}
       <main>
         <Hero onDemo={openDemo} />
         <PapersProof />
-        <TerminalDuel onDemo={openDemo} />
+        <AgentDuel onDemo={openDemo} />
         <Swarm />
         <Receipts />
         <Commands />

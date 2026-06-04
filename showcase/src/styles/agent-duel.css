@@ -1,0 +1,393 @@
+/*
+ * AgentDuel — split-stage simulation styling.
+ * Same cinematic universe as Swarm: dark stage, mono labels, blue specialist
+ * discs, red adversarial/gate accents, green win states, the subtitle/caption
+ * bar with progress segments. Colours mirror tokens.css.
+ *
+ * Owned by AgentDuel.jsx only — imported by the component (global.css is
+ * owned by another engineer and is NOT touched).
+ */
+
+/* ── Stage shell (mirrors .swarm-stage / bar / subtitle) ───────────────────── */
+.ad-sec {
+  padding-top: clamp(40px, 5vw, 72px);
+}
+
+.ad-stage {
+  margin-top: clamp(28px, 3.4vw, 44px);
+  padding: 0;
+}
+
+.ad-stage-bar {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.ad-stage-tab {
+  color: var(--panel-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  margin-left: 10px;
+}
+
+/* Two cropped half-SVGs in a grid: side-by-side desktop, stacked mobile. */
+.ad-split {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  position: relative;
+  z-index: 2;
+}
+
+/* faint divider rendered as the centre grid track */
+.ad-split::before {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.1) 0 4px,
+    transparent 4px 10px
+  );
+  bottom: 24px;
+  content: "";
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+  position: absolute;
+  top: 24px;
+  width: 1px;
+}
+
+.ad-svg {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.ad-svg-left {
+  grid-column: 1;
+}
+
+.ad-svg-right {
+  grid-column: 3;
+}
+
+.ad-bg {
+  fill: transparent;
+}
+
+/* ── Shared nodes (mirror .swarm-node-*) ───────────────────────────────────── */
+.ad-node-disc {
+  fill: rgba(122, 162, 247, 0.12);
+  stroke: rgba(122, 162, 247, 0.55);
+  stroke-width: 1.4;
+}
+
+.ad-node-disc.is-adv {
+  fill: rgba(239, 68, 68, 0.1);
+  stroke: rgba(239, 68, 68, 0.5);
+}
+
+.ad-node-disc.is-flare {
+  fill: rgba(239, 68, 68, 0.32);
+  stroke: var(--danger);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.7));
+}
+
+.ad-node-flare-ring {
+  fill: none;
+  stroke: var(--danger);
+  stroke-width: 1.5;
+}
+
+.ad-node-label {
+  fill: var(--panel-ink);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* ── LEFT: lone agent typing ───────────────────────────────────────────────── */
+.ad-type-pulse {
+  fill: none;
+  stroke: rgba(122, 162, 247, 0.5);
+  stroke-width: 1.4;
+}
+
+.ad-caret {
+  fill: rgba(122, 162, 247, 0.85);
+}
+
+.ad-code-bar {
+  fill: rgba(158, 161, 189, 0.28);
+}
+
+.ad-code-bar.is-bug-line {
+  fill: rgba(239, 68, 68, 0.4);
+}
+
+.ad-bug-glyph {
+  font-size: 13px;
+}
+
+.ad-bug-flare {
+  fill: none;
+  stroke: var(--danger);
+  stroke-width: 1.4;
+}
+
+/* LEFT fail badge */
+.ad-badge-fail {
+  fill: rgba(239, 68, 68, 0.14);
+  stroke: var(--danger);
+  stroke-width: 1.4;
+}
+
+.ad-badge-x {
+  fill: #ff7474;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.ad-badge-fail-text {
+  fill: #ff9b9b;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ── RIGHT: teams ──────────────────────────────────────────────────────────── */
+.ad-spec-chip {
+  fill: rgba(79, 70, 229, 0.16);
+  stroke: rgba(109, 93, 252, 0.6);
+  stroke-width: 1.4;
+}
+
+.ad-spec-text {
+  fill: var(--panel-ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.ad-edge {
+  fill: none;
+  stroke: rgba(122, 162, 247, 0.22);
+  stroke-width: 1.2;
+}
+
+.ad-edge.is-gate {
+  stroke: rgba(239, 68, 68, 0.28);
+}
+
+.ad-cluster-halo {
+  fill: rgba(122, 162, 247, 0.07);
+  stroke: rgba(122, 162, 247, 0.35);
+  stroke-width: 1.2;
+}
+
+.ad-cluster-halo.is-gate {
+  fill: rgba(239, 68, 68, 0.07);
+  stroke: rgba(239, 68, 68, 0.4);
+}
+
+.ad-cluster-halo.is-flare {
+  fill: rgba(239, 68, 68, 0.18);
+  stroke: var(--danger);
+  stroke-width: 1.8;
+  filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.55));
+}
+
+.ad-team-dot {
+  fill: rgba(122, 162, 247, 0.85);
+}
+
+.ad-team-dot.is-gate {
+  fill: rgba(239, 68, 68, 0.9);
+}
+
+.ad-team-label {
+  fill: var(--panel-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+}
+
+/* artifact flow card */
+.ad-artifact {
+  fill: rgba(122, 162, 247, 0.16);
+  stroke: rgba(122, 162, 247, 0.55);
+  stroke-width: 1.2;
+}
+
+.ad-artifact-line {
+  fill: rgba(192, 202, 245, 0.7);
+}
+
+.ad-gate-strike {
+  stroke: var(--danger);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.ad-gate-label {
+  fill: #ff7474;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.ad-gate-pass {
+  fill: #b7f0cf;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* RIGHT pass shield + evidence chips */
+.ad-shield {
+  fill: rgba(53, 208, 127, 0.16);
+  stroke: var(--win);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 10px rgba(53, 208, 127, 0.4));
+}
+
+.ad-shield-tick {
+  fill: #b7f0cf;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.ad-evi-chip {
+  fill: rgba(53, 208, 127, 0.12);
+  stroke: rgba(53, 208, 127, 0.45);
+  stroke-width: 1.2;
+}
+
+.ad-evi-text {
+  fill: #b7f0cf;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+}
+
+/* ── Prompt split ──────────────────────────────────────────────────────────── */
+.ad-prompt-pill {
+  fill: rgba(79, 70, 229, 0.14);
+  stroke: rgba(109, 93, 252, 0.55);
+  stroke-width: 1.4;
+}
+
+.ad-prompt-text {
+  fill: var(--panel-ink);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.01em;
+}
+
+/* ── Subtitle / caption bar (mirror .swarm-subtitle) ───────────────────────── */
+.ad-subtitle {
+  align-items: center;
+  background: rgba(0, 0, 0, 0.28);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.ad-progress {
+  display: flex;
+  gap: 6px;
+}
+
+.ad-progress-seg {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: var(--r-pill);
+  height: 3px;
+  transition: background 0.4s var(--ease-out);
+  width: 30px;
+}
+
+.ad-progress-seg.is-done {
+  background: rgba(53, 208, 127, 0.4);
+}
+
+.ad-progress-seg.is-active {
+  background: var(--win);
+  box-shadow: 0 0 8px rgba(53, 208, 127, 0.6);
+}
+
+.ad-caption {
+  color: var(--panel-ink);
+  font-family: var(--font-mono);
+  font-size: clamp(0.82rem, 1.4vw, 0.96rem);
+  letter-spacing: 0.02em;
+  margin: 0;
+  min-height: 1.4em;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .ad-caption {
+    font-size: 0.78rem;
+  }
+
+  .ad-progress-seg {
+    width: 22px;
+  }
+}
+
+/* ── Mobile: stack the split vertically (left above right) below 720px ──────── */
+@media (max-width: 720px) {
+  .ad-split {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1px auto;
+  }
+
+  .ad-svg-left {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .ad-svg-right {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  /* divider becomes a horizontal rule between the stacked halves */
+  .ad-split::before {
+    bottom: auto;
+    grid-column: 1;
+    grid-row: 2;
+    height: 1px;
+    inset-inline: 24px;
+    top: auto;
+    width: auto;
+    background: repeating-linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.1) 0 4px,
+      transparent 4px 10px
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ad-svg * {
+    animation: none !important;
+  }
+}
