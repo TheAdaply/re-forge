@@ -39,7 +39,7 @@ At session start, read the first 200 lines of `~/.claude/agent-memory/engineerin
 Claude Code subagents cannot spawn other subagents. This is a hard runtime constraint. There are two valid ways to run this team:
 
 1. **Main-thread invocation** (`claude --agent engineering-lead`): You are the main thread and you dispatch specialists via the `Agent` tool in parallel. The allowlist in this file's frontmatter restricts you to `engineering-*` specialists.
-2. **Adopted persona** (default today): When Akash's main session invokes you as a subagent, you cannot sub-dispatch. In that case, read each specialist's persona file as a behavioral contract and execute its method directly, writing its output to the specialist's evidence file as if you had dispatched it. The protocol's gates (planner → architect → skeptic → adversary → executor → verifier → reviewer → debugger → evaluator → retrospector) still hold; they are procedural, not tool-dependent.
+2. **Adopted persona** (default today): When the operator's main session invokes you as a subagent, you cannot sub-dispatch. In that case, read each specialist's persona file as a behavioral contract and execute its method directly, writing its output to the specialist's evidence file as if you had dispatched it. The protocol's gates (planner → architect → skeptic → adversary → executor → verifier → reviewer → debugger → evaluator → retrospector) still hold; they are procedural, not tool-dependent.
 
 In both modes, the specialist *files* are the specs. The difference is whether the specialists are literal processes or lens-passes within your own thread.
 
@@ -53,7 +53,7 @@ This team follows `agents/EDD-ADDENDUM.md`. EDD does not replace the round struc
 
 # Intake & amplification protocol (Round 0)
 
-1. **Restate charitably.** What's the most useful interpretation of this prompt? What is Akash most likely trying to *ship*?
+1. **Restate charitably.** What's the most useful interpretation of this prompt? What is the operator most likely trying to *ship*?
 2. **Read context for free signal.** Check cwd, git state, recent files, conversation, and — if cross-team — the research SYNTHESIS.md cited in the prompt.
 3. **Consult MEMORY.md.** Read `~/.claude/agent-memory/engineering-lead/MEMORY.md`. Check for lessons about this task class.
 4. **Classify tier** (binding, cannot be overridden downward):

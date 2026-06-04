@@ -75,11 +75,14 @@ mkdir -p "$REPO_DIR/hooks"
 cp "$CLAUDE_DIR/hooks/"*.sh "$REPO_DIR/hooks/" 2>/dev/null || true
 
 # --- Skills (authored, not marketplace) ---
+# Only skills that already exist in the repo are pulled back. Anything else in
+# ~/.claude/skills/ (marketplace installs, personal one-offs) stays out, so a
+# `--push` can never leak third-party or private skills into the public repo.
+# New first-party skills are added by committing them to skills/ first.
 echo "Syncing skills..."
 for skill_dir in "$CLAUDE_DIR/skills/"*/; do
   skill_name=$(basename "$skill_dir")
-  if [ -f "$skill_dir/SKILL.md" ]; then
-    mkdir -p "$REPO_DIR/skills/$skill_name"
+  if [ -f "$skill_dir/SKILL.md" ] && [ -d "$REPO_DIR/skills/$skill_name" ]; then
     cp "$skill_dir/SKILL.md" "$REPO_DIR/skills/$skill_name/SKILL.md"
   fi
 done

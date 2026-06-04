@@ -211,8 +211,8 @@ export default function TerminalDuel({ onDemo }) {
             <p className="lead">
               One complex task. The left is a plain agent. The right loads{" "}
               <code className="inline-code">SKILL.md</code>, defines its evals first (EDD), and runs
-              all seven teams — research, engineering, security, testing, docs, forge, and a
-              self-evolving watch team — with security, debugging, edge-case, and upstream-watch
+              all six teams — research, engineering, security, testing, docs, and a
+              self-evolving watch team — plus the Capability Forge meta-agent, with security, debugging, edge-case, and upstream-watch
               checks always live in the background.
             </p>
           </div>

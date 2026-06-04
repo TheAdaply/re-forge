@@ -11,8 +11,8 @@ allowed-tools: Read Write Edit Bash(cp *) Bash(mv *) Bash(python *)
 
 1. **Final validation**: re-run `python -m scripts.quick_validate <draft-path>/SKILL.md` one more time — this runs from the skill-creator plugin directory (`~/.claude/plugins/cache/claude-plugins-official/skill-creator/d53f6ca4cdb0/`), using skill-creator's `scripts.quick_validate`, not re-forge's own `scripts/`.
 2. **Destination decision**:
-   - **Personal skill**: move to `~/.claude/skills/<name>/`. This makes it available in all Akash's projects per the personal scope rule in `code.claude.com/docs/en/skills`.
-   - **Plugin-bundled**: move to `~/.claude/forge/outputs/<plugin>/skills/<name>/`. This lets Akash publish as a plugin later.
+   - **Personal skill**: move to `~/.claude/skills/<name>/`. This makes it available in all the operator's projects per the personal scope rule in `code.claude.com/docs/en/skills`.
+   - **Plugin-bundled**: move to `~/.claude/forge/outputs/<plugin>/skills/<name>/`. This lets the operator publish as a plugin later.
    - **Default**: personal scope unless the draft's metadata requests plugin bundling.
 3. **Execute move**: `cp -r ~/.claude/forge/drafts/<name>/ <destination>/` (copy, not move — keep the draft for audit).
 4. **Update MEMORY.md**: append an ACE-style bullet to `~/.claude/agent-memory/forge-lead/MEMORY.md`:
@@ -30,7 +30,7 @@ allowed-tools: Read Write Edit Bash(cp *) Bash(mv *) Bash(python *)
 - **deprecated_at**: null
 ```
 
-5. **Notify Akash**: write a final status message:
+5. **Notify the operator**: write a final status message:
 
 ```
 Forge promoted: <name>
@@ -44,7 +44,7 @@ Or to publish (from the skill-creator plugin directory, using its scripts.packag
   python -m scripts.package_skill <destination>
 ```
 
-6. **Optional packaging**: if Akash confirms, run `python -m scripts.package_skill <destination>` from the skill-creator plugin directory (skill-creator's `scripts.package_skill`, not re-forge's `scripts/`) to produce a `.skill` file.
+6. **Optional packaging**: if the operator confirms, run `python -m scripts.package_skill <destination>` from the skill-creator plugin directory (skill-creator's `scripts.package_skill`, not re-forge's `scripts/`) to produce a `.skill` file.
 
 ## Counter reconciliation (session-start, not promotion)
 

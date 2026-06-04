@@ -1,8 +1,8 @@
 {
   "name": "forge",
-  "description": "Capability Forge — Akash's personal meta-agent plugin. Detects workforce capability gaps, aggregates candidates from primary sources (MCP Registry, anthropics/skills, installed marketplaces), wraps skill-creator + mcp-builder + self-improving-agent to author new primitives, and tracks value across sessions via ACE-style bulleted memory.",
+  "description": "Capability Forge — the operator's meta-agent plugin. Detects workforce capability gaps, aggregates candidates from primary sources (MCP Registry, anthropics/skills, installed marketplaces), wraps skill-creator + mcp-builder + self-improving-agent to author new primitives, and tracks value across sessions via ACE-style bulleted memory.",
   "version": "0.1.0",
   "author": {
-    "name": "Akash (with Research Team v2 investigation)"
+    "name": "Akasxh (with Research Team v2 investigation)"
   }
 }

@@ -233,9 +233,9 @@
 
 | Definition | Description |
 |---|---|
-| [`forge-lead`](../agents/forge/forge-lead.md) | Meta-agent that reads Akash's entire workforce (agents, skills, plugins, MCP servers), detects capability gaps, aggregates candidate soluti… |
+| [`forge-lead`](../agents/forge/forge-lead.md) | Meta-agent that reads the operator's entire workforce (agents, skills, plugins, MCP servers), detects capability gaps, aggregates candidate… |
 | [`forge-draft`](../agents/forge/skills/draft/SKILL.md) | Draft a new SKILL.md file to close a specified capability gap, wrapping the official skill-creator plugin's authoring flow |
-| [`forge-gap`](../agents/forge/skills/gap/SKILL.md) | Inventory Akash's workforce (agents, skills, plugins, installed MCP servers, recent research team SYNTHESIS files) and produce a ranked cap… |
+| [`forge-gap`](../agents/forge/skills/gap/SKILL.md) | Inventory the operator's workforce (agents, skills, plugins, installed MCP servers, recent research team SYNTHESIS files) and produce a ran… |
 | [`forge-promote`](../agents/forge/skills/promote/SKILL.md) | Move a tested skill draft from ~/.claude/forge/drafts/ to ~/.claude/skills/<name>/ for personal use or to ~/.claude/forge/outputs/<plugin>/… |
 | [`forge-scout`](../agents/forge/skills/scout/SKILL.md) | Query external sources (MCP Registry, anthropics/skills, installed marketplaces) for candidate implementations of a specified capability |
 | [`forge-test`](../agents/forge/skills/test/SKILL.md) | Run the skill-creator eval loop against a forge-draft output to grade whether the drafted skill is promotable |

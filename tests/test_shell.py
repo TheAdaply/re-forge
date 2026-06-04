@@ -24,6 +24,7 @@ STRICT_MODE_REQUIRED = [
     "scripts/forge-gap-refresh.sh",
     "scripts/setup-schedules.sh",
     "scripts/test-infrastructure.sh",
+    "scripts/uninstall.sh",
     "memory-mcp/bootstrap.sh",
     "memory-mcp/backup.sh",
 ]

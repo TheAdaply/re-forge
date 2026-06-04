@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # SubagentStop hook: detects research sessions closing with HIGH confidence
 # and writes a cascade suggestion file that the main session can act on.
-set -euo pipefail
+set -uo pipefail
 
 PAYLOAD=$(cat)
 # Extract agent info from payload

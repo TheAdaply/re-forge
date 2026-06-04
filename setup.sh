@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 # re-forge installer (v0.4)
-# Copies agents, protocols, scripts, hooks, skills, and forge to ~/.claude/
-# Backs up existing files before overwriting.
+# Copies agents, protocols, scripts, hooks, skills, and forge to ~/.claude/,
+# and registers three hooks (Stop, PostToolUse, SessionStart) in
+# ~/.claude/settings.json (created if absent, backed up before merge).
+# Backs up any file whose content would change. Exception: memory seeds
+# (~/.claude/agent-memory/*/MEMORY.md) are seeded once and never overwritten —
+# they accumulate your lessons and overwriting would destroy them.
+# To remove everything this script installs: bash scripts/uninstall.sh
 
 set -euo pipefail
 
@@ -192,6 +197,17 @@ fi
 echo "Registering hooks in settings.json..."
 SETTINGS="$CLAUDE_DIR/settings.json"
 if [ -f "$SETTINGS" ]; then
+  # Skip entirely when all three hooks are already registered (idempotent re-run).
+  if python3 -c "
+import json, sys
+with open('$SETTINGS') as f:
+    hooks = (json.load(f).get('hooks') or {})
+sys.exit(0 if all(k in hooks for k in ('Stop', 'PostToolUse', 'SessionStart')) else 1)
+" 2>/dev/null; then
+    echo "  hooks already registered (settings.json untouched)"
+  else
+  # settings.json is the one file merged in place, so snapshot it before the merge.
+  cp "$SETTINGS" "${SETTINGS}.bak-${BACKUP_TS}"
   # Merge hooks using Python
   python3 -c "
 import json, sys
@@ -219,6 +235,7 @@ if 'SessionStart' not in hooks:
 with open('$SETTINGS', 'w') as f:
     json.dump(settings, f, indent=2)
 " 2>/dev/null || echo "  warning: could not merge hooks into settings.json (merge manually)"
+  fi
 else
   # No settings.json yet (fresh machine): create a minimal one carrying only
   # our hooks. Nothing is clobbered — the file did not exist.

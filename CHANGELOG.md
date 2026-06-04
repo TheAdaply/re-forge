@@ -7,6 +7,22 @@ this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added — 2026-06-04 quality pass
+- `LICENSE` (MIT, verbatim SPDX text). The repo invited curl-and-run installs while legally all-rights-reserved.
+- Validation harness (`tests/`, uv-managed): frontmatter contract for all skill/agent definitions (YAML parses, name matches install surface, non-generic description, unique names), internal + external dead-link checks, shellcheck + strict-mode gates, generated-catalog drift check, fresh-HOME install smoke test, memory-mcp JSON-RPC protocol smoke test. 633 checks.
+- `.github/workflows/ci.yml`: harness + markdownlint + showcase `npm ci`/lint/build on every push/PR; actions pinned to full commit SHAs; `contents: read` token.
+- `docs/CATALOG.md` generated from frontmatter by `scripts/build_catalog.py`; CI fails on drift, so the published inventory cannot lie.
+- `AGENTS.md` (command-first) + `CLAUDE.md` stub.
+
+### Fixed — 2026-06-04 quality pass
+- `setup.sh`: creates a minimal `settings.json` (hooks registered) on machines that lack one — a fresh install previously failed doctor; backups fire only when content differs (re-runs created 145 stray `.bak-*` files before); installs `agents/EDD-ADDENDUM.md`, cited by ~69 personas but never copied.
+- `memory-mcp/server.py`: boots with its bundled `schema.sql` when the installed copy is absent (a bare `python3 server.py` previously failed every call with "no such table: memories").
+- ~200 links across 61 skills pointed at `references/`/`templates/` files that never shipped — pruned. 12 dead external doc URLs replaced with fetch-verified live equivalents.
+- 10 skill/agent files had unquoted YAML descriptions that fail spec-compliant parsers — quoted. 45 skills carried a frontmatter `name` different from their directory (the installed, user-visible invocation name) — aligned.
+- 4 runtime-fatal example snippets (constitutional-ai, rwkv, model-pruning, model-merging); `pip install faiss-gpu` (conda-only) and deprecated `pinecone-client` install commands.
+- README/QUICKSTART: placeholder asciinema badge (404) removed; invented "expected output" relabeled illustrative; team/skill counts corrected against the tree (6 teams, 114 skills, 7 slash commands incl. `/evolution`); stale `claude-forge` clone URLs renamed; contradictory plan-requirement claims reconciled; embedded install tree replaced by the drift-checked catalog.
+- `sync.sh` silently skipped the evolution team; `research-lead.md` dispatched its synthesist before the audit gate specified to precede it; misattributed memory-lesson citations re-cited; never-shipped `~/.claude/lib/git-identity.sh` mandates downgraded to guarded optionals.
+
 ### Added
 - `scripts/doctor.sh` — install verifier. Diffs every `agents/*-team/` and every `memory/*.md` in the repo against `~/.claude/`, checks `~/.claude/teams/<team>/PROTOCOL.md`, and confirms `Stop` + `PostToolUse` hooks are wired in `settings.json`. Exits 0 on a clean install, 1 on drift. `--fix` flag re-runs `setup.sh` to repair drift in place. (D3)
 - README troubleshooting section pointing at `bash scripts/doctor.sh`.

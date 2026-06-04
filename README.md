@@ -68,7 +68,7 @@ The full generated inventory (every team agent + all 114 skills, with descriptio
 - **Adversarial gates**: Skeptic (attacks reasoning) + adversary (attacks sources for SEO fraud, citation laundering, astroturfing) + evaluator (5-dim rubric) before "high confidence"
 - **Structured debate**: Moderator runs 3-round debates with 5 verdict types (A_WINS, B_WINS, COMPLEMENTARITY, REFRAME, DEFER) instead of lead arbitrating with bias
 - **Full-activation enforcement**: Evidence-file-as-contract ensures every specialist actually runs. Audit script catches shortcuts
-- **Parallel orchestration**: Run 4+ teams concurrently with file-locked memory segregation (empirically validated: 10 concurrent writers, 70ms, zero lost writes)
+- **Parallel orchestration**: Run 4+ teams concurrently with file-locked memory segregation (measured once in an internal session — 10 concurrent writers, ~70ms, zero lost writes; figure recorded in `agents/engineering-team/engineering-scribe.md`)
 - **Per-project isolation**: Sessions are project-local (`<cwd>/.claude/teams/`), infrastructure is global (`~/.claude/`)
 - **All Opus by default**: Every agent declares the strongest model at max effort; on lower plans dispatches fall back to the plan's strongest available model
 
@@ -105,7 +105,7 @@ bash scripts/doctor.sh  # verify install — exits 0 only on a clean, complete i
 
 Then restart Claude Code so it reloads agents and skills.
 
-The installer copies agents, team protocols, scripts, hooks, skills, and the forge to `~/.claude/`, auto-discovering every `agents/*-team/` and every `memory/*.md`. It backs up any file it would change (and only those — re-runs are no-ops). The exact inventory is [docs/CATALOG.md](./docs/CATALOG.md); the install layout is verified by `scripts/doctor.sh` and exercised on every push by [CI](https://github.com/Akasxh/re-forge/actions/workflows/ci.yml)'s fresh-HOME smoke test.
+The installer copies agents, team protocols, scripts, hooks, skills, and the forge to `~/.claude/`, auto-discovering every `agents/*-team/` and every `memory/*.md`, and registers three hooks (Stop, PostToolUse, SessionStart) in `~/.claude/settings.json` (created if absent; snapshotted before any merge). It backs up any file it would change (and only those — re-runs are no-ops). To remove everything it installed: `bash scripts/uninstall.sh --force` (your `agent-memory/` lessons and third-party skills are left untouched; run without `--force` for a dry run). The exact inventory is [docs/CATALOG.md](./docs/CATALOG.md); the install layout is verified by `scripts/doctor.sh` and exercised on every push by [CI](https://github.com/Akasxh/re-forge/actions/workflows/ci.yml)'s fresh-HOME smoke test.
 
 ### First run
 

@@ -2,10 +2,12 @@
 # Stop hook: lightweight lesson capture from non-team sessions.
 # Fires after every session. Skips if a team retrospector already ran
 # (checks for EVIDENCE/retrospector.md in the workspace).
-# Writes to research-lead staging if session had ≥10 tool calls and
-# produced substantive work.
+# Writes to research-lead staging if the session produced substantive work.
+#
+# No `set -e` on purpose: an aborting hook can break the host Claude Code
+# session, so every step degrades to a silent skip instead (see AGENTS.md).
 
-set -euo pipefail
+set -uo pipefail
 
 # Read hook payload from stdin
 PAYLOAD=$(cat)
@@ -24,21 +26,34 @@ if [ -n "$CWD" ]; then
   done
 fi
 
-# Check if the session was substantive (≥10 tool calls is the heuristic)
-# We check by looking at the session JSONL file size as a proxy
+# Check if the session was substantive (≥10 tool calls is the heuristic).
+# Proxy: the most recently modified session transcript and its size.
+# (A previous version gated on `-newer /tmp/.claude-session-start`, but no
+# hook ever created that marker, so capture silently never ran.)
 SESSION_DIR="$HOME/.claude/projects"
 JSONL_FILE=""
 if [ -d "$SESSION_DIR" ]; then
-  # Find the most recently modified JSONL file
-  JSONL_FILE=$(find "$SESSION_DIR" -name "*.jsonl" -newer /tmp/.claude-session-start 2>/dev/null | head -1 || true)
+  JSONL_FILE=$(find "$SESSION_DIR" -name "*.jsonl" -type f 2>/dev/null \
+    | while IFS= read -r f; do
+        mtime=$(stat -c%Y "$f" 2>/dev/null || stat -f%m "$f" 2>/dev/null || echo 0)
+        printf '%s\t%s\n' "$mtime" "$f"
+      done | sort -rn | head -1 | cut -f2- || true)
 fi
 
-# If we can't find a session file or it's small, skip
+# If we can't find a session file, skip
 if [ -z "$JSONL_FILE" ] || [ ! -f "$JSONL_FILE" ]; then
   exit 0
 fi
 
-FILE_SIZE=$(stat -c%s "$JSONL_FILE" 2>/dev/null || echo "0")
+# Only capture transcripts touched in the last 10 minutes — the Stop hook
+# fires at session end, so the live session's transcript is always fresh.
+NOW=$(date +%s)
+MTIME=$(stat -c%Y "$JSONL_FILE" 2>/dev/null || stat -f%m "$JSONL_FILE" 2>/dev/null || echo 0)
+if [ $((NOW - MTIME)) -gt 600 ]; then
+  exit 0
+fi
+
+FILE_SIZE=$(stat -c%s "$JSONL_FILE" 2>/dev/null || stat -f%z "$JSONL_FILE" 2>/dev/null || echo 0)
 # Skip sessions smaller than 50KB (roughly <10 substantive tool calls)
 if [ "$FILE_SIZE" -lt 51200 ]; then
   exit 0

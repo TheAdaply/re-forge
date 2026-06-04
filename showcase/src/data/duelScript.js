@@ -37,7 +37,7 @@ export const plainScript = [
 
 export const skillScript = [
   { t: 're-forge "add multi-tenant SSO + RBAC + audit logs"', c: "cmd", d: 300 },
-  { t: "load SKILL.md → orchestrating 7 teams", c: "info", d: 720 },
+  { t: "load SKILL.md → orchestrating 6 teams + forge", c: "info", d: 720 },
   { t: "memory: 47 lessons restored", c: "muted", d: 600 },
   { t: "evals-first → EXPECTED_EVALS.md (EDD)", c: "info", d: 640 },
   { t: "/research · 17 specialists", c: "head", d: 700 },

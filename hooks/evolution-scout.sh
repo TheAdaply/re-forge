@@ -5,7 +5,7 @@
 # cadence. A due marker nudges the next session (and the cron schedule) to run
 # /evolution in Scout mode. This hook is cheap and idempotent — it never blocks.
 
-set -euo pipefail
+set -uo pipefail
 
 CADENCE_HOURS="${REFORGE_WATCH_CADENCE_HOURS:-24}"
 STATE_DIR="$HOME/.claude/agent-memory/evolution-lead"
