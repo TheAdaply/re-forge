@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>re-forge — investor deck</title>
-<meta name="description" content="re-forge — the compounding layer for your AI toolchain. Akasxh & Shine · UCWS Singapore 2026." />
+<title>re-forge · investor deck</title>
+<meta name="description" content="re-forge: the compounding layer for your AI toolchain. Akasxh & Shine · UCWS Singapore 2026." />
 <link rel="icon" href="/logo.jpeg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,7 +12,7 @@
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap");
 
-/* ── Brand tokens — verbatim from src/styles/tokens.css ─────────────────── */
+/* ── Brand tokens - verbatim from src/styles/tokens.css ─────────────────── */
 :root {
   --paper: #f7f8fa;
   --paper-raised: #ffffff;
@@ -334,7 +334,7 @@ html, body {
 .dark .qr .qlab { color: var(--panel-muted); }
 
 /* ════════════════════════════════════════════════════════════════════════
-   SLIDE 1 — TITLE
+   SLIDE 1 - TITLE
    ════════════════════════════════════════════════════════════════════════ */
 #s1 { justify-content: center; }
 #s1 .hero { display: grid; grid-template-columns: 1fr auto; gap: 64px; align-items: center; flex: 1; }
@@ -367,7 +367,7 @@ html, body {
 }
 
 /* ════════════════════════════════════════════════════════════════════════
-   SLIDE 5 & 7 & 8 — DARK STAGE specifics
+   SLIDE 5 & 7 & 8 - DARK STAGE specifics
    ════════════════════════════════════════════════════════════════════════ */
 /* swarm stage */
 .swarm-shell {
@@ -407,7 +407,7 @@ html, body {
 }
 .swarm-svg { width: 100%; height: auto; flex: 1; display: block; }
 
-/* swarm SVG element classes — recreated from site global.css */
+/* swarm SVG element classes - recreated from site global.css */
 .sw-bg { fill: transparent; }
 .sw-edge { stroke: rgba(122, 162, 247, 0.30); stroke-width: 1.3; }
 .sw-edge.adv { stroke: rgba(239, 68, 68, 0.5); stroke-width: 1.5; }
@@ -440,7 +440,7 @@ html, body {
 .leg-row .t b { color: var(--panel-ink); font-weight: 600; }
 
 /* ════════════════════════════════════════════════════════════════════════
-   SLIDE 6 — RECEIPTS
+   SLIDE 6 - RECEIPTS
    ════════════════════════════════════════════════════════════════════════ */
 .paper-card {
   border: 1px solid var(--line-strong);
@@ -467,7 +467,7 @@ html, body {
 .receipts-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 6px; }
 
 /* ════════════════════════════════════════════════════════════════════════
-   SLIDE 7 — DEMO (dark): looks-done vs verified
+   SLIDE 7 - DEMO (dark): looks-done vs verified
    ════════════════════════════════════════════════════════════════════════ */
 .duel { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: stretch; min-height: 0; }
 .panelcard {
@@ -520,7 +520,7 @@ html, body {
 .duel-foot em { color: var(--win); font-style: italic; }
 
 /* ════════════════════════════════════════════════════════════════════════
-   SLIDE 8 — PRODUCT LOOP (dark)
+   SLIDE 8 - PRODUCT LOOP (dark)
    ════════════════════════════════════════════════════════════════════════ */
 .loop-shell { flex: 1; display: grid; grid-template-columns: 1.32fr 0.68fr; gap: 40px; align-items: center; min-height: 0; }
 .loop-svg { width: 100%; height: auto; display: block; }
@@ -528,12 +528,16 @@ html, body {
 .lp-chip-t { fill: var(--panel-ink); font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.01em; }
 .lp-hub { fill: rgba(79,70,229,0.20); stroke: var(--primary-bright); stroke-width: 2; }
 .lp-hub-t { fill: var(--panel-ink); font-family: var(--font-display); font-size: 27px; letter-spacing: -0.02em; }
-.lp-hub-s { fill: var(--panel-muted); font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; }
+.lp-hub-s { fill: var(--panel-muted); font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.01em; }
 .lp-out { fill: rgba(53,208,127,0.10); stroke: var(--win); stroke-width: 1.6; }
 .lp-out-t { fill: #d6f5e3; font-family: var(--font-mono); font-size: 13.5px; letter-spacing: 0.01em; }
 .lp-edge { stroke: rgba(122,162,247,0.45); stroke-width: 1.6; fill: none; }
 .lp-edge.out { stroke: rgba(53,208,127,0.55); }
 .lp-edge.loop { stroke: rgba(109,93,252,0.62); stroke-width: 1.8; fill: none; stroke-dasharray: 5 4; }
+/* edge label boxes - every text label sits inside a shape, never floating on an edge */
+.lp-edgebox { fill: rgba(122,162,247,0.10); stroke: rgba(122,162,247,0.42); stroke-width: 1.2; }
+.lp-edgebox-t { fill: var(--panel-muted); font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.02em; }
+.lp-looppill { fill: rgba(109,93,252,0.14); stroke: rgba(109,93,252,0.5); stroke-width: 1.3; }
 .lp-looptag { fill: #b7a9ff; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.04em; }
 .lp-arrow { fill: rgba(122,162,247,0.7); }
 .lp-arrow.out { fill: rgba(53,208,127,0.8); }
@@ -547,7 +551,7 @@ html, body {
 }
 
 /* ════════════════════════════════════════════════════════════════════════
-   SLIDE 11 — BUSINESS MODEL tiers
+   SLIDE 11 - BUSINESS MODEL tiers
    ════════════════════════════════════════════════════════════════════════ */
 .tiers { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; flex: 1; align-content: center; min-height: 0; }
 .tier {
@@ -584,7 +588,7 @@ html, body {
 .landexpand b { color: var(--primary); }
 
 /* ════════════════════════════════════════════════════════════════════════
-   SLIDE 12 — TEAM / ASK
+   SLIDE 12 - TEAM / ASK
    ════════════════════════════════════════════════════════════════════════ */
 .ask-shell { flex: 1; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; min-height: 0; }
 .ask-list { display: flex; flex-direction: column; gap: 20px; margin-top: 26px; }
@@ -593,6 +597,153 @@ html, body {
 .ask-item .v { font-size: 20px; color: var(--ink-soft); line-height: 1.4; }
 .ask-item .v b { color: var(--ink); font-weight: 600; }
 .ask-qr { display: flex; gap: 34px; justify-content: center; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   SLIDE 10 - MARKET (TAM / SAM / SOM)  ·  nested-tier visual + figures
+   ════════════════════════════════════════════════════════════════════════ */
+.mkt-shell { flex: 1; display: grid; grid-template-columns: 0.96fr 1.04fr; gap: 50px; align-items: center; min-height: 0; }
+/* concentric nested tiers, biggest (TAM) to smallest (SOM) */
+.mkt-rings { position: relative; width: 100%; aspect-ratio: 1 / 1; max-height: 440px; justify-self: center; }
+.mkt-ring {
+  position: absolute; border-radius: 50%;
+  display: flex; flex-direction: column; align-items: center;
+  padding-top: 26px; text-align: center;
+}
+.mkt-ring .rt { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; }
+.mkt-ring .rn { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-weight: 600; letter-spacing: -0.02em; line-height: 0.96; }
+.mkt-ring .rk { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; line-height: 1.3; max-width: 22ch; }
+.mkt-ring.tam {
+  inset: 0;
+  background: radial-gradient(120% 120% at 50% 8%, rgba(79,70,229,0.10), rgba(79,70,229,0.04));
+  border: 1.5px solid rgba(79,70,229,0.34);
+}
+.mkt-ring.tam .rt { color: var(--primary); }
+.mkt-ring.tam .rn { font-size: 40px; color: var(--ink); }
+.mkt-ring.sam {
+  left: 13%; right: 13%; top: 17%; bottom: 9%;
+  background: radial-gradient(120% 120% at 50% 8%, rgba(242,169,59,0.12), rgba(242,169,59,0.05));
+  border: 1.5px solid rgba(242,169,59,0.42);
+}
+.mkt-ring.sam .rt { color: var(--accent); }
+.mkt-ring.sam .rn { font-size: 34px; color: var(--ink); }
+.mkt-ring.som {
+  left: 27%; right: 27%; top: 36%; bottom: 12%;
+  background: radial-gradient(120% 120% at 50% 12%, rgba(53,208,127,0.18), rgba(53,208,127,0.08));
+  border: 1.6px solid rgba(53,208,127,0.5);
+}
+.mkt-ring.som .rt { color: var(--win-soft); }
+.mkt-ring.som .rn { font-size: 28px; color: var(--ink); }
+.mkt-ring.som .rk { max-width: 16ch; }
+/* right column: figure legend + seat-math caption + source chips */
+.mkt-legend { display: flex; flex-direction: column; gap: 16px; }
+.mkt-row { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; }
+.mkt-row .sw { width: 14px; height: 14px; border-radius: 4px; margin-top: 5px; flex: none; }
+.mkt-row .sw.tam { background: rgba(79,70,229,0.22); border: 1.6px solid var(--primary); }
+.mkt-row .sw.sam { background: rgba(242,169,59,0.22); border: 1.6px solid var(--accent); }
+.mkt-row .sw.som { background: rgba(53,208,127,0.22); border: 1.6px solid var(--win); border-radius: 50%; }
+.mkt-row .mt b { font-family: var(--font-mono); font-weight: 600; color: var(--ink); }
+.mkt-row .mt .big { font-size: 19px; }
+.mkt-row .mt { font-size: 15px; color: var(--ink-soft); line-height: 1.36; }
+.mkt-row .mt .lab { color: var(--ink); font-weight: 600; }
+.mkt-seatmath {
+  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.01em; line-height: 1.5;
+  color: var(--ink-soft);
+  border: 1px solid var(--line-strong); border-radius: var(--r-md);
+  background: var(--paper-raised); padding: 13px 16px;
+}
+.mkt-seatmath b { color: var(--ink); font-weight: 600; }
+.mkt-srcline {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.02em; color: var(--ink-faint);
+}
+.mkt-srcline .sl-lab { letter-spacing: 0.12em; text-transform: uppercase; }
+.mkt-srcline .src {
+  padding: 3px 9px; border-radius: var(--r-pill);
+  border: 1px solid var(--line-strong); background: var(--paper); color: var(--ink-soft);
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   SLIDE 11 - MONETIZATION  ·  three planned per-seat pricing cards
+   ════════════════════════════════════════════════════════════════════════ */
+.price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; flex: none; align-items: stretch; }
+.price-card {
+  border-radius: var(--r-lg); padding: 26px 26px 24px;
+  display: flex; flex-direction: column; position: relative;
+  border: 1px solid var(--line-strong); background: var(--paper-raised);
+}
+.price-card.feature { border: 1.5px solid var(--primary); background: linear-gradient(180deg, rgba(79,70,229,0.06), rgba(79,70,229,0.015)); }
+.price-card .ptier {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 8px; color: var(--ink-faint);
+}
+.price-card.feature .ptier { color: var(--primary); }
+.price-card .ptier .pd { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-faint); }
+.price-card.feature .ptier .pd { background: var(--primary); }
+.price-card .pprice {
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-weight: 600;
+  font-size: 38px; letter-spacing: -0.02em; color: var(--ink); line-height: 1; margin: 14px 0 4px;
+}
+.price-card .pprice .pu { font-size: 14px; color: var(--ink-soft); font-weight: 500; letter-spacing: 0; }
+.price-card .pwho { font-size: 13px; color: var(--ink-soft); line-height: 1.36; min-height: 38px; }
+.price-card ul { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+.price-card li { display: grid; grid-template-columns: auto 1fr; gap: 11px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.34; align-items: start; }
+.price-card li .pb { width: 5px; height: 5px; border-radius: 50%; margin-top: 7px; flex: none; background: var(--ink-faint); }
+.price-card.feature li .pb { background: var(--primary); }
+.price-card li b { color: var(--ink); font-weight: 600; }
+.price-card .punit {
+  margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line);
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.02em; color: var(--ink-faint);
+}
+.price-card .punit b { color: var(--primary); font-weight: 600; }
+.price-flag {
+  position: absolute; top: -12px; right: 24px;
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.05em;
+  background: var(--primary); color: #fff; padding: 4px 12px; border-radius: var(--r-pill);
+}
+.price-land {
+  margin-top: 20px; align-self: stretch;
+  font-family: var(--font-mono); font-size: 13.5px; letter-spacing: 0.01em; color: var(--ink-soft);
+  border-left: 3px solid var(--primary); padding: 4px 0 4px 16px;
+}
+.price-land b { color: var(--primary); font-weight: 600; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   SLIDE 12 - COMPETITION  ·  four-row landscape, re-forge as the LAYER
+   ════════════════════════════════════════════════════════════════════════ */
+.comp-rows { display: flex; flex-direction: column; gap: 11px; flex: none; }
+.comp-row {
+  display: grid; grid-template-columns: 0.92fr 1.08fr auto; gap: 22px; align-items: center;
+  border: 1px solid var(--line-strong); background: var(--paper-raised);
+  border-radius: var(--r-md); padding: 14px 20px;
+}
+.comp-row .cat { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.comp-row .cat .ck { font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.2; letter-spacing: -0.005em; }
+.comp-row .cat .who { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-soft); letter-spacing: 0.01em; line-height: 1.3; }
+.comp-row .rel { font-size: 14px; color: var(--ink-soft); line-height: 1.38; }
+.comp-row .rel b { color: var(--ink); font-weight: 600; }
+.comp-row .tagcol { display: flex; justify-content: flex-end; }
+.comp-tag {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase;
+  white-space: nowrap; padding: 5px 11px; border-radius: var(--r-pill);
+  border: 1px solid var(--line-strong); color: var(--ink-faint); background: var(--paper);
+}
+.comp-tag.substrate { color: var(--primary); border-color: rgba(79,70,229,0.34); background: rgba(79,70,229,0.06); }
+.comp-tag.adjacent { color: var(--accent); border-color: rgba(242,169,59,0.4); background: rgba(242,169,59,0.08); }
+.comp-layer {
+  margin-top: 6px;
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  border: 1.5px solid var(--primary); border-radius: var(--r-md);
+  background: linear-gradient(90deg, rgba(79,70,229,0.10), rgba(79,70,229,0.03));
+  padding: 16px 22px;
+}
+.comp-layer .cl-mark {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--primary); font-weight: 600; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 9px;
+}
+.comp-layer .cl-mark .star { color: var(--primary); font-size: 14px; }
+.comp-layer .cl-t { font-size: 15px; color: var(--ink); line-height: 1.36; }
+.comp-layer .cl-t b { color: var(--primary); font-weight: 600; }
 
 /* ── On-screen nav chrome (hidden in print) ─────────────────────────────── */
 #chrome {
@@ -653,17 +804,17 @@ html, body {
 }
 
 /* ════════════════════════════════════════════════════════════════════════
-   APPENDIX SLIDES 13–16 · re-forge Cloud product mock
+   APPENDIX SLIDES 13-16 · re-forge Cloud product mock
    The .rfc-* block below is COPIED VERBATIM from public/product.html so the
    deck embeds and the standalone dashboard render pixel-identically.
    (Single source of truth lives in product.html; keep them in sync.)
    ════════════════════════════════════════════════════════════════════════ */
 
-/* appendix eyebrow accent — distinguishes Q&A deep-dive from the 5-min core */
+/* appendix eyebrow accent - distinguishes Q&A deep-dive from the 5-min core */
 .eyebrow.appendix .tick { background: var(--accent); box-shadow: 0 0 0 4px rgba(242,169,59,0.16); }
 .dark .eyebrow.appendix .tick { background: var(--accent); box-shadow: 0 0 0 4px rgba(242,169,59,0.18); }
 
-/* ── re-forge Cloud DASHBOARD — shared component classes ─────────────────── */
+/* ── re-forge Cloud DASHBOARD - shared component classes ─────────────────── */
 .rfc-app {
   max-width: 1320px;
   margin: 0 auto;
@@ -1228,10 +1379,79 @@ html, body {
 }
 .rfc-capstrip .closechip b { color: #d6f5e3; font-weight: 600; }
 
-/* slide-15 split: compounding panels (left) + audit (right) */
+/* slide-16 split: compounding panels (left) + audit (right) */
 .rfc-split { flex: 1; display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 16px; min-height: 0; }
 .rfc-split .rfc-panel { background: var(--paper-raised); display: flex; flex-direction: column; }
 .rfc-stack2 { display: flex; flex-direction: column; gap: 16px; min-height: 0; }
+
+/* ── AUDIT LOG panel - a real dark log surface (grid + scanline texture, accent
+   bar, AUDIT LOG header chip, monospace rows that read like a tail -f). ─────── */
+.auditlog {
+  position: relative;
+  border: 1px solid var(--panel-line) !important;
+  border-radius: var(--r-lg);
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.022) 0 1px, transparent 1px 3px),
+    linear-gradient(0deg, rgba(122,162,247,0.05) 0 1px, transparent 1px 24px),
+    linear-gradient(90deg, rgba(122,162,247,0.05) 0 1px, transparent 1px 24px),
+    radial-gradient(120% 90% at 50% 0%, rgba(79,70,229,0.14), transparent 62%),
+    var(--panel-deep) !important;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.auditlog::before {            /* left accent bar */
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: linear-gradient(180deg, var(--danger), var(--accent) 52%, var(--win));
+  opacity: 0.85; z-index: 3;
+}
+.auditlog .al-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 15px 20px 13px 24px;
+  border-bottom: 1px solid var(--panel-line);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent);
+}
+.auditlog .al-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: #cdd3ff; background: rgba(79,70,229,0.18); border: 1px solid rgba(109,93,252,0.45);
+  padding: 4px 11px; border-radius: var(--r-pill);
+}
+.auditlog .al-chip .blink {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--win);
+  animation: rfc-live-dot 2s var(--ease-out) infinite;
+}
+.auditlog .al-meta { font-family: var(--font-mono); font-size: 11px; color: var(--panel-muted); letter-spacing: 0.04em; }
+.auditlog .al-meta b { color: #d6f5e3; font-weight: 600; }
+.auditlog .al-spacer { flex: 1; }
+.auditlog .al-tail { font-family: var(--font-mono); font-size: 10.5px; color: var(--panel-muted); letter-spacing: 0.06em; }
+.auditlog .rfc-audit { position: relative; z-index: 2; }
+.auditlog .rfc-arow {
+  grid-template-columns: auto 1fr auto;
+  padding: 14px 20px 14px 24px;
+  border-bottom: 1px solid rgba(122,162,247,0.12);
+  align-items: start;
+}
+.auditlog .rfc-arow:hover { background: rgba(122,162,247,0.05); }
+.auditlog .rfc-arow .sid { color: var(--panel-muted); border-right: 1px solid rgba(122,162,247,0.14); padding-right: 14px; }
+.auditlog .rfc-arow .sid b { color: var(--panel-ink); }
+.auditlog .rfc-arow .sid .ts { color: #8ff0bb; font-size: 10.5px; letter-spacing: 0.02em; }
+.auditlog .claim { color: var(--panel-ink); }
+.auditlog .claim .q { color: var(--panel-muted); }
+.auditlog .claim b.kill { color: #ff9a9a; }
+.auditlog .rfc-verbadge.killed { color: #ff9a9a; background: rgba(239,68,68,0.14); border-color: rgba(239,68,68,0.4); }
+.auditlog .rfc-verbadge.refuted { color: #ffd596; background: rgba(242,169,59,0.16); border-color: rgba(242,169,59,0.4); }
+.auditlog .rfc-verbadge.passed { color: #8ff0bb; background: rgba(53,208,127,0.14); border-color: rgba(53,208,127,0.4); }
+.auditlog .rfc-evidence {
+  color: #8ff0bb; border-color: rgba(53,208,127,0.4); background: rgba(53,208,127,0.1);
+}
+.auditlog .al-foot {
+  position: relative; z-index: 2;
+  margin-top: auto;
+  padding: 12px 20px 13px 24px; border-top: 1px solid var(--panel-line);
+  font-family: var(--font-display); font-style: italic; font-size: 17px; letter-spacing: -0.01em;
+  color: var(--panel-muted);
+}
+.auditlog .al-foot em { font-style: normal; color: var(--win); }
 
 /* ════════════════════════════════════════════════════════════════════════
    PRINT  →  exactly one landscape page per slide, clean multi-page PDF
@@ -1300,7 +1520,7 @@ html, body {
 <div id="stage">
   <div id="deck">
 
-    <!-- ═══════════════ SLIDE 1 — TITLE ═══════════════ -->
+    <!-- ═══════════════ SLIDE 1 - TITLE ═══════════════ -->
     <section class="slide paper is-active" id="s1" data-title="Title">
       <span class="kicker">re-forge · investor deck</span>
       <div class="hero">
@@ -1313,7 +1533,7 @@ html, body {
           <p class="tagline display">The <em>compounding layer</em> for your AI toolchain.</p>
           <p class="authors">Akasxh &amp; Shine · UCWS Singapore 2026</p>
           <div class="chips">
-            <span class="chip"><span class="dot accent"></span>#1 on the leaderboard</span>
+            <span class="chip"><span class="dot accent"></span>Top 5 · 130+ votes</span>
             <span class="chip"><span class="dot"></span>2 papers @ ICML 2026</span>
             <span class="chip"><span class="dot win"></span>open-source · model-agnostic</span>
           </div>
@@ -1332,33 +1552,33 @@ html, body {
       <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
     </section>
 
-    <!-- ═══════════════ SLIDE 2 — THE HOOK ═══════════════ -->
+    <!-- ═══════════════ SLIDE 2 - THE HOOK ═══════════════ -->
     <section class="slide paper" id="s2" data-title="The hook">
-      <span class="kicker">02 — the cold truth</span>
+      <span class="kicker">02 · the cold truth</span>
       <div class="cols c2-wide">
         <div class="stack gap-l">
           <div class="eyebrow"><span class="tick"></span>the hook</div>
           <h2 class="display" style="font-size:72px;">Every session<br>starts from <em>zero.</em></h2>
-          <p class="lead">You run dozens of AI coding sessions a day — Claude Code, Cursor, Codex, ChatGPT. They forget what worked, repeat your mistakes, and leave no trace.</p>
+          <p class="lead">You run dozens of AI coding sessions a day across Claude Code, Cursor, Codex, ChatGPT. They forget what worked, repeat your mistakes, and leave no trace.</p>
           <p class="lead" style="color:var(--ink);font-weight:500;">You are the only memory in the loop. That doesn't scale, and it doesn't compound.</p>
         </div>
         <div class="stack gap-m" style="justify-content:center;">
           <div class="statcard">
             <div class="figure big-num" style="color:var(--ink);">0</div>
-            <div class="lab">memory carried between sessions — every tool, every day</div>
+            <div class="lab">memory carried between sessions, every tool, every day</div>
           </div>
           <div class="statcard">
             <div class="figure big-num" style="color:var(--ink);">1</div>
-            <div class="lab">thing that remembers what worked yesterday — <b style="color:var(--ink);">you</b></div>
+            <div class="lab">thing that remembers what worked yesterday: <b style="color:var(--ink);">you</b></div>
           </div>
         </div>
       </div>
       <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
     </section>
 
-    <!-- ═══════════════ SLIDE 3 — THE PROBLEM ═══════════════ -->
+    <!-- ═══════════════ SLIDE 3 - THE PROBLEM ═══════════════ -->
     <section class="slide paper" id="s3" data-title="The problem">
-      <span class="kicker">03 — why it costs money</span>
+      <span class="kicker">03 · why it costs money</span>
       <div class="stack gap-l" style="flex:1;justify-content:center;">
         <div class="eyebrow danger"><span class="tick"></span>the problem</div>
         <h2 class="display" style="font-size:60px;max-width:24ch;">A single agent is confident,<br>and <em style="color:var(--danger);">unaccountable.</em></h2>
@@ -1369,20 +1589,20 @@ html, body {
           </div>
           <div class="arg">
             <div class="idx" style="color:var(--danger);">02</div>
-            <div class="body"><div class="t lg" style="font-weight:600;color:var(--ink);">On long-horizon work that's wasted tokens, repeated bugs, and <b>no audit trail</b>.</div><div class="t" style="margin-top:8px;">You can't prove what it checked.</div></div>
+            <div class="body"><div class="t lg" style="font-weight:600;color:var(--ink);">On long-horizon work that is wasted tokens, repeated bugs, and <b>no audit trail</b>.</div><div class="t" style="margin-top:8px;">You can't prove what it checked.</div></div>
           </div>
           <div class="arg">
             <div class="idx" style="color:var(--danger);">03</div>
-            <div class="body"><div class="t lg" style="font-weight:600;color:var(--ink);">The most valuable thing — <b>how your team actually works</b> — evaporates.</div><div class="t" style="margin-top:8px;">Gone at the end of every session.</div></div>
+            <div class="body"><div class="t lg" style="font-weight:600;color:var(--ink);">The most valuable thing, <b>how your team actually works</b>, evaporates.</div><div class="t" style="margin-top:8px;">Gone at the end of every session.</div></div>
           </div>
         </div>
       </div>
       <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
     </section>
 
-    <!-- ═══════════════ SLIDE 4 — THE INSIGHT ═══════════════ -->
+    <!-- ═══════════════ SLIDE 4 - THE INSIGHT ═══════════════ -->
     <section class="slide paper" id="s4" data-title="The insight">
-      <span class="kicker">04 — the insight</span>
+      <span class="kicker">04 · the insight</span>
       <div class="cols c2" style="align-content:center;">
         <div class="stack gap-l">
           <div class="eyebrow"><span class="tick"></span>the insight</div>
@@ -1402,19 +1622,19 @@ html, body {
       <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
     </section>
 
-    <!-- ═══════════════ SLIDE 5 — SWARM (DARK STAGE) ═══════════════ -->
+    <!-- ═══════════════ SLIDE 5 - SWARM (DARK STAGE) ═══════════════ -->
     <section class="slide dark stage" id="s5" data-title="The shipped engine">
-      <span class="kicker">05 — the shipped engine</span>
+      <span class="kicker">05 · the shipped engine</span>
       <div class="swarm-shell">
         <!-- left: legend + copy -->
         <div class="swarm-copy stack">
           <div class="eyebrow"><span class="tick"></span>what re-forge is</div>
           <h2 class="display">One prompt →<br>a whole <em>org.</em></h2>
-          <p class="lead" style="font-size:18px;">A coordinated org of specialist agents — research, engineering, security, testing, docs — plus a Forge meta-agent. Model-agnostic: it's a procedure, not a model.</p>
+          <p class="lead" style="font-size:18px;">A coordinated org of specialist agents (research, engineering, security, testing, docs) plus a Forge meta-agent. Model-agnostic: it's a procedure, not a model.</p>
           <div class="swarm-legend">
-            <div class="leg-row"><span class="mk"></span><div class="t"><b>Specialists fan out</b> from one lead — each lane works in parallel.</div></div>
-            <div class="leg-row"><span class="mk adv"></span><div class="t"><b>Skeptic + adversary attack</b> the work — weak claims die before you see them.</div></div>
-            <div class="leg-row"><span class="mk core"></span><div class="t"><b>Survivors reach SYNTHESIS</b> — evidence lands on disk, memory gains a lesson.</div></div>
+            <div class="leg-row"><span class="mk"></span><div class="t"><b>Specialists fan out</b> from one lead; each lane works in parallel.</div></div>
+            <div class="leg-row"><span class="mk adv"></span><div class="t"><b>Skeptic + adversary attack</b> the work, so weak claims die before you see them.</div></div>
+            <div class="leg-row"><span class="mk core"></span><div class="t"><b>Survivors reach SYNTHESIS</b>: evidence lands on disk, memory gains a lesson.</div></div>
           </div>
         </div>
 
@@ -1508,11 +1728,11 @@ html, body {
       <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
     </section>
 
-    <!-- ═══════════════ SLIDE 6 — RECEIPTS ═══════════════ -->
+    <!-- ═══════════════ SLIDE 6 - RECEIPTS ═══════════════ -->
     <section class="slide paper" id="s6" data-title="Proof / receipts">
-      <span class="kicker">06 — proof, on the hardest user: itself</span>
+      <span class="kicker">06 · proof, on the hardest user: itself</span>
       <div class="stack gap-m" style="flex:1;justify-content:center;">
-        <div class="eyebrow win"><span class="tick"></span>proof — receipts, all real and clickable</div>
+        <div class="eyebrow win"><span class="tick"></span>proof · receipts, all real and clickable</div>
         <h2 class="display" style="font-size:50px;">Proven on the hardest user there is: <em>itself.</em></h2>
 
         <div class="stack gap-s" style="margin-top:6px;">
@@ -1520,7 +1740,7 @@ html, body {
             <div class="seq">01</div>
             <div>
               <div class="pt">Compute-Aware Mixture-of-Agents: Verifier-Gated Adaptive Aggregation under a Fixed Token Budget</div>
-              <div class="pa">Shine Gupta · S Akash — SCALE Workshop, ICML 2026</div>
+              <div class="pa">Shine Gupta · S Akash · SCALE Workshop, ICML 2026</div>
             </div>
             <div class="link">public at camera-ready</div>
           </div>
@@ -1528,7 +1748,7 @@ html, body {
             <div class="seq">02</div>
             <div>
               <div class="pt">Who Hallucinates Tools, How Often, and What Fixes It?</div>
-              <div class="pa">S Akash · Shine Gupta — SCALE Workshop, ICML 2026</div>
+              <div class="pa">S Akash · Shine Gupta · SCALE Workshop, ICML 2026</div>
             </div>
             <div class="link">public at camera-ready</div>
           </div>
@@ -1536,12 +1756,12 @@ html, body {
 
         <div class="receipts-row">
           <div class="statcard">
-            <div class="figure big-num" style="font-size:46px;color:var(--accent);">#1 <span style="font-size:24px;color:var(--ink-soft);">/ 81 votes</span></div>
-            <div class="lab">most of any project on the hackathon leaderboard</div>
+            <div class="figure big-num" style="font-size:40px;color:var(--accent);">Top 5 <span style="font-size:22px;color:var(--ink-soft);">· 130+ votes</span></div>
+            <div class="lab">a top-5 project on the hackathon leaderboard</div>
           </div>
           <div class="statcard">
             <div class="figure big-num" style="font-size:46px;color:var(--win-soft);">685 <span style="font-size:22px;color:var(--ink-soft);">checks</span></div>
-            <div class="lab">machine checks — green CI on every push</div>
+            <div class="lab">machine checks: green CI on every push</div>
           </div>
           <div class="statcard">
             <div class="figure big-num" style="font-size:46px;color:var(--ink);">128 <span style="font-size:22px;color:var(--ink-soft);">skills · 6 teams</span></div>
@@ -1552,18 +1772,18 @@ html, body {
       <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
     </section>
 
-    <!-- ═══════════════ SLIDE 7 — DEMO (DARK STAGE) ═══════════════ -->
+    <!-- ═══════════════ SLIDE 7 - DEMO (DARK STAGE) ═══════════════ -->
     <section class="slide dark stage" id="s7" data-title="Looks done ≠ verified">
-      <span class="kicker">07 — "looks done" is not "verified"</span>
+      <span class="kicker">07 · "looks done" is not "verified"</span>
       <div class="stack" style="flex:1;min-height:0;">
         <div class="eyebrow danger" style="margin-bottom:14px;"><span class="tick"></span>the demo · secure JWT auth</div>
         <div class="duel">
-          <!-- left: the plain agent did a genuinely good job — credit given -->
+          <!-- left: the plain agent did a genuinely good job, credit given -->
           <div class="panelcard win-edge">
             <div class="ph"><span style="width:8px;height:8px;border-radius:50%;background:var(--win);display:inline-block;"></span>plain agent · genuinely good</div>
-            <div class="ptitle">A plain agent built JWT auth — and did it well.</div>
+            <div class="ptitle">A plain agent built JWT auth, and did it well.</div>
             <div class="passline"><span class="big">19 / 19</span> its own security tests passed</div>
-            <p style="font-size:16px;color:var(--panel-muted);line-height:1.42;">The token core is <span style="color:var(--panel-ink);">sound</span> — Argon2id, refresh rotation, reuse-detection, revocation. re-forge's report says so. <span style="color:var(--panel-ink);">We give credit.</span></p>
+            <p style="font-size:16px;color:var(--panel-muted);line-height:1.42;">The token core is <span style="color:var(--panel-ink);">sound</span>: Argon2id, refresh rotation, reuse-detection, revocation. re-forge's report says so. <span style="color:var(--panel-ink);">We give credit.</span></p>
             <p style="font-size:16px;color:var(--panel-muted);line-height:1.42;margin-top:auto;">By every signal the agent gives you, this looks <span style="color:var(--panel-ink);">shippable.</span></p>
           </div>
           <!-- right: the ONE HIGH hole the tests missed (IDOR) + supporting mediums -->
@@ -1573,33 +1793,33 @@ html, body {
             <div class="find" style="margin-bottom:14px;align-items:start;">
               <span class="x" style="width:24px;height:24px;"></span>
               <div class="ft" style="font-size:19px;line-height:1.3;">
-                <b style="color:#ffcaca;">Broken object-level authorization (IDOR)</b> — any logged-in user can <b style="color:#ffcaca;">read and DELETE every other user's data.</b>
+                <b style="color:#ffcaca;">Broken object-level authorization (IDOR)</b>: any logged-in user can <b style="color:#ffcaca;">read and DELETE every other user's data.</b>
                 <span style="display:block;font-family:var(--font-mono);font-size:12.5px;color:#ff8a8a;margin-top:6px;letter-spacing:0.02em;">reproduced cross-user · against the running app</span>
               </div>
             </div>
             <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:var(--panel-muted);margin:4px 0 9px;">+ medium gaps</div>
             <div class="find-list">
-              <div class="find"><span class="x"></span><div class="ft" style="font-size:15px;"><b>No rate limiting</b> — brute-force wide open</div></div>
-              <div class="find"><span class="x"></span><div class="ft" style="font-size:15px;"><b>Username enumeration</b> — login reveals who exists</div></div>
+              <div class="find"><span class="x"></span><div class="ft" style="font-size:15px;"><b>No rate limiting</b>: brute-force wide open</div></div>
+              <div class="find"><span class="x"></span><div class="ft" style="font-size:15px;"><b>Username enumeration</b>: login reveals who exists</div></div>
             </div>
             <div style="margin-top:auto;padding-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-              <span style="font-family:var(--font-mono);font-size:12.5px;letter-spacing:0.02em;color:#b7f0cf;border:1px solid rgba(53,208,127,0.4);background:rgba(53,208,127,0.1);padding:6px 12px;border-radius:999px;">adversary refused to inflate — it doesn't cry wolf</span>
+              <span style="font-family:var(--font-mono);font-size:12.5px;letter-spacing:0.02em;color:#b7f0cf;border:1px solid rgba(53,208,127,0.4);background:rgba(53,208,127,0.1);padding:6px 12px;border-radius:999px;">adversary refused to inflate, it doesn't cry wolf</span>
               <span style="font-family:var(--font-mono);font-size:12.5px;letter-spacing:0.04em;color:var(--panel-muted);">verdict: ADVISORY · 1 HIGH + 5 MEDIUM</span>
             </div>
           </div>
         </div>
-        <p class="duel-foot">Green tests are not secure. <em>That gap — "looks done" vs "verified" — is the product.</em></p>
+        <p class="duel-foot">Green tests are not secure. <em>That gap ("looks done" vs "verified") is the product.</em></p>
       </div>
       <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
     </section>
 
-    <!-- ═══════════════ SLIDE 8 — PRODUCT LOOP (DARK STAGE) ═══════════════ -->
+    <!-- ═══════════════ SLIDE 8 - PRODUCT LOOP (DARK STAGE) ═══════════════ -->
     <section class="slide dark stage" id="s8" data-title="The product / loop">
-      <span class="kicker">08 — the product / the business</span>
+      <span class="kicker">08 · the product / the business</span>
       <div class="loop-shell">
         <!-- left: the loop diagram -->
         <svg class="loop-svg" viewBox="0 0 720 460" role="img"
-          aria-label="Product loop: four tool chips — Claude Code, Cursor, Codex, ChatGPT — flow into a central re-forge node, which flows out to personalized skills and memory you own, with a dashed curved arrow looping that memory back to the tools, forming a self-evolving cycle.">
+          aria-label="Product loop: four tool chips (Claude Code, Cursor, Codex, ChatGPT) flow into a central re-forge node, which flows out to personalized skills and memory you own, with a dashed curved arrow looping that memory back to the tools, forming a self-evolving cycle.">
           <!-- definitions: arrowheads -->
           <defs>
             <marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto">
@@ -1632,14 +1852,18 @@ html, body {
           </g>
 
           <!-- inbound edges: tools → hub -->
-          <path class="lp-edge" d="M170,68  C250,68 250,178 318,178" marker-end="url(#ah)" />
-          <path class="lp-edge" d="M170,136 C250,136 250,184 318,184" marker-end="url(#ah)" />
-          <path class="lp-edge" d="M170,204 C250,204 250,190 318,190" marker-end="url(#ah)" />
-          <path class="lp-edge" d="M170,272 C250,272 250,196 318,196" marker-end="url(#ah)" />
-          <text class="lp-chip-t" x="244" y="120" text-anchor="middle" style="font-size:11px;fill:var(--panel-muted);">observes how you work</text>
+          <path class="lp-edge" d="M170,68  C236,68 236,178 318,178" marker-end="url(#ah)" />
+          <path class="lp-edge" d="M170,136 C236,136 236,184 318,184" marker-end="url(#ah)" />
+          <path class="lp-edge" d="M170,204 C236,204 236,190 318,190" marker-end="url(#ah)" />
+          <path class="lp-edge" d="M170,272 C236,272 236,196 318,196" marker-end="url(#ah)" />
+          <!-- edge label lives INSIDE a small box sitting on the inbound edges -->
+          <g>
+            <rect class="lp-edgebox" x="168" y="108" width="166" height="26" rx="8" />
+            <text class="lp-edgebox-t" x="251" y="125" text-anchor="middle">observes how you work</text>
+          </g>
 
           <!-- central re-forge hub -->
-          <circle class="lp-hub" cx="384" cy="187" r="66" />
+          <circle class="lp-hub" cx="384" cy="187" r="72" />
           <text class="lp-hub-t" x="384" y="184" text-anchor="middle">re-forge</text>
           <text class="lp-hub-s" x="384" y="204" text-anchor="middle">watch · forge · remember</text>
 
@@ -1648,17 +1872,21 @@ html, body {
 
           <!-- output node -->
           <g>
-            <rect class="lp-out" x="560" y="150" width="150" height="74" rx="12" />
+            <rect class="lp-out" x="551" y="150" width="168" height="74" rx="12" />
             <text class="lp-out-t" x="635" y="180" text-anchor="middle">personalized skills</text>
             <text class="lp-out-t" x="635" y="200" text-anchor="middle">+ memory</text>
             <text class="lp-out-t" x="635" y="218" text-anchor="middle" style="fill:#b7f0cf;font-weight:600;">you own</text>
           </g>
 
-          <!-- LOOP-BACK: output → tools (dashed, curved, bottom) = self-evolving -->
+          <!-- LOOP-BACK: output → tools (dashed, curved, bottom). Arrow carries NO bare text. -->
           <path class="lp-edge loop"
-            d="M635,224 C635,360 635,410 384,410 C133,410 95,360 95,300"
+            d="M635,224 C635,372 635,426 384,426 C133,426 95,372 95,300"
             marker-end="url(#ahl)" />
-          <text class="lp-looptag" x="384" y="404" text-anchor="middle">self-evolving — every session sharpens the next</text>
+          <!-- "self-evolving" lives INSIDE a pill sitting ON the loop-back arc -->
+          <g>
+            <rect class="lp-looppill" x="198" y="412" width="372" height="30" rx="15" />
+            <text class="lp-looptag" x="384" y="431" text-anchor="middle">self-evolving · every session sharpens the next</text>
+          </g>
         </svg>
 
         <!-- right: copy -->
@@ -1667,21 +1895,21 @@ html, body {
           <span class="ships">✓ ships today for Claude Code</span>
           <h2 class="display">A memory<br>you <em>own.</em></h2>
           <p class="lead" style="font-size:18px;">Today, re-forge already watches your Claude Code sessions and forges skills from them. <span style="color:var(--panel-ink);font-weight:500;">The company makes that always-on and cross-tool.</span></p>
-          <p class="lead" style="font-size:18px;margin-top:16px;">It sits quietly across your tools, observes how your team actually works, and forges personalized, self-evolving skills &amp; plugins — automatically.</p>
+          <p class="lead" style="font-size:18px;margin-top:16px;">It sits quietly across your tools, observes how your team actually works, and forges personalized, self-evolving skills &amp; plugins, automatically.</p>
           <div class="note" style="margin-top:18px;"><b>roadmap:</b> always-on cross-tool monitor</div>
         </div>
       </div>
       <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
     </section>
 
-    <!-- ═══════════════ SLIDE 9 — WHY IT COMPOUNDS (MOAT) ═══════════════ -->
+    <!-- ═══════════════ SLIDE 9 - WHY IT COMPOUNDS (MOAT) ═══════════════ -->
     <section class="slide paper" id="s9" data-title="Why it compounds">
-      <span class="kicker">09 — the moat</span>
+      <span class="kicker">09 · the moat</span>
       <div class="cols c2" style="align-content:center;">
         <div class="stack gap-l">
           <div class="eyebrow"><span class="tick"></span>why it compounds</div>
           <h2 class="display" style="font-size:64px;">Every session<br>makes it <em>stickier.</em></h2>
-          <p class="lead">The longer a team uses it, the more it knows how they work. Your layer gets better with use — the opposite of a tool you outgrow.</p>
+          <p class="lead">The longer a team uses it, the more it knows how they work. Your layer gets better with use, the opposite of a tool you outgrow.</p>
         </div>
         <div class="stack gap-m" style="justify-content:center;border-left:1px solid var(--line);padding-left:48px;">
           <div class="arg">
@@ -1701,78 +1929,181 @@ html, body {
       <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
     </section>
 
-    <!-- ═══════════════ SLIDE 10 — MARKET & WHY NOW ═══════════════ -->
-    <section class="slide paper" id="s10" data-title="Market & why now">
-      <span class="kicker">10 — market & why now</span>
-      <div class="stack gap-l" style="flex:1;justify-content:center;">
-        <div class="eyebrow"><span class="tick"></span>market & why now</div>
-        <h2 class="display" style="font-size:58px;max-width:22ch;">2026: agents are being handed <em>real engineering work.</em></h2>
-        <div class="cols" style="grid-template-columns:repeat(3,1fr);gap:34px;flex:none;align-content:start;margin-top:14px;">
-          <div class="stack gap-s">
-            <div class="eyebrow" style="font-size:12px;">the missing layer</div>
-            <p style="font-size:21px;line-height:1.34;color:var(--ink);font-weight:500;">Trust, audit, and memory — <span style="color:var(--ink-soft);font-weight:400;">not another model.</span></p>
-          </div>
-          <div class="stack gap-s">
-            <div class="eyebrow" style="font-size:12px;">our position</div>
-            <p style="font-size:21px;line-height:1.34;color:var(--ink);font-weight:500;">Model-agnostic by design — <span style="color:var(--ink-soft);font-weight:400;">we win no matter which model wins.</span></p>
-          </div>
-          <div class="stack gap-s">
-            <div class="eyebrow" style="font-size:12px;">the wedge</div>
-            <p style="font-size:21px;line-height:1.34;color:var(--ink);font-weight:500;">AI-heavy eng teams &amp; research groups <span style="color:var(--ink-soft);font-weight:400;">drowning in disconnected sessions.</span></p>
-          </div>
-        </div>
-        <div class="note" style="align-self:flex-start;"><b>honest status:</b> open-source today, pre-revenue — the cross-tool layer is what we're building</div>
-      </div>
-      <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
-    </section>
-
-    <!-- ═══════════════ SLIDE 11 — BUSINESS MODEL ═══════════════ -->
-    <section class="slide paper" id="s11" data-title="Business model">
-      <span class="kicker">11 — business model · open-core</span>
+    <!-- ═══════════════ SLIDE 10 - MARKET · TAM / SAM / SOM ═══════════════ -->
+    <section class="slide paper" id="s10" data-title="Market · TAM / SAM / SOM">
+      <span class="kicker">10 · market</span>
       <div class="stack" style="flex:1;min-height:0;justify-content:center;">
-        <div class="eyebrow" style="margin-bottom:20px;"><span class="tick"></span>business model — open-core</div>
-        <div class="tiers">
-          <div class="tier free">
-            <div class="tlabel"><span style="width:7px;height:7px;border-radius:50%;background:var(--ink-faint);display:inline-block;"></span>free / OSS</div>
-            <h3 class="display">The funnel &amp; the proof.</h3>
-            <ul>
-              <li><span class="b"></span><div>The <b>operating procedure</b> — teams of specialist agents.</div></li>
-              <li><span class="b"></span><div>The <b>skill library</b> — open, inspectable, model-agnostic.</div></li>
-              <li><span class="b"></span><div>Every run is public proof the layer works.</div></li>
-            </ul>
+        <div class="eyebrow" style="margin-bottom:8px;"><span class="tick"></span>market · TAM / SAM / SOM</div>
+        <h2 class="display" style="font-size:46px;margin-bottom:18px;">A large market, entered through a <em>small, defensible wedge.</em></h2>
+        <div class="mkt-shell">
+
+          <!-- concentric nested tiers -->
+          <div class="mkt-rings">
+            <div class="mkt-ring tam">
+              <div class="rt">TAM</div>
+              <div class="rn">$52.6B</div>
+              <div class="rk">global AI-agents market by 2030</div>
+            </div>
+            <div class="mkt-ring sam">
+              <div class="rt">SAM</div>
+              <div class="rn">~$8.1B</div>
+              <div class="rk">serviceable seats, fully penetrated</div>
+            </div>
+            <div class="mkt-ring som">
+              <div class="rt">SOM</div>
+              <div class="rn">~$40M</div>
+              <div class="rk">ARR wedge, Series A horizon</div>
+            </div>
           </div>
-          <div class="tier paid">
-            <div class="pinflag">where we monetize</div>
-            <div class="tlabel"><span style="width:7px;height:7px;border-radius:50%;background:var(--primary);display:inline-block;"></span>paid · per-seat SaaS</div>
-            <h3 class="display">The always-on layer.</h3>
-            <ul>
-              <li><span class="b"></span><div>The <b>always-on cross-tool monitor</b>.</div></li>
-              <li><span class="b"></span><div><b>Team-shared memory</b> + personalized skill-forging.</div></li>
-              <li><span class="b"></span><div>An <b>audit / mission-control dashboard</b>.</div></li>
-            </ul>
-            <div class="landexpand">Land with <b>one developer's</b> personal layer; expand to the <b>team's shared brain.</b></div>
+
+          <!-- figure legend + seat math + sources -->
+          <div class="mkt-legend">
+            <div class="mkt-row">
+              <span class="sw tam"></span>
+              <div class="mt"><span class="lab">TAM · <span class="big">$52.6B</span> by 2030</span><br>global AI-agents market, up from $7.8B in 2025 (<b>46.3% CAGR</b>).</div>
+            </div>
+            <div class="mkt-row">
+              <span class="sw sam"></span>
+              <div class="mt"><span class="lab">SAM · <span class="big">~$8.1B</span></span><br>~22.6M AI-agent developers reachable at the planned seat price.</div>
+            </div>
+            <div class="mkt-row">
+              <span class="sw som"></span>
+              <div class="mt"><span class="lab">SOM · <span class="big">~$40M</span> ARR</span><br>~0.5% of that base (~110K paid seats). Entry wedge is far smaller: the first 1K to 3K paid seats.</div>
+            </div>
+            <div class="mkt-seatmath">
+              <b>Bottom-up SAM:</b> 36.5M pro developers × 62% on an AI coding agent = ~22.6M, × $360 / seat / yr = <b>~$8.1B</b>.
+            </div>
+            <div class="mkt-srcline">
+              <span class="sl-lab">sources</span>
+              <span class="src">MarketsandMarkets</span>
+              <span class="src">Grand View Research</span>
+              <span class="src">SlashData 2025</span>
+              <span class="src">JetBrains 2025</span>
+            </div>
           </div>
+
         </div>
       </div>
       <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
     </section>
 
-    <!-- ═══════════════ SLIDE 12 — TEAM & THE ASK ═══════════════ -->
-    <section class="slide paper" id="s12" data-title="Team & the ask">
-      <span class="kicker">12 — team &amp; the ask</span>
+    <!-- ═══════════════ SLIDE 11 - MONETIZATION · per-seat pricing ═══════════════ -->
+    <section class="slide paper" id="s11" data-title="Monetization · per-seat pricing">
+      <span class="kicker">11 · monetization</span>
+      <div class="stack" style="flex:1;min-height:0;justify-content:center;">
+        <div class="eyebrow" style="margin-bottom:6px;"><span class="tick"></span>monetization · per-seat
+          <span class="note" style="margin-left:6px;border-style:solid;"><b>planned pricing</b> · pre-revenue</span>
+        </div>
+        <h2 class="display" style="font-size:42px;margin-bottom:18px;">Open-core, priced <em>per seat.</em></h2>
+        <div class="price-grid">
+
+          <div class="price-card">
+            <div class="ptier"><span class="pd"></span>Free · OSS</div>
+            <div class="pprice">$0</div>
+            <div class="pwho">Individual devs, self-hosters, bottoms-up inside teams. The adoption wedge.</div>
+            <ul>
+              <li><span class="pb"></span><div>Open-source operating + <b>memory + skill</b> layer.</div></li>
+              <li><span class="pb"></span><div>Local skill-forging from your own Claude Code / Cursor / Codex sessions.</div></li>
+              <li><span class="pb"></span><div>Personal memory, single user.</div></li>
+            </ul>
+          </div>
+
+          <div class="price-card feature">
+            <div class="price-flag">where we monetize</div>
+            <div class="ptier"><span class="pd"></span>Team</div>
+            <div class="pprice">$30 <span class="pu">/ seat / month</span></div>
+            <div class="pwho">Eng teams standardizing AI agents across tools.</div>
+            <ul>
+              <li><span class="pb"></span><div><b>Shared team memory</b> + cross-session skill forging across the team.</div></li>
+              <li><span class="pb"></span><div>Sync across tools, role-based access.</div></li>
+              <li><span class="pb"></span><div>Usage analytics.</div></li>
+            </ul>
+            <div class="punit">the SAM unit · <b>$360 / seat / yr</b></div>
+          </div>
+
+          <div class="price-card">
+            <div class="ptier"><span class="pd"></span>Enterprise</div>
+            <div class="pprice">Custom</div>
+            <div class="pwho">Large orgs with security, compliance, and on-prem needs.</div>
+            <ul>
+              <li><span class="pb"></span><div><b>SSO / SAML</b>, full audit trail of agent activity.</div></li>
+              <li><span class="pb"></span><div><b>On-prem / VPC memory</b>, data-residency &amp; retention controls.</div></li>
+              <li><span class="pb"></span><div>SOC 2, admin governance over forged skills.</div></li>
+            </ul>
+          </div>
+
+        </div>
+        <div class="price-land">Land with <b>one developer's free layer</b>, expand to the <b>team's shared brain</b>, then the <b>enterprise audit trail.</b></div>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
+    </section>
+
+    <!-- ═══════════════ SLIDE 12 - COMPETITION · who's in the game ═══════════════ -->
+    <section class="slide paper" id="s12" data-title="Competition · the landscape">
+      <span class="kicker">12 · competition</span>
+      <div class="stack" style="flex:1;min-height:0;justify-content:center;">
+        <div class="eyebrow" style="margin-bottom:6px;"><span class="tick"></span>competition · who's in the game</div>
+        <h2 class="display" style="font-size:42px;margin-bottom:16px;">Everyone builds the agents or watches them. <em>We're the layer.</em></h2>
+
+        <div class="comp-rows">
+          <div class="comp-row">
+            <div class="cat">
+              <div class="ck">Single-agent assistants &amp; editors</div>
+              <div class="who">GitHub Copilot · Cursor · OpenAI Codex · Amazon Q</div>
+            </div>
+            <div class="rel">They generate the agent sessions. re-forge watches across all of them and forges skills + shared memory.</div>
+            <div class="tagcol"><span class="comp-tag substrate">the substrate we sit on</span></div>
+          </div>
+          <div class="comp-row">
+            <div class="cat">
+              <div class="ck">Agent frameworks &amp; orchestration</div>
+              <div class="who">LangGraph · AutoGen · CrewAI</div>
+            </div>
+            <div class="rel">They build agents. re-forge persists what agents learn: a layer above any framework, not another SDK.</div>
+            <div class="tagcol"><span class="comp-tag">a layer above</span></div>
+          </div>
+          <div class="comp-row">
+            <div class="cat">
+              <div class="ck">Observability &amp; evals</div>
+              <div class="who">LangSmith · Phoenix · Langfuse · Helicone</div>
+            </div>
+            <div class="rel">They show what happened. re-forge acts on it, turning sessions into reusable skills, memory, and an audit trail.</div>
+            <div class="tagcol"><span class="comp-tag">the write-back layer</span></div>
+          </div>
+          <div class="comp-row">
+            <div class="cat">
+              <div class="ck">Agent memory &amp; skill infra</div>
+              <div class="who">Mem0 · Letta · Zep</div>
+            </div>
+            <div class="rel">Closest adjacency: developer SDKs for app builders. re-forge is a team product that auto-forges skills + shared memory from real coding-agent sessions, with SSO / audit / on-prem.</div>
+            <div class="tagcol"><span class="comp-tag adjacent">closest adjacency</span></div>
+          </div>
+        </div>
+
+        <div class="comp-layer">
+          <span class="cl-mark"><span class="star">✦</span>re-forge</span>
+          <span class="cl-t">The model- and tool-agnostic <b>memory + skill + audit layer on top.</b> Everyone else builds the agents or watches them; re-forge is the layer that makes them <b>learn, remember, and stay auditable</b>, across every tool.</span>
+        </div>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
+    </section>
+
+    <!-- ═══════════════ SLIDE 13 - CLOSING / VISION ═══════════════ -->
+    <section class="slide paper" id="s13" data-title="Closing · the compounding layer">
+      <span class="kicker">13 · closing</span>
       <div class="ask-shell">
         <div class="stack">
-          <div class="eyebrow"><span class="tick"></span>team &amp; the ask</div>
-          <h2 class="display" style="font-size:58px;margin-top:14px;">We shipped two ICML papers <em>by using the product.</em></h2>
-          <p class="lead" style="margin-top:18px;"><b style="color:var(--ink);font-weight:600;">Akasxh &amp; Shine</b> — we are our own first power users.</p>
-          <div class="ask-list">
-            <div class="ask-item"><div class="lab">the ask</div><div class="v"><b>Design partners</b> — AI-heavy engineering teams.</div></div>
-            <div class="ask-item"><div class="lab">+</div><div class="v"><b>Intros</b> to AI-heavy eng &amp; research orgs.</div></div>
-            <div class="ask-item"><div class="lab">+</div><div class="v"><b>Pre-seed</b> to build the hosted cross-tool layer.</div></div>
+          <div class="eyebrow"><span class="tick"></span>the vision</div>
+          <h2 class="display" style="font-size:62px;margin-top:14px;">The <em>compounding layer</em><br>for your AI toolchain.</h2>
+          <p class="lead" style="margin-top:18px;">Model-agnostic. Tool-agnostic. The longer your team runs it, the more it knows how you work, and the harder it is to leave.</p>
+          <div class="chips" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;">
+            <span class="chip"><span class="dot"></span>2× ICML 2026</span>
+            <span class="chip"><span class="dot accent"></span>Top 5 · 130+ votes</span>
+            <span class="chip"><span class="dot win"></span>685 checks green</span>
           </div>
         </div>
         <div class="stack" style="align-items:center;gap:30px;">
-          <p class="display" style="font-size:30px;text-align:center;">Try it now →</p>
+          <p class="display" style="font-size:34px;text-align:center;">Try it now →</p>
           <div class="ask-qr">
             <div class="qr">
               <img src="/qr/site.svg" alt="QR to re-forge.vercel.app" />
@@ -1788,19 +2119,19 @@ html, body {
       <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
     </section>
 
-    <!-- ═══════════════ SLIDE 13 — POSITIONING (PAPER · appendix) ═══════════════ -->
-    <section class="slide paper" id="s13" data-title="The product · positioning">
-      <span class="kicker">13 — appendix · the product</span>
+    <!-- ═══════════════ SLIDE 14 - POSITIONING (PAPER · appendix) ═══════════════ -->
+    <section class="slide paper" id="s14" data-title="The product · positioning">
+      <span class="kicker">14 · appendix · the product</span>
       <div class="cols c2-wide" style="align-content:center;">
         <div class="stack gap-l">
           <div class="eyebrow appendix"><span class="tick"></span>appendix · the product · re-forge Cloud</div>
-          <h2 class="display" style="font-size:62px;">AutoStep for your<br>AI <em>workforce.</em></h2>
+          <h2 class="display" style="font-size:54px;">The <em>discovery layer</em> for your AI workforce.</h2>
           <div class="stack gap-m" style="margin-top:6px;">
-            <p class="lead" style="font-size:19px;">The bottleneck isn't the model — it's <span style="color:var(--ink);font-style:italic;">discovery</span>. No one can see how their agents actually work, so improving them is guesswork.</p>
-            <p class="lead" style="font-size:19px;">re-forge Cloud watches your agents — <b style="color:var(--ink);font-weight:600;">not your people</b> — across every tool, finds what they repeat and what they get wrong, and <b style="color:var(--ink);font-weight:600;">forges the skills that fix it.</b></p>
+            <p class="lead" style="font-size:19px;">The bottleneck isn't the model. It's <span style="color:var(--ink);font-style:italic;">discovery</span>: no one can see how their agents actually work, so improving them is guesswork.</p>
+            <p class="lead" style="font-size:19px;">re-forge watches the agents (<b style="color:var(--ink);font-weight:600;">not your people</b>) across every tool, finds what they repeat and what they get wrong, and <b style="color:var(--ink);font-weight:600;">forges the skills that fix it.</b></p>
             <p class="lead" style="font-size:19px;">Self-evolving. The shared brain your whole team's agents draw from.</p>
           </div>
-          <div class="note" style="align-self:flex-start;margin-top:4px;"><span class="mk" style="width:7px;height:7px;border-radius:2px;background:var(--accent);display:inline-block;"></span><b>Product preview</b> · mockup — not live data</div>
+          <div class="note" style="align-self:flex-start;margin-top:4px;"><span class="mk" style="width:7px;height:7px;border-radius:2px;background:var(--accent);display:inline-block;"></span><b>Product preview</b> · mockup, not live data</div>
         </div>
 
         <!-- framed dashboard peek -->
@@ -1838,9 +2169,9 @@ html, body {
       <div class="wm"><span class="star">✦</span> re-forge.vercel.app · appendix</div>
     </section>
 
-    <!-- ═══════════════ SLIDE 14 — THE DISCOVERY SCREEN (DARK STAGE · full mock) ═══════════════ -->
-    <section class="slide dark stage" id="s14" data-title="The discovery screen">
-      <span class="kicker">14 — appendix · the discovery screen</span>
+    <!-- ═══════════════ SLIDE 15 - THE DISCOVERY SCREEN (DARK STAGE · full mock) ═══════════════ -->
+    <section class="slide dark stage" id="s15" data-title="The discovery screen">
+      <span class="kicker">15 · appendix · the discovery screen</span>
       <div class="eyebrow appendix" style="margin-bottom:13px;"><span class="tick"></span>appendix · the product · live mock</div>
 
       <!-- the SAME .rfc-* dashboard markup as product.html, in deck-embed form -->
@@ -1887,7 +2218,7 @@ html, body {
               <span class="rfc-toolchip"><span class="cdot"></span>ChatGPT</span>
             </div>
             <span class="spacer"></span>
-            <span class="rfc-mockpill"><span class="mk"></span>Product preview · mockup — <b>not live data</b></span>
+            <span class="rfc-mockpill"><span class="mk"></span>Product preview · mockup · <b>not live data</b></span>
             <span class="rfc-user">YV</span>
           </header>
 
@@ -1991,14 +2322,14 @@ html, body {
       </div>
 
       <div class="rfc-capstrip">
-        <span class="ct">It finds the work your agents <em>repeat</em> — and forges the skill that ends it.</span>
+        <span class="ct">It finds the work your agents <em>repeat</em>, and forges the skill that ends it.</span>
       </div>
       <div class="wm"><span class="star">✦</span> re-forge.vercel.app · appendix</div>
     </section>
 
-    <!-- ═══════════════ SLIDE 15 — COMPOUNDING + AUDIT (DARK STAGE) ═══════════════ -->
-    <section class="slide dark stage" id="s15" data-title="Compounding + audit">
-      <span class="kicker">15 — appendix · what compounds</span>
+    <!-- ═══════════════ SLIDE 16 - COMPOUNDING + AUDIT (DARK STAGE) ═══════════════ -->
+    <section class="slide dark stage" id="s16" data-title="Compounding + audit">
+      <span class="kicker">16 · appendix · what compounds</span>
       <div class="eyebrow appendix" style="margin-bottom:13px;"><span class="tick"></span>appendix · the product · the moat that compounds</div>
 
       <div class="rfc-embed" style="flex:1;min-height:0;">
@@ -2024,59 +2355,64 @@ html, body {
             </section>
           </div>
 
-          <!-- RIGHT: audit session list -->
-          <section class="rfc-panel">
-            <div class="rfc-phead"><div class="ht"><h2>Audit</h2><span class="sub">every claim leaves a trail you can open</span></div></div>
+          <!-- RIGHT: audit log - a real dark log surface (grid + scanline bg, accent bar, AUDIT LOG chip) -->
+          <section class="rfc-panel auditlog">
+            <div class="al-head">
+              <span class="al-chip"><span class="blink"></span>AUDIT LOG</span>
+              <span class="al-meta">project <b>acme/api</b> · 8 seats</span>
+              <span class="al-spacer"></span>
+              <span class="al-tail">tail · live</span>
+            </div>
             <div class="rfc-audit">
               <div class="rfc-arow">
-                <div class="sid"><b>#4127</b>Claude Code<br>acme/api</div>
+                <div class="sid"><b>#4127</b>Claude Code<span class="ts">14:02:11</span></div>
                 <div class="verdict">
                   <span class="rfc-verbadge killed">● security gate · KILLED</span>
-                  <div class="claim">killed claim <span class="q">"tokens are revocable"</span> — <b class="kill">no revocation path reproduced</b>.</div>
+                  <div class="claim">killed claim <span class="q">"tokens are revocable"</span>: <b class="kill">no revocation path reproduced</b>.</div>
                 </div>
                 <a class="rfc-evidence">evidence ↗</a>
               </div>
               <div class="rfc-arow">
-                <div class="sid"><b>#4119</b>Cursor<br>acme/web</div>
+                <div class="sid"><b>#4119</b>Cursor<span class="ts">13:48:39</span></div>
                 <div class="verdict">
                   <span class="rfc-verbadge refuted">● adversary · REFUTED</span>
-                  <div class="claim">refuted <span class="q">"no known CVEs"</span> — sole source was a <b class="kill">vendor blog post</b>.</div>
+                  <div class="claim">refuted <span class="q">"no known CVEs"</span>: sole source was a <b class="kill">vendor blog post</b>.</div>
                 </div>
                 <a class="rfc-evidence">evidence ↗</a>
               </div>
               <div class="rfc-arow">
-                <div class="sid"><b>#4108</b>Claude Code<br>acme/api</div>
+                <div class="sid"><b>#4108</b>Claude Code<span class="ts">13:31:02</span></div>
                 <div class="verdict">
                   <span class="rfc-verbadge passed">● verifier · PASSED</span>
-                  <div class="claim">confirmed <span class="q">"Argon2id params meet policy"</span> — reproduced &amp; linked.</div>
+                  <div class="claim">confirmed <span class="q">"Argon2id params meet policy"</span>: reproduced &amp; linked.</div>
                 </div>
                 <a class="rfc-evidence">evidence ↗</a>
               </div>
             </div>
-            <div class="rfc-pcap">Every agent claim leaves an <em>audit trail</em> you can open.</div>
+            <div class="al-foot">Open any decision: see who killed it, and why. <em>Nothing is trusted until something tried to kill it.</em></div>
           </section>
 
         </div>
       </div>
 
       <div class="rfc-capstrip">
-        <span class="ct">Every session sharpens the shared brain. <em>Every claim leaves a trail.</em></span>
+        <span class="ct">Every session sharpens the shared brain. <em>Every answer ships with its receipts.</em></span>
         <span class="closechip">Land with <b>one developer's</b> layer → expand to the <b>team's shared brain.</b></span>
       </div>
       <div class="wm"><span class="star">✦</span> re-forge.vercel.app · appendix</div>
     </section>
 
-    <!-- ═══════════════ SLIDE 16 — ONE SHARED BRAIN (DARK STAGE · live team memory) ═══════════════ -->
-    <section class="slide dark stage" id="s16" data-title="Your team's agents share one brain">
-      <span class="kicker">16 — appendix · live team memory</span>
+    <!-- ═══════════════ SLIDE 17 - ONE SHARED BRAIN (DARK STAGE · live team memory) ═══════════════ -->
+    <section class="slide dark stage" id="s17" data-title="Your team's agents share one brain">
+      <span class="kicker">17 · appendix · live team memory</span>
       <div class="cols" style="grid-template-columns:0.82fr 1.18fr;gap:40px;align-content:center;">
 
         <!-- left: copy -->
         <div class="stack gap-m" style="align-content:center;">
           <div class="eyebrow appendix"><span class="tick"></span>appendix · the product · live team memory</div>
           <h2 class="display" style="font-size:54px;">One project.<br>One <em>shared brain.</em></h2>
-          <p class="lead" style="font-size:18.5px;">Your coworker's agent just made a decision — yours already knows. No duplicated work. No contradictions. <span style="color:var(--panel-ink);font-weight:500;">The team decides <span style="font-style:italic;">once</span>, and every agent respects it.</span></p>
-          <div class="note" style="align-self:flex-start;"><span class="mk" style="width:7px;height:7px;border-radius:2px;background:var(--accent);display:inline-block;"></span><b>Product preview</b> · mockup — not live data</div>
+          <p class="lead" style="font-size:18.5px;">Your coworker's agent just made a decision; yours already knows. No duplicated work. No contradictions. <span style="color:var(--panel-ink);font-weight:500;">The team decides <span style="font-style:italic;">once</span>, and every agent respects it.</span></p>
+          <div class="note" style="align-self:flex-start;"><span class="mk" style="width:7px;height:7px;border-radius:2px;background:var(--accent);display:inline-block;"></span><b>Product preview</b> · mockup, not live data</div>
           <p style="font-family:var(--font-mono);font-size:12.5px;color:var(--panel-muted);line-height:1.5;margin-top:2px;">
             <span style="color:#b7f0cf;">✓ ships today:</span> the concurrent file-locked memory merge (flock + atomic-rename, zero lost writes). <span style="color:var(--accent);">roadmap:</span> the cross-user LIVE sync.
           </p>
@@ -2094,11 +2430,10 @@ html, body {
               <div class="rfc-live-head">
                 <div class="proj"><span class="rfc-tc claude"><span class="d" style="background:var(--primary);"></span>project</span><b>acme/payments</b></div>
                 <div class="active">
-                  <span class="alabel">3 active now</span>
+                  <span class="alabel">2 active now</span>
                   <div class="avs">
                     <span class="tav" data-init="A" title="Akash · live">A<span class="ld"></span></span>
                     <span class="tav" data-init="S" title="Shine · live">S<span class="ld"></span></span>
-                    <span class="tav" data-init="D" title="Dana · live">D<span class="ld"></span></span>
                   </div>
                 </div>
               </div>
@@ -2107,27 +2442,27 @@ html, body {
                 <div class="rfc-feeditem">
                   <span class="who"><span class="av s">S</span></span>
                   <div class="ft">
-                    <div class="line"><b>Shine's agent</b> <span class="ago">· 12m ago</span> — <span class="verb decided">decided:</span> Argon2id + refresh rotation <a class="rfc-evidence" style="margin-left:4px;">evidence ↗</a></div>
-                    <span class="tag build">your agent builds on this — won't re-decide it</span>
+                    <div class="line"><b>Shine's agent</b> <span class="ago">· 12m ago</span> · <span class="verb decided">decided:</span> Argon2id + refresh rotation <a class="rfc-evidence" style="margin-left:4px;">evidence ↗</a></div>
+                    <span class="tag build">Akash's agent builds on this, won't re-decide it</span>
                   </div>
                 </div>
                 <div class="rfc-feeditem">
-                  <span class="who"><span class="av d">D</span></span>
+                  <span class="who"><span class="av">A</span></span>
                   <div class="ft">
-                    <div class="line"><b>Dana's agent</b> <span class="ago">· 4m ago</span> — <span class="verb found">found:</span> Stripe webhook needs an idempotency key</div>
+                    <div class="line"><b>Akash's agent</b> <span class="ago">· 4m ago</span> · <span class="verb found">found:</span> Stripe webhook needs an idempotency key</div>
                     <span class="tag saved">saved to shared memory</span>
                   </div>
                 </div>
                 <div class="rfc-feeditem warn">
                   <span class="who"><span class="av w">⚠</span></span>
                   <div class="ft">
-                    <div class="line"><b class="kill">duplicate work prevented</b> — you and <b>Akash</b> both queued <span class="q">"add rate limiter"</span></div>
+                    <div class="line"><b class="kill">duplicate work prevented</b> · <b>Shine</b> and <b>Akash</b> both queued <span class="q">"add rate limiter"</span> → merged</div>
                     <span class="tag merged">merged into one task</span>
                   </div>
                 </div>
               </div>
               <div class="rfc-declog">
-                <div class="dlabel">shared decision log <span class="dnote">— every agent on the project respects these</span></div>
+                <div class="dlabel">shared decision log <span class="dnote">· every agent on the project respects these</span></div>
                 <div class="dchips">
                   <span class="rfc-dchip"><span class="lk"></span>auth = Argon2id + rotation</span>
                   <span class="rfc-dchip"><span class="lk"></span>DB = Postgres, no ORM</span>
@@ -2154,7 +2489,7 @@ html, body {
 
 <!-- ── On-screen navigation chrome ──────────────────────────────────────── -->
 <div id="chrome">
-  <span class="counter"><b id="cnum">1</b> / <span id="ctot">12</span></span>
+  <span class="counter"><b id="cnum">1</b> / <span id="ctot">17</span></span>
   <div class="dots" id="dots"></div>
 </div>
 <div class="hint"><kbd>←</kbd> <kbd>→</kbd> navigate · <kbd>F</kbd> fullscreen · <kbd>P</kbd> print</div>
@@ -2163,7 +2498,7 @@ html, body {
 (function () {
   "use strict";
   var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
-  var N = slides.length;            // derived at runtime — works for any slide count
+  var N = slides.length;            // derived at runtime - works for any slide count
   var cur = 0;
   var deck = document.getElementById("deck");
   var pbar = document.getElementById("pbar");
@@ -2235,7 +2570,7 @@ html, body {
     }
   });
 
-  // ── number jump — single buffered path handles 1–9 AND two-digit (10..N) ──
+  // ── number jump - single buffered path handles 1-9 AND two-digit (10..N) ──
   // A short debounce lets "1" then "3" resolve to slide 13; a lone "7" still
   // jumps after the window. Buffer caps at the digit-width of N so it scales.
   var buf = "";

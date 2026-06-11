@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>re-forge — booth attract loop</title>
+<title>re-forge: booth attract loop</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <style>
@@ -160,7 +160,7 @@ html, body {
 }
 .sub strong { color: var(--panel-ink); font-weight: 700; }
 
-/* ───────────────────────── panel 1 — wordmark ───────────────────────── */
+/* ───────────────────────── panel 1: wordmark ───────────────────────── */
 .wordmark {
   font-family: var(--font-display);
   font-weight: 400;
@@ -186,7 +186,7 @@ html, body {
   filter: drop-shadow(0 0 26px rgba(109, 93, 252, 0.55));
 }
 
-/* ───────────────────────── panel 2 — swarm still ───────────────────────── */
+/* ───────────────────────── panel 2: swarm still ───────────────────────── */
 .swarm {
   width: min(70vw, 640px);
   height: min(34vh, 320px);
@@ -205,7 +205,7 @@ html, body {
   text-anchor: middle;
 }
 .swarm .node.adv text { fill: var(--danger); }
-/* a slow pulse that breathes outward from the lead — pure CSS, never errors */
+/* a slow pulse that breathes outward from the lead, pure CSS, never errors */
 .swarm .pulse { transform-origin: center; animation: nodePulse 3.4s var(--ease-out) infinite; }
 .swarm .pulse.d1 { animation-delay: 0.25s; }
 .swarm .pulse.d2 { animation-delay: 0.5s; }
@@ -220,7 +220,7 @@ html, body {
   50% { opacity: 1; }
 }
 
-/* ───────────────────────── panel 3 — receipts ───────────────────────── */
+/* ───────────────────────── panel 3: receipts ───────────────────────── */
 .receipts {
   display: flex;
   flex-wrap: wrap;
@@ -263,7 +263,7 @@ html, body {
   text-transform: uppercase;
 }
 
-/* ───────────────────────── panel 4 — the gap (one concrete HIGH finding) ───────────────────────── */
+/* ───────────────────────── panel 4: the gap (one concrete HIGH finding) ───────────────────────── */
 .finding-card {
   margin-top: clamp(20px, 3vh, 44px);
   display: flex;
@@ -318,7 +318,7 @@ html, body {
   background: rgba(53, 208, 127, 0.08);
 }
 
-/* ───────────────────────── panel 5 — cross-tool loop ───────────────────────── */
+/* ───────────────────────── panel 5: cross-tool loop ───────────────────────── */
 .tools {
   display: flex;
   flex-wrap: wrap;
@@ -348,7 +348,7 @@ html, body {
   color: var(--win);
 }
 
-/* ───────────────────────── panel 6 — scan ───────────────────────── */
+/* ───────────────────────── panel 6: scan ───────────────────────── */
 .scanwrap {
   display: flex;
   align-items: center;
@@ -416,7 +416,7 @@ html, body {
   padding-left: clamp(10px, 1vw, 16px);
   border-left: 1px solid var(--panel-line);
 }
-/* small always-visible QR, bottom-right — the scan target on every panel */
+/* small always-visible QR, bottom-right: the scan target on every panel */
 .chrome.scanchip {
   right: clamp(20px, 3vw, 56px);
   bottom: clamp(20px, 3vh, 48px);
@@ -444,7 +444,7 @@ html, body {
   color: var(--panel-muted);
 }
 
-/* venue stamp, top-right — quiet, honest credit */
+/* venue stamp, top-right: quiet, honest credit */
 .chrome.venue {
   right: clamp(20px, 3vw, 56px);
   top: clamp(20px, 3vh, 44px);
@@ -457,7 +457,7 @@ html, body {
   color: var(--panel-muted);
 }
 
-/* progress dots, top-left — show the 6-beat rhythm */
+/* progress dots, top-left: show the 6-beat rhythm */
 #progress {
   position: fixed;
   top: clamp(20px, 3vh, 44px);
@@ -532,7 +532,7 @@ html, body {
 
     <div class="deck">
 
-      <!-- ── PANEL 1 — wordmark ── -->
+      <!-- ── PANEL 1: wordmark ── -->
       <section class="panel p1">
         <svg class="star" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M12 1.5l2.6 6.4 6.9.4-5.3 4.4 1.8 6.7L12 16.9 6.3 19.8l1.8-6.7L2.8 8.7l6.9-.4z"
@@ -544,7 +544,7 @@ html, body {
         </p>
       </section>
 
-      <!-- ── PANEL 2 — one prompt → a whole org (swarm still) ── -->
+      <!-- ── PANEL 2: one prompt → a whole org (swarm still) ── -->
       <section class="panel p2">
         <div class="eyebrow">One prompt</div>
         <svg class="swarm" viewBox="0 0 600 300" aria-label="a lead agent coordinating specialists with one red adversary">
@@ -570,12 +570,12 @@ html, body {
           <g class="node lead"><circle cx="300" cy="60" r="34"/><text x="300" y="22">lead</text></g>
         </svg>
         <h1 class="headline" style="font-size:clamp(40px,6.6vw,128px)">a whole engineering org</h1>
-        <p class="sub">Research · engineering · security · testing · docs — they <strong>attack each other's work</strong> before you see it.</p>
+        <p class="sub">Research · engineering · security · testing · docs. They <strong>attack each other's work</strong> before you see it.</p>
       </section>
 
-      <!-- ── PANEL 3 — receipts ── -->
+      <!-- ── PANEL 3: receipts ── -->
       <section class="panel p3">
-        <div class="eyebrow">Proven on the hardest user — itself</div>
+        <div class="eyebrow">Proven on the hardest user: itself</div>
         <div class="receipts">
           <div class="receipt">
             <div class="fig"><span class="indigo">2×</span></div>
@@ -583,9 +583,9 @@ html, body {
             <div class="note">SCALE Workshop</div>
           </div>
           <div class="receipt">
-            <div class="fig"><span class="accent">#1</span></div>
+            <div class="fig"><span class="accent">Top 5</span></div>
             <div class="label">on the hackathon leaderboard</div>
-            <div class="note">81 votes — most of any project</div>
+            <div class="note">130+ votes</div>
           </div>
           <div class="receipt">
             <div class="fig">685</div>
@@ -595,17 +595,17 @@ html, body {
         </div>
       </section>
 
-      <!-- ── PANEL 4 — looks-done gap (one concrete HIGH finding) ── -->
+      <!-- ── PANEL 4: looks-done gap (one concrete HIGH finding) ── -->
       <section class="panel p4">
         <h1 class="headline" style="font-size:clamp(36px,5.4vw,104px)">Green tests aren't <em>secure.</em></h1>
         <div class="finding-card">
           <div class="passed"><span class="ok">✓</span> A plain agent's auth passed all <b>19</b> of its own tests</div>
-          <div class="andstill">— and still let <em>any user delete everyone's data.</em></div>
+          <div class="andstill">and still let <em>any user delete everyone's data.</em></div>
           <div class="caught"><span class="badge">re-forge caught it</span></div>
         </div>
       </section>
 
-      <!-- ── PANEL 5 — cross-tool loop ── -->
+      <!-- ── PANEL 5: cross-tool loop ── -->
       <section class="panel p5">
         <div class="eyebrow">The compounding layer</div>
         <h1 class="headline" style="font-size:clamp(42px,7vw,138px)">One memory.<br>Every tool.</h1>
@@ -621,7 +621,7 @@ html, body {
         <div class="loopnote">watch → forge → remember → repeat</div>
       </section>
 
-      <!-- ── PANEL 6 — scan ── -->
+      <!-- ── PANEL 6: scan ── -->
       <section class="panel p6">
         <div class="scanwrap">
           <div class="qr-big">
@@ -645,7 +645,7 @@ html, body {
       <div class="tag">the compounding layer</div>
     </div>
 
-    <!-- persistent scan chip (bottom-right) — available on every panel -->
+    <!-- persistent scan chip (bottom-right), available on every panel -->
     <div class="chrome scanchip" aria-hidden="true">
       <div class="qr"><img src="/qr/site.svg" alt="QR code to re-forge.vercel.app" /></div>
       <div class="cap">re-forge.vercel.app</div>
@@ -655,7 +655,7 @@ html, body {
 
   <script>
     // Booth runtime: cursor-hide, optional pause/resume. Pure idle timer + class toggles.
-    // No network, no state machine — the deck is driven entirely by CSS keyframes, so it
+    // No network, no state machine. The deck is driven entirely by CSS keyframes, so it
     // can never stall or throw even if JS fails to load.
     (function () {
       var stage = document.getElementById("stage");
