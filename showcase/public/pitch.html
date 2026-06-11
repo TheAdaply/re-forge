@@ -75,18 +75,21 @@ html, body {
 #stage {
   position: fixed;
   inset: 0;
-  display: grid;
-  place-items: center;
   overflow: hidden;
 }
 
+/* Absolute-center the fixed 1280×720 canvas, then scale around its own centre.
+   translate(-50%,-50%) pins the deck centre to the viewport centre independent
+   of #stage display mode, so it can't drift to a corner on any aspect/DPR. */
 #deck {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  top: 50%;
   width: var(--slide-w);
   height: var(--slide-h);
   transform-origin: center center;
   /* JS sets --scale */
-  transform: scale(var(--scale, 1));
+  transform: translate(-50%, -50%) scale(var(--scale, 1));
   box-shadow: 0 40px 120px -30px rgba(0, 0, 0, 0.7);
 }
 
@@ -650,7 +653,588 @@ html, body {
 }
 
 /* ════════════════════════════════════════════════════════════════════════
-   PRINT  →  exactly one landscape page per slide, clean 12-page PDF
+   APPENDIX SLIDES 13–16 · re-forge Cloud product mock
+   The .rfc-* block below is COPIED VERBATIM from public/product.html so the
+   deck embeds and the standalone dashboard render pixel-identically.
+   (Single source of truth lives in product.html; keep them in sync.)
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* appendix eyebrow accent — distinguishes Q&A deep-dive from the 5-min core */
+.eyebrow.appendix .tick { background: var(--accent); box-shadow: 0 0 0 4px rgba(242,169,59,0.16); }
+.dark .eyebrow.appendix .tick { background: var(--accent); box-shadow: 0 0 0 4px rgba(242,169,59,0.18); }
+
+/* ── re-forge Cloud DASHBOARD — shared component classes ─────────────────── */
+.rfc-app {
+  max-width: 1320px;
+  margin: 0 auto;
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: 0 40px 120px -34px rgba(0,0,0,0.72);
+  display: grid;
+  grid-template-columns: 232px 1fr;
+  grid-template-rows: auto 1fr;
+  min-height: 760px;
+  isolation: isolate;
+}
+@keyframes rfc-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(53,208,127,0.55); }
+  70%  { box-shadow: 0 0 0 6px rgba(53,208,127,0); }
+  100% { box-shadow: 0 0 0 0 rgba(53,208,127,0); }
+}
+@keyframes rfc-spark-in { from { stroke-dashoffset: var(--len, 200); } to { stroke-dashoffset: 0; } }
+.rfc-rail {
+  grid-row: 1 / 3;
+  background: var(--panel-deep);
+  border-right: 1px solid var(--panel-line);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+  gap: 6px;
+  color: var(--panel-ink);
+}
+.rfc-brand {
+  display: flex; align-items: center; gap: 11px;
+  padding: 4px 8px 18px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--panel-line);
+}
+.rfc-brand .star {
+  width: 30px; height: 30px; border-radius: 9px;
+  background: radial-gradient(120% 120% at 30% 20%, var(--primary-bright), var(--primary));
+  display: grid; place-items: center;
+  color: #fff; font-size: 16px;
+  box-shadow: 0 4px 14px -4px rgba(79,70,229,0.7);
+}
+.rfc-brand .wm { display: flex; flex-direction: column; line-height: 1.05; }
+.rfc-brand .wm b {
+  font-family: var(--font-mono); font-weight: 600; font-size: 14.5px;
+  letter-spacing: 0.01em; color: var(--panel-ink);
+}
+.rfc-brand .wm span {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--panel-muted); margin-top: 2px;
+}
+.rfc-navlabel {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--panel-muted);
+  padding: 12px 10px 6px;
+}
+.rfc-nav {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 12px;
+  border-radius: 10px;
+  font-size: 14.5px; font-weight: 500;
+  color: var(--panel-muted);
+  cursor: default;
+  transition: background .16s var(--ease-out), color .16s var(--ease-out);
+  position: relative;
+}
+.rfc-nav .ic { width: 17px; height: 17px; flex: none; opacity: 0.85; }
+.rfc-nav .ic svg { display: block; width: 100%; height: 100%; }
+.rfc-nav:hover { background: rgba(255,255,255,0.04); color: var(--panel-ink); }
+.rfc-nav.is-active {
+  background: linear-gradient(90deg, rgba(79,70,229,0.26), rgba(79,70,229,0.08));
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(109,93,252,0.34);
+}
+.rfc-nav.is-active .ic { opacity: 1; }
+.rfc-nav.is-active::before {
+  content: ""; position: absolute; left: -16px; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 20px; border-radius: 0 3px 3px 0; background: var(--primary-bright);
+}
+.rfc-nav .badge {
+  margin-left: auto;
+  font-family: var(--font-mono); font-size: 10.5px; font-weight: 600;
+  background: rgba(53,208,127,0.16); color: #8ff0bb;
+  border: 1px solid rgba(53,208,127,0.32);
+  border-radius: var(--r-pill); padding: 1px 8px;
+}
+.rfc-workspace {
+  margin-top: auto;
+  display: flex; align-items: center; gap: 11px;
+  padding: 12px 10px 4px;
+  border-top: 1px solid var(--panel-line);
+}
+.rfc-workspace .av {
+  width: 30px; height: 30px; border-radius: 9px; flex: none;
+  background: linear-gradient(135deg, #2c2f48, #1a1c2b);
+  border: 1px solid var(--panel-line);
+  display: grid; place-items: center;
+  font-family: var(--font-mono); font-weight: 600; font-size: 12px; color: #c7c2ff;
+}
+.rfc-workspace .wt { display: flex; flex-direction: column; line-height: 1.15; }
+.rfc-workspace .wt b { font-size: 13.5px; color: var(--panel-ink); font-weight: 600; }
+.rfc-workspace .wt span { font-family: var(--font-mono); font-size: 10.5px; color: var(--panel-muted); }
+.rfc-top {
+  grid-column: 2;
+  display: flex; align-items: center; gap: 16px;
+  padding: 15px 22px;
+  background: var(--paper-raised);
+  border-bottom: 1px solid var(--line-strong);
+  flex-wrap: wrap;
+}
+.rfc-watching {
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--ink-faint);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.rfc-toolchips { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+.rfc-toolchip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 13px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  font-family: var(--font-mono); font-size: 12.5px; font-weight: 500; color: var(--ink);
+  white-space: nowrap;
+  transition: border-color .16s var(--ease-out), transform .16s var(--ease-out);
+}
+.rfc-toolchip:hover { border-color: var(--line-strong); transform: translateY(-1px); }
+.rfc-toolchip .cdot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--win);
+  animation: rfc-pulse 2.6s var(--ease-out) infinite;
+}
+.rfc-toolchip:nth-child(2) .cdot { animation-delay: .5s; }
+.rfc-toolchip:nth-child(3) .cdot { animation-delay: 1.0s; }
+.rfc-toolchip:nth-child(4) .cdot { animation-delay: 1.5s; }
+.rfc-top .spacer { flex: 1 1 auto; }
+.rfc-mockpill {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.02em;
+  padding: 7px 14px; border-radius: var(--r-pill);
+  border: 1px dashed var(--line-strong);
+  background: rgba(242,169,59,0.09);
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.rfc-mockpill b { color: var(--accent); font-weight: 600; }
+.rfc-mockpill .mk { width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
+.rfc-user {
+  width: 32px; height: 32px; border-radius: 50%; flex: none;
+  background: linear-gradient(135deg, var(--primary), var(--primary-bright));
+  display: grid; place-items: center;
+  font-family: var(--font-mono); font-weight: 600; font-size: 12px; color: #fff;
+  border: 2px solid var(--paper-raised);
+  box-shadow: 0 0 0 1px var(--line-strong);
+}
+.rfc-main {
+  grid-column: 2;
+  padding: 22px 24px 26px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.rfc-impact {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+}
+.rfc-stat {
+  border: 1px solid var(--line-strong);
+  background: var(--paper-raised);
+  border-radius: var(--r-md);
+  padding: 16px 18px;
+  position: relative;
+  overflow: hidden;
+}
+.rfc-stat::after {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--primary); opacity: 0.5;
+}
+.rfc-stat.win::after { background: var(--win); }
+.rfc-stat.accent::after { background: var(--accent); }
+.rfc-stat .fig {
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-weight: 600; font-size: 30px; letter-spacing: -0.02em; color: var(--ink);
+  line-height: 1;
+}
+.rfc-stat .fig .u { font-size: 15px; color: var(--ink-soft); font-weight: 500; margin-left: 2px; }
+.rfc-stat .lab { margin-top: 7px; font-size: 12.5px; color: var(--ink-soft); line-height: 1.32; }
+.rfc-body {
+  display: grid; grid-template-columns: 1.55fr 0.95fr; gap: 18px;
+  align-items: start;
+}
+.rfc-panel {
+  border: 1px solid var(--line-strong);
+  background: var(--paper-raised);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.rfc-phead {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.rfc-phead .ht { display: flex; flex-direction: column; gap: 3px; }
+.rfc-phead h2 {
+  font-family: var(--font-display); font-weight: 400; letter-spacing: -0.018em;
+  font-size: 22px; color: var(--ink); line-height: 1.06;
+}
+.rfc-phead .sub { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-faint); letter-spacing: 0.01em; }
+.rfc-phead .spacer { flex: 1; }
+.rfc-tabs { display: inline-flex; gap: 3px; padding: 3px; background: var(--paper); border: 1px solid var(--line-strong); border-radius: var(--r-pill); }
+.rfc-tab {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.02em;
+  padding: 6px 14px; border-radius: var(--r-pill);
+  border: none; background: transparent; color: var(--ink-soft); cursor: pointer;
+}
+.rfc-tab.is-on { background: var(--ink); color: #fff; }
+.rfc-tab .ct { font-size: 10.5px; margin-left: 6px; opacity: 0.7; }
+.rfc-view { display: none; }
+.rfc-view.is-on { display: block; }
+.rfc-patterns { display: flex; flex-direction: column; }
+.rfc-pat {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  gap: 16px;
+  padding: 17px 20px;
+  border-bottom: 1px solid var(--line);
+  align-items: center;
+  transition: background .16s var(--ease-out);
+}
+.rfc-pat:last-child { border-bottom: none; }
+.rfc-pat:hover { background: rgba(79,70,229,0.025); }
+.rfc-pat.dim { opacity: 0.62; }
+.rfc-pat.dim:hover { opacity: 0.82; }
+.rfc-rank {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  font-family: var(--font-mono); font-weight: 600; font-size: 17px; color: var(--ink);
+}
+.rfc-rank .ar { color: var(--win); font-size: 11px; line-height: 0.7; }
+.rfc-pat .lhs { min-width: 0; }
+.rfc-pat .pt {
+  font-size: 16.5px; font-weight: 600; color: var(--ink); line-height: 1.25;
+  letter-spacing: -0.005em;
+}
+.rfc-pat .meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 9px; }
+.rfc-tc {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; color: var(--ink-soft);
+  border: 1px solid var(--line-strong); border-radius: var(--r-pill);
+  padding: 3px 9px; background: var(--paper);
+  white-space: nowrap;
+}
+.rfc-tc .d { width: 5px; height: 5px; border-radius: 50%; background: var(--ink-faint); }
+.rfc-tc.claude .d { background: var(--primary); }
+.rfc-tc.cursor .d { background: var(--win); }
+.rfc-tc.codex .d { background: var(--accent); }
+.rfc-tc.chatgpt .d { background: var(--primary-bright); }
+.rfc-pat .freq {
+  font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-soft);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.rfc-pat .freq b { color: var(--ink); font-weight: 600; }
+.rfc-pat .freq .cost { color: var(--danger-soft); }
+.rfc-pat .rhs { display: flex; flex-direction: column; align-items: flex-end; gap: 11px; }
+.rfc-spark { display: block; }
+.rfc-actions { display: flex; align-items: center; gap: 8px; }
+.rfc-forge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.01em;
+  padding: 8px 14px; border-radius: var(--r-pill);
+  border: 1px solid var(--primary); background: var(--primary); color: #fff;
+  cursor: pointer; white-space: nowrap;
+  transition: background .16s var(--ease-out), transform .16s var(--ease-out), box-shadow .16s var(--ease-out);
+}
+.rfc-forge:hover { background: var(--primary-bright); transform: translateY(-1px); box-shadow: 0 6px 18px -6px rgba(79,70,229,0.7); }
+.rfc-forge .hammer { font-size: 12px; }
+.rfc-forge.ghost { background: transparent; color: var(--primary); }
+.rfc-forge.ghost:hover { background: rgba(79,70,229,0.07); box-shadow: none; }
+.rfc-dismiss {
+  font-family: var(--font-mono); font-size: 11.5px;
+  padding: 8px 12px; border-radius: var(--r-pill);
+  border: 1px solid var(--line-strong); background: transparent; color: var(--ink-faint);
+  cursor: pointer; white-space: nowrap;
+}
+.rfc-forged-name { font-family: var(--font-mono); color: var(--primary); }
+.rfc-audit { display: flex; flex-direction: column; }
+.rfc-arow {
+  display: grid; grid-template-columns: auto 1fr auto; gap: 16px;
+  padding: 17px 20px; border-bottom: 1px solid var(--line); align-items: center;
+  transition: background .16s var(--ease-out);
+}
+.rfc-arow:last-child { border-bottom: none; }
+.rfc-arow:hover { background: rgba(20,22,29,0.018); }
+.rfc-arow .sid {
+  font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft);
+  display: flex; flex-direction: column; gap: 4px; min-width: 132px;
+}
+.rfc-arow .sid b { color: var(--ink); font-weight: 600; font-size: 13px; }
+.rfc-arow .verdict { min-width: 0; }
+.rfc-verbadge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 10px; border-radius: var(--r-pill);
+  margin-bottom: 8px;
+}
+.rfc-verbadge.killed { color: var(--danger-soft); background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); }
+.rfc-verbadge.refuted { color: var(--accent); background: rgba(242,169,59,0.12); border: 1px solid rgba(242,169,59,0.34); }
+.rfc-verbadge.passed { color: var(--win-soft); background: rgba(53,208,127,0.1); border: 1px solid rgba(53,208,127,0.3); }
+.rfc-arow .claim { font-size: 15px; color: var(--ink); line-height: 1.32; }
+.rfc-arow .claim .q { color: var(--ink-soft); font-style: italic; font-family: var(--font-display); font-size: 16.5px; }
+.rfc-arow .claim b.kill { color: var(--danger-soft); font-weight: 600; }
+.rfc-evidence {
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.01em;
+  color: var(--win-soft);
+  border: 1px solid rgba(27,143,85,0.32); background: rgba(53,208,127,0.08);
+  padding: 6px 12px; border-radius: var(--r-pill);
+  text-decoration: none; white-space: nowrap; cursor: pointer;
+}
+.rfc-pcap {
+  padding: 13px 20px;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-display); font-style: italic; font-size: 17px; color: var(--ink-soft);
+  letter-spacing: -0.01em;
+}
+.rfc-pcap em { font-style: normal; color: var(--primary); }
+.rfc-rail-col { display: flex; flex-direction: column; gap: 18px; }
+.rfc-skill {
+  display: grid; grid-template-columns: 1fr auto; gap: 10px;
+  padding: 14px 18px; border-bottom: 1px solid var(--line); align-items: center;
+}
+.rfc-skill:last-child { border-bottom: none; }
+.rfc-skill .sn {
+  font-family: var(--font-mono); font-size: 13.5px; font-weight: 600; color: var(--ink);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.rfc-skill .sn .gem { width: 7px; height: 7px; border-radius: 2px; background: var(--primary); transform: rotate(45deg); }
+.rfc-skill .smeta { margin-top: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--ink-soft); }
+.rfc-skill .smeta .used { color: var(--ink); font-weight: 600; }
+.rfc-adopt {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  color: var(--win-soft);
+}
+.rfc-adopt.flat { color: var(--ink-faint); }
+.rfc-adopt .ar { font-size: 10px; }
+.rfc-mem { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 13px; }
+.rfc-mem .headline { font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); }
+.rfc-mem .headline b { color: var(--ink); font-weight: 600; font-size: 15px; }
+.rfc-lesson {
+  display: grid; grid-template-columns: auto 1fr; gap: 11px; align-items: start;
+  padding: 11px 13px; border-radius: var(--r-md);
+  border: 1px solid var(--line); background: var(--paper);
+}
+.rfc-lesson .ix { width: 6px; height: 6px; border-radius: 50%; margin-top: 7px; flex: none; background: var(--win); }
+.rfc-lesson .lt { font-size: 13.5px; color: var(--ink); line-height: 1.34; }
+.rfc-lesson .lu { display: block; margin-top: 5px; font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-faint); letter-spacing: 0.02em; }
+.rfc-lesson .lu b { color: var(--win-soft); }
+
+/* live team memory */
+@keyframes rfc-live-dot {
+  0%   { box-shadow: 0 0 0 0 rgba(53,208,127,0.6); }
+  70%  { box-shadow: 0 0 0 5px rgba(53,208,127,0); }
+  100% { box-shadow: 0 0 0 0 rgba(53,208,127,0); }
+}
+.rfc-live { padding: 18px 20px 6px; display: flex; flex-direction: column; gap: 16px; }
+.rfc-live-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.rfc-live-head .proj { display: inline-flex; align-items: center; gap: 10px; }
+.rfc-live-head .proj b { font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--ink); }
+.rfc-live-head .active { display: inline-flex; align-items: center; gap: 12px; }
+.rfc-live-head .alabel {
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.04em; color: var(--win-soft);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.rfc-live-head .alabel::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--win);
+  animation: rfc-live-dot 2s var(--ease-out) infinite;
+}
+.rfc-live-head .avs { display: inline-flex; }
+.rfc-live-head .tav {
+  position: relative;
+  width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--font-mono); font-weight: 600; font-size: 12px; color: #fff;
+  border: 2px solid var(--paper-raised);
+  margin-left: -8px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-bright));
+}
+.rfc-live-head .tav:first-child { margin-left: 0; }
+.rfc-live-head .tav[data-init="S"] { background: linear-gradient(135deg, #1b8f55, #35d07f); }
+.rfc-live-head .tav[data-init="D"] { background: linear-gradient(135deg, #c47d14, #f2a93b); }
+.rfc-live-head .tav .ld {
+  position: absolute; right: -1px; bottom: -1px;
+  width: 9px; height: 9px; border-radius: 50%; background: var(--win);
+  border: 2px solid var(--paper-raised);
+  animation: rfc-live-dot 2s var(--ease-out) infinite;
+}
+.rfc-feedlabel, .rfc-declog .dlabel {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.rfc-feed { display: flex; flex-direction: column; gap: 9px; }
+.rfc-feeditem {
+  display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start;
+  padding: 12px 14px; border-radius: var(--r-md);
+  border: 1px solid var(--line); background: var(--paper);
+}
+.rfc-feeditem.warn { border-color: rgba(242,169,59,0.4); background: rgba(242,169,59,0.06); }
+.rfc-feeditem .who .av {
+  width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center;
+  font-family: var(--font-mono); font-weight: 600; font-size: 11px; color: #fff;
+  background: linear-gradient(135deg, var(--primary), var(--primary-bright));
+}
+.rfc-feeditem .who .av.s { background: linear-gradient(135deg, #1b8f55, #35d07f); }
+.rfc-feeditem .who .av.d { background: linear-gradient(135deg, #c47d14, #f2a93b); }
+.rfc-feeditem .who .av.w { background: rgba(242,169,59,0.18); color: var(--accent); border: 1px solid rgba(242,169,59,0.5); font-size: 13px; }
+.rfc-feeditem .ft { min-width: 0; }
+.rfc-feeditem .line { font-size: 14px; color: var(--ink); line-height: 1.4; }
+.rfc-feeditem .line b { font-weight: 600; }
+.rfc-feeditem .line b.kill { color: var(--accent); }
+.rfc-feeditem .line .ago { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-faint); }
+.rfc-feeditem .line .q { font-style: italic; font-family: var(--font-display); font-size: 15px; color: var(--ink-soft); }
+.rfc-feeditem .verb { font-family: var(--font-mono); font-size: 12px; font-weight: 600; }
+.rfc-feeditem .verb.decided { color: var(--primary); }
+.rfc-feeditem .verb.found { color: var(--win-soft); }
+.rfc-feeditem .tag {
+  display: inline-flex; align-items: center; margin-top: 7px;
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.01em;
+  padding: 3px 9px; border-radius: var(--r-pill);
+}
+.rfc-feeditem .tag.build { color: var(--primary); background: rgba(79,70,229,0.08); border: 1px solid rgba(79,70,229,0.24); }
+.rfc-feeditem .tag.saved { color: var(--win-soft); background: rgba(53,208,127,0.08); border: 1px solid rgba(53,208,127,0.28); }
+.rfc-feeditem .tag.merged { color: var(--accent); background: rgba(242,169,59,0.1); border: 1px solid rgba(242,169,59,0.36); }
+.rfc-declog { display: flex; flex-direction: column; gap: 9px; }
+.rfc-declog .dnote { font-weight: 400; letter-spacing: 0.04em; color: var(--ink-faint); text-transform: none; }
+.rfc-declog .dchips { display: flex; flex-wrap: wrap; gap: 8px; }
+.rfc-dchip {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 12px; color: var(--ink); font-weight: 500;
+  padding: 7px 13px; border-radius: var(--r-pill);
+  border: 1px solid var(--line-strong); background: var(--paper-raised);
+}
+.rfc-dchip .lk {
+  width: 11px; height: 11px; flex: none;
+  border: 1.6px solid var(--primary); border-radius: 3px;
+  position: relative; opacity: 0.85;
+}
+.rfc-dchip .lk::after {
+  content: ""; position: absolute; left: 2px; right: 2px; top: -3px; height: 5px;
+  border: 1.6px solid var(--primary); border-bottom: none; border-radius: 4px 4px 0 0;
+}
+.rfc-livefoot {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  margin-top: 2px; padding-top: 13px; border-top: 1px solid var(--line);
+  font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-faint);
+}
+.rfc-livefoot .lf-stat { color: var(--ink-soft); display: inline-flex; align-items: center; gap: 7px; }
+.rfc-livefoot .lf-stat::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--win); }
+.rfc-livefoot .lf-stat b { color: var(--win-soft); font-weight: 600; }
+.rfc-livefoot .lf-note { color: var(--ink-faint); }
+.rfc-foot {
+  grid-column: 2;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 12px 24px;
+  border-top: 1px solid var(--line-strong);
+  background: var(--paper-raised);
+  font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-faint); letter-spacing: 0.01em;
+}
+.rfc-foot .tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 4px 11px; border-radius: var(--r-pill); border: 1px solid var(--line-strong);
+}
+.rfc-foot .tag .d { width: 6px; height: 6px; border-radius: 50%; }
+.rfc-foot .tag.ship .d { background: var(--win); }
+.rfc-foot .tag.road .d { background: var(--accent); }
+.rfc-foot .tag b { color: var(--ink-soft); font-weight: 600; }
+
+/* ── Deck-embed adaptation: fit the dashboard inside the 1280×720 canvas ──
+   Slide 14 shows the full app chrome; we shrink the rail + tighten paddings
+   and clip the main region so it reads as a real screenshot, never scrolls. */
+.rfc-embed { width: 100%; height: 100%; display: flex; flex-direction: column; min-height: 0; }
+.rfc-embed .rfc-app {
+  flex: 1; min-height: 0; max-width: none; margin: 0;
+  grid-template-columns: 190px 1fr;
+  box-shadow: 0 24px 70px -34px rgba(0,0,0,0.8);
+  border-color: var(--line-strong);
+}
+.rfc-embed .rfc-rail { padding: 16px 12px; }
+.rfc-embed .rfc-brand { padding: 2px 6px 13px; margin-bottom: 3px; }
+.rfc-embed .rfc-navlabel { padding: 8px 8px 4px; }
+.rfc-embed .rfc-nav { padding: 8px 10px; font-size: 13px; gap: 10px; }
+.rfc-embed .rfc-nav .ic { width: 15px; height: 15px; }
+.rfc-embed .rfc-main { padding: 16px 18px; gap: 14px; overflow: hidden; }
+.rfc-embed .rfc-impact { gap: 11px; }
+.rfc-embed .rfc-stat { padding: 12px 14px; }
+.rfc-embed .rfc-stat .fig { font-size: 25px; }
+.rfc-embed .rfc-stat .lab { font-size: 11.5px; margin-top: 5px; }
+.rfc-embed .rfc-top { padding: 12px 18px; }
+.rfc-embed .rfc-body { gap: 14px; }
+.rfc-embed .rfc-pat { padding: 13px 18px; }
+.rfc-embed .rfc-phead { padding: 13px 18px 11px; }
+
+/* a framed "peek" of the dashboard for the paper positioning slide (13) */
+.rfc-peek {
+  border-radius: var(--r-md);
+  border: 1px solid var(--line-strong);
+  background: var(--paper-raised);
+  overflow: hidden;
+  box-shadow: 0 30px 80px -40px rgba(20,22,29,0.5);
+}
+.rfc-peek .pk-bar {
+  display: flex; align-items: center; gap: 7px;
+  padding: 11px 14px; border-bottom: 1px solid var(--line); background: var(--paper);
+}
+.rfc-peek .pk-bar .l { width: 9px; height: 9px; border-radius: 50%; }
+.rfc-peek .pk-bar .l.r { background: #ff5f57; }
+.rfc-peek .pk-bar .l.a { background: #febc2e; }
+.rfc-peek .pk-bar .l.g { background: #28c840; }
+.rfc-peek .pk-bar .t { margin-left: 8px; font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 0.03em; }
+.rfc-peek .pk-bar .pill {
+  margin-left: auto; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.02em;
+  color: var(--ink-soft); border: 1px dashed var(--line-strong); border-radius: var(--r-pill);
+  padding: 3px 9px; background: rgba(242,169,59,0.09);
+}
+.rfc-peek .pk-bar .pill b { color: var(--accent); }
+.rfc-peek .pk-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.rfc-peek .pk-mini { display: grid; grid-template-columns: repeat(2,1fr); gap: 9px; }
+.rfc-peek .pk-fig {
+  border: 1px solid var(--line); border-radius: var(--r-sm); padding: 11px 13px;
+  background: var(--paper);
+}
+.rfc-peek .pk-fig .n { font-family: var(--font-mono); font-weight: 600; font-size: 22px; color: var(--ink); line-height: 1; }
+.rfc-peek .pk-fig .n .u { font-size: 12px; color: var(--ink-soft); }
+.rfc-peek .pk-fig .k { margin-top: 5px; font-size: 11px; color: var(--ink-soft); }
+.rfc-peek .pk-row {
+  display: flex; align-items: center; gap: 11px;
+  border: 1px solid var(--line); border-radius: var(--r-sm); padding: 11px 13px; background: var(--paper);
+}
+.rfc-peek .pk-row .rk { font-family: var(--font-mono); font-weight: 600; font-size: 14px; color: var(--ink); }
+.rfc-peek .pk-row .tx { flex: 1; min-width: 0; }
+.rfc-peek .pk-row .tx b { font-size: 13.5px; color: var(--ink); font-weight: 600; display: block; line-height: 1.2; }
+.rfc-peek .pk-row .tx span { font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-soft); }
+.rfc-peek .pk-row .go {
+  font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; color: #fff;
+  background: var(--primary); border-radius: var(--r-pill); padding: 6px 11px; white-space: nowrap;
+}
+
+/* a slim caption strip used under the dark-stage mock (slides 14/15/16) */
+.rfc-capstrip {
+  margin-top: 18px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.rfc-capstrip .ct {
+  font-family: var(--font-display); font-style: italic; letter-spacing: -0.015em;
+  font-size: 25px; line-height: 1.12; color: var(--panel-ink);
+}
+.rfc-capstrip .ct em { font-style: normal; color: var(--win); }
+.rfc-capstrip .closechip {
+  margin-left: auto;
+  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.02em;
+  color: #b7f0cf; border: 1px solid rgba(53,208,127,0.4); background: rgba(53,208,127,0.1);
+  padding: 8px 14px; border-radius: var(--r-pill); white-space: nowrap;
+}
+.rfc-capstrip .closechip b { color: #d6f5e3; font-weight: 600; }
+
+/* slide-15 split: compounding panels (left) + audit (right) */
+.rfc-split { flex: 1; display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 16px; min-height: 0; }
+.rfc-split .rfc-panel { background: var(--paper-raised); display: flex; flex-direction: column; }
+.rfc-stack2 { display: flex; flex-direction: column; gap: 16px; min-height: 0; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   PRINT  →  exactly one landscape page per slide, clean multi-page PDF
    ════════════════════════════════════════════════════════════════════════ */
 @media print {
   /* One landscape page per slide at the deck's logical 1280x720 canvas.
@@ -1204,12 +1788,373 @@ html, body {
       <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
     </section>
 
+    <!-- ═══════════════ SLIDE 13 — POSITIONING (PAPER · appendix) ═══════════════ -->
+    <section class="slide paper" id="s13" data-title="The product · positioning">
+      <span class="kicker">13 — appendix · the product</span>
+      <div class="cols c2-wide" style="align-content:center;">
+        <div class="stack gap-l">
+          <div class="eyebrow appendix"><span class="tick"></span>appendix · the product · re-forge Cloud</div>
+          <h2 class="display" style="font-size:62px;">AutoStep for your<br>AI <em>workforce.</em></h2>
+          <div class="stack gap-m" style="margin-top:6px;">
+            <p class="lead" style="font-size:19px;">The bottleneck isn't the model — it's <span style="color:var(--ink);font-style:italic;">discovery</span>. No one can see how their agents actually work, so improving them is guesswork.</p>
+            <p class="lead" style="font-size:19px;">re-forge Cloud watches your agents — <b style="color:var(--ink);font-weight:600;">not your people</b> — across every tool, finds what they repeat and what they get wrong, and <b style="color:var(--ink);font-weight:600;">forges the skills that fix it.</b></p>
+            <p class="lead" style="font-size:19px;">Self-evolving. The shared brain your whole team's agents draw from.</p>
+          </div>
+          <div class="note" style="align-self:flex-start;margin-top:4px;"><span class="mk" style="width:7px;height:7px;border-radius:2px;background:var(--accent);display:inline-block;"></span><b>Product preview</b> · mockup — not live data</div>
+        </div>
+
+        <!-- framed dashboard peek -->
+        <div class="stack" style="justify-content:center;">
+          <div class="rfc-peek">
+            <div class="pk-bar">
+              <span class="l r"></span><span class="l a"></span><span class="l g"></span>
+              <span class="t">re-forge Cloud · Discovery</span>
+              <span class="pill"><b>preview</b> · mockup</span>
+            </div>
+            <div class="pk-body">
+              <div class="pk-mini">
+                <div class="pk-fig"><div class="n">1,284</div><div class="k">sessions observed</div></div>
+                <div class="pk-fig"><div class="n">~18<span class="u">h/wk</span></div><div class="k">repeat-work avoided</div></div>
+              </div>
+              <div class="pk-row">
+                <span class="rk">1</span>
+                <div class="tx"><b>Leakage check re-derived by hand</b><span>Claude Code ×5 · Cursor ×2 · ~3.5h/wk</span></div>
+                <span class="go">Forge ⚒</span>
+              </div>
+              <div class="pk-row">
+                <span class="rk">2</span>
+                <div class="tx"><b>JWT refresh-rotation hand-rolled</b><span>Cursor ×4 · Claude Code ×3</span></div>
+                <span class="go">Forge ⚒</span>
+              </div>
+              <div class="pk-row">
+                <span class="rk">3</span>
+                <div class="tx"><b>Same OWASP checklist pasted in</b><span>9 sessions · 4 repos</span></div>
+                <span class="go">Forge ⚒</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app · appendix</div>
+    </section>
+
+    <!-- ═══════════════ SLIDE 14 — THE DISCOVERY SCREEN (DARK STAGE · full mock) ═══════════════ -->
+    <section class="slide dark stage" id="s14" data-title="The discovery screen">
+      <span class="kicker">14 — appendix · the discovery screen</span>
+      <div class="eyebrow appendix" style="margin-bottom:13px;"><span class="tick"></span>appendix · the product · live mock</div>
+
+      <!-- the SAME .rfc-* dashboard markup as product.html, in deck-embed form -->
+      <div class="rfc-embed">
+        <div class="rfc-app">
+          <aside class="rfc-rail">
+            <div class="rfc-brand">
+              <div class="star">✦</div>
+              <div class="wm"><b>re-forge</b><span>Cloud</span></div>
+            </div>
+            <div class="rfc-navlabel">workspace</div>
+            <div class="rfc-nav">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+              Overview
+            </div>
+            <div class="rfc-nav is-active">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
+              Discovery <span class="badge">12</span>
+            </div>
+            <div class="rfc-nav">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 3 7l9 5 9-5-9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></span>
+              Skills <span class="badge">9</span>
+            </div>
+            <div class="rfc-nav">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><path d="M3 12a9 9 0 0 1 18 0"/><path d="M3 12a9 9 0 0 0 18 0"/></svg></span>
+              Team Memory
+            </div>
+            <div class="rfc-nav">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M5 3h10l4 4v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="m9 13 2 2 4-4"/></svg></span>
+              Audit
+            </div>
+            <div class="rfc-workspace">
+              <div class="av">AE</div>
+              <div class="wt"><b>acme-eng</b><span>8 seats</span></div>
+            </div>
+          </aside>
+
+          <header class="rfc-top">
+            <span class="rfc-watching">watching</span>
+            <div class="rfc-toolchips">
+              <span class="rfc-toolchip"><span class="cdot"></span>Claude Code</span>
+              <span class="rfc-toolchip"><span class="cdot"></span>Cursor</span>
+              <span class="rfc-toolchip"><span class="cdot"></span>Codex</span>
+              <span class="rfc-toolchip"><span class="cdot"></span>ChatGPT</span>
+            </div>
+            <span class="spacer"></span>
+            <span class="rfc-mockpill"><span class="mk"></span>Product preview · mockup — <b>not live data</b></span>
+            <span class="rfc-user">YV</span>
+          </header>
+
+          <main class="rfc-main">
+            <section class="rfc-impact">
+              <div class="rfc-stat"><div class="fig">1,284</div><div class="lab">sessions observed</div></div>
+              <div class="rfc-stat"><div class="fig">12</div><div class="lab">patterns surfaced</div></div>
+              <div class="rfc-stat win"><div class="fig">9</div><div class="lab">skills forged</div></div>
+              <div class="rfc-stat accent"><div class="fig">~18<span class="u">h/wk</span></div><div class="lab">repeat-work avoided</div></div>
+            </section>
+
+            <div class="rfc-body">
+              <section class="rfc-panel">
+                <div class="rfc-phead">
+                  <div class="ht">
+                    <h2>12 patterns your agents keep repeating</h2>
+                    <span class="sub">ranked by repeat-cost · last 30 days</span>
+                  </div>
+                  <span class="spacer"></span>
+                  <div class="rfc-tabs"><button class="rfc-tab is-on">Discovery</button><button class="rfc-tab">Audit</button></div>
+                </div>
+                <div class="rfc-patterns">
+                  <div class="rfc-pat">
+                    <div class="rfc-rank"><span class="ar">▲</span>1</div>
+                    <div class="lhs">
+                      <div class="pt">Leakage check re-derived by hand</div>
+                      <div class="meta">
+                        <span class="rfc-tc claude"><span class="d"></span>Claude Code ×5</span>
+                        <span class="rfc-tc cursor"><span class="d"></span>Cursor ×2</span>
+                        <span class="freq">seen in <b>7 of 12</b> data sessions · <span class="cost">~3.5h/wk</span></span>
+                      </div>
+                    </div>
+                    <div class="rhs">
+                      <svg class="rfc-spark" width="86" height="28" viewBox="0 0 86 28" aria-hidden="true"><polyline points="0,22 12,20 24,21 36,15 48,16 60,10 72,8 86,4" fill="none" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="86" cy="4" r="2.4" fill="#4f46e5"/></svg>
+                      <button class="rfc-forge"><span class="hammer">⚒</span>Forge skill → <span style="color:#fff;">quant-leakage-guard</span></button>
+                    </div>
+                  </div>
+                  <div class="rfc-pat">
+                    <div class="rfc-rank"><span class="ar">▲</span>2</div>
+                    <div class="lhs">
+                      <div class="pt">JWT refresh-rotation hand-rolled</div>
+                      <div class="meta">
+                        <span class="rfc-tc cursor"><span class="d"></span>Cursor ×4</span>
+                        <span class="rfc-tc claude"><span class="d"></span>Claude Code ×3</span>
+                        <span class="freq">one shared skill <b>covers both</b></span>
+                      </div>
+                    </div>
+                    <div class="rhs">
+                      <svg class="rfc-spark" width="86" height="28" viewBox="0 0 86 28" aria-hidden="true"><polyline points="0,19 12,20 24,14 36,16 48,11 60,13 72,7 86,6" fill="none" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="86" cy="6" r="2.4" fill="#4f46e5"/></svg>
+                      <button class="rfc-forge"><span class="hammer">⚒</span>Forge skill</button>
+                    </div>
+                  </div>
+                  <div class="rfc-pat">
+                    <div class="rfc-rank"><span class="ar">▲</span>3</div>
+                    <div class="lhs">
+                      <div class="pt">Same OWASP checklist pasted into prompts</div>
+                      <div class="meta">
+                        <span class="rfc-tc chatgpt"><span class="d"></span>ChatGPT ×6</span>
+                        <span class="rfc-tc codex"><span class="d"></span>Codex ×3</span>
+                        <span class="freq"><b>9 sessions</b> across 4 repos</span>
+                      </div>
+                    </div>
+                    <div class="rhs">
+                      <svg class="rfc-spark" width="86" height="28" viewBox="0 0 86 28" aria-hidden="true"><polyline points="0,16 12,14 24,17 36,12 48,14 60,11 72,10 86,9" fill="none" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="86" cy="9" r="2.4" fill="#4f46e5"/></svg>
+                      <div class="rfc-actions">
+                        <button class="rfc-forge ghost"><span class="hammer">⚒</span>Forge skill</button>
+                        <button class="rfc-dismiss">Dismiss</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="rfc-pat dim">
+                    <div class="rfc-rank"><span class="ar">▲</span>4</div>
+                    <div class="lhs">
+                      <div class="pt">Manual changelog formatting</div>
+                      <div class="meta">
+                        <span class="rfc-tc codex"><span class="d"></span>Codex ×4</span>
+                        <span class="freq"><b>6 sessions</b></span>
+                      </div>
+                    </div>
+                    <div class="rhs">
+                      <svg class="rfc-spark" width="86" height="28" viewBox="0 0 86 28" aria-hidden="true"><polyline points="0,14 12,16 24,13 36,15 48,14 60,16 72,15 86,14" fill="none" stroke="#8b909c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="86" cy="14" r="2.4" fill="#8b909c"/></svg>
+                      <button class="rfc-forge ghost"><span class="hammer">⚒</span>Forge skill</button>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <div class="rfc-rail-col">
+                <section class="rfc-panel">
+                  <div class="rfc-phead"><div class="ht"><h2>Forged skills</h2><span class="sub">auto-authored from patterns</span></div></div>
+                  <div>
+                    <div class="rfc-skill"><div><div class="sn"><span class="gem"></span>quant-leakage-guard</div><div class="smeta">forged 3d ago · used <span class="used">14×</span> · 3 teammates</div></div><span class="rfc-adopt"><span class="ar">▲</span>adoption</span></div>
+                    <div class="rfc-skill"><div><div class="sn"><span class="gem"></span>jwt-rotation</div><div class="smeta">used <span class="used">8×</span> · 2 teammates</div></div><span class="rfc-adopt"><span class="ar">▲</span>adoption</span></div>
+                    <div class="rfc-skill"><div><div class="sn"><span class="gem"></span>owasp-preflight</div><div class="smeta">used <span class="used">5×</span> · 1 teammate</div></div><span class="rfc-adopt flat">steady</span></div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+
+      <div class="rfc-capstrip">
+        <span class="ct">It finds the work your agents <em>repeat</em> — and forges the skill that ends it.</span>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app · appendix</div>
+    </section>
+
+    <!-- ═══════════════ SLIDE 15 — COMPOUNDING + AUDIT (DARK STAGE) ═══════════════ -->
+    <section class="slide dark stage" id="s15" data-title="Compounding + audit">
+      <span class="kicker">15 — appendix · what compounds</span>
+      <div class="eyebrow appendix" style="margin-bottom:13px;"><span class="tick"></span>appendix · the product · the moat that compounds</div>
+
+      <div class="rfc-embed" style="flex:1;min-height:0;">
+        <div class="rfc-split">
+
+          <!-- LEFT: forged skills + team memory -->
+          <div class="rfc-stack2">
+            <section class="rfc-panel">
+              <div class="rfc-phead"><div class="ht"><h2>Forged skills</h2><span class="sub">adoption climbs with use</span></div></div>
+              <div>
+                <div class="rfc-skill"><div><div class="sn"><span class="gem"></span>quant-leakage-guard</div><div class="smeta">forged 3d ago · used <span class="used">14×</span> · 3 teammates</div></div><span class="rfc-adopt"><span class="ar">▲</span>adoption</span></div>
+                <div class="rfc-skill"><div><div class="sn"><span class="gem"></span>jwt-rotation</div><div class="smeta">used <span class="used">8×</span> · 2 teammates</div></div><span class="rfc-adopt"><span class="ar">▲</span>adoption</span></div>
+                <div class="rfc-skill"><div><div class="sn"><span class="gem"></span>owasp-preflight</div><div class="smeta">used <span class="used">5×</span> · 1 teammate</div></div><span class="rfc-adopt flat">steady</span></div>
+              </div>
+            </section>
+            <section class="rfc-panel">
+              <div class="rfc-phead"><div class="ht"><h2>Team memory</h2><span class="sub">the shared brain · the moat</span></div></div>
+              <div class="rfc-mem">
+                <div class="headline"><b>47 lessons</b> · shared across 8 seats</div>
+                <div class="rfc-lesson"><span class="ix"></span><div class="lt">purge + embargo before any time-series CV<span class="lu">used <b>31×</b> · top lesson</span></div></div>
+                <div class="rfc-lesson"><span class="ix"></span><div class="lt">evidence-first: every claim links its source<span class="lu">used <b>26×</b></span></div></div>
+              </div>
+            </section>
+          </div>
+
+          <!-- RIGHT: audit session list -->
+          <section class="rfc-panel">
+            <div class="rfc-phead"><div class="ht"><h2>Audit</h2><span class="sub">every claim leaves a trail you can open</span></div></div>
+            <div class="rfc-audit">
+              <div class="rfc-arow">
+                <div class="sid"><b>#4127</b>Claude Code<br>acme/api</div>
+                <div class="verdict">
+                  <span class="rfc-verbadge killed">● security gate · KILLED</span>
+                  <div class="claim">killed claim <span class="q">"tokens are revocable"</span> — <b class="kill">no revocation path reproduced</b>.</div>
+                </div>
+                <a class="rfc-evidence">evidence ↗</a>
+              </div>
+              <div class="rfc-arow">
+                <div class="sid"><b>#4119</b>Cursor<br>acme/web</div>
+                <div class="verdict">
+                  <span class="rfc-verbadge refuted">● adversary · REFUTED</span>
+                  <div class="claim">refuted <span class="q">"no known CVEs"</span> — sole source was a <b class="kill">vendor blog post</b>.</div>
+                </div>
+                <a class="rfc-evidence">evidence ↗</a>
+              </div>
+              <div class="rfc-arow">
+                <div class="sid"><b>#4108</b>Claude Code<br>acme/api</div>
+                <div class="verdict">
+                  <span class="rfc-verbadge passed">● verifier · PASSED</span>
+                  <div class="claim">confirmed <span class="q">"Argon2id params meet policy"</span> — reproduced &amp; linked.</div>
+                </div>
+                <a class="rfc-evidence">evidence ↗</a>
+              </div>
+            </div>
+            <div class="rfc-pcap">Every agent claim leaves an <em>audit trail</em> you can open.</div>
+          </section>
+
+        </div>
+      </div>
+
+      <div class="rfc-capstrip">
+        <span class="ct">Every session sharpens the shared brain. <em>Every claim leaves a trail.</em></span>
+        <span class="closechip">Land with <b>one developer's</b> layer → expand to the <b>team's shared brain.</b></span>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app · appendix</div>
+    </section>
+
+    <!-- ═══════════════ SLIDE 16 — ONE SHARED BRAIN (DARK STAGE · live team memory) ═══════════════ -->
+    <section class="slide dark stage" id="s16" data-title="Your team's agents share one brain">
+      <span class="kicker">16 — appendix · live team memory</span>
+      <div class="cols" style="grid-template-columns:0.82fr 1.18fr;gap:40px;align-content:center;">
+
+        <!-- left: copy -->
+        <div class="stack gap-m" style="align-content:center;">
+          <div class="eyebrow appendix"><span class="tick"></span>appendix · the product · live team memory</div>
+          <h2 class="display" style="font-size:54px;">One project.<br>One <em>shared brain.</em></h2>
+          <p class="lead" style="font-size:18.5px;">Your coworker's agent just made a decision — yours already knows. No duplicated work. No contradictions. <span style="color:var(--panel-ink);font-weight:500;">The team decides <span style="font-style:italic;">once</span>, and every agent respects it.</span></p>
+          <div class="note" style="align-self:flex-start;"><span class="mk" style="width:7px;height:7px;border-radius:2px;background:var(--accent);display:inline-block;"></span><b>Product preview</b> · mockup — not live data</div>
+          <p style="font-family:var(--font-mono);font-size:12.5px;color:var(--panel-muted);line-height:1.5;margin-top:2px;">
+            <span style="color:#b7f0cf;">✓ ships today:</span> the concurrent file-locked memory merge (flock + atomic-rename, zero lost writes). <span style="color:var(--accent);">roadmap:</span> the cross-user LIVE sync.
+          </p>
+        </div>
+
+        <!-- right: the SAME live-team-memory panel markup as product.html -->
+        <div class="rfc-embed">
+          <section class="rfc-panel" style="background:var(--paper-raised);">
+            <div class="rfc-phead">
+              <div class="ht"><h2>Live team memory</h2><span class="sub">shared context across teammates</span></div>
+              <span class="spacer"></span>
+              <span class="rfc-mockpill" style="font-size:10.5px;"><span class="mk"></span>preview · mockup</span>
+            </div>
+            <div class="rfc-live">
+              <div class="rfc-live-head">
+                <div class="proj"><span class="rfc-tc claude"><span class="d" style="background:var(--primary);"></span>project</span><b>acme/payments</b></div>
+                <div class="active">
+                  <span class="alabel">3 active now</span>
+                  <div class="avs">
+                    <span class="tav" data-init="A" title="Akash · live">A<span class="ld"></span></span>
+                    <span class="tav" data-init="S" title="Shine · live">S<span class="ld"></span></span>
+                    <span class="tav" data-init="D" title="Dana · live">D<span class="ld"></span></span>
+                  </div>
+                </div>
+              </div>
+              <div class="rfc-feedlabel">shared context · live feed</div>
+              <div class="rfc-feed">
+                <div class="rfc-feeditem">
+                  <span class="who"><span class="av s">S</span></span>
+                  <div class="ft">
+                    <div class="line"><b>Shine's agent</b> <span class="ago">· 12m ago</span> — <span class="verb decided">decided:</span> Argon2id + refresh rotation <a class="rfc-evidence" style="margin-left:4px;">evidence ↗</a></div>
+                    <span class="tag build">your agent builds on this — won't re-decide it</span>
+                  </div>
+                </div>
+                <div class="rfc-feeditem">
+                  <span class="who"><span class="av d">D</span></span>
+                  <div class="ft">
+                    <div class="line"><b>Dana's agent</b> <span class="ago">· 4m ago</span> — <span class="verb found">found:</span> Stripe webhook needs an idempotency key</div>
+                    <span class="tag saved">saved to shared memory</span>
+                  </div>
+                </div>
+                <div class="rfc-feeditem warn">
+                  <span class="who"><span class="av w">⚠</span></span>
+                  <div class="ft">
+                    <div class="line"><b class="kill">duplicate work prevented</b> — you and <b>Akash</b> both queued <span class="q">"add rate limiter"</span></div>
+                    <span class="tag merged">merged into one task</span>
+                  </div>
+                </div>
+              </div>
+              <div class="rfc-declog">
+                <div class="dlabel">shared decision log <span class="dnote">— every agent on the project respects these</span></div>
+                <div class="dchips">
+                  <span class="rfc-dchip"><span class="lk"></span>auth = Argon2id + rotation</span>
+                  <span class="rfc-dchip"><span class="lk"></span>DB = Postgres, no ORM</span>
+                  <span class="rfc-dchip"><span class="lk"></span>no same-day signals in any backtest</span>
+                </div>
+              </div>
+              <div class="rfc-livefoot">
+                <span class="lf-stat"><b>file-locked merge</b> · 0 lost writes · 8 seats syncing</span>
+                <span class="lf-note">flock + atomic-rename · concurrent writers</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div class="rfc-capstrip" style="margin-top:14px;">
+        <span class="ct">Siloed today across every tool and teammate. <em>re-forge makes it one synced memory you own.</em></span>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app · appendix</div>
+    </section>
+
   </div>
 </div>
 
 <!-- ── On-screen navigation chrome ──────────────────────────────────────── -->
 <div id="chrome">
-  <span class="counter"><b id="cnum">1</b> / 12</span>
+  <span class="counter"><b id="cnum">1</b> / <span id="ctot">12</span></span>
   <div class="dots" id="dots"></div>
 </div>
 <div class="hint"><kbd>←</kbd> <kbd>→</kbd> navigate · <kbd>F</kbd> fullscreen · <kbd>P</kbd> print</div>
@@ -1218,12 +2163,16 @@ html, body {
 (function () {
   "use strict";
   var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
-  var N = slides.length;            // 12
+  var N = slides.length;            // derived at runtime — works for any slide count
   var cur = 0;
   var deck = document.getElementById("deck");
   var pbar = document.getElementById("pbar");
   var cnum = document.getElementById("cnum");
+  var ctot = document.getElementById("ctot");
   var dotsWrap = document.getElementById("dots");
+
+  // counter total derives from the actual number of slides
+  if (ctot) ctot.textContent = String(N);
 
   // build dots
   var dots = [];
@@ -1283,26 +2232,31 @@ html, body {
     } else if (k === "p" || k === "P") {
       // let native print fire; do nothing special (Cmd/Ctrl+P handled by browser)
       if (!e.metaKey && !e.ctrlKey) { e.preventDefault(); window.print(); }
-    } else if (k >= "1" && k <= "9") {
-      e.preventDefault(); go(parseInt(k, 10) - 1);
-    } else if (k === "0") {
-      e.preventDefault(); go(9);              // slide 10
     }
   });
 
-  // number jump for 10/11/12 via a tiny two-key buffer
+  // ── number jump — single buffered path handles 1–9 AND two-digit (10..N) ──
+  // A short debounce lets "1" then "3" resolve to slide 13; a lone "7" still
+  // jumps after the window. Buffer caps at the digit-width of N so it scales.
   var buf = "";
   var bufTimer = null;
+  var maxDigits = String(N).length;          // e.g. 16 ⇒ 2 digits
   document.addEventListener("keydown", function (e) {
-    if (e.key >= "0" && e.key <= "9") {
-      buf += e.key;
-      if (bufTimer) clearTimeout(bufTimer);
-      bufTimer = setTimeout(function () {
-        var n = parseInt(buf, 10);
-        if (n >= 1 && n <= N) go(n - 1);
-        buf = "";
-      }, 320);
-    }
+    if (e.key < "0" || e.key > "9") return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;   // don't hijack browser combos
+    e.preventDefault();
+    buf += e.key;
+    if (bufTimer) clearTimeout(bufTimer);
+    // commit immediately once the buffer can't grow into a larger valid slide
+    var commit = function () {
+      var n = parseInt(buf, 10);
+      if (n >= 1 && n <= N) go(n - 1);
+      buf = "";
+      if (bufTimer) { clearTimeout(bufTimer); bufTimer = null; }
+    };
+    // if appending another digit could still land in-range, wait; else commit now
+    if (buf.length >= maxDigits || parseInt(buf + "0", 10) > N) commit();
+    else bufTimer = setTimeout(commit, 320);
   });
 
   // ── fullscreen ────────────────────────────────────────────────────────
@@ -1339,8 +2293,18 @@ html, body {
   });
 
   // ── deep link on load ─────────────────────────────────────────────────
-  var h = parseInt((location.hash || "").replace("#", ""), 10);
-  if (h >= 1 && h <= N) cur = h - 1;
+  function hashSlide() {
+    var h = parseInt((location.hash || "").replace("#", ""), 10);
+    return (h >= 1 && h <= N) ? h - 1 : null;
+  }
+  var h0 = hashSlide();
+  if (h0 !== null) cur = h0;
+
+  // honor in-session deep links (#13..#N) too, not just the initial load
+  window.addEventListener("hashchange", function () {
+    var hs = hashSlide();
+    if (hs !== null && hs !== cur) go(hs);
+  });
 
   render();
 })();
