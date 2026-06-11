@@ -1,0 +1,1350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>re-forge — investor deck</title>
+<meta name="description" content="re-forge — the compounding layer for your AI toolchain. Akasxh & Shine · UCWS Singapore 2026." />
+<link rel="icon" href="/logo.jpeg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- exact @import line from src/styles/tokens.css -->
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap");
+
+/* ── Brand tokens — verbatim from src/styles/tokens.css ─────────────────── */
+:root {
+  --paper: #f7f8fa;
+  --paper-raised: #ffffff;
+  --ink: #14161d;
+  --ink-soft: #515968;
+  --ink-faint: #8b909c;
+  --line: #e6e8ee;
+  --line-strong: #d3d7e0;
+
+  --primary: #4f46e5;
+  --primary-bright: #6d5dfc;
+  --accent: #f2a93b;
+  --danger: #ef4444;
+  --danger-soft: #b91c1c;
+  --win: #35d07f;
+  --win-soft: #1b8f55;
+
+  --panel-deep: #11121b;
+  --panel-raised: #1c1d2b;
+  --panel-line: #34374f;
+  --panel-ink: #f3f0ff;
+  --panel-muted: #9ea1bd;
+
+  --font-display: "Instrument Serif", "Times New Roman", serif;
+  --font-ui: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --r-pill: 999px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* deck-local */
+  --slide-w: 1280px;
+  --slide-h: 720px;
+  --pad: 84px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: #0c0d13;            /* letterbox surround */
+  font-family: var(--font-ui);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.mono, .num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* ── Viewport / stage scaling ───────────────────────────────────────────── */
+#stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+#deck {
+  position: relative;
+  width: var(--slide-w);
+  height: var(--slide-h);
+  transform-origin: center center;
+  /* JS sets --scale */
+  transform: scale(var(--scale, 1));
+  box-shadow: 0 40px 120px -30px rgba(0, 0, 0, 0.7);
+}
+
+/* ── Slide base ─────────────────────────────────────────────────────────── */
+.slide {
+  position: absolute;
+  inset: 0;
+  width: var(--slide-w);
+  height: var(--slide-h);
+  padding: var(--pad);
+  background: var(--paper);
+  color: var(--ink);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s var(--ease-out);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+}
+.slide.dark {
+  background: var(--panel-deep);
+  color: var(--panel-ink);
+}
+
+/* subtle paper texture seam line at top of light slides */
+.slide.paper::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-bright) 38%, transparent 38%);
+  opacity: 0.9;
+}
+.slide.dark.stage::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--win) 0%, var(--win) 30%, transparent 30%);
+  opacity: 0.85;
+}
+
+/* ── Typography primitives ──────────────────────────────────────────────── */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.026em;
+  line-height: 0.99;
+}
+.display em { color: var(--primary); font-style: italic; }
+.dark .display em { color: var(--primary-bright); }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+}
+.dark .eyebrow { color: var(--panel-muted); }
+.eyebrow .tick {
+  width: 7px; height: 7px; border-radius: 2px;
+  background: var(--primary);
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.14);
+}
+.dark .eyebrow .tick { background: var(--win); box-shadow: 0 0 0 4px rgba(53, 208, 127, 0.16); }
+.eyebrow.win .tick { background: var(--win); box-shadow: 0 0 0 4px rgba(53,208,127,0.16); }
+.eyebrow.danger .tick { background: var(--danger); box-shadow: 0 0 0 4px rgba(239,68,68,0.16); }
+
+.kicker { /* slide number marker, top-right */
+  position: absolute;
+  top: 40px;
+  right: var(--pad);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+}
+.dark .kicker { color: var(--panel-muted); }
+
+.lead {
+  font-size: 22px;
+  line-height: 1.42;
+  color: var(--ink-soft);
+  max-width: 60ch;
+  font-weight: 400;
+}
+.dark .lead { color: var(--panel-muted); }
+
+.big-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+/* chips */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 16px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line-strong);
+  background: var(--paper-raised);
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.chip .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); }
+.chip .dot.win { background: var(--win); }
+.chip .dot.danger { background: var(--danger); }
+.chip .dot.accent { background: var(--accent); }
+.dark .chip {
+  border-color: var(--panel-line);
+  background: var(--panel-raised);
+  color: var(--panel-ink);
+}
+
+/* footer wordmark + slide counter live OUTSIDE per-slide so screen nav is global,
+   but a per-slide wordmark is printed for PDF fidelity */
+.wm {
+  position: absolute;
+  left: var(--pad);
+  bottom: 38px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.wm .star { color: var(--primary); font-size: 13px; }
+.dark .wm { color: var(--panel-muted); }
+.dark .wm .star { color: var(--win); }
+
+/* generic two-column body grid */
+.cols {
+  flex: 1;
+  display: grid;
+  gap: 56px;
+  align-content: center;
+  min-height: 0;
+}
+.cols.c2 { grid-template-columns: 1.05fr 0.95fr; }
+.cols.c2-wide { grid-template-columns: 1.18fr 0.82fr; }
+
+.stack { display: flex; flex-direction: column; }
+.gap-s > * + * { margin-top: 14px; }
+.gap-m > * + * { margin-top: 22px; }
+.gap-l > * + * { margin-top: 34px; }
+
+/* enumerated argument rows */
+.arg {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.arg .idx {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  padding-top: 4px;
+  letter-spacing: 0.02em;
+}
+.dark .arg .idx { color: var(--primary-bright); }
+.arg .body { }
+.arg .body strong { font-weight: 700; color: var(--ink); }
+.dark .arg .body strong { color: var(--panel-ink); }
+.arg .t { font-size: 20px; line-height: 1.4; color: var(--ink-soft); }
+.dark .arg .t { color: var(--panel-muted); }
+.arg .t.lg { font-size: 23px; color: var(--ink); }
+.dark .arg .t.lg { color: var(--panel-ink); }
+
+/* stat cards */
+.statcard {
+  border: 1px solid var(--line-strong);
+  background: var(--paper-raised);
+  border-radius: var(--r-md);
+  padding: 26px 28px;
+}
+.dark .statcard { border-color: var(--panel-line); background: var(--panel-raised); }
+.statcard .figure { font-size: 56px; }
+.statcard .lab { margin-top: 8px; font-size: 15px; color: var(--ink-soft); line-height: 1.35; }
+.dark .statcard .lab { color: var(--panel-muted); }
+
+/* small note / roadmap pill */
+.note {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.03em;
+  padding: 7px 14px;
+  border-radius: var(--r-pill);
+  border: 1px dashed var(--line-strong);
+  color: var(--ink-soft);
+  background: rgba(242, 169, 59, 0.07);
+}
+.note b { color: var(--accent); font-weight: 600; }
+.dark .note { border-color: var(--panel-line); color: var(--panel-muted); background: rgba(242,169,59,0.1); }
+
+/* QR block */
+.qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+}
+.qr img {
+  width: 118px; height: 118px;
+  border-radius: var(--r-sm);
+  background: #fff;
+  padding: 8px;
+  border: 1px solid var(--line-strong);
+}
+.dark .qr img { border-color: var(--panel-line); }
+.qr .qlab {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+.dark .qr .qlab { color: var(--panel-muted); }
+
+/* ════════════════════════════════════════════════════════════════════════
+   SLIDE 1 — TITLE
+   ════════════════════════════════════════════════════════════════════════ */
+#s1 { justify-content: center; }
+#s1 .hero { display: grid; grid-template-columns: 1fr auto; gap: 64px; align-items: center; flex: 1; }
+#s1 .wordmark { display: flex; align-items: center; gap: 22px; margin-bottom: 26px; }
+#s1 .wordmark img {
+  width: 64px; height: 64px; border-radius: 16px;
+  border: 1px solid var(--line-strong);
+}
+#s1 .wordmark .name {
+  font-family: var(--font-mono);
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+#s1 h1 { font-size: 130px; margin: 4px 0 22px; }
+#s1 .tagline { font-size: 33px; line-height: 1.18; color: var(--ink); max-width: 18ch; }
+#s1 .tagline em { color: var(--primary); font-style: italic; }
+#s1 .authors {
+  margin-top: 30px;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+}
+#s1 .chips { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+#s1 .side {
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  padding-left: 56px; border-left: 1px solid var(--line);
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   SLIDE 5 & 7 & 8 — DARK STAGE specifics
+   ════════════════════════════════════════════════════════════════════════ */
+/* swarm stage */
+.swarm-shell {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 0.82fr 1.18fr;
+  gap: 44px;
+  align-items: center;
+  min-height: 0;
+}
+.swarm-frame {
+  position: relative;
+  border: 1px solid var(--panel-line);
+  border-radius: var(--r-lg);
+  background:
+    radial-gradient(120% 120% at 50% 0%, rgba(79,70,229,0.12), transparent 60%),
+    var(--panel-raised);
+  padding: 14px 16px 10px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.swarm-frame .bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 4px 6px 12px;
+}
+.swarm-frame .bar .l { width: 10px; height: 10px; border-radius: 50%; }
+.swarm-frame .bar .l.r { background: #ff5f57; }
+.swarm-frame .bar .l.a { background: #febc2e; }
+.swarm-frame .bar .l.g { background: #28c840; }
+.swarm-frame .bar .tab {
+  margin-left: 10px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--panel-muted);
+}
+.swarm-svg { width: 100%; height: auto; flex: 1; display: block; }
+
+/* swarm SVG element classes — recreated from site global.css */
+.sw-bg { fill: transparent; }
+.sw-edge { stroke: rgba(122, 162, 247, 0.30); stroke-width: 1.3; }
+.sw-edge.adv { stroke: rgba(239, 68, 68, 0.5); stroke-width: 1.5; }
+.sw-edge.core { stroke: rgba(53, 208, 127, 0.42); stroke-width: 1.4; }
+.sw-disc { fill: rgba(122, 162, 247, 0.13); stroke: rgba(122, 162, 247, 0.62); stroke-width: 1.5; }
+.sw-disc.adv { fill: rgba(239, 68, 68, 0.12); stroke: var(--danger); stroke-width: 1.8; }
+.sw-disc.lead { fill: rgba(79, 70, 229, 0.18); stroke: var(--primary-bright); stroke-width: 1.8; }
+.sw-label { fill: var(--panel-muted); font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.02em; }
+.sw-label.ink { fill: var(--panel-ink); }
+.sw-sub { fill: var(--panel-muted); font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.04em; }
+.sw-core { fill: rgba(53, 208, 127, 0.16); stroke: var(--win); stroke-width: 2; }
+.sw-core-l { fill: var(--panel-ink); font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em; }
+.sw-prompt-pill { fill: rgba(79, 70, 229, 0.16); stroke: rgba(109, 93, 252, 0.6); stroke-width: 1.4; }
+.sw-prompt-text { fill: var(--panel-ink); font-family: var(--font-mono); font-size: 13px; }
+.sw-chip { fill: rgba(53, 208, 127, 0.12); stroke: rgba(53, 208, 127, 0.5); stroke-width: 1.2; }
+.sw-chip-t { fill: #b7f0cf; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.02em; }
+.sw-redtag { fill: #ff8a8a; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.03em; }
+
+/* swarm legend (right column of slide 5) */
+.swarm-copy h2 { font-size: 58px; margin-bottom: 18px; }
+.swarm-legend { display: flex; flex-direction: column; gap: 15px; margin-top: 26px; }
+.leg-row { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; }
+.leg-row .mk {
+  width: 13px; height: 13px; border-radius: 4px; margin-top: 5px;
+  border: 1.6px solid rgba(122,162,247,0.62); background: rgba(122,162,247,0.13);
+}
+.leg-row .mk.adv { border-color: var(--danger); background: rgba(239,68,68,0.12); }
+.leg-row .mk.core { border-color: var(--win); background: rgba(53,208,127,0.16); border-radius: 50%; }
+.leg-row .t { font-size: 17px; color: var(--panel-muted); line-height: 1.36; }
+.leg-row .t b { color: var(--panel-ink); font-weight: 600; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   SLIDE 6 — RECEIPTS
+   ════════════════════════════════════════════════════════════════════════ */
+.paper-card {
+  border: 1px solid var(--line-strong);
+  background: var(--paper-raised);
+  border-radius: var(--r-md);
+  padding: 22px 26px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 20px;
+  align-items: center;
+}
+.paper-card .seq { font-family: var(--font-mono); font-size: 26px; font-weight: 600; color: var(--primary); }
+.paper-card .pt { font-size: 18.5px; line-height: 1.3; font-weight: 600; color: var(--ink); font-style: italic; font-family: var(--font-display); letter-spacing: -0.01em; }
+.paper-card .pt em { font-style: normal; }
+.paper-card .pa { margin-top: 5px; font-family: var(--font-mono); font-size: 13px; color: var(--ink-soft); letter-spacing: 0.01em; }
+.paper-card .link {
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.02em;
+  color: var(--win-soft);
+  border: 1px solid rgba(27,143,85,0.32);
+  background: rgba(53,208,127,0.08);
+  padding: 6px 12px; border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+.receipts-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 6px; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   SLIDE 7 — DEMO (dark): looks-done vs verified
+   ════════════════════════════════════════════════════════════════════════ */
+.duel { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: stretch; min-height: 0; }
+.panelcard {
+  border-radius: var(--r-lg);
+  border: 1px solid var(--panel-line);
+  background: var(--panel-raised);
+  padding: 28px 30px;
+  display: flex; flex-direction: column;
+}
+.panelcard.win-edge { border-color: rgba(53,208,127,0.4); box-shadow: inset 0 0 0 1px rgba(53,208,127,0.12); }
+.panelcard.red-edge { border-color: rgba(239,68,68,0.42); box-shadow: inset 0 0 0 1px rgba(239,68,68,0.14); }
+.panelcard .ph {
+  font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
+}
+.panelcard.win-edge .ph { color: var(--win); }
+.panelcard.red-edge .ph { color: #ff7474; }
+.panelcard .ptitle { font-family: var(--font-display); font-size: 30px; line-height: 1.04; color: var(--panel-ink); margin-bottom: 18px; letter-spacing: -0.02em; }
+.passline {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono); font-size: 14px;
+  color: var(--win); margin-bottom: 16px;
+}
+.passline .big { font-size: 30px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.find-list { display: flex; flex-direction: column; gap: 13px; margin-top: 4px; }
+.find {
+  display: grid; grid-template-columns: auto 1fr; gap: 13px; align-items: start;
+}
+.find .x {
+  width: 19px; height: 19px; border-radius: 5px; margin-top: 2px; flex: none;
+  background: rgba(239,68,68,0.16); border: 1px solid rgba(239,68,68,0.5);
+  position: relative;
+}
+.find .x::before, .find .x::after {
+  content: ""; position: absolute; left: 4px; right: 4px; top: 8px; height: 1.6px;
+  background: #ff7474; border-radius: 1px;
+}
+.find .x::before { transform: rotate(45deg); }
+.find .x::after { transform: rotate(-45deg); }
+.find .ft { font-size: 16px; color: var(--panel-ink); line-height: 1.32; }
+.find .ft b { color: #ffcaca; font-weight: 600; }
+.duel-foot {
+  margin-top: 16px;
+  font-family: var(--font-display);
+  font-size: 27px;
+  line-height: 1.16;
+  letter-spacing: -0.015em;
+  color: var(--panel-ink);
+}
+.duel-foot em { color: var(--win); font-style: italic; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   SLIDE 8 — PRODUCT LOOP (dark)
+   ════════════════════════════════════════════════════════════════════════ */
+.loop-shell { flex: 1; display: grid; grid-template-columns: 1.32fr 0.68fr; gap: 40px; align-items: center; min-height: 0; }
+.loop-svg { width: 100%; height: auto; display: block; }
+.lp-chip { fill: rgba(122,162,247,0.10); stroke: rgba(122,162,247,0.5); stroke-width: 1.4; }
+.lp-chip-t { fill: var(--panel-ink); font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.01em; }
+.lp-hub { fill: rgba(79,70,229,0.20); stroke: var(--primary-bright); stroke-width: 2; }
+.lp-hub-t { fill: var(--panel-ink); font-family: var(--font-display); font-size: 27px; letter-spacing: -0.02em; }
+.lp-hub-s { fill: var(--panel-muted); font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; }
+.lp-out { fill: rgba(53,208,127,0.10); stroke: var(--win); stroke-width: 1.6; }
+.lp-out-t { fill: #d6f5e3; font-family: var(--font-mono); font-size: 13.5px; letter-spacing: 0.01em; }
+.lp-edge { stroke: rgba(122,162,247,0.45); stroke-width: 1.6; fill: none; }
+.lp-edge.out { stroke: rgba(53,208,127,0.55); }
+.lp-edge.loop { stroke: rgba(109,93,252,0.62); stroke-width: 1.8; fill: none; stroke-dasharray: 5 4; }
+.lp-looptag { fill: #b7a9ff; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.04em; }
+.lp-arrow { fill: rgba(122,162,247,0.7); }
+.lp-arrow.out { fill: rgba(53,208,127,0.8); }
+.lp-arrow.loop { fill: #b7a9ff; }
+.loop-copy h2 { font-size: 48px; margin-bottom: 18px; }
+.loop-copy .ships {
+  display: inline-flex; align-items: center; gap: 9px; margin-bottom: 20px;
+  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.03em;
+  padding: 7px 14px; border-radius: var(--r-pill);
+  border: 1px solid rgba(53,208,127,0.4); background: rgba(53,208,127,0.1); color: #b7f0cf;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   SLIDE 11 — BUSINESS MODEL tiers
+   ════════════════════════════════════════════════════════════════════════ */
+.tiers { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; flex: 1; align-content: center; min-height: 0; }
+.tier {
+  border-radius: var(--r-lg);
+  padding: 32px 34px;
+  display: flex; flex-direction: column;
+}
+.tier.free { border: 1px solid var(--line-strong); background: var(--paper-raised); }
+.tier.paid { border: 1.5px solid var(--primary); background: linear-gradient(180deg, rgba(79,70,229,0.05), rgba(79,70,229,0.02)); position: relative; }
+.tier .tlabel {
+  font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 9px; margin-bottom: 12px;
+}
+.tier.free .tlabel { color: var(--ink-faint); }
+.tier.paid .tlabel { color: var(--primary); }
+.tier h3 { font-family: var(--font-display); font-size: 34px; letter-spacing: -0.02em; margin-bottom: 16px; }
+.tier ul { list-style: none; display: flex; flex-direction: column; gap: 13px; }
+.tier li { display: grid; grid-template-columns: auto 1fr; gap: 12px; font-size: 17px; color: var(--ink-soft); line-height: 1.35; align-items: start; }
+.tier li .b { width: 6px; height: 6px; border-radius: 50%; margin-top: 8px; flex: none; }
+.tier.free li .b { background: var(--ink-faint); }
+.tier.paid li .b { background: var(--primary); }
+.tier li b { color: var(--ink); font-weight: 600; }
+.tier .pinflag {
+  position: absolute; top: -13px; right: 28px;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em;
+  background: var(--primary); color: #fff; padding: 5px 13px; border-radius: var(--r-pill);
+}
+.landexpand {
+  margin-top: 14px;
+  font-family: var(--font-mono); font-size: 13.5px; letter-spacing: 0.02em;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--line); padding-top: 16px;
+}
+.landexpand b { color: var(--primary); }
+
+/* ════════════════════════════════════════════════════════════════════════
+   SLIDE 12 — TEAM / ASK
+   ════════════════════════════════════════════════════════════════════════ */
+.ask-shell { flex: 1; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; min-height: 0; }
+.ask-list { display: flex; flex-direction: column; gap: 20px; margin-top: 26px; }
+.ask-item { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: start; }
+.ask-item .lab { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.04em; color: var(--primary); padding-top: 4px; text-transform: uppercase; white-space: nowrap; }
+.ask-item .v { font-size: 20px; color: var(--ink-soft); line-height: 1.4; }
+.ask-item .v b { color: var(--ink); font-weight: 600; }
+.ask-qr { display: flex; gap: 34px; justify-content: center; }
+
+/* ── On-screen nav chrome (hidden in print) ─────────────────────────────── */
+#chrome {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 16px 22px;
+  pointer-events: none;
+}
+#chrome > * { pointer-events: auto; }
+.dots { display: flex; gap: 9px; align-items: center; }
+.dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: rgba(255,255,255,0.26);
+  border: none; padding: 0; cursor: pointer;
+  transition: all 0.3s var(--ease-out);
+}
+.dot:hover { background: rgba(255,255,255,0.5); }
+.dot.is-on { background: #fff; width: 24px; border-radius: 5px; }
+.counter {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.72);
+  font-variant-numeric: tabular-nums;
+}
+.counter b { color: #fff; font-weight: 600; }
+.progress-track {
+  position: fixed;
+  left: 0; right: 0; top: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  z-index: 50;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-bright));
+  width: 0;
+  transition: width 0.5s var(--ease-out);
+}
+.hint {
+  position: fixed;
+  right: 20px; bottom: 18px;
+  z-index: 50;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.4);
+}
+.hint kbd {
+  font-family: var(--font-mono);
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px; padding: 1px 5px; color: rgba(255,255,255,0.7);
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   PRINT  →  exactly one landscape page per slide, clean 12-page PDF
+   ════════════════════════════════════════════════════════════════════════ */
+@media print {
+  /* One landscape page per slide at the deck's logical 1280x720 canvas.
+     NOTE: dimensions already encode orientation; the `landscape` keyword must
+     NOT be combined with explicit sizes (invalid per CSS, Chromium then falls
+     back to Letter). 1280>720 ⇒ landscape. */
+  @page {
+    size: 1280px 720px;
+    margin: 0;
+  }
+  html, body { background: #fff; height: auto; width: auto; }
+
+  /* kill all on-screen nav chrome */
+  #chrome, .progress-track, .hint { display: none !important; }
+
+  /* un-stack: deck flows in document order, each slide its own page */
+  #stage {
+    position: static;
+    display: block;
+    overflow: visible;
+    inset: auto;
+  }
+  #deck {
+    position: static;
+    width: 1280px;
+    height: auto;
+    transform: none !important;
+    box-shadow: none;
+  }
+  .slide {
+    position: relative;
+    inset: auto;
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    width: 1280px;
+    height: 720px;
+    page-break-after: always;
+    break-after: page;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    overflow: hidden;
+  }
+  .slide:last-child { page-break-after: auto; break-after: auto; }
+
+  /* preserve dark slide fills in print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
+/* graceful narrow-screen note (does not affect logical canvas) */
+@media (max-width: 640px) {
+  .hint { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-track"><div class="progress-bar" id="pbar"></div></div>
+
+<div id="stage">
+  <div id="deck">
+
+    <!-- ═══════════════ SLIDE 1 — TITLE ═══════════════ -->
+    <section class="slide paper is-active" id="s1" data-title="Title">
+      <span class="kicker">re-forge · investor deck</span>
+      <div class="hero">
+        <div class="stack">
+          <div class="wordmark">
+            <img src="/logo.jpeg" alt="re-forge star mark" />
+            <span class="name">re-forge</span>
+          </div>
+          <h1 class="display">re-forge</h1>
+          <p class="tagline display">The <em>compounding layer</em> for your AI toolchain.</p>
+          <p class="authors">Akasxh &amp; Shine · UCWS Singapore 2026</p>
+          <div class="chips">
+            <span class="chip"><span class="dot accent"></span>#1 on the leaderboard</span>
+            <span class="chip"><span class="dot"></span>2 papers @ ICML 2026</span>
+            <span class="chip"><span class="dot win"></span>open-source · model-agnostic</span>
+          </div>
+        </div>
+        <div class="side">
+          <div class="qr">
+            <img src="/qr/site.svg" alt="QR code to re-forge.vercel.app" />
+            <span class="qlab">re-forge.vercel.app</span>
+          </div>
+          <div class="qr">
+            <img src="/qr/repo.svg" alt="QR code to github.com/Akasxh/re-forge" />
+            <span class="qlab">github.com/Akasxh/re-forge</span>
+          </div>
+        </div>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
+    </section>
+
+    <!-- ═══════════════ SLIDE 2 — THE HOOK ═══════════════ -->
+    <section class="slide paper" id="s2" data-title="The hook">
+      <span class="kicker">02 — the cold truth</span>
+      <div class="cols c2-wide">
+        <div class="stack gap-l">
+          <div class="eyebrow"><span class="tick"></span>the hook</div>
+          <h2 class="display" style="font-size:72px;">Every session<br>starts from <em>zero.</em></h2>
+          <p class="lead">You run dozens of AI coding sessions a day — Claude Code, Cursor, Codex, ChatGPT. They forget what worked, repeat your mistakes, and leave no trace.</p>
+          <p class="lead" style="color:var(--ink);font-weight:500;">You are the only memory in the loop. That doesn't scale, and it doesn't compound.</p>
+        </div>
+        <div class="stack gap-m" style="justify-content:center;">
+          <div class="statcard">
+            <div class="figure big-num" style="color:var(--ink);">0</div>
+            <div class="lab">memory carried between sessions — every tool, every day</div>
+          </div>
+          <div class="statcard">
+            <div class="figure big-num" style="color:var(--ink);">1</div>
+            <div class="lab">thing that remembers what worked yesterday — <b style="color:var(--ink);">you</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
+    </section>
+
+    <!-- ═══════════════ SLIDE 3 — THE PROBLEM ═══════════════ -->
+    <section class="slide paper" id="s3" data-title="The problem">
+      <span class="kicker">03 — why it costs money</span>
+      <div class="stack gap-l" style="flex:1;justify-content:center;">
+        <div class="eyebrow danger"><span class="tick"></span>the problem</div>
+        <h2 class="display" style="font-size:60px;max-width:24ch;">A single agent is confident,<br>and <em style="color:var(--danger);">unaccountable.</em></h2>
+        <div class="cols" style="grid-template-columns:repeat(3,1fr);gap:38px;flex:none;align-content:start;margin-top:14px;">
+          <div class="arg">
+            <div class="idx" style="color:var(--danger);">01</div>
+            <div class="body"><div class="t lg" style="font-weight:600;color:var(--ink);">It hallucinates, anchors on its first idea, and forgets yesterday.</div></div>
+          </div>
+          <div class="arg">
+            <div class="idx" style="color:var(--danger);">02</div>
+            <div class="body"><div class="t lg" style="font-weight:600;color:var(--ink);">On long-horizon work that's wasted tokens, repeated bugs, and <b>no audit trail</b>.</div><div class="t" style="margin-top:8px;">You can't prove what it checked.</div></div>
+          </div>
+          <div class="arg">
+            <div class="idx" style="color:var(--danger);">03</div>
+            <div class="body"><div class="t lg" style="font-weight:600;color:var(--ink);">The most valuable thing — <b>how your team actually works</b> — evaporates.</div><div class="t" style="margin-top:8px;">Gone at the end of every session.</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
+    </section>
+
+    <!-- ═══════════════ SLIDE 4 — THE INSIGHT ═══════════════ -->
+    <section class="slide paper" id="s4" data-title="The insight">
+      <span class="kicker">04 — the insight</span>
+      <div class="cols c2" style="align-content:center;">
+        <div class="stack gap-l">
+          <div class="eyebrow"><span class="tick"></span>the insight</div>
+          <h2 class="display" style="font-size:66px;">The edge isn't a<br>smarter model.</h2>
+          <p class="lead">Everyone rents the same models. Renting a bigger one buys nobody a moat.</p>
+        </div>
+        <div class="stack gap-m" style="justify-content:center;border-left:1px solid var(--line);padding-left:48px;">
+          <p class="display" style="font-size:40px;line-height:1.12;">The edge is the <em>operating layer</em> on top of them.</p>
+          <div class="stack gap-s" style="margin-top:10px;">
+            <div class="chip" style="justify-content:flex-start;font-size:15px;padding:12px 18px;"><span class="dot"></span>coordination</div>
+            <div class="chip" style="justify-content:flex-start;font-size:15px;padding:12px 18px;"><span class="dot danger"></span>adversarial verification</div>
+            <div class="chip" style="justify-content:flex-start;font-size:15px;padding:12px 18px;"><span class="dot accent"></span>evidence on disk</div>
+            <div class="chip" style="justify-content:flex-start;font-size:15px;padding:12px 18px;"><span class="dot win"></span>memory that compounds</div>
+          </div>
+        </div>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
+    </section>
+
+    <!-- ═══════════════ SLIDE 5 — SWARM (DARK STAGE) ═══════════════ -->
+    <section class="slide dark stage" id="s5" data-title="The shipped engine">
+      <span class="kicker">05 — the shipped engine</span>
+      <div class="swarm-shell">
+        <!-- left: legend + copy -->
+        <div class="swarm-copy stack">
+          <div class="eyebrow"><span class="tick"></span>what re-forge is</div>
+          <h2 class="display">One prompt →<br>a whole <em>org.</em></h2>
+          <p class="lead" style="font-size:18px;">A coordinated org of specialist agents — research, engineering, security, testing, docs — plus a Forge meta-agent. Model-agnostic: it's a procedure, not a model.</p>
+          <div class="swarm-legend">
+            <div class="leg-row"><span class="mk"></span><div class="t"><b>Specialists fan out</b> from one lead — each lane works in parallel.</div></div>
+            <div class="leg-row"><span class="mk adv"></span><div class="t"><b>Skeptic + adversary attack</b> the work — weak claims die before you see them.</div></div>
+            <div class="leg-row"><span class="mk core"></span><div class="t"><b>Survivors reach SYNTHESIS</b> — evidence lands on disk, memory gains a lesson.</div></div>
+          </div>
+        </div>
+
+        <!-- right: the static swarm recreation -->
+        <div class="swarm-frame">
+          <div class="bar">
+            <span class="l r"></span><span class="l a"></span><span class="l g"></span>
+            <span class="tab">research-team · /research</span>
+          </div>
+          <svg class="swarm-svg" viewBox="0 0 800 470" role="img"
+            aria-label="The /research swarm: a lead fans out to six labelled specialist discs (web-miner, github-miner, librarian, skeptic, adversary, evaluator); the skeptic and adversary are outlined in red; edges converge on a central green SYNTHESIS core; an EVIDENCE slash chip and a memory plus-one-lesson chip sit at the foot.">
+            <rect class="sw-bg" x="0" y="0" width="800" height="470" />
+
+            <!-- docked prompt pill (persistent question) -->
+            <g transform="translate(14,12)">
+              <rect class="sw-prompt-pill" x="0" y="0" width="330" height="34" rx="17" />
+              <text class="sw-prompt-text" x="16" y="22">/research is this auth library safe to ship?</text>
+            </g>
+
+            <!-- edges: lead → specialists (drawn first, under nodes) -->
+            <line class="sw-edge"     x1="400" y1="118" x2="132" y2="236" />
+            <line class="sw-edge"     x1="400" y1="118" x2="214" y2="322" />
+            <line class="sw-edge"     x1="400" y1="118" x2="330" y2="368" />
+            <line class="sw-edge"     x1="400" y1="118" x2="470" y2="368" />
+            <line class="sw-edge adv" x1="400" y1="118" x2="586" y2="322" />
+            <line class="sw-edge adv" x1="400" y1="118" x2="668" y2="236" />
+
+            <!-- edges: specialists → SYNTHESIS core -->
+            <line class="sw-edge core" x1="132" y1="236" x2="400" y2="300" />
+            <line class="sw-edge core" x1="214" y1="322" x2="400" y2="300" />
+            <line class="sw-edge core" x1="330" y1="368" x2="400" y2="300" />
+            <line class="sw-edge core" x1="470" y1="368" x2="400" y2="300" />
+            <line class="sw-edge adv"  x1="586" y1="322" x2="400" y2="300" />
+            <line class="sw-edge adv"  x1="668" y1="236" x2="400" y2="300" />
+
+            <!-- SYNTHESIS core (green) -->
+            <circle class="sw-core" cx="400" cy="300" r="32" />
+            <text class="sw-core-l" x="400" y="297" text-anchor="middle">SYNTHESIS</text>
+            <text class="sw-sub"   x="400" y="313" text-anchor="middle">research-lead</text>
+
+            <!-- LEAD node -->
+            <circle class="sw-disc lead" cx="400" cy="118" r="26" />
+            <text class="sw-label ink" x="400" y="123" text-anchor="middle" style="font-weight:600;">lead</text>
+
+            <!-- specialist discs -->
+            <g>
+              <circle class="sw-disc" cx="132" cy="236" r="23" />
+              <text class="sw-label" x="132" y="276" text-anchor="middle">web-miner</text>
+            </g>
+            <g>
+              <circle class="sw-disc" cx="214" cy="322" r="23" />
+              <text class="sw-label" x="214" y="362" text-anchor="middle">github-miner</text>
+            </g>
+            <g>
+              <circle class="sw-disc" cx="330" cy="368" r="23" />
+              <text class="sw-label" x="330" y="408" text-anchor="middle">librarian</text>
+            </g>
+            <g>
+              <circle class="sw-disc" cx="470" cy="368" r="23" />
+              <text class="sw-label" x="470" y="408" text-anchor="middle">evaluator</text>
+            </g>
+            <!-- adversarial pair, red-outlined -->
+            <g>
+              <circle class="sw-disc adv" cx="586" cy="322" r="23" />
+              <text class="sw-label" x="586" y="362" text-anchor="middle" style="fill:#ff8a8a;">skeptic</text>
+            </g>
+            <g>
+              <circle class="sw-disc adv" cx="668" cy="236" r="23" />
+              <text class="sw-label" x="668" y="276" text-anchor="middle" style="fill:#ff8a8a;">adversary</text>
+            </g>
+
+            <!-- red "kills weak claims" tag near the adversarial flank -->
+            <text class="sw-redtag" x="744" y="200" text-anchor="end">↳ kills weak claims</text>
+
+            <!-- foot chips: EVIDENCE/ + memory +1 lesson -->
+            <g transform="translate(250,430)">
+              <rect class="sw-chip" x="0" y="0" width="120" height="28" rx="7" />
+              <text class="sw-chip-t" x="60" y="19" text-anchor="middle">EVIDENCE/</text>
+            </g>
+            <g transform="translate(384,430)">
+              <rect class="sw-chip" x="0" y="0" width="132" height="28" rx="7" />
+              <text class="sw-chip-t" x="66" y="19" text-anchor="middle">SYNTHESIS.md</text>
+            </g>
+            <g transform="translate(530,430)">
+              <rect class="sw-chip" x="0" y="0" width="120" height="28" rx="7" style="fill:rgba(79,70,229,0.12);stroke:rgba(109,93,252,0.55);" />
+              <text class="sw-chip-t" x="60" y="19" text-anchor="middle" style="fill:#b7a9ff;">memory +1</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
+    </section>
+
+    <!-- ═══════════════ SLIDE 6 — RECEIPTS ═══════════════ -->
+    <section class="slide paper" id="s6" data-title="Proof / receipts">
+      <span class="kicker">06 — proof, on the hardest user: itself</span>
+      <div class="stack gap-m" style="flex:1;justify-content:center;">
+        <div class="eyebrow win"><span class="tick"></span>proof — receipts, all real and clickable</div>
+        <h2 class="display" style="font-size:50px;">Proven on the hardest user there is: <em>itself.</em></h2>
+
+        <div class="stack gap-s" style="margin-top:6px;">
+          <div class="paper-card">
+            <div class="seq">01</div>
+            <div>
+              <div class="pt">Compute-Aware Mixture-of-Agents: Verifier-Gated Adaptive Aggregation under a Fixed Token Budget</div>
+              <div class="pa">Shine Gupta · S Akash — SCALE Workshop, ICML 2026</div>
+            </div>
+            <div class="link">public at camera-ready</div>
+          </div>
+          <div class="paper-card">
+            <div class="seq">02</div>
+            <div>
+              <div class="pt">Who Hallucinates Tools, How Often, and What Fixes It?</div>
+              <div class="pa">S Akash · Shine Gupta — SCALE Workshop, ICML 2026</div>
+            </div>
+            <div class="link">public at camera-ready</div>
+          </div>
+        </div>
+
+        <div class="receipts-row">
+          <div class="statcard">
+            <div class="figure big-num" style="font-size:46px;color:var(--accent);">#1 <span style="font-size:24px;color:var(--ink-soft);">/ 81 votes</span></div>
+            <div class="lab">most of any project on the hackathon leaderboard</div>
+          </div>
+          <div class="statcard">
+            <div class="figure big-num" style="font-size:46px;color:var(--win-soft);">685 <span style="font-size:22px;color:var(--ink-soft);">checks</span></div>
+            <div class="lab">machine checks — green CI on every push</div>
+          </div>
+          <div class="statcard">
+            <div class="figure big-num" style="font-size:46px;color:var(--ink);">128 <span style="font-size:22px;color:var(--ink-soft);">skills · 6 teams</span></div>
+            <div class="lab">it tests itself the way it tests your code</div>
+          </div>
+        </div>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
+    </section>
+
+    <!-- ═══════════════ SLIDE 7 — DEMO (DARK STAGE) ═══════════════ -->
+    <section class="slide dark stage" id="s7" data-title="Looks done ≠ verified">
+      <span class="kicker">07 — "looks done" is not "verified"</span>
+      <div class="stack" style="flex:1;min-height:0;">
+        <div class="eyebrow danger" style="margin-bottom:14px;"><span class="tick"></span>the demo · secure JWT auth</div>
+        <div class="duel">
+          <!-- left: the plain agent did a genuinely good job — credit given -->
+          <div class="panelcard win-edge">
+            <div class="ph"><span style="width:8px;height:8px;border-radius:50%;background:var(--win);display:inline-block;"></span>plain agent · genuinely good</div>
+            <div class="ptitle">A plain agent built JWT auth — and did it well.</div>
+            <div class="passline"><span class="big">19 / 19</span> its own security tests passed</div>
+            <p style="font-size:16px;color:var(--panel-muted);line-height:1.42;">The token core is <span style="color:var(--panel-ink);">sound</span> — Argon2id, refresh rotation, reuse-detection, revocation. re-forge's report says so. <span style="color:var(--panel-ink);">We give credit.</span></p>
+            <p style="font-size:16px;color:var(--panel-muted);line-height:1.42;margin-top:auto;">By every signal the agent gives you, this looks <span style="color:var(--panel-ink);">shippable.</span></p>
+          </div>
+          <!-- right: the ONE HIGH hole the tests missed (IDOR) + supporting mediums -->
+          <div class="panelcard red-edge">
+            <div class="ph"><span style="width:8px;height:8px;border-radius:50%;background:var(--danger);display:inline-block;"></span>re-forge security team · verified</div>
+            <div class="ptitle" style="font-size:25px;margin-bottom:6px;">One <span style="color:#ff7474;">HIGH</span> hole the 19 tests missed:</div>
+            <div class="find" style="margin-bottom:14px;align-items:start;">
+              <span class="x" style="width:24px;height:24px;"></span>
+              <div class="ft" style="font-size:19px;line-height:1.3;">
+                <b style="color:#ffcaca;">Broken object-level authorization (IDOR)</b> — any logged-in user can <b style="color:#ffcaca;">read and DELETE every other user's data.</b>
+                <span style="display:block;font-family:var(--font-mono);font-size:12.5px;color:#ff8a8a;margin-top:6px;letter-spacing:0.02em;">reproduced cross-user · against the running app</span>
+              </div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:var(--panel-muted);margin:4px 0 9px;">+ medium gaps</div>
+            <div class="find-list">
+              <div class="find"><span class="x"></span><div class="ft" style="font-size:15px;"><b>No rate limiting</b> — brute-force wide open</div></div>
+              <div class="find"><span class="x"></span><div class="ft" style="font-size:15px;"><b>Username enumeration</b> — login reveals who exists</div></div>
+            </div>
+            <div style="margin-top:auto;padding-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+              <span style="font-family:var(--font-mono);font-size:12.5px;letter-spacing:0.02em;color:#b7f0cf;border:1px solid rgba(53,208,127,0.4);background:rgba(53,208,127,0.1);padding:6px 12px;border-radius:999px;">adversary refused to inflate — it doesn't cry wolf</span>
+              <span style="font-family:var(--font-mono);font-size:12.5px;letter-spacing:0.04em;color:var(--panel-muted);">verdict: ADVISORY · 1 HIGH + 5 MEDIUM</span>
+            </div>
+          </div>
+        </div>
+        <p class="duel-foot">Green tests are not secure. <em>That gap — "looks done" vs "verified" — is the product.</em></p>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
+    </section>
+
+    <!-- ═══════════════ SLIDE 8 — PRODUCT LOOP (DARK STAGE) ═══════════════ -->
+    <section class="slide dark stage" id="s8" data-title="The product / loop">
+      <span class="kicker">08 — the product / the business</span>
+      <div class="loop-shell">
+        <!-- left: the loop diagram -->
+        <svg class="loop-svg" viewBox="0 0 720 460" role="img"
+          aria-label="Product loop: four tool chips — Claude Code, Cursor, Codex, ChatGPT — flow into a central re-forge node, which flows out to personalized skills and memory you own, with a dashed curved arrow looping that memory back to the tools, forming a self-evolving cycle.">
+          <!-- definitions: arrowheads -->
+          <defs>
+            <marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto">
+              <path class="lp-arrow" d="M0,0 L9,4.5 L0,9 Z" />
+            </marker>
+            <marker id="ahg" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto">
+              <path class="lp-arrow out" d="M0,0 L9,4.5 L0,9 Z" />
+            </marker>
+            <marker id="ahl" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto">
+              <path class="lp-arrow loop" d="M0,0 L9,4.5 L0,9 Z" />
+            </marker>
+          </defs>
+
+          <!-- four tool chips (left column) -->
+          <g>
+            <rect class="lp-chip" x="20" y="48"  width="150" height="40" rx="10" />
+            <text class="lp-chip-t" x="95" y="73" text-anchor="middle">Claude Code</text>
+          </g>
+          <g>
+            <rect class="lp-chip" x="20" y="116" width="150" height="40" rx="10" />
+            <text class="lp-chip-t" x="95" y="141" text-anchor="middle">Cursor</text>
+          </g>
+          <g>
+            <rect class="lp-chip" x="20" y="184" width="150" height="40" rx="10" />
+            <text class="lp-chip-t" x="95" y="209" text-anchor="middle">Codex</text>
+          </g>
+          <g>
+            <rect class="lp-chip" x="20" y="252" width="150" height="40" rx="10" />
+            <text class="lp-chip-t" x="95" y="277" text-anchor="middle">ChatGPT</text>
+          </g>
+
+          <!-- inbound edges: tools → hub -->
+          <path class="lp-edge" d="M170,68  C250,68 250,178 318,178" marker-end="url(#ah)" />
+          <path class="lp-edge" d="M170,136 C250,136 250,184 318,184" marker-end="url(#ah)" />
+          <path class="lp-edge" d="M170,204 C250,204 250,190 318,190" marker-end="url(#ah)" />
+          <path class="lp-edge" d="M170,272 C250,272 250,196 318,196" marker-end="url(#ah)" />
+          <text class="lp-chip-t" x="244" y="120" text-anchor="middle" style="font-size:11px;fill:var(--panel-muted);">observes how you work</text>
+
+          <!-- central re-forge hub -->
+          <circle class="lp-hub" cx="384" cy="187" r="66" />
+          <text class="lp-hub-t" x="384" y="184" text-anchor="middle">re-forge</text>
+          <text class="lp-hub-s" x="384" y="204" text-anchor="middle">watch · forge · remember</text>
+
+          <!-- outbound edge: hub → output -->
+          <path class="lp-edge out" d="M450,187 C510,187 520,187 560,187" marker-end="url(#ahg)" />
+
+          <!-- output node -->
+          <g>
+            <rect class="lp-out" x="560" y="150" width="150" height="74" rx="12" />
+            <text class="lp-out-t" x="635" y="180" text-anchor="middle">personalized skills</text>
+            <text class="lp-out-t" x="635" y="200" text-anchor="middle">+ memory</text>
+            <text class="lp-out-t" x="635" y="218" text-anchor="middle" style="fill:#b7f0cf;font-weight:600;">you own</text>
+          </g>
+
+          <!-- LOOP-BACK: output → tools (dashed, curved, bottom) = self-evolving -->
+          <path class="lp-edge loop"
+            d="M635,224 C635,360 635,410 384,410 C133,410 95,360 95,300"
+            marker-end="url(#ahl)" />
+          <text class="lp-looptag" x="384" y="404" text-anchor="middle">self-evolving — every session sharpens the next</text>
+        </svg>
+
+        <!-- right: copy -->
+        <div class="loop-copy stack">
+          <div class="eyebrow"><span class="tick"></span>the product</div>
+          <span class="ships">✓ ships today for Claude Code</span>
+          <h2 class="display">A memory<br>you <em>own.</em></h2>
+          <p class="lead" style="font-size:18px;">Today, re-forge already watches your Claude Code sessions and forges skills from them. <span style="color:var(--panel-ink);font-weight:500;">The company makes that always-on and cross-tool.</span></p>
+          <p class="lead" style="font-size:18px;margin-top:16px;">It sits quietly across your tools, observes how your team actually works, and forges personalized, self-evolving skills &amp; plugins — automatically.</p>
+          <div class="note" style="margin-top:18px;"><b>roadmap:</b> always-on cross-tool monitor</div>
+        </div>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
+    </section>
+
+    <!-- ═══════════════ SLIDE 9 — WHY IT COMPOUNDS (MOAT) ═══════════════ -->
+    <section class="slide paper" id="s9" data-title="Why it compounds">
+      <span class="kicker">09 — the moat</span>
+      <div class="cols c2" style="align-content:center;">
+        <div class="stack gap-l">
+          <div class="eyebrow"><span class="tick"></span>why it compounds</div>
+          <h2 class="display" style="font-size:64px;">Every session<br>makes it <em>stickier.</em></h2>
+          <p class="lead">The longer a team uses it, the more it knows how they work. Your layer gets better with use — the opposite of a tool you outgrow.</p>
+        </div>
+        <div class="stack gap-m" style="justify-content:center;border-left:1px solid var(--line);padding-left:48px;">
+          <div class="arg">
+            <div class="idx">01</div>
+            <div class="body"><div class="t lg" style="color:var(--ink);font-weight:600;">That personal / team memory is <b>your data, your patterns.</b></div></div>
+          </div>
+          <div class="arg">
+            <div class="idx">02</div>
+            <div class="body"><div class="t lg" style="color:var(--ink);font-weight:600;">No base model and no competitor can replicate it.</div></div>
+          </div>
+          <div class="arg">
+            <div class="idx">03</div>
+            <div class="body"><div class="t lg" style="color:var(--ink);font-weight:600;">A real <b>network effect, per team.</b></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
+    </section>
+
+    <!-- ═══════════════ SLIDE 10 — MARKET & WHY NOW ═══════════════ -->
+    <section class="slide paper" id="s10" data-title="Market & why now">
+      <span class="kicker">10 — market & why now</span>
+      <div class="stack gap-l" style="flex:1;justify-content:center;">
+        <div class="eyebrow"><span class="tick"></span>market & why now</div>
+        <h2 class="display" style="font-size:58px;max-width:22ch;">2026: agents are being handed <em>real engineering work.</em></h2>
+        <div class="cols" style="grid-template-columns:repeat(3,1fr);gap:34px;flex:none;align-content:start;margin-top:14px;">
+          <div class="stack gap-s">
+            <div class="eyebrow" style="font-size:12px;">the missing layer</div>
+            <p style="font-size:21px;line-height:1.34;color:var(--ink);font-weight:500;">Trust, audit, and memory — <span style="color:var(--ink-soft);font-weight:400;">not another model.</span></p>
+          </div>
+          <div class="stack gap-s">
+            <div class="eyebrow" style="font-size:12px;">our position</div>
+            <p style="font-size:21px;line-height:1.34;color:var(--ink);font-weight:500;">Model-agnostic by design — <span style="color:var(--ink-soft);font-weight:400;">we win no matter which model wins.</span></p>
+          </div>
+          <div class="stack gap-s">
+            <div class="eyebrow" style="font-size:12px;">the wedge</div>
+            <p style="font-size:21px;line-height:1.34;color:var(--ink);font-weight:500;">AI-heavy eng teams &amp; research groups <span style="color:var(--ink-soft);font-weight:400;">drowning in disconnected sessions.</span></p>
+          </div>
+        </div>
+        <div class="note" style="align-self:flex-start;"><b>honest status:</b> open-source today, pre-revenue — the cross-tool layer is what we're building</div>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
+    </section>
+
+    <!-- ═══════════════ SLIDE 11 — BUSINESS MODEL ═══════════════ -->
+    <section class="slide paper" id="s11" data-title="Business model">
+      <span class="kicker">11 — business model · open-core</span>
+      <div class="stack" style="flex:1;min-height:0;justify-content:center;">
+        <div class="eyebrow" style="margin-bottom:20px;"><span class="tick"></span>business model — open-core</div>
+        <div class="tiers">
+          <div class="tier free">
+            <div class="tlabel"><span style="width:7px;height:7px;border-radius:50%;background:var(--ink-faint);display:inline-block;"></span>free / OSS</div>
+            <h3 class="display">The funnel &amp; the proof.</h3>
+            <ul>
+              <li><span class="b"></span><div>The <b>operating procedure</b> — teams of specialist agents.</div></li>
+              <li><span class="b"></span><div>The <b>skill library</b> — open, inspectable, model-agnostic.</div></li>
+              <li><span class="b"></span><div>Every run is public proof the layer works.</div></li>
+            </ul>
+          </div>
+          <div class="tier paid">
+            <div class="pinflag">where we monetize</div>
+            <div class="tlabel"><span style="width:7px;height:7px;border-radius:50%;background:var(--primary);display:inline-block;"></span>paid · per-seat SaaS</div>
+            <h3 class="display">The always-on layer.</h3>
+            <ul>
+              <li><span class="b"></span><div>The <b>always-on cross-tool monitor</b>.</div></li>
+              <li><span class="b"></span><div><b>Team-shared memory</b> + personalized skill-forging.</div></li>
+              <li><span class="b"></span><div>An <b>audit / mission-control dashboard</b>.</div></li>
+            </ul>
+            <div class="landexpand">Land with <b>one developer's</b> personal layer; expand to the <b>team's shared brain.</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
+    </section>
+
+    <!-- ═══════════════ SLIDE 12 — TEAM & THE ASK ═══════════════ -->
+    <section class="slide paper" id="s12" data-title="Team & the ask">
+      <span class="kicker">12 — team &amp; the ask</span>
+      <div class="ask-shell">
+        <div class="stack">
+          <div class="eyebrow"><span class="tick"></span>team &amp; the ask</div>
+          <h2 class="display" style="font-size:58px;margin-top:14px;">We shipped two ICML papers <em>by using the product.</em></h2>
+          <p class="lead" style="margin-top:18px;"><b style="color:var(--ink);font-weight:600;">Akasxh &amp; Shine</b> — we are our own first power users.</p>
+          <div class="ask-list">
+            <div class="ask-item"><div class="lab">the ask</div><div class="v"><b>Design partners</b> — AI-heavy engineering teams.</div></div>
+            <div class="ask-item"><div class="lab">+</div><div class="v"><b>Intros</b> to AI-heavy eng &amp; research orgs.</div></div>
+            <div class="ask-item"><div class="lab">+</div><div class="v"><b>Pre-seed</b> to build the hosted cross-tool layer.</div></div>
+          </div>
+        </div>
+        <div class="stack" style="align-items:center;gap:30px;">
+          <p class="display" style="font-size:30px;text-align:center;">Try it now →</p>
+          <div class="ask-qr">
+            <div class="qr">
+              <img src="/qr/site.svg" alt="QR to re-forge.vercel.app" />
+              <span class="qlab">re-forge.vercel.app</span>
+            </div>
+            <div class="qr">
+              <img src="/qr/repo.svg" alt="QR to github.com/Akasxh/re-forge" />
+              <span class="qlab">github.com/Akasxh/re-forge</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wm"><span class="star">✦</span> re-forge.vercel.app</div>
+    </section>
+
+  </div>
+</div>
+
+<!-- ── On-screen navigation chrome ──────────────────────────────────────── -->
+<div id="chrome">
+  <span class="counter"><b id="cnum">1</b> / 12</span>
+  <div class="dots" id="dots"></div>
+</div>
+<div class="hint"><kbd>←</kbd> <kbd>→</kbd> navigate · <kbd>F</kbd> fullscreen · <kbd>P</kbd> print</div>
+
+<script>
+(function () {
+  "use strict";
+  var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+  var N = slides.length;            // 12
+  var cur = 0;
+  var deck = document.getElementById("deck");
+  var pbar = document.getElementById("pbar");
+  var cnum = document.getElementById("cnum");
+  var dotsWrap = document.getElementById("dots");
+
+  // build dots
+  var dots = [];
+  for (var i = 0; i < N; i++) {
+    var b = document.createElement("button");
+    b.className = "dot";
+    b.setAttribute("aria-label", "Go to slide " + (i + 1));
+    (function (idx) { b.addEventListener("click", function () { go(idx); }); })(i);
+    dotsWrap.appendChild(b);
+    dots.push(b);
+  }
+
+  function render() {
+    for (var i = 0; i < N; i++) {
+      var on = i === cur;
+      slides[i].classList.toggle("is-active", on);
+      dots[i].classList.toggle("is-on", on);
+    }
+    cnum.textContent = String(cur + 1);
+    pbar.style.width = ((cur + 1) / N * 100) + "%";
+    // update hash without scrolling
+    if (history.replaceState) history.replaceState(null, "", "#" + (cur + 1));
+  }
+
+  function go(n) {
+    cur = Math.max(0, Math.min(N - 1, n));
+    render();
+  }
+  function next() { if (cur < N - 1) go(cur + 1); }
+  function prev() { if (cur > 0) go(cur - 1); }
+
+  // ── responsive scale: fit 1280x720 into viewport, keep aspect ─────────
+  function fit() {
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+    var pad = vw < 700 ? 8 : 24;           // breathing room
+    var s = Math.min((vw - pad * 2) / 1280, (vh - pad * 2) / 720);
+    deck.style.setProperty("--scale", s.toFixed(4));
+  }
+  window.addEventListener("resize", fit);
+  fit();
+
+  // ── keyboard ──────────────────────────────────────────────────────────
+  document.addEventListener("keydown", function (e) {
+    // ignore if typing in a field (none here, but safe)
+    var k = e.key;
+    if (k === "ArrowRight" || k === "ArrowDown" || k === " " || k === "PageDown") {
+      e.preventDefault(); next();
+    } else if (k === "ArrowLeft" || k === "ArrowUp" || k === "PageUp") {
+      e.preventDefault(); prev();
+    } else if (k === "Home") {
+      e.preventDefault(); go(0);
+    } else if (k === "End") {
+      e.preventDefault(); go(N - 1);
+    } else if (k === "f" || k === "F") {
+      e.preventDefault(); toggleFs();
+    } else if (k === "p" || k === "P") {
+      // let native print fire; do nothing special (Cmd/Ctrl+P handled by browser)
+      if (!e.metaKey && !e.ctrlKey) { e.preventDefault(); window.print(); }
+    } else if (k >= "1" && k <= "9") {
+      e.preventDefault(); go(parseInt(k, 10) - 1);
+    } else if (k === "0") {
+      e.preventDefault(); go(9);              // slide 10
+    }
+  });
+
+  // number jump for 10/11/12 via a tiny two-key buffer
+  var buf = "";
+  var bufTimer = null;
+  document.addEventListener("keydown", function (e) {
+    if (e.key >= "0" && e.key <= "9") {
+      buf += e.key;
+      if (bufTimer) clearTimeout(bufTimer);
+      bufTimer = setTimeout(function () {
+        var n = parseInt(buf, 10);
+        if (n >= 1 && n <= N) go(n - 1);
+        buf = "";
+      }, 320);
+    }
+  });
+
+  // ── fullscreen ────────────────────────────────────────────────────────
+  function toggleFs() {
+    var el = document.documentElement;
+    if (!document.fullscreenElement) {
+      (el.requestFullscreen || el.webkitRequestFullscreen || function () {}).call(el);
+    } else {
+      (document.exitFullscreen || document.webkitExitFullscreen || function () {}).call(document);
+    }
+  }
+
+  // ── swipe (touch) ─────────────────────────────────────────────────────
+  var tx = 0, ty = 0;
+  document.addEventListener("touchstart", function (e) {
+    tx = e.changedTouches[0].clientX; ty = e.changedTouches[0].clientY;
+  }, { passive: true });
+  document.addEventListener("touchend", function (e) {
+    var dx = e.changedTouches[0].clientX - tx;
+    var dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) {
+      if (dx < 0) next(); else prev();
+    }
+  }, { passive: true });
+
+  // ── click zones: right half = next, left quarter = prev ───────────────
+  deck.addEventListener("click", function (e) {
+    // ignore clicks on links / QR images
+    if (e.target.closest("a")) return;
+    var r = deck.getBoundingClientRect();
+    var x = (e.clientX - r.left) / r.width;
+    if (x > 0.62) next();
+    else if (x < 0.20) prev();
+  });
+
+  // ── deep link on load ─────────────────────────────────────────────────
+  var h = parseInt((location.hash || "").replace("#", ""), 10);
+  if (h >= 1 && h <= N) cur = h - 1;
+
+  render();
+})();
+</script>
+
+</body>
+</html>

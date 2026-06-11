@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>re-forge · Demo Day kit</title>
+    <link rel="icon" type="image/jpeg" href="/logo.jpeg" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap");
+      :root {
+        --paper: #0e0f17; --ink: #f3f0ff; --ink-soft: #9ea1bd; --line: #2a2c40;
+        --primary: #6d5dfc; --win: #35d07f; --panel: #16172180;
+        --font-display: "Instrument Serif", serif;
+        --font-ui: "Inter Tight", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, monospace;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0; min-height: 100vh; background: var(--paper); color: var(--ink);
+        font-family: var(--font-ui); line-height: 1.5;
+        background-image: radial-gradient(900px 500px at 80% -10%, #4f46e533, transparent),
+                          radial-gradient(700px 400px at 0% 110%, #35d07f22, transparent);
+        padding: clamp(28px, 6vw, 80px);
+      }
+      header { max-width: 980px; margin: 0 auto 40px; }
+      .eyebrow { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.18em;
+        text-transform: uppercase; color: var(--ink-soft); }
+      h1 { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.02em;
+        font-size: clamp(2.4rem, 6vw, 4rem); margin: 8px 0 6px; }
+      .sub { color: var(--ink-soft); max-width: 60ch; }
+      .grid { max-width: 980px; margin: 0 auto; display: grid; gap: 18px;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+      a.card { display: flex; flex-direction: column; gap: 8px; text-decoration: none;
+        color: inherit; background: var(--panel); border: 1px solid var(--line);
+        border-radius: 18px; padding: 22px; transition: transform .18s, border-color .18s; }
+      a.card:hover { transform: translateY(-3px); border-color: var(--primary); }
+      .card h2 { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; margin: 0; }
+      .card .tag { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.08em;
+        color: var(--win); text-transform: uppercase; }
+      .card p { margin: 0; color: var(--ink-soft); font-size: 0.92rem; }
+      .card .how { margin-top: 6px; font-size: 0.8rem; color: var(--ink-soft);
+        border-top: 1px dashed var(--line); padding-top: 8px; }
+      footer { max-width: 980px; margin: 40px auto 0; color: var(--ink-soft);
+        font-family: var(--font-mono); font-size: 0.74rem; display: flex; gap: 18px; flex-wrap: wrap; }
+      footer a { color: var(--primary); text-decoration: none; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="eyebrow">UCWS Singapore 2026 · Demo Day kit · internal</div>
+      <h1>re-forge — everything for the booth</h1>
+      <p class="sub">
+        Four self-contained surfaces, all on-brand and honesty-checked. Present the deck
+        via Google Meet screen-share; run the booth loop unattended; print the handout and
+        banner. Strategy + runbook live in <code>reforge-demo/DEMO_STRATEGY.md</code>.
+      </p>
+    </header>
+
+    <main class="grid">
+      <a class="card" href="/pitch.html">
+        <span class="tag">present · export PDF</span>
+        <h2>Pitch deck</h2>
+        <p>12 investor slides. Arrow keys to advance, F for fullscreen.</p>
+        <span class="how">Upload to Drive: open, Cmd-P → Save as PDF (landscape).</span>
+      </a>
+      <a class="card" href="/booth.html">
+        <span class="tag">run unattended</span>
+        <h2>Booth loop</h2>
+        <p>Auto-advancing attract screen, readable across the room.</p>
+        <span class="how">Open on the booth laptop, press F / browser fullscreen, leave it.</span>
+      </a>
+      <a class="card" href="/handout.html">
+        <span class="tag">print A4</span>
+        <h2>Handout</h2>
+        <p>One-page product sheet with QR codes to take away.</p>
+        <span class="how">Cmd-P → A4 portrait. Print a stack for the table.</span>
+      </a>
+      <a class="card" href="/banner.html">
+        <span class="tag">print large</span>
+        <h2>Roll-up banner</h2>
+        <p>Vertical artwork (~850×2000mm) for the stand.</p>
+        <span class="how">Export to PDF (portrait) and send to a print vendor early.</span>
+      </a>
+    </main>
+
+    <footer>
+      <span>Akasxh &amp; Shine</span>
+      <a href="https://re-forge.vercel.app">re-forge.vercel.app</a>
+      <a href="https://github.com/Akasxh/re-forge">github.com/Akasxh/re-forge</a>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>re-forge — product handout · UCWS Singapore 2026</title>
+<link rel="icon" type="image/jpeg" href="/logo.jpeg" />
+<!-- Fonts: copied verbatim from src/styles/tokens.css -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap");
+
+/* ── Brand tokens (mirrored from src/styles/tokens.css) ─────────────────── */
+:root {
+  --paper: #f7f8fa;
+  --paper-raised: #ffffff;
+  --ink: #14161d;
+  --ink-soft: #515968;
+  --ink-faint: #8b909c;
+  --line: #e6e8ee;
+  --line-strong: #d3d7e0;
+
+  --primary: #4f46e5;
+  --primary-bright: #6d5dfc;
+  --accent: #f2a93b;
+  --danger: #ef4444;
+  --danger-soft: #b91c1c;
+  --win: #35d07f;
+  --win-soft: #1b8f55;
+
+  --panel-deep: #11121b;
+
+  --font-display: "Instrument Serif", "Times New Roman", serif;
+  --font-ui: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+/* ── Print geometry ─────────────────────────────────────────────────────── */
+@page { size: A4; margin: 14mm; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* On screen, frame the sheet on a soft backdrop so it reads as a page.
+   In print, the @page margin owns the geometry and the sheet fills it. */
+body {
+  display: flex;
+  justify-content: center;
+  padding: 28px;
+  background:
+    radial-gradient(120% 80% at 50% -10%, #eef0f6 0%, #e7e9f1 55%, #dfe2ec 100%);
+}
+
+.sheet {
+  /* A4 minus 14mm margins on each side = 182mm × 269mm live area */
+  width: 182mm;
+  height: 269mm;
+  background: var(--paper);
+  color: var(--ink);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* screen-only chrome */
+  box-shadow: 0 24px 70px -28px rgba(17, 18, 27, 0.42);
+  border-radius: 4px;
+}
+
+/* subtle paper grain / corner glow for premium feel (kept faint for print) */
+.sheet::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 38% at 100% 0%, rgba(79, 70, 229, 0.05) 0%, transparent 60%),
+    radial-gradient(55% 30% at 0% 100%, rgba(53, 208, 127, 0.045) 0%, transparent 60%);
+}
+
+/* ── Typography helpers ─────────────────────────────────────────────────── */
+.display { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.026em; line-height: 0.99; }
+.display em { color: var(--primary); font-style: italic; }
+.mono, .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 7.4pt;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 6.6pt;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   HEADER
+   ════════════════════════════════════════════════════════════════════════ */
+.head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10mm;
+  align-items: start;
+  padding-bottom: 5mm;
+  border-bottom: 1.4px solid var(--line-strong);
+}
+
+.brand-row { display: flex; align-items: center; gap: 9px; margin-bottom: 7px; }
+
+.star {
+  width: 26px; height: 26px;
+  flex: none;
+  filter: drop-shadow(0 2px 5px rgba(79,70,229,0.28));
+}
+.wordmark {
+  font-family: var(--font-display);
+  font-size: 25pt;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-size: 23pt;
+  line-height: 1.02;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  max-width: 118mm;
+  margin-top: 1mm;
+}
+.headline em { color: var(--primary); font-style: italic; }
+
+.subhead {
+  font-size: 8.6pt;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  max-width: 116mm;
+  margin-top: 3mm;
+}
+
+/* QR cluster (site + repo) */
+.qr-cluster { display: flex; gap: 6mm; }
+.qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 24mm;
+}
+.qr img {
+  width: 24mm; height: 24mm;
+  display: block;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: #fff;
+  padding: 2.2mm;
+  image-rendering: pixelated; /* crisp QR scan from a printout */
+}
+.qr .qr-label {
+  font-family: var(--font-mono);
+  font-size: 6.2pt;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  text-align: center;
+  line-height: 1.15;
+}
+.qr .qr-label b { color: var(--ink); font-weight: 600; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   BODY GRID
+   ════════════════════════════════════════════════════════════════════════ */
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 4.5mm;
+  gap: 4.2mm;
+  min-height: 0;
+}
+
+.sec-title {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-bottom: 2.6mm;
+}
+.sec-title h2 {
+  font-family: var(--font-display);
+  font-size: 14.5pt;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  line-height: 1;
+}
+.sec-title .idx {
+  font-family: var(--font-mono);
+  font-size: 6.6pt;
+  font-weight: 600;
+  color: var(--primary);
+  letter-spacing: 0.08em;
+}
+
+p.lead-copy { font-size: 8.7pt; line-height: 1.46; color: var(--ink); }
+p.lead-copy strong { color: var(--ink); font-weight: 700; }
+.muted { color: var(--ink-soft); }
+
+/* ── PROOF strip: 3 receipt cards + ICML papers ─────────────────────────── */
+.proof-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 3.4mm;
+}
+.stat {
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  padding: 3.4mm 3.6mm;
+  position: relative;
+  overflow: hidden;
+}
+.stat::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2.4px;
+  background: var(--primary);
+}
+.stat.win::after { background: var(--win); }
+.stat.accent::after { background: var(--accent); }
+.stat .figure {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 17pt;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.stat.win .figure { color: var(--win-soft); }
+.stat .figure small { font-size: 9pt; color: var(--ink-faint); font-weight: 500; }
+.stat .figure-label {
+  font-size: 7.6pt;
+  line-height: 1.28;
+  color: var(--ink-soft);
+  margin-top: 2.4mm;
+}
+.stat .figure-label b { color: var(--ink); font-weight: 600; }
+
+.papers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.4mm;
+  margin-top: 3.4mm;
+}
+.paper {
+  border: 1px solid var(--line);
+  border-left: 2.4px solid var(--primary);
+  border-radius: 9px;
+  background: var(--paper-raised);
+  padding: 2.9mm 3.2mm;
+}
+.paper .venue {
+  font-family: var(--font-mono);
+  font-size: 6.2pt;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 1.8mm;
+}
+.paper .venue::before {
+  content: "";
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--win); flex: none;
+}
+.paper .ptitle {
+  font-family: var(--font-display);
+  font-size: 10.2pt;
+  line-height: 1.12;
+  color: var(--ink);
+  letter-spacing: -0.012em;
+}
+.paper .pauthors {
+  font-size: 7pt;
+  color: var(--ink-soft);
+  margin-top: 1.6mm;
+  font-style: italic;
+}
+.paper-foot {
+  font-size: 6.6pt;
+  color: var(--ink-faint);
+  margin-top: 2mm;
+  font-style: italic;
+}
+
+/* ── WHY DIFFERENT: the looks-done gap + 4 findings ─────────────────────── */
+.gap-wrap {
+  display: grid;
+  grid-template-columns: 1.18fr 1fr;
+  gap: 4mm;
+  align-items: stretch;
+}
+.gap-narrative .verdict {
+  font-family: var(--font-display);
+  font-size: 11.4pt;
+  line-height: 1.18;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  margin-top: 2.4mm;
+}
+.gap-narrative .verdict em { font-style: italic; color: var(--primary); }
+
+.findings {
+  background: var(--panel-deep);
+  border-radius: 11px;
+  padding: 3.4mm 3.6mm 3.6mm;
+  color: #f3f0ff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.findings .fh {
+  font-family: var(--font-mono);
+  font-size: 6.6pt;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9ea1bd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.6mm;
+}
+.findings .fh .pass {
+  color: #fff;
+  background: rgba(53,208,127,0.16);
+  border: 1px solid rgba(53,208,127,0.4);
+  border-radius: 999px;
+  padding: 1px 6px;
+  font-size: 5.9pt;
+  letter-spacing: 0.06em;
+}
+/* HERO finding: the one HIGH-severity hole the tests missed */
+.finding-hero {
+  background: linear-gradient(180deg, rgba(239,68,68,0.16), rgba(239,68,68,0.06));
+  border: 1px solid rgba(239,68,68,0.5);
+  border-radius: 8px;
+  padding: 2.6mm 3mm;
+}
+.finding-hero .sev {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 5.8pt;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffd2d2;
+  background: rgba(239,68,68,0.28);
+  border-radius: 999px;
+  padding: 1px 6px 1px 5px;
+  margin-bottom: 1.8mm;
+}
+.finding-hero .sev::before {
+  content: ""; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--danger); box-shadow: 0 0 4px rgba(239,68,68,0.9);
+}
+.finding-hero .ftitle { font-size: 8.6pt; line-height: 1.24; color: #fff; font-weight: 600; }
+.finding-hero .ftitle b { color: #ffcaca; }
+.finding-hero .fdesc { font-size: 7.2pt; line-height: 1.3; color: #e4c9c9; margin-top: 1.2mm; }
+.finding-hero .fdesc b { color: #fff; font-weight: 600; }
+
+.findings .mediums {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2mm;
+  margin-top: 2.6mm;
+}
+.findings .med {
+  font-family: var(--font-mono);
+  font-size: 6.6pt;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #d7d6ea;
+  background: rgba(242,169,59,0.12);
+  border: 1px solid rgba(242,169,59,0.42);
+  border-radius: 999px;
+  padding: 1.4mm 3mm;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.findings .med::before {
+  content: "MED"; font-size: 5pt; letter-spacing: 0.08em; color: var(--accent);
+  border-right: 1px solid rgba(242,169,59,0.4); padding-right: 5px;
+}
+.findings .verdict-line {
+  margin-top: 2.8mm;
+  padding-top: 2.4mm;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 7.2pt;
+  line-height: 1.3;
+  color: #c7c6dd;
+}
+.findings .verdict-line b { color: #fff; font-weight: 600; }
+.findings .verdict-line .badge {
+  font-family: var(--font-mono);
+  font-size: 6pt;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  border: 1px solid rgba(242,169,59,0.5);
+  border-radius: 999px;
+  padding: 0.4px 5px;
+}
+
+/* ── PRODUCT: the cross-tool loop (roadmap) ─────────────────────────────── */
+.product-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3mm;
+}
+.loop {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: center;
+  gap: 2.4mm;
+  margin: 1mm 0 0.4mm;
+}
+.loop .node {
+  border: 1px solid var(--line);
+  background: var(--paper-raised);
+  border-radius: 9px;
+  padding: 2.8mm 3mm;
+  text-align: center;
+}
+.loop .node .nt {
+  font-family: var(--font-mono);
+  font-size: 6.2pt;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 600;
+}
+.loop .node.mid .nt { color: var(--accent); }
+.loop .node .nb { font-size: 7.7pt; line-height: 1.22; color: var(--ink); margin-top: 1.4mm; }
+.loop .node .nb b { font-weight: 700; }
+.loop .arrow {
+  font-family: var(--font-mono);
+  font-size: 12pt;
+  color: var(--ink-faint);
+  text-align: center;
+}
+.loop .node.mid {
+  border-color: var(--accent);
+  background:
+    linear-gradient(0deg, rgba(242,169,59,0.07), rgba(242,169,59,0.07)), var(--paper-raised);
+}
+.roadmap-note {
+  font-size: 7.4pt;
+  line-height: 1.36;
+  color: var(--ink-soft);
+  margin-top: 1.4mm;
+}
+.roadmap-note .tag {
+  font-family: var(--font-mono);
+  font-size: 6pt;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid rgba(242,169,59,0.5);
+  border-radius: 999px;
+  padding: 0.6px 5px;
+  margin-right: 5px;
+  vertical-align: 1px;
+}
+.roadmap-note b { color: var(--ink); font-weight: 600; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   FOOTER
+   ════════════════════════════════════════════════════════════════════════ */
+.foot {
+  margin-top: auto;
+  padding-top: 3.6mm;
+  border-top: 1.4px solid var(--line-strong);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8mm;
+}
+.foot .authors {
+  font-family: var(--font-mono);
+  font-size: 7.6pt;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+.foot .authors span { color: var(--ink-faint); font-weight: 500; }
+.foot .site {
+  font-family: var(--font-mono);
+  font-size: 8.4pt;
+  font-weight: 600;
+  color: var(--primary);
+  letter-spacing: 0.01em;
+}
+
+/* ── Screen-only helper note (hidden in print) ──────────────────────────── */
+.screen-note {
+  position: fixed;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+  background: rgba(255,255,255,0.86);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 7px 16px;
+  box-shadow: 0 10px 30px -16px rgba(17,18,27,0.4);
+  backdrop-filter: blur(6px);
+  z-index: 10;
+}
+.screen-note b { color: var(--ink); }
+
+@media print {
+  html, body { background: #fff; }
+  body { display: block; padding: 0; background: #fff; }
+  .sheet {
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .screen-note { display: none !important; }
+  /* keep dark panels true to brand on the printout */
+  .findings { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<main class="sheet">
+
+  <!-- ════════ HEADER ════════ -->
+  <header class="head">
+    <div>
+      <div class="brand-row">
+        <!-- star mark (vector, crisp for print) -->
+        <svg class="star" viewBox="0 0 100 100" aria-hidden="true">
+          <defs>
+            <linearGradient id="g-star" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#6d5dfc" />
+              <stop offset="1" stop-color="#4f46e5" />
+            </linearGradient>
+          </defs>
+          <path fill="url(#g-star)"
+            d="M50 2 C53 28 72 47 98 50 C72 53 53 72 50 98 C47 72 28 53 2 50 C28 47 47 28 50 2 Z" />
+        </svg>
+        <span class="wordmark">re-forge</span>
+      </div>
+      <h1 class="headline">The compounding layer<br/>for your <em>AI toolchain.</em></h1>
+      <p class="subhead">
+        Your AI tools forget everything between sessions. re-forge watches how you
+        work, forges what it learns into reusable skills, and gets better every
+        session — an open-source operating procedure, not another model.
+      </p>
+    </div>
+
+    <div class="qr-cluster">
+      <div class="qr">
+        <img src="/qr/site.png" alt="QR code to re-forge.vercel.app" />
+        <span class="qr-label"><b>Try it</b><br/>re-forge.vercel.app</span>
+      </div>
+      <div class="qr">
+        <img src="/qr/repo.png" alt="QR code to the GitHub repository" />
+        <span class="qr-label"><b>Source</b><br/>github.com/Akasxh</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ════════ BODY ════════ -->
+  <div class="body">
+
+    <!-- WHAT IT IS -->
+    <section>
+      <div class="sec-title"><span class="idx">01</span><h2>What it is</h2></div>
+      <p class="lead-copy">
+        One prompt becomes a coordinated org of specialist agents — research,
+        engineering, security, testing, docs — plus a Forge meta-agent. They
+        <strong>attack each other's work</strong> (a skeptic and an adversary kill
+        weak claims before you ever see them), <strong>leave evidence files on disk</strong>
+        you can audit, and <strong>write the lesson to memory</strong> so the next
+        session starts smarter. It's model-agnostic — a procedure, not a model.
+      </p>
+    </section>
+
+    <!-- PROOF -->
+    <section>
+      <div class="sec-title"><span class="idx">02</span><h2>Proof — on the hardest user there is: itself</h2></div>
+      <div class="proof-grid">
+        <div class="stat">
+          <div class="figure">#1<small> / 81</small></div>
+          <div class="figure-label"><b>Hackathon leaderboard.</b> The most votes of any project.</div>
+        </div>
+        <div class="stat win">
+          <div class="figure">685<small> ✓</small></div>
+          <div class="figure-label"><b>Machine checks, green CI</b> on every push.</div>
+        </div>
+        <div class="stat accent">
+          <div class="figure">128<small> / 6</small></div>
+          <div class="figure-label"><b>Skills across 6 teams.</b> It tests itself the way it tests your code.</div>
+        </div>
+      </div>
+
+      <div class="papers">
+        <div class="paper">
+          <div class="venue">2 papers · SCALE Workshop, ICML 2026</div>
+          <div class="ptitle">Compute-Aware Mixture-of-Agents: Verifier-Gated Adaptive Aggregation under a Fixed Token Budget</div>
+          <div class="pauthors">Shine Gupta · S Akash</div>
+        </div>
+        <div class="paper">
+          <div class="venue">2 papers · SCALE Workshop, ICML 2026</div>
+          <div class="ptitle">Who Hallucinates Tools, How Often, and What Fixes It?</div>
+          <div class="pauthors">S Akash · Shine Gupta</div>
+        </div>
+      </div>
+      <p class="paper-foot">Both research &amp; engineering runs were orchestrated with re-forge. Paper links public at camera-ready.</p>
+    </section>
+
+    <!-- WHY DIFFERENT -->
+    <section>
+      <div class="sec-title"><span class="idx">03</span><h2>Why it's different — "looks done" isn't "verified"</h2></div>
+      <div class="gap-wrap">
+        <div class="gap-narrative">
+          <p class="lead-copy">
+            We asked a plain agent to build secure JWT auth. It did a
+            <strong>genuinely good job</strong> — a sound token core (Argon2id, refresh
+            rotation, reuse-detection, revocation) that <strong>passed all 19 of its own
+            tests.</strong> re-forge gives credit where it's due.
+          </p>
+          <p class="lead-copy" style="margin-top:2.4mm">
+            Then its security team audited that same passing code — and its adversary
+            <strong>refused to inflate</strong> the demo-convenience findings. It doesn't cry wolf.
+          </p>
+          <p class="verdict">Green tests are not secure. <em>That gap — "looks done" vs "verified" — is the product.</em></p>
+        </div>
+        <div class="findings">
+          <div class="fh"><span>Audited code that passed 19/19</span><span class="pass">green ✓</span></div>
+          <div class="finding-hero">
+            <span class="sev">High · the test suite missed it</span>
+            <div class="ftitle">Broken <b>object-level authorization</b> (IDOR)</div>
+            <div class="fdesc">Any logged-in user can <b>read and DELETE every other user's data</b> — reproduced cross-user against the running app.</div>
+          </div>
+          <div class="mediums">
+            <span class="med">no rate limiting</span>
+            <span class="med">username enumeration</span>
+          </div>
+          <div class="verdict-line">
+            Honest verdict: <span class="badge">ADVISORY</span> &nbsp;<b>1 HIGH + 5 MEDIUM</b> — no inflated severities, no crying wolf.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE PRODUCT -->
+    <section class="product-grid">
+      <div class="sec-title"><span class="idx">04</span><h2>The product</h2></div>
+      <div class="loop">
+        <div class="node">
+          <div class="nt">Watch</div>
+          <div class="nb"><b>Cross-tool monitor</b><br/>Claude Code · Cursor · Codex · ChatGPT</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node mid">
+          <div class="nt">Forge</div>
+          <div class="nb">Personalized,<br/><b>self-evolving</b> skills &amp; plugins</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node">
+          <div class="nt">Compound</div>
+          <div class="nb">Team know-how becomes<br/><b>a memory you own</b></div>
+        </div>
+      </div>
+      <p class="roadmap-note">
+        <span class="tag">Ships today</span>re-forge already watches your Claude Code sessions and forges skills from them.
+        <b>The company makes that always-on and cross-tool</b> — observing how your team actually works so its know-how stops
+        evaporating and becomes a memory that compounds in every tool. <span class="muted">(Cross-tool layer is what we're building.)</span>
+      </p>
+    </section>
+
+  </div>
+
+  <!-- ════════ FOOTER ════════ -->
+  <footer class="foot">
+    <div class="authors">Akasxh &amp; Shine <span>· UCWS Singapore 2026</span></div>
+    <div class="site">re-forge.vercel.app</div>
+  </footer>
+
+</main>
+
+<!-- screen-only, hidden in print -->
+<div class="screen-note">Viewing on screen — <b>print → Save as PDF (A4)</b> for the take-away handout.</div>
+
+</body>
+</html>

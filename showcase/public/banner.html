@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>re-forge — roll-up banner · UCWS Singapore 2026</title>
+<link rel="icon" type="image/jpeg" href="/logo.jpeg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap");
+
+/* ── Brand tokens (mirrored from src/styles/tokens.css) ─────────────────── */
+:root {
+  --paper: #f7f8fa;
+  --ink: #14161d;
+
+  --primary: #4f46e5;
+  --primary-bright: #6d5dfc;
+  --accent: #f2a93b;
+  --danger: #ef4444;
+  --win: #35d07f;
+
+  --panel-deep: #11121b;
+  --panel-raised: #1c1d2b;
+  --panel-line: #34374f;
+  --panel-ink: #f3f0ff;
+  --panel-muted: #9ea1bd;
+
+  --font-display: "Instrument Serif", "Times New Roman", serif;
+  --font-ui: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* 850mm × 2000mm  →  aspect 850/2000 = 0.425 */
+  --aspect-w: 850;
+  --aspect-h: 2000;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: #0a0b12;
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  /* soft studio backdrop behind the artboard (screen only) */
+  background:
+    radial-gradient(80% 50% at 50% 0%, #15172a 0%, #0a0b12 60%, #07080e 100%);
+}
+
+/* ── The artboard: locked to 850:2000, scales to fit the viewport ───────── */
+.artboard {
+  position: relative;
+  /* fill height when possible; never overflow width */
+  height: min(96vh, calc(94vw * (var(--aspect-h) / var(--aspect-w))));
+  width: min(94vw, calc(96vh * (var(--aspect-w) / var(--aspect-h))));
+  aspect-ratio: var(--aspect-w) / var(--aspect-h);
+  /* enable cqw/cqh so type scales with the board, crisp at any output size */
+  container-type: size;
+  background:
+    radial-gradient(78% 30% at 50% 0%, #1a1c30 0%, rgba(26,28,48,0) 60%),
+    radial-gradient(60% 22% at 50% 100%, #15172a 0%, rgba(21,23,42,0) 60%),
+    linear-gradient(180deg, #121324 0%, var(--panel-deep) 38%, #0d0e18 100%);
+  color: var(--panel-ink);
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 40px 120px -40px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.04) inset;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* faint engineered grid texture + edge vignette */
+.artboard::before {
+  content: "";
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+  background-size: 4cqw 4cqw;
+  mask-image: radial-gradient(120% 70% at 50% 42%, #000 35%, transparent 92%);
+}
+.artboard::after {
+  content: "";
+  position: absolute; inset: 0; pointer-events: none;
+  box-shadow: 0 0 28cqw 8cqw rgba(0,0,0,0.55) inset;
+}
+
+.stage {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  /* generous vertical rhythm in container units */
+  padding: 7cqh 8cqw 5.5cqh;
+}
+
+/* ── TOP: star → wordmark → tagline ─────────────────────────────────────── */
+.star {
+  width: 13cqw; height: 13cqw;
+  filter: drop-shadow(0 0 5cqw rgba(109,93,252,0.55));
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: 27cqw;
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+  margin-top: 3cqh;
+  background: linear-gradient(180deg, #ffffff 0%, #cfcaf6 60%, #a89ff2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 40px rgba(109,93,252,0.25);
+}
+
+.tagline {
+  font-family: var(--font-display);
+  font-size: 6.6cqw;
+  line-height: 1.08;
+  letter-spacing: -0.012em;
+  color: #e9e7fb;
+  margin-top: 2.4cqh;
+  max-width: 82cqw;
+}
+.tagline em { font-style: italic; color: var(--primary-bright); }
+
+/* ── PROOF CHIPS (stacked) ──────────────────────────────────────────────── */
+.chips {
+  display: flex;
+  flex-direction: column;
+  gap: 2cqh;
+  margin-top: 4cqh;
+  width: 78cqw;
+}
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 3.4cqw;
+  padding: 2.5cqh 5cqw;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(40,42,68,0.9), rgba(24,25,42,0.9));
+  border: 1px solid var(--panel-line);
+  box-shadow: 0 1cqh 4cqh -1cqh rgba(0,0,0,0.6);
+}
+.chip .dot {
+  width: 2.6cqw; height: 2.6cqw; border-radius: 50%;
+  flex: none;
+  background: var(--win);
+  box-shadow: 0 0 3cqw rgba(53,208,127,0.7);
+}
+.chip.p .dot { background: var(--primary-bright); box-shadow: 0 0 3cqw rgba(109,93,252,0.7); }
+.chip.a .dot { background: var(--accent); box-shadow: 0 0 3cqw rgba(242,169,59,0.7); }
+.chip .ctxt {
+  font-family: var(--font-mono);
+  font-size: 4.7cqw;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #f4f2ff;
+  text-align: left;
+  flex: 1;
+}
+.chip .ctxt b { color: #fff; font-weight: 600; }
+.chip .ctxt .sub { display: block; font-size: 3cqw; color: var(--panel-muted); font-weight: 500; letter-spacing: 0.04em; margin-top: 0.4cqh; }
+
+/* ── SWARM MOTIF (tall vertical: lead → specialists → adversary → core) ─── */
+.swarm {
+  flex: 1;
+  width: 100%;
+  margin-top: 3cqh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+.swarm-label {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 2.9cqw;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--panel-muted);
+}
+.swarm svg { width: 100%; height: 100%; display: block; overflow: visible; }
+
+/* ── BOTTOM: QR + url ───────────────────────────────────────────────────── */
+.foot {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.4cqh;
+  margin-top: 2cqh;
+}
+.qr-box {
+  width: 30cqw; height: 30cqw;
+  background: #fff;
+  border-radius: 3.4cqw;
+  padding: 2.6cqw;
+  box-shadow: 0 2cqh 7cqh -2cqh rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.1);
+}
+.qr-box svg, .qr-box img { width: 100%; height: 100%; display: block; }
+.scan {
+  font-family: var(--font-mono);
+  font-size: 3.1cqw;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--panel-muted);
+}
+.url {
+  font-family: var(--font-display);
+  font-size: 7cqw;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+.byline {
+  font-family: var(--font-mono);
+  font-size: 3cqw;
+  letter-spacing: 0.08em;
+  color: var(--panel-muted);
+  margin-top: 0.4cqh;
+}
+
+/* ── Screen-only export helper (hidden in print) ────────────────────────── */
+.export-note {
+  position: fixed;
+  left: 50%; bottom: 14px;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: #c7c9e0;
+  background: rgba(20,22,40,0.86);
+  border: 1px solid var(--panel-line);
+  border-radius: 999px;
+  padding: 7px 16px;
+  box-shadow: 0 12px 34px -16px rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  z-index: 20;
+  text-align: center;
+  max-width: 92vw;
+}
+.export-note b { color: #fff; }
+
+/* ── PRINT: scale the artboard to fill a portrait page ──────────────────── */
+@media print {
+  @page { size: portrait; margin: 0; }
+  html, body { background: #fff; }
+  body { display: block; padding: 0; min-height: 0; background: #fff; }
+  .artboard {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .export-note { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="artboard">
+  <div class="stage">
+
+    <!-- TOP -->
+    <svg class="star" viewBox="0 0 100 100" aria-hidden="true">
+      <defs>
+        <linearGradient id="g-star" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#8a7bff" />
+          <stop offset="1" stop-color="#4f46e5" />
+        </linearGradient>
+      </defs>
+      <path fill="url(#g-star)"
+        d="M50 2 C53 28 72 47 98 50 C72 53 53 72 50 98 C47 72 28 53 2 50 C28 47 47 28 50 2 Z" />
+    </svg>
+
+    <div class="wordmark">re-forge</div>
+    <div class="tagline">The compounding layer for your <em>AI&nbsp;toolchain.</em></div>
+
+    <!-- PROOF CHIPS -->
+    <div class="chips">
+      <div class="chip p">
+        <span class="dot"></span>
+        <span class="ctxt"><b>2× ICML 2026</b><span class="sub">SCALE Workshop · public at camera-ready</span></span>
+      </div>
+      <div class="chip a">
+        <span class="dot"></span>
+        <span class="ctxt"><b>#1 on the leaderboard</b><span class="sub">81 votes · most of any project</span></span>
+      </div>
+      <div class="chip">
+        <span class="dot"></span>
+        <span class="ctxt"><b>685 checks green</b><span class="sub">green CI on every push · 128 skills · 6 teams</span></span>
+      </div>
+    </div>
+
+    <!-- SWARM MOTIF -->
+    <!-- Faithful to src/components/Swarm.jsx: a lead at top, six specialists
+         fanning down, two adversarial roles on the flank (one struck out in
+         red), a green synthesis core. Re-laid out vertically for the banner. -->
+    <div class="swarm">
+      <span class="swarm-label">one prompt → an entire org</span>
+      <svg viewBox="0 0 400 520" role="img"
+           aria-label="A lead agent fans out to specialist agents; a red adversary kills a weak claim; findings converge on a green synthesis core.">
+        <defs>
+          <linearGradient id="edge" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#6d5dfc" stop-opacity="0.85"/>
+            <stop offset="1" stop-color="#4f46e5" stop-opacity="0.28"/>
+          </linearGradient>
+          <radialGradient id="core" cx="50%" cy="42%" r="60%">
+            <stop offset="0" stop-color="#7df0b5"/>
+            <stop offset="0.55" stop-color="#35d07f"/>
+            <stop offset="1" stop-color="#1b8f55"/>
+          </radialGradient>
+          <filter id="soft" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="6" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- LEAD → specialist edges -->
+        <g stroke="url(#edge)" stroke-width="2.2" fill="none">
+          <path d="M200 70 L70 196"/>
+          <path d="M200 70 L132 250"/>
+          <path d="M200 70 L200 268"/>
+          <path d="M200 70 L268 250"/>
+          <path d="M200 70 L330 196"/>
+        </g>
+        <!-- adversary edge (red, the interception flank) -->
+        <path d="M200 70 L330 196" stroke="#ef4444" stroke-width="2.2" fill="none" stroke-opacity="0.6"/>
+
+        <!-- specialist → CORE convergence -->
+        <g stroke="#35d07f" stroke-width="1.7" fill="none" stroke-opacity="0.55" stroke-dasharray="2 5" stroke-linecap="round">
+          <path d="M70 196 L196 392"/>
+          <path d="M132 250 L200 392"/>
+          <path d="M200 268 L200 392"/>
+          <path d="M268 250 L200 392"/>
+        </g>
+
+        <!-- LEAD node -->
+        <g>
+          <circle cx="200" cy="70" r="26" fill="#1c1d2b" stroke="#6d5dfc" stroke-width="2.4"/>
+          <circle cx="200" cy="70" r="26" fill="none" stroke="#6d5dfc" stroke-width="2.4" filter="url(#soft)" opacity="0.5"/>
+          <text x="200" y="74" text-anchor="middle" fill="#f3f0ff" font-family="JetBrains Mono, monospace" font-size="11" font-weight="600">lead</text>
+        </g>
+
+        <!-- SPECIALIST nodes -->
+        <g font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="600">
+          <!-- web-miner -->
+          <circle cx="70" cy="196" r="21" fill="#1c1d2b" stroke="#34374f" stroke-width="2"/>
+          <text x="70" y="199" text-anchor="middle" fill="#c9cbe6">web</text>
+          <!-- github-miner -->
+          <circle cx="132" cy="250" r="21" fill="#1c1d2b" stroke="#34374f" stroke-width="2"/>
+          <text x="132" y="253" text-anchor="middle" fill="#c9cbe6">github</text>
+          <!-- librarian -->
+          <circle cx="200" cy="268" r="21" fill="#1c1d2b" stroke="#34374f" stroke-width="2"/>
+          <text x="200" y="271" text-anchor="middle" fill="#c9cbe6">docs</text>
+          <!-- historian -->
+          <circle cx="268" cy="250" r="21" fill="#1c1d2b" stroke="#34374f" stroke-width="2"/>
+          <text x="268" y="253" text-anchor="middle" fill="#c9cbe6">history</text>
+          <!-- ADVERSARY (red flank) -->
+          <circle cx="330" cy="196" r="21" fill="#241318" stroke="#ef4444" stroke-width="2.4"/>
+          <text x="330" y="199" text-anchor="middle" fill="#ffb4b4">adv</text>
+        </g>
+
+        <!-- KILL: the doomed claim, struck out in red, off the adversary flank -->
+        <g transform="translate(330 196)">
+          <g transform="rotate(-12)">
+            <rect x="-2" y="34" width="118" height="30" rx="6" fill="#1a0f13" stroke="#ef4444" stroke-width="1.6" stroke-opacity="0.85"/>
+            <text x="57" y="53" text-anchor="middle" fill="#ff9a9a" font-family="JetBrains Mono, monospace" font-size="8.4" font-weight="600">unverified claim</text>
+            <line x1="2" y1="49" x2="112" y2="49" stroke="#ef4444" stroke-width="2.4"/>
+            <text x="57" y="78" text-anchor="middle" fill="#ef4444" font-family="JetBrains Mono, monospace" font-size="8" font-weight="600" letter-spacing="0.12em">KILLED</text>
+          </g>
+        </g>
+
+        <!-- SYNTHESIS CORE (green) -->
+        <g filter="url(#soft)">
+          <circle cx="200" cy="392" r="30" fill="url(#core)"/>
+        </g>
+        <circle cx="200" cy="392" r="30" fill="none" stroke="#7df0b5" stroke-width="1.4" stroke-opacity="0.8"/>
+        <path d="M188 392 l8 8 16 -17" fill="none" stroke="#06281a" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="200" y="446" text-anchor="middle" fill="#9fe9c2" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" letter-spacing="0.14em">SYNTHESIS</text>
+        <text x="200" y="466" text-anchor="middle" fill="#7e88a8" font-family="JetBrains Mono, monospace" font-size="8.2" letter-spacing="0.04em">evidence on disk · survives the gates</text>
+      </svg>
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="foot">
+      <div class="scan">Scan to try it</div>
+      <div class="qr-box">
+        <!-- vector QR so it stays crisp at large format -->
+        <img src="/qr/site.svg" alt="QR code to re-forge.vercel.app" />
+      </div>
+      <div>
+        <div class="url">re-forge.vercel.app</div>
+        <div class="byline">Akasxh &amp; Shine · UCWS Singapore 2026</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- screen-only, hidden in print -->
+<div class="export-note">
+  Export: <b>print → Save as PDF (portrait)</b>, or screenshot the artboard at 2× for the print vendor.
+</div>
+
+</body>
+</html>
