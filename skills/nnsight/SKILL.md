@@ -410,7 +410,7 @@ model = LanguageModel("gpt2", device_map="auto")  # Not vLLM
 ### Official Documentation
 - [Official Docs](https://nnsight.net/documentation/)
 - [NDIF Info](https://ndif.us/)
-- [Community](https://ndif.us/signup.html)
+- [Community](https://ndif.us/)
 
 ### Papers
 - [NNsight and NDIF Paper](https://arxiv.org/abs/2407.14561) - Fiotto-Kaufman et al. (ICLR 2025)
