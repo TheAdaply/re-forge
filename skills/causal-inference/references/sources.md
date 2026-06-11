@@ -15,7 +15,7 @@ given by title/author without a URL where no free copy exists.
 
 - **Hernán, M. A. & Robins, J. M. — *Causal Inference: What If*** (Chapman &
   Hall/CRC, 2020). Free official PDF (Harvard, verified to load):
-  <https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/>
+  <https://miguelhernan.org/whatifbook>
   Book home page: <https://miguelhernan.org/whatifbook>
   Used in Gate 2: estimands (ATE/ATT/CATE/LATE), backdoor criterion, positivity,
   and the assumption-first discipline (Part I — causal inference without models).
