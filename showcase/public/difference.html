@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>re-forge · how we are different</title>
+<link rel="icon" type="image/png" href="/mark-dark.png" />
+<!-- Fonts: copied verbatim from handout.html / src/styles/tokens.css -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap");
+
+/* ── Brand tokens (mirrored from src/styles/tokens.css) ─────────────────── */
+:root {
+  --paper: #f7f8fa;
+  --paper-raised: #ffffff;
+  --ink: #14161d;
+  --ink-soft: #515968;
+  --ink-faint: #8b909c;
+  --line: #e6e8ee;
+  --line-strong: #d3d7e0;
+
+  --primary: #4f46e5;
+  --primary-bright: #6d5dfc;
+  --accent: #f2a93b;
+  --danger: #ef4444;
+  --danger-soft: #b91c1c;
+  --win: #35d07f;
+  --win-soft: #1b8f55;
+
+  --panel-deep: #11121b;
+
+  --font-display: "Instrument Serif", "Times New Roman", serif;
+  --font-ui: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+/* ── Print geometry ─────────────────────────────────────────────────────── */
+@page { size: A4 portrait; margin: 14mm; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 28px;
+  background:
+    radial-gradient(120% 60% at 50% -6%, #eef0f6 0%, #e7e9f1 55%, #dfe2ec 100%);
+}
+
+/* One conceptual page = one A4 sheet (182mm × 269mm live area) */
+.sheet {
+  width: 182mm;
+  min-height: 269mm;
+  background: var(--paper);
+  color: var(--ink);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 70px -28px rgba(17, 18, 27, 0.42);
+  border-radius: 4px;
+  padding: 0;
+}
+
+.sheet::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 38% at 100% 0%, rgba(79, 70, 229, 0.05) 0%, transparent 60%),
+    radial-gradient(55% 30% at 0% 100%, rgba(53, 208, 127, 0.045) 0%, transparent 60%);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  padding: 0;
+}
+
+/* ── Typography helpers ─────────────────────────────────────────────────── */
+.display { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.026em; line-height: 0.99; }
+.display em { color: var(--primary); font-style: italic; }
+.mono, .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 7.4pt;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+/* ════════ HEADER ════════ */
+.head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10mm;
+  align-items: end;
+  padding-bottom: 5mm;
+  border-bottom: 1.4px solid var(--line-strong);
+}
+.brand-row { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+.mark {
+  width: 27px; height: 27px;
+  flex: none;
+  filter: drop-shadow(0 2px 5px rgba(79,70,229,0.22));
+}
+.wordmark {
+  font-family: var(--font-display);
+  font-size: 25pt;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.doc-tag {
+  font-family: var(--font-mono);
+  font-size: 7pt;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  text-align: right;
+  line-height: 1.5;
+}
+.doc-tag b { color: var(--primary); }
+
+.headline {
+  font-family: var(--font-display);
+  font-size: 27pt;
+  line-height: 1.02;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  max-width: 150mm;
+  margin-top: 1mm;
+}
+.headline em { color: var(--primary); font-style: italic; }
+
+/* ════════ BODY ════════ */
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 5mm;
+  gap: 5mm;
+  min-height: 0;
+}
+
+.sec-title {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-bottom: 2.6mm;
+}
+.sec-title h2 {
+  font-family: var(--font-display);
+  font-size: 15.5pt;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  line-height: 1;
+}
+.sec-title .idx {
+  font-family: var(--font-mono);
+  font-size: 6.6pt;
+  font-weight: 600;
+  color: var(--primary);
+  letter-spacing: 0.08em;
+}
+
+p.lead-copy { font-size: 9.2pt; line-height: 1.5; color: var(--ink); }
+p.lead-copy strong { color: var(--ink); font-weight: 700; }
+.muted { color: var(--ink-soft); }
+
+/* ── Positioning one-liner block ───────────────────────────────────────── */
+.oneliner {
+  background: var(--panel-deep);
+  color: #f3f0ff;
+  border-radius: 12px;
+  padding: 6mm 7mm;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  position: relative;
+  overflow: hidden;
+}
+.oneliner::after {
+  content: "";
+  position: absolute; right: -10%; top: -40%;
+  width: 60%; height: 180%;
+  background: radial-gradient(circle, rgba(109,93,252,0.22) 0%, transparent 65%);
+}
+.oneliner .ol-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 6.8pt; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: #9ea1bd; margin-bottom: 2.6mm;
+}
+.oneliner .ol-main {
+  font-family: var(--font-display);
+  font-size: 17pt; line-height: 1.18;
+  letter-spacing: -0.012em; color: #fff;
+  position: relative; z-index: 1;
+}
+.oneliner .ol-main em { color: var(--primary-bright); font-style: italic; }
+.oneliner .ol-sub {
+  font-size: 8.4pt; line-height: 1.46;
+  color: #c7c6dd; margin-top: 3mm;
+  max-width: 150mm; position: relative; z-index: 1;
+}
+.oneliner .ol-sub b { color: #fff; font-weight: 600; }
+
+/* ── Category framing: the LAYER stack ─────────────────────────────────── */
+.layer-stack {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.2mm;
+}
+.layer {
+  display: grid;
+  grid-template-columns: 30mm 1fr;
+  align-items: center;
+  gap: 4mm;
+  border: 1px solid var(--line);
+  background: var(--paper-raised);
+  border-radius: 9px;
+  padding: 2.8mm 3.4mm;
+}
+.layer .lname {
+  font-family: var(--font-mono);
+  font-size: 6.6pt; font-weight: 600;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.layer .ldesc { font-size: 8.2pt; line-height: 1.32; color: var(--ink); }
+.layer.you {
+  border: 1.6px solid var(--primary);
+  background: linear-gradient(0deg, rgba(79,70,229,0.06), rgba(79,70,229,0.06)), var(--paper-raised);
+}
+.layer.you .lname { color: var(--primary); }
+.layer.you .ldesc { font-weight: 600; }
+.layer.you .ldesc b { color: var(--primary); }
+
+/* ── Comparison table ──────────────────────────────────────────────────── */
+.cmp {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 8pt;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.cmp thead th {
+  background: var(--panel-deep);
+  color: #f3f0ff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  font-family: var(--font-mono);
+  font-size: 6.6pt; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  text-align: left;
+  padding: 3mm 3.2mm;
+  vertical-align: middle;
+}
+.cmp tbody td {
+  border-top: 1px solid var(--line);
+  padding: 3mm 3.2mm;
+  vertical-align: top;
+  line-height: 1.34;
+}
+.cmp tbody tr:nth-child(even) td { background: rgba(79,70,229,0.022); }
+.cmp .cat {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  color: var(--ink);
+  width: 33mm;
+}
+.cmp .cat .names {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 6.6pt; font-weight: 600;
+  color: var(--ink-soft);
+  margin-top: 1.2mm; letter-spacing: 0.01em; line-height: 1.3;
+}
+.cmp td.win { color: var(--ink); }
+.cmp td.win b { color: var(--win-soft); font-weight: 700; }
+.cmp .they { color: var(--ink-soft); }
+.cmp .compl b { color: var(--ink); font-weight: 600; }
+
+/* ── Moat: 3 layers ────────────────────────────────────────────────────── */
+.moat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 3.4mm;
+}
+.moat {
+  border: 1px solid var(--line);
+  background: var(--paper-raised);
+  border-radius: 11px;
+  padding: 3.6mm 3.6mm;
+  position: relative;
+  overflow: hidden;
+}
+.moat::after {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 2.6px; background: var(--primary);
+}
+.moat:nth-child(2)::after { background: var(--win); }
+.moat:nth-child(3)::after { background: var(--accent); }
+.moat .mnum {
+  font-family: var(--font-mono);
+  font-size: 6.4pt; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--primary);
+}
+.moat:nth-child(2) .mnum { color: var(--win-soft); }
+.moat:nth-child(3) .mnum { color: var(--accent); }
+.moat .mtitle {
+  font-family: var(--font-display);
+  font-size: 12pt; line-height: 1.1;
+  letter-spacing: -0.01em; color: var(--ink);
+  margin: 1.6mm 0 2.2mm;
+}
+.moat .mbody { font-size: 7.6pt; line-height: 1.38; color: var(--ink-soft); }
+.moat .mbody b { color: var(--ink); font-weight: 600; }
+
+/* ── Rebuttal: company not a feature ───────────────────────────────────── */
+.rebuttal {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 4mm;
+  align-items: stretch;
+}
+.rebuttal .obj {
+  background: linear-gradient(180deg, rgba(239,68,68,0.07), rgba(239,68,68,0.025));
+  border: 1px solid rgba(239,68,68,0.32);
+  border-radius: 11px;
+  padding: 3.6mm 3.8mm;
+}
+.rebuttal .obj .lbl {
+  font-family: var(--font-mono);
+  font-size: 6.4pt; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--danger-soft); margin-bottom: 2mm;
+}
+.rebuttal .obj .q {
+  font-family: var(--font-display);
+  font-size: 12.5pt; line-height: 1.16;
+  letter-spacing: -0.01em; color: var(--ink);
+}
+.rebuttal .ans {
+  border: 1px solid var(--line);
+  border-left: 2.6px solid var(--win);
+  border-radius: 11px;
+  background: var(--paper-raised);
+  padding: 3.6mm 3.8mm;
+}
+.rebuttal .ans .lbl {
+  font-family: var(--font-mono);
+  font-size: 6.4pt; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--win-soft); margin-bottom: 2mm;
+}
+.rebuttal .ans p { font-size: 8.2pt; line-height: 1.46; color: var(--ink); }
+.rebuttal .ans p + p { margin-top: 2.4mm; }
+.rebuttal .ans b { font-weight: 700; }
+.rebuttal .ans .em { color: var(--primary); font-style: italic; font-family: var(--font-display); font-size: 9.4pt; }
+
+/* ── Honest-note inline pill ───────────────────────────────────────────── */
+.honest {
+  font-family: var(--font-mono);
+  font-size: 6pt; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid rgba(242,169,59,0.5);
+  border-radius: 999px;
+  padding: 0.6px 6px;
+  vertical-align: 1.5px;
+  margin-right: 4px;
+}
+
+/* ════════ FOOTER ════════ */
+.foot {
+  margin-top: auto;
+  padding-top: 4mm;
+  border-top: 1.4px solid var(--line-strong);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8mm;
+}
+.foot .site {
+  font-family: var(--font-mono);
+  font-size: 8.4pt; font-weight: 600;
+  color: var(--primary); letter-spacing: 0.01em;
+}
+.foot .meta {
+  font-family: var(--font-mono);
+  font-size: 7.4pt; font-weight: 600;
+  color: var(--ink-faint); letter-spacing: 0.04em;
+}
+.foot .meta b { color: var(--ink); font-weight: 600; }
+
+/* ── Screen-only helper note (hidden in print) ─────────────────────────── */
+.screen-note {
+  position: fixed;
+  left: 50%; bottom: 14px;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: 0.02em;
+  color: var(--ink-soft);
+  background: rgba(255,255,255,0.86);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 7px 16px;
+  box-shadow: 0 10px 30px -16px rgba(17,18,27,0.4);
+  backdrop-filter: blur(6px);
+  z-index: 10;
+}
+.screen-note b { color: var(--ink); }
+
+@media print {
+  html, body { background: #fff; }
+  body { display: block; padding: 0; background: #fff; gap: 0; }
+  .sheet {
+    width: 100%;
+    min-height: 269mm;
+    box-shadow: none;
+    border-radius: 0;
+    page-break-after: always;
+  }
+  .sheet:last-of-type { page-break-after: auto; }
+  .screen-note { display: none !important; }
+  .oneliner, .cmp thead th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════ PAGE 1 ════════════════════════ -->
+<main class="sheet">
+ <div class="inner">
+
+  <header class="head">
+    <div>
+      <div class="brand-row">
+        <img class="mark" src="/mark-dark.png" alt="re-forge anvil mark" />
+        <span class="wordmark">re-forge</span>
+      </div>
+      <h1 class="headline">How re-forge<br/>is <em>different.</em></h1>
+    </div>
+    <div class="doc-tag">
+      Competitive brief<br/>
+      <b>the layer, not the tool</b><br/>
+      June 2026
+    </div>
+  </header>
+
+  <div class="body">
+
+    <!-- POSITIONING ONE-LINER -->
+    <section>
+      <div class="oneliner">
+        <div class="ol-eyebrow">Positioning</div>
+        <div class="ol-main">
+          The model-agnostic, tool-agnostic <em>memory, skill and audit layer</em>
+          that makes any AI coding agent remember, improve, and prove its work.
+        </div>
+        <p class="ol-sub">
+          We are <b>not another assistant</b> competing with Copilot or Cursor. We are the layer that
+          makes whichever assistant a team already uses accumulate institutional knowledge, forge
+          personalized skills, and pass adversarial quality gates before anything ships at high confidence.
+        </p>
+      </div>
+    </section>
+
+    <!-- CATEGORY FRAMING -->
+    <section>
+      <div class="sec-title"><span class="idx">01</span><h2>The category: we are a layer on top of your stack</h2></div>
+      <p class="lead-copy" style="margin-bottom:3.4mm">
+        Every layer below us is something a team already owns. re-forge does not replace any of it.
+        It sits on top, turns each tool's activity into <strong>durable team memory and forged skills</strong>,
+        and gates output before it ships. We win regardless of which model or which assistant wins.
+      </p>
+      <div class="layer-stack">
+        <div class="layer you">
+          <div class="lname">re-forge</div>
+          <div class="ldesc"><b>Memory + skill + audit layer.</b> Model-agnostic, tool-agnostic. Compounds per team across every tool below.</div>
+        </div>
+        <div class="layer">
+          <div class="lname">Assistants</div>
+          <div class="ldesc">Copilot, Cursor, Codex, Claude Code, Amazon Q. The agents that write the code.</div>
+        </div>
+        <div class="layer">
+          <div class="lname">Frameworks</div>
+          <div class="ldesc">LangGraph, AutoGen, CrewAI. Construction kits for building agents from parts.</div>
+        </div>
+        <div class="layer">
+          <div class="lname">Observability</div>
+          <div class="ldesc">LangSmith, Phoenix, Langfuse, Helicone. Read-only telemetry, after the fact.</div>
+        </div>
+        <div class="layer">
+          <div class="lname">Memory infra</div>
+          <div class="ldesc">Mem0, Letta, Zep. General-purpose memory primitives a developer integrates.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPARISON TABLE -->
+    <section>
+      <div class="sec-title"><span class="idx">02</span><h2>Where everyone else is complementary, and where we win</h2></div>
+      <table class="cmp">
+        <thead>
+          <tr>
+            <th style="width:33mm">Category</th>
+            <th>What they do</th>
+            <th>Why re-forge is complementary</th>
+            <th style="width:46mm">Where we win</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cat">Assistants &amp; editors<span class="names">Copilot · Cursor · Codex · Amazon Q</span></td>
+            <td class="they">Write the code: in-editor completion, chat, agentic edits. Locked to their own surface.</td>
+            <td class="compl">They are the agent that writes; we are the <b>shared brain over all of them</b>. Two assistants are two amnesiacs; we span both.</td>
+            <td class="win"><b>Cross-tool by design.</b> Memory that compounds per team, not per vendor. Adversarial gates an autocomplete-first product never ships.</td>
+          </tr>
+          <tr>
+            <td class="cat">Agent frameworks<span class="names">LangGraph · AutoGen · CrewAI</span></td>
+            <td class="they">Construction kits to build agents from scratch. A blank canvas of orchestration parts.</td>
+            <td class="compl">We are a <b>finished, hardened operating procedure</b>, not a toolkit. You could build a re-forge on a framework, the way you build a CRM on a database.</td>
+            <td class="win"><b>Time-to-value: works out of the box.</b> Built-in adversarial gates and a 5-dimension evaluator rubric, plus a file-locked concurrent-merge most teams never build right.</td>
+          </tr>
+          <tr>
+            <td class="cat">Observability &amp; evals<span class="names">LangSmith · Phoenix · Langfuse · Helicone</span></td>
+            <td class="they">Trace and log what happened after the fact. Read-only telemetry and eval dashboards.</td>
+            <td class="compl">They tell you what happened; we <b>change what happens before output ships</b> and write the lesson back to memory. Our evidence files can feed their backend.</td>
+            <td class="win"><b>Active correction, not passive logging.</b> A closed reflect-and-curate loop turns traces into reusable skills. Quality enforced in-line, not inspected later.</td>
+          </tr>
+          <tr>
+            <td class="cat">Memory infrastructure<span class="names">Mem0 · Letta · Zep</span></td>
+            <td class="they">General-purpose memory primitives: key-value or vector stores of facts a developer integrates.</td>
+            <td class="compl">The only genuine overlap, and even here the shape differs. They store; we adjudicate. <b>We can sit on top of a primitive like theirs.</b></td>
+            <td class="win"><b>Vertical, not horizontal.</b> Skills as a first-class output, not just stored facts. Quality gating bundled with memory. Safe shared team memory under parallel writes.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </div>
+
+  <footer class="foot">
+    <div class="site">re-forge.vercel.app</div>
+    <div class="meta"><b>Akasxh &amp; Shine</b> · confidential</div>
+  </footer>
+
+ </div>
+</main>
+
+<!-- ════════════════════════ PAGE 2 ════════════════════════ -->
+<main class="sheet">
+ <div class="inner">
+
+  <header class="head">
+    <div>
+      <div class="brand-row">
+        <img class="mark" src="/mark-dark.png" alt="re-forge anvil mark" />
+        <span class="wordmark">re-forge</span>
+      </div>
+      <h1 class="headline">Why it is a company,<br/>not a <em>feature.</em></h1>
+    </div>
+    <div class="doc-tag">
+      The moat<br/>
+      <b>three compounding layers</b><br/>
+      page 2 of 2
+    </div>
+  </header>
+
+  <div class="body">
+
+    <!-- THE MOAT -->
+    <section>
+      <div class="sec-title"><span class="idx">03</span><h2>The moat: three layers that compound together</h2></div>
+      <p class="lead-copy" style="margin-bottom:3.6mm">
+        No single layer is unbreachable. The defensibility is the <strong>compounding interaction of all three</strong>:
+        a competitor must replicate the data, the agnostic architecture, and the quality system at once, while the
+        incumbent's per-team asset keeps compounding every week of use.
+      </p>
+      <div class="moat-grid">
+        <div class="moat">
+          <div class="mnum">Layer 1</div>
+          <div class="mtitle">Team-memory data network effect</div>
+          <div class="mbody">
+            Every session writes lessons back via generate, reflect, curate. Memory accumulates
+            <b>per team</b> and transfers across that team's projects, which is data no base model and
+            no competitor possesses. A per-account switching cost that grows monotonically with use:
+            the Datadog and Snowflake pattern.
+          </div>
+        </div>
+        <div class="moat">
+          <div class="mnum">Layer 2</div>
+          <div class="mtitle">Model and tool agnostic</div>
+          <div class="mbody">
+            We win regardless of which model or assistant wins, because we sit <b>above both</b>. If a
+            frontier model leapfrogs the rest, we run on it. If a team splits across Cursor and Codex,
+            we span them. The hard part, the concurrent-merge primitive, is already shipped and exercised
+            by green CI.
+          </div>
+        </div>
+        <div class="moat">
+          <div class="mnum">Layer 3</div>
+          <div class="mtitle">Switching cost that compounds</div>
+          <div class="mbody">
+            Months of accumulated memory plus a library of forged, personalized skills cannot move to a
+            competitor without abandoning a custom-fitted asset. <b>Raw facts export; the forged skills,
+            curated lessons and evidence trail do not.</b> The moat is the compounding fit, not the storage format.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY A COMPANY NOT A FEATURE -->
+    <section>
+      <div class="sec-title"><span class="idx">04</span><h2>Why this is a company, not a feature</h2></div>
+      <div class="rebuttal">
+        <div class="obj">
+          <div class="lbl">The objection</div>
+          <div class="q">"Isn't memory just a feature an incumbent bolts on? And won't Cursor or Copilot simply build this?"</div>
+          <p class="lead-copy" style="margin-top:3.4mm; color:var(--ink-soft); font-size:8pt;">
+            Fair to ask. We answer it plainly, without spin.
+          </p>
+        </div>
+        <div class="ans">
+          <div class="lbl">The rebuttal</div>
+          <p>
+            Memory looked like a feature until <b>Mem0 raised $24M</b> and AWS named it the exclusive memory provider
+            for its Agent SDK. The market is now pricing memory as <b>infrastructure</b>. And re-forge is broader than
+            memory alone: it bundles memory, skill-forging and an adversarial quality system into a team-scoped layer
+            that compounds per account. <b>Features do not produce a per-team data asset that grows with use. Platforms do.</b>
+          </p>
+          <p>
+            An incumbent cannot build the agnostic version. An assistant that spans Cursor <b>and</b> Copilot
+            <b>and</b> Codex cannot be built by any one of them: each is incentivized to lock memory to its own
+            walled garden, and no team using two assistants will trust either vendor's silo. <span class="em">Our neutrality
+            is exactly what an incumbent cannot offer.</span>
+          </p>
+          <p style="font-size:7.6pt; color:var(--ink-soft);">
+            <span class="honest">Honest</span> Pre-revenue, and today's shipped product runs on Claude Code; the cross-tool monitor
+            is roadmap built on a primitive that already exists. What de-risks it: a top-5 hackathon result with 130+ votes,
+            685-check green CI, 128 open-source skills across 6 teams, and two ICML 2026 SCALE Workshop papers, all orchestrated with re-forge.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="foot">
+    <div class="site">re-forge.vercel.app</div>
+    <div class="meta"><b>Akasxh &amp; Shine</b> · confidential</div>
+  </footer>
+
+ </div>
+</main>
+
+<!-- screen-only, hidden in print -->
+<div class="screen-note">Viewing on screen. <b>Print → Save as PDF (A4)</b> for the clean two-page brief.</div>
+
+</body>
+</html>

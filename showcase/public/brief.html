@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>re-forge · founder briefing · confidential</title>
+<link rel="icon" type="image/png" href="/mark-dark.png" />
+<!-- Fonts: copied verbatim from handout.html / src/styles/tokens.css -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap");
+
+/* Brand tokens (mirrored from src/styles/tokens.css) */
+:root {
+  --paper: #f7f8fa;
+  --paper-raised: #ffffff;
+  --ink: #14161d;
+  --ink-soft: #515968;
+  --ink-faint: #8b909c;
+  --line: #e6e8ee;
+  --line-strong: #d3d7e0;
+
+  --primary: #4f46e5;
+  --primary-bright: #6d5dfc;
+  --accent: #f2a93b;
+  --danger: #ef4444;
+  --danger-soft: #b91c1c;
+  --win: #35d07f;
+  --win-soft: #1b8f55;
+
+  --panel-deep: #11121b;
+
+  --font-display: "Instrument Serif", "Times New Roman", serif;
+  --font-ui: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+/* Print geometry */
+@page { size: A4 portrait; margin: 14mm; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  line-height: 1.5;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 18px 90px;
+  background:
+    radial-gradient(120% 60% at 50% -8%, #eef0f6 0%, #e7e9f1 50%, #dfe2ec 100%);
+}
+
+/* Each conceptual "page" is a sheet that prints clean and reads as a card on screen. */
+.page {
+  width: 182mm;
+  max-width: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  position: relative;
+  padding: 12mm 13mm 9mm;
+  margin-bottom: 26px;
+  border-radius: 5px;
+  box-shadow: 0 24px 70px -30px rgba(17, 18, 27, 0.42);
+}
+
+/* TOC and section anchors offset for sticky-free navigation */
+.anchor { scroll-margin-top: 18px; }
+
+/* Typography helpers */
+.display { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.026em; line-height: 1.0; }
+.display em { color: var(--primary); font-style: italic; }
+.mono, .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 8pt;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+/* COVER */
+.cover-head { display: flex; align-items: center; gap: 12px; margin-bottom: 9mm; }
+.mark { width: 40px; height: 40px; flex: none; border-radius: 9px; filter: drop-shadow(0 3px 9px rgba(79,70,229,0.30)); }
+.wordmark { font-family: var(--font-display); font-size: 30pt; line-height: 1; letter-spacing: -0.02em; color: var(--ink); }
+.cover-tag {
+  font-family: var(--font-mono); font-size: 7.6pt; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint);
+  margin-left: auto; text-align: right; line-height: 1.5;
+}
+.cover-tag b { color: var(--danger); }
+
+.cover-headline {
+  font-family: var(--font-display);
+  font-size: 30pt;
+  line-height: 1.04;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin-bottom: 4mm;
+}
+.cover-headline em { color: var(--primary); font-style: italic; }
+.cover-sub { font-size: 11pt; line-height: 1.5; color: var(--ink-soft); max-width: 150mm; }
+.cover-sub strong { color: var(--ink); font-weight: 700; }
+
+/* TOC */
+.toc {
+  margin-top: 8mm;
+  border-top: 1.4px solid var(--line-strong);
+  padding-top: 5mm;
+}
+.toc-h { font-family: var(--font-mono); font-size: 7.4pt; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--primary); margin-bottom: 3.5mm; }
+.toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6mm 8mm; }
+.toc-grid a {
+  display: flex; align-items: baseline; gap: 8px;
+  text-decoration: none; color: var(--ink); font-size: 9.4pt;
+  padding: 1mm 0; border-bottom: 1px dotted var(--line);
+}
+.toc-grid a:hover { color: var(--primary); }
+.toc-grid a .n { font-family: var(--font-mono); font-size: 7.4pt; font-weight: 600; color: var(--primary); width: 16px; flex: none; }
+.toc-grid a .t { flex: 1; }
+
+/* Section headers */
+.sec-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4mm; padding-bottom: 2.4mm; border-bottom: 1.6px solid var(--line-strong); }
+.sec-head .idx { font-family: var(--font-mono); font-size: 8pt; font-weight: 600; color: var(--primary); letter-spacing: 0.08em; }
+.sec-head h2 { font-family: var(--font-display); font-size: 19pt; letter-spacing: -0.015em; color: var(--ink); line-height: 1; }
+.sec-head .tag {
+  margin-left: auto; font-family: var(--font-mono); font-size: 6.6pt; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent);
+  border: 1px solid rgba(242,169,59,0.55); border-radius: 999px; padding: 1px 7px;
+}
+.sec-head .tag.ship { color: var(--win-soft); border-color: rgba(53,208,127,0.55); }
+
+h3.subh { font-family: var(--font-ui); font-size: 10.5pt; font-weight: 700; color: var(--ink); margin: 5mm 0 2mm; letter-spacing: -0.005em; }
+h3.subh:first-of-type { margin-top: 0; }
+
+p { font-size: 9.6pt; line-height: 1.52; color: var(--ink); margin-bottom: 2.6mm; }
+p strong, li strong { color: var(--ink); font-weight: 700; }
+.muted { color: var(--ink-soft); }
+.lead { font-size: 10.6pt; line-height: 1.5; color: var(--ink); }
+
+ul, ol { margin: 0 0 2.6mm 0; padding-left: 5mm; }
+li { font-size: 9.6pt; line-height: 1.5; color: var(--ink); margin-bottom: 1.4mm; }
+
+/* The 30-second pitch box */
+.pitch-box {
+  background: var(--panel-deep);
+  color: #f3f0ff;
+  border-radius: 12px;
+  padding: 6mm 7mm;
+  margin-bottom: 5mm;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.pitch-box .ph { font-family: var(--font-mono); font-size: 7pt; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #9ea1bd; margin-bottom: 3mm; }
+.pitch-box p { color: #e9e7f6; font-size: 10.4pt; line-height: 1.56; margin-bottom: 3mm; }
+.pitch-box p:last-child { margin-bottom: 0; }
+.pitch-box b { color: #fff; font-weight: 700; }
+.pitch-box em { color: var(--primary-bright); font-style: normal; font-weight: 600; }
+
+.oneliner-list { list-style: none; padding: 0; margin: 0; }
+.oneliner-list li {
+  font-family: var(--font-display); font-size: 12pt; line-height: 1.22;
+  color: var(--ink); padding: 2mm 0 2mm 7mm; position: relative; border-bottom: 1px dotted var(--line);
+}
+.oneliner-list li::before { content: "\201C"; position: absolute; left: 0; top: 1mm; color: var(--primary); font-size: 16pt; font-family: var(--font-display); }
+.oneliner-list li.primary { color: var(--primary); }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin: 1mm 0 4mm; font-size: 9pt; }
+table.compact { font-size: 8.4pt; }
+th, td { text-align: left; padding: 2.2mm 2.6mm; border-bottom: 1px solid var(--line); vertical-align: top; line-height: 1.4; }
+thead th {
+  font-family: var(--font-mono); font-size: 6.8pt; font-weight: 600; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--ink-soft); border-bottom: 1.4px solid var(--line-strong);
+}
+tbody tr:last-child td { border-bottom: none; }
+td.num, th.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+td strong { font-weight: 700; }
+.win-fig { color: var(--win-soft); font-weight: 700; }
+.row-total td { border-top: 1.4px solid var(--line-strong); font-weight: 700; }
+.row-total td .win-fig { font-size: 10pt; }
+
+/* Stat cards */
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin: 1mm 0 4mm; }
+.stat-grid.three { grid-template-columns: repeat(3, 1fr); }
+.stat {
+  background: var(--paper-raised); border: 1px solid var(--line); border-radius: 10px;
+  padding: 3.4mm 3.6mm; position: relative; overflow: hidden;
+}
+.stat::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2.6px; background: var(--primary); }
+.stat.win::after { background: var(--win); }
+.stat.accent::after { background: var(--accent); }
+.stat .fig { font-family: var(--font-mono); font-weight: 600; font-size: 16pt; line-height: 1; color: var(--ink); letter-spacing: -0.01em; }
+.stat.win .fig { color: var(--win-soft); }
+.stat .fig small { font-size: 8.4pt; color: var(--ink-faint); font-weight: 500; }
+.stat .lbl { font-size: 7.8pt; line-height: 1.3; color: var(--ink-soft); margin-top: 2.4mm; }
+.stat .lbl b { color: var(--ink); font-weight: 600; }
+
+/* Callout / why-now / honesty boxes */
+.callout {
+  border: 1px solid var(--line); border-left: 3px solid var(--primary);
+  background: var(--paper-raised); border-radius: 9px; padding: 3.6mm 4mm; margin: 1mm 0 4mm;
+}
+.callout.win { border-left-color: var(--win); }
+.callout.danger { border-left-color: var(--danger); }
+.callout.accent { border-left-color: var(--accent); }
+.callout h4 { font-family: var(--font-mono); font-size: 7pt; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); margin-bottom: 2mm; }
+.callout.win h4 { color: var(--win-soft); }
+.callout.danger h4 { color: var(--danger-soft); }
+.callout.accent h4 { color: var(--accent); }
+.callout p:last-child { margin-bottom: 0; }
+
+/* Objection / Q-A blocks */
+.qa { border-bottom: 1px solid var(--line); padding: 3mm 0; }
+.qa:last-child { border-bottom: none; }
+.qa .q { font-size: 9.8pt; font-weight: 700; color: var(--ink); margin-bottom: 1.6mm; display: flex; gap: 7px; align-items: baseline; }
+.qa .q .qn { font-family: var(--font-mono); font-size: 7.6pt; font-weight: 600; color: var(--primary); flex: none; }
+.qa .a { font-size: 9.2pt; line-height: 1.5; color: var(--ink-soft); padding-left: 0; }
+.qa .a b { color: var(--ink); font-weight: 600; }
+
+/* counter / rebuttal pairs (moat) */
+.cr { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; margin-top: 2.4mm; }
+.cr .box { border-radius: 8px; padding: 3mm 3.4mm; font-size: 8.6pt; line-height: 1.45; }
+.cr .counter { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.3); }
+.cr .rebut { background: rgba(53,208,127,0.07); border: 1px solid rgba(53,208,127,0.32); }
+.cr .box h5 { font-family: var(--font-mono); font-size: 6.4pt; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.6mm; }
+.cr .counter h5 { color: var(--danger-soft); }
+.cr .rebut h5 { color: var(--win-soft); }
+.cr .box b { font-weight: 700; color: var(--ink); }
+
+/* demo talking points */
+.demo-step { display: flex; gap: 4mm; padding: 2.6mm 0; border-bottom: 1px solid var(--line); }
+.demo-step:last-child { border-bottom: none; }
+.demo-step .sn {
+  font-family: var(--font-mono); font-size: 9pt; font-weight: 600; color: #fff;
+  background: var(--primary); width: 7mm; height: 7mm; flex: none; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.demo-step .sc h4 { font-size: 9.6pt; font-weight: 700; color: var(--ink); margin-bottom: 0.8mm; }
+.demo-step .sc p { font-size: 8.8pt; line-height: 1.42; color: var(--ink-soft); margin-bottom: 0.8mm; }
+.demo-step .sc .say { font-size: 8.8pt; color: var(--ink); font-style: italic; }
+.demo-step .sc .say b { font-style: normal; color: var(--primary); font-weight: 600; }
+
+/* numbers cheat-sheet */
+.cheat {
+  background: var(--panel-deep); color: #e9e7f6; border-radius: 12px; padding: 5mm 5.5mm;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.cheat .ch { font-family: var(--font-mono); font-size: 7.4pt; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #9ea1bd; margin-bottom: 3.5mm; }
+.cheat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2mm 6mm; }
+.cheat-row { display: flex; align-items: baseline; gap: 8px; padding: 1.4mm 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.cheat-row .v { font-family: var(--font-mono); font-weight: 600; font-size: 9.6pt; color: #fff; flex: none; min-width: 24mm; }
+.cheat-row .v.win { color: var(--win); }
+.cheat-row .v.accent { color: var(--accent); }
+.cheat-row .k { font-size: 8.4pt; color: #c7c6dd; line-height: 1.3; }
+
+.note { font-size: 8pt; color: var(--ink-faint); font-style: italic; margin-top: 2mm; }
+.src { font-size: 7.6pt; color: var(--ink-faint); line-height: 1.5; margin-top: 3mm; word-break: break-word; }
+.src a { color: var(--ink-soft); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 7mm; }
+@media (max-width: 760px) { .two-col, .cheat-grid, .toc-grid, .cr { grid-template-columns: 1fr; } .stat-grid, .stat-grid.three { grid-template-columns: 1fr 1fr; } }
+
+/* Page footer (each conceptual page) */
+.pg-foot {
+  margin-top: 6mm; padding-top: 3mm; border-top: 1.4px solid var(--line-strong);
+  display: flex; align-items: center; justify-content: space-between; gap: 8mm;
+  font-family: var(--font-mono); font-size: 7.4pt; letter-spacing: 0.02em; color: var(--ink-faint);
+}
+.pg-foot .site { color: var(--primary); font-weight: 600; }
+.pg-foot .conf { color: var(--danger-soft); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-size: 6.8pt; }
+
+/* Screen-only save note (hidden in print) */
+.screen-note {
+  position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%);
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.02em; color: var(--ink-soft);
+  background: rgba(255,255,255,0.9); border: 1px solid var(--line-strong); border-radius: 999px;
+  padding: 7px 16px; box-shadow: 0 10px 30px -16px rgba(17,18,27,0.4); backdrop-filter: blur(6px); z-index: 20;
+}
+.screen-note b { color: var(--ink); }
+
+@media print {
+  html, body { background: #fff; }
+  body { display: block; padding: 0; background: #fff; }
+  .page {
+    width: 100%; max-width: none; margin: 0 0 0 0; padding: 0; border-radius: 0;
+    box-shadow: none; background: #fff;
+    break-after: page; page-break-after: always;
+  }
+  .page:last-of-type { break-after: auto; page-break-after: auto; }
+  .screen-note { display: none !important; }
+  .pitch-box, .cheat, .demo-step .sn { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  table, .qa, .demo-step, .cr, .callout { break-inside: avoid; page-break-inside: avoid; }
+  h2, h3.subh { break-after: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════ PAGE 1 -COVER + TOC + PITCH + ONE-LINERS ════════════════════ -->
+<section class="page">
+  <div class="cover-head">
+    <img class="mark" src="/mark-dark.png" alt="re-forge anvil mark" />
+    <span class="wordmark">re-forge</span>
+    <span class="cover-tag">Founder briefing<br/>June 2026 · <b>confidential</b></span>
+  </div>
+
+  <h1 class="cover-headline">The memory, skill &amp; audit <em>layer</em><br/>for any AI coding agent.</h1>
+  <p class="cover-sub">
+    Read this before the pitch. <strong>This is the document we study.</strong> re-forge is not another
+    copilot. It is the model-agnostic and tool-agnostic layer that makes whichever assistant a team
+    uses accumulate institutional knowledge, forge personalized skills, and pass adversarial quality
+    gates before anything ships. <strong>Pre-revenue. No fabricated traction.</strong> Every figure here is sourced.
+  </p>
+
+  <!-- 30-second pitch -->
+  <div class="pitch-box" style="margin-top:7mm">
+    <div class="ph">The 30-second elevator pitch</div>
+    <p>
+      Your team runs Claude Code, Cursor, Codex and ChatGPT side by side, and <b>every one of them is
+      an amnesiac</b>: stateless across sessions, ignorant of each other. <em>re-forge is the shared brain over all of them.</em>
+    </p>
+    <p>
+      It sits <b>above</b> the assistant as an operating procedure: specialist agents <b>attack each other's
+      work</b> (a skeptic kills weak reasoning, an adversary kills weak sources), <b>write evidence to disk</b>
+      you can audit, and <b>compound every lesson into a memory the team owns.</b> The hard part ships today on
+      Claude Code with a 685-check green CI; the always-on cross-tool monitor is the roadmap on a foundation that already works.
+    </p>
+    <p>
+      <b>The market just priced memory as infrastructure</b> (Mem0 raised $24M; AWS named it the exclusive
+      memory provider for its Agent SDK). We capture that value vertically, for software teams, with a per-team
+      data asset that gets stickier every week.
+    </p>
+  </div>
+
+  <h3 class="subh">The one-liner (pick by room)</h3>
+  <ul class="oneliner-list">
+    <li class="primary">The memory and skill layer that makes any AI coding agent remember, improve, and prove its work.</li>
+    <li>Your team's coding agents are amnesiacs. re-forge is the shared brain.</li>
+    <li>Model-agnostic, tool-agnostic. We win no matter which assistant wins.</li>
+    <li>Observability tells you what broke. re-forge stops it breaking and remembers why.</li>
+  </ul>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-h">What's inside · tap to jump</div>
+    <div class="toc-grid">
+      <a href="#market"><span class="n">01</span><span class="t">The market (TAM / SAM / SOM) &amp; why now</span></a>
+      <a href="#compete"><span class="n">02</span><span class="t">Competitors &amp; why we win (4 categories)</span></a>
+      <a href="#moat"><span class="n">03</span><span class="t">The moat (3 layers, honest)</span></a>
+      <a href="#pricing"><span class="n">04</span><span class="t">Pricing &amp; traction / proof</span></a>
+      <a href="#tech"><span class="n">05</span><span class="t">Technical summary (condensed)</span></a>
+      <a href="#objections"><span class="n">06</span><span class="t">Investor objections + rebuttals</span></a>
+      <a href="#techq"><span class="n">07</span><span class="t">Likely technical questions + answers</span></a>
+      <a href="#demo"><span class="n">08</span><span class="t">Demo talking points</span></a>
+      <a href="#cheat"><span class="n">09</span><span class="t">Numbers to remember (cheat-sheet)</span></a>
+    </div>
+  </div>
+
+  <div class="pg-foot"><span>re-forge.vercel.app · Akasxh &amp; Shine · <span class="conf">confidential</span></span><span class="site">page 1</span></div>
+</section>
+
+<!-- ════════════════════ PAGE 2 -MARKET ════════════════════ -->
+<section class="page anchor" id="market">
+  <div class="sec-head"><span class="idx">01</span><h2>The market</h2></div>
+
+  <p class="lead">
+    re-forge monetizes the <strong>agent's accumulated context</strong>, not the agent itself, so it captures
+    value whether you frame the market as AI agents or the narrower code-tools slice.
+  </p>
+
+  <div class="stat-grid three">
+    <div class="stat">
+      <div class="fig">$52.6B<small> · 2030</small></div>
+      <div class="lbl"><b>TAM, AI agents.</b> 46.3% CAGR from $7.84B in 2025 (MarketsandMarkets); ~$50.3B corroboration (Grand View).</div>
+    </div>
+    <div class="stat accent">
+      <div class="fig">$8.1B<small> · SAM</small></div>
+      <div class="lbl"><b>Serviceable seats, fully penetrated.</b> Bottom-up from developers already on an AI assistant.</div>
+    </div>
+    <div class="stat win">
+      <div class="fig">$40M<small> · SOM</small></div>
+      <div class="lbl"><b>Obtainable ARR wedge,</b> ~0.5% of the serviceable base. The multi-year ceiling, not year one.</div>
+    </div>
+  </div>
+
+  <table class="compact">
+    <thead><tr><th>Layer</th><th>Figure</th><th>Source / basis</th></tr></thead>
+    <tbody>
+      <tr><td><strong>TAM</strong> · AI agents, 2030</td><td class="num">$52.62B · 46.3% CAGR</td><td>MarketsandMarkets</td></tr>
+      <tr><td>TAM corroboration</td><td class="num">~$50.3B</td><td>Grand View Research</td></tr>
+      <tr><td>TAM (conservative) · AI code tools, 2030</td><td class="num">~$26B</td><td>Grand View Research</td></tr>
+      <tr><td><strong>SAM</strong> · serviceable seats, full penetration</td><td class="num">~$8.1B</td><td>Bottom-up (below)</td></tr>
+      <tr class="row-total"><td><strong>SOM</strong> · obtainable ARR wedge</td><td class="num"><span class="win-fig">~$40M</span></td><td>~0.5% of seat base</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="subh">SAM bottom-up: priced as a layer on top of an existing assistant</h3>
+  <table class="compact">
+    <tbody>
+      <tr><td><strong>36.5M</strong> professional developers worldwide</td><td>SlashData, 2025</td></tr>
+      <tr><td>&times; <strong>62%</strong> on at least one AI coding assistant / agent</td><td>JetBrains State of the Dev Ecosystem, 2025</td></tr>
+      <tr><td>= <strong>~22.6M</strong> serviceable developers</td><td></td></tr>
+      <tr><td>&times; <strong>$360 / seat / year</strong> (planned Team, $30/seat/mo)</td><td></td></tr>
+      <tr class="row-total"><td>= <span class="win-fig">~$8.1B SAM</span> at full penetration</td><td></td></tr>
+    </tbody>
+  </table>
+  <p class="note">Every developer in the SAM has already adopted an agent, so there is <strong>no cold-start adoption problem at the assistant level.</strong> The job is to attach to a workflow that already exists.</p>
+
+  <div class="callout">
+    <h4>The entry wedge (underwrite this, not the $40M leap)</h4>
+    <p>The first measurable milestone is the <strong>first 1,000 to 3,000 paid seats</strong>, converted out of open-source adoption of the 128 free skills and the Claude Code operating procedure. The plan-of-record is an OSS-to-paid funnel; $40M is the ceiling of the immediate wedge, not year one.</p>
+  </div>
+
+  <h3 class="subh">Why now</h3>
+  <ul>
+    <li><strong>Agents shipped, memory did not.</strong> Copilot has 20M+ users, Cursor hit ~$2B ARR in about three years, yet both stay mostly stateless across sessions and amnesiac across projects. The pain is now acute and universal.</li>
+    <li><strong>Memory-as-infrastructure is being funded.</strong> Mem0 raised $24M (seed + Series A, closed Oct 2025) and crossed ~48k GitHub stars. Investors price memory as a category now, not a feature.</li>
+    <li><strong>Multi-tool reality.</strong> Teams use Claude Code and Cursor and Codex and ChatGPT at once. A model-agnostic layer that unifies them is only valuable, and only buildable, now that the sprawl exists.</li>
+    <li><strong>Quality and trust gap.</strong> As agents write more code, the cost of a confident wrong answer rises. Adversarial gates and evidence-on-disk become a procurement requirement, not a nicety.</li>
+  </ul>
+
+  <p class="src">Sources: MarketsandMarkets AI Agents Market (marketsandmarkets.com/PressReleases/ai-agents.asp) · Cursor $2B ARR (thenextweb.com) · Mem0 $24M Series A (mem0.ai/series-a).</p>
+
+  <div class="pg-foot"><span>re-forge.vercel.app · Akasxh &amp; Shine · <span class="conf">confidential</span></span><span class="site">page 2</span></div>
+</section>
+
+<!-- ════════════════════ PAGE 3 -COMPETITORS ════════════════════ -->
+<section class="page anchor" id="compete">
+  <div class="sec-head"><span class="idx">02</span><h2>Competitors &amp; why we win</h2></div>
+  <p class="lead">re-forge is a <strong>layer</strong>. In every category the structural point is the same: these products are where re-forge plugs in, not what it replaces.</p>
+
+  <h3 class="subh">A · Single-agent assistants &amp; editors <span class="muted">(where we plug in)</span></h3>
+  <table class="compact">
+    <thead><tr><th>Player</th><th>What they do</th></tr></thead>
+    <tbody>
+      <tr><td><strong>GitHub Copilot</strong></td><td>In-editor completion + chat; 20M+ users; Microsoft distribution</td></tr>
+      <tr><td><strong>Cursor (Anysphere)</strong></td><td>AI-native editor; ~$2B ARR; 1M+ paying, 70% of Fortune 1000</td></tr>
+      <tr><td><strong>OpenAI Codex</strong></td><td>Agentic coding from OpenAI</td></tr>
+      <tr><td><strong>Amazon Q Developer</strong></td><td>AWS-integrated coding assistant</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Why we win:</strong> a team on Cursor + Copilot has two amnesiac assistants; re-forge is the shared brain over both. Cross-tool by design, memory that compounds <strong>per team</strong> not per vendor, adversarial gates (skeptic / adversary / moderator / evaluator) an autocomplete-first product structurally never ships, and auditable evidence files for regulated buyers.</p>
+
+  <h3 class="subh">B · Agent frameworks <span class="muted">(construction kits, not a finished product)</span></h3>
+  <table class="compact">
+    <thead><tr><th>Player</th><th>What they do</th></tr></thead>
+    <tbody>
+      <tr><td><strong>LangGraph</strong></td><td>Graph-based agent orchestration</td></tr>
+      <tr><td><strong>AutoGen (Microsoft)</strong></td><td>Multi-agent conversation framework</td></tr>
+      <tr><td><strong>CrewAI</strong></td><td>Role-based multi-agent crews</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Why we win:</strong> frameworks are a blank canvas; re-forge is a hardened, assembled system that works out of the box. It imports peer-reviewed methods (MAST taxonomy from NeurIPS 2025, ACE from Stanford, DebateCV, Magentic-One, Anthropic's multi-agent research system) and ships built-in adversarial gates plus a file-locked concurrent merge most teams never build correctly. Building re-forge on LangGraph is like building a CRM on a database.</p>
+
+  <h3 class="subh">C · LLM / agent observability &amp; evals <span class="muted">(read-only telemetry)</span></h3>
+  <table class="compact">
+    <thead><tr><th>Player</th><th>What they do</th></tr></thead>
+    <tbody>
+      <tr><td><strong>LangSmith</strong></td><td>Tracing + eval for LLM apps</td></tr>
+      <tr><td><strong>Arize Phoenix / Langfuse</strong></td><td>Open-source LLM observability + tracing</td></tr>
+      <tr><td><strong>Helicone</strong></td><td>LLM request logging + analytics</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Why we win:</strong> observability tells you what happened after the fact. re-forge changes what happens <strong>before output ships</strong> by gating it adversarially, then writes lessons back so the same mistake is not repeated. They run side by side; re-forge's evidence files can feed an observability backend.</p>
+
+  <h3 class="subh">D · Agent memory &amp; skill infrastructure <span class="muted">(the closest neighbors)</span></h3>
+  <table class="compact">
+    <thead><tr><th>Player</th><th>What they do</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Mem0</strong></td><td>Memory layer; ~48k stars; $24M raised; AWS Agent SDK memory provider</td></tr>
+      <tr><td><strong>Letta (ex-MemGPT)</strong></td><td>Stateful agents with long-term memory</td></tr>
+      <tr><td><strong>Zep</strong></td><td>Memory + knowledge-graph layer for agents</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Why we win:</strong> this is the only category with real overlap, and even here the shape differs. They are <strong>horizontal, general-purpose</strong> memory primitives (a vector or key-value store a developer integrates). re-forge is <strong>vertical and integrated</strong> for software teams: memory + auto-forged skills + adversarial gates, shipped with 128 skills, 6 specialist teams and a Capability Forge meta-agent. Storing facts is the commodity; <strong>forging team-specific skills, curating lessons, and gating output</strong> is the product. We could even run on top of a primitive like theirs.</p>
+
+  <div class="pg-foot"><span>re-forge.vercel.app · Akasxh &amp; Shine · <span class="conf">confidential</span></span><span class="site">page 3</span></div>
+</section>
+
+<!-- ════════════════════ PAGE 4 -MOAT ════════════════════ -->
+<section class="page anchor" id="moat">
+  <div class="sec-head"><span class="idx">03</span><h2>The moat</h2></div>
+  <p class="lead">No single layer is unbreachable. The defensibility is the <strong>compounding interaction of all three</strong> plus demonstrated research and engineering rigor. A competitor must replicate the data, the agnostic architecture, and the quality system at once, while the incumbent's per-team asset keeps compounding.</p>
+
+  <h3 class="subh">Layer 1 · Compounding team-memory data network effect</h3>
+  <p>Every session writes lessons back via the ACE pattern (generation, reflection, curation). Memory accumulates per team and transfers across that team's projects. The more a team uses re-forge, the more valuable it is <strong>to that team specifically</strong>, and that value is data no base model and no competitor possesses.</p>
+  <div class="cr">
+    <div class="box counter"><h5>Honest counter</h5>A team-scoped network effect is not a classic multi-sided one. It does not make re-forge more valuable to <b>other</b> teams.</div>
+    <div class="box rebut"><h5>Rebuttal</h5>Correct, and that is the <b>stronger</b> moat here: a per-team data asset is a per-account switching cost that grows monotonically with use. The Datadog / Snowflake pattern. We claim compounding stickiness, not a viral marketplace effect, which is more defensible and easier to underwrite.</div>
+  </div>
+
+  <h3 class="subh">Layer 2 · Model-agnostic &amp; tool-agnostic positioning</h3>
+  <p>re-forge wins regardless of which model or assistant wins, because it is a layer <strong>above</strong> both. If Claude leads, it runs on Claude; if a frontier model leapfrogs, it runs on that; if a team splits across Cursor and Codex, it spans them.</p>
+  <div class="cr">
+    <div class="box counter"><h5>Honest counter</h5>The shipped product <b>today</b> runs only on Claude Code, so "agnostic" is currently roadmap, not reality.</div>
+    <div class="box rebut"><h5>Rebuttal</h5>Stated plainly: today's shipped product is the Claude Code procedure; the cross-tool monitor is roadmap. <b>But the hard part already ships.</b> The cross-tool layer is built on the concurrent-merge primitive (flock + atomic-rename) exercised by the 685-check green CI. The rest is surface integration, not new core infrastructure.</div>
+  </div>
+
+  <h3 class="subh">Layer 3 · Switching cost that compounds with use</h3>
+  <p>Layers 1 and 2 combine. A team with months of accumulated memory and a library of auto-forged, personalized skills cannot move without abandoning a custom-fitted asset that took real usage to build. The cost of leaving rises every week.</p>
+  <div class="cr">
+    <div class="box counter"><h5>Honest counter</h5>Memory could be exportable; a competitor could ship an importer to neutralize lock-in.</div>
+    <div class="box rebut"><h5>Rebuttal</h5>Raw facts export; the <b>forged skills, curated lessons, evidence trail and team-specific tuning are an integrated system</b>, not a flat file. Even a perfect fact export loses the reflection-and-curation structure that makes memory useful. The moat is the compounding <b>fit</b>, not the storage format.</div>
+  </div>
+
+  <div class="callout win">
+    <h4>The honest synthesis</h4>
+    <p>The defensibility is the interaction of all three layers plus externally validated rigor: two ICML 2026 SCALE Workshop papers, a 685-check CI, and imported peer-reviewed methods. We do not claim any single unbreachable barrier; we claim a system that is hard to replicate simultaneously while the per-team asset keeps growing.</p>
+  </div>
+
+  <div class="pg-foot"><span>re-forge.vercel.app · Akasxh &amp; Shine · <span class="conf">confidential</span></span><span class="site">page 4</span></div>
+</section>
+
+<!-- ════════════════════ PAGE 5 -PRICING + TRACTION ════════════════════ -->
+<section class="page anchor" id="pricing">
+  <div class="sec-head"><span class="idx">04</span><h2>Pricing &amp; traction</h2><span class="tag">pricing planned, not live</span></div>
+
+  <h3 class="subh">Pricing (planned)</h3>
+  <table>
+    <thead><tr><th>Tier</th><th class="num">Price</th><th>Who</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Free / OSS</strong></td><td class="num">$0</td><td>128 skills + the Claude Code operating procedure. The top of the funnel.</td></tr>
+      <tr><td><strong>Team</strong></td><td class="num">$30 / seat / mo</td><td>Shared team memory, forged skills, audit gates. The SAM unit ($360/seat/yr).</td></tr>
+      <tr><td><strong>Enterprise</strong></td><td class="num">custom</td><td>On-prem memory, SSO, audit controls for regulated buyers.</td></tr>
+    </tbody>
+  </table>
+  <p class="note">Funnel: OSS adoption to paid seats. First milestone is 1,000 to 3,000 paid seats, not an immediate leap to the $40M wedge.</p>
+
+  <h3 class="subh">Traction / proof <span class="muted">(shipped &amp; verifiable, no fabrication)</span></h3>
+  <div class="stat-grid">
+    <div class="stat"><div class="fig">Top 5<small> · 130+</small></div><div class="lbl"><b>Hackathon Demo Day.</b> Top-5 project, 130+ votes.</div></div>
+    <div class="stat win"><div class="fig">685<small> ✓</small></div><div class="lbl"><b>Machine checks, green CI</b> on every push.</div></div>
+    <div class="stat accent"><div class="fig">128<small> / 6+1</small></div><div class="lbl"><b>Skills, 6 teams + Forge</b> meta-agent.</div></div>
+    <div class="stat"><div class="fig">2<small> · ICML</small></div><div class="lbl"><b>Papers accepted,</b> SCALE Workshop, ICML 2026.</div></div>
+  </div>
+
+  <h3 class="subh">The two ICML 2026 papers <span class="muted">(the system researched itself)</span></h3>
+  <table class="compact">
+    <tbody>
+      <tr><td><strong>Compute-Aware Mixture-of-Agents</strong>: Verifier-Gated Adaptive Aggregation under a Fixed Token Budget<br/><span class="muted">Shine Gupta · S Akash</span></td><td style="width:42mm">Spend a fixed token ceiling optimally; gate aggregation through a verifier. This is the principled version of re-forge's own cost story.</td></tr>
+      <tr><td><strong>Who Hallucinates Tools, How Often, and What Fixes It?</strong><br/><span class="muted">S Akash · Shine Gupta</span></td><td>Quantifies tool hallucination and the fix (tool-registry re-prompting), now fed back into re-forge's agents.</td></tr>
+    </tbody>
+  </table>
+  <p class="note">Both runs were orchestrated by re-forge teams, then the findings merged back into the agents' own prompts. The papers are both output of the system and inputs to its next version.</p>
+
+  <div class="callout accent">
+    <h4>Why this team</h4>
+    <p>The work imports and correctly applies peer-reviewed methods rather than reinventing them, and the results are externally validated by peer review. <strong>S Akash</strong> is a EuroLLVM 2026 speaker with IIT Patna, CERN GSoC and vLLM-contributor credentials. This is a team that ships peer-reviewed systems infrastructure, which is what a defensible memory-and-quality layer requires.</p>
+  </div>
+
+  <div class="pg-foot"><span>re-forge.vercel.app · Akasxh &amp; Shine · <span class="conf">confidential</span></span><span class="site">page 5</span></div>
+</section>
+
+<!-- ════════════════════ PAGE 6 -TECHNICAL SUMMARY ════════════════════ -->
+<section class="page anchor" id="tech">
+  <div class="sec-head"><span class="idx">05</span><h2>Technical summary</h2><span class="tag ship">procedure, not a model</span></div>
+  <p class="lead">The shipped artifact is a <strong>hardened operating procedure</strong> on Claude Code's subagent primitives, distributed as markdown agent definitions plus shell installers. There is no application server. The "binary" is prompts and protocols; the 685-check harness is the test suite.</p>
+
+  <h3 class="subh">Architecture: orchestrator-worker</h3>
+  <p>A lead (research / engineering / security / testing / docs) is the single entry point. It <strong>decomposes</strong> the question into disjoint sub-questions, <strong>dispatches</strong> specialists in parallel (Anthropic's 1 / 2-4 / 10+ scaling rule), and <strong>sequences</strong> the gates. Workers never talk directly; they communicate only through <strong>evidence files on disk</strong>, which eliminates the MAST conversation-corruption failure mode. Six specialist teams (80+ agent files) plus the Forge meta-agent.</p>
+
+  <h3 class="subh">Four adversarial gates (mapped to the MAST failure taxonomy, NeurIPS 2025)</h3>
+  <table class="compact">
+    <thead><tr><th>Gate</th><th>Attacks</th><th>Why it works</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Skeptic</strong></td><td>the reasoning</td><td>Forces each conclusion to re-derive from evidence; counters anchoring.</td></tr>
+      <tr><td><strong>Adversary</strong></td><td>the sources</td><td>Treats the corpus as hostile: content farms, benchmark fraud, astroturf. Different job from the skeptic.</td></tr>
+      <tr><td><strong>Moderator</strong></td><td>contradictions</td><td>Structured 3-round debate, 5 verdict types, removing leader bias from conflict resolution.</td></tr>
+      <tr><td><strong>Evaluator</strong></td><td>the output</td><td>Scores Anthropic's 5-dimension rubric; a strict-dimension miss blocks PASS.</td></tr>
+    </tbody>
+  </table>
+  <div class="callout">
+    <h4>The proof point</h4>
+    <p>During a pilot the adversary caught a widely-starred memory project publishing a <strong>96.6% benchmark number that actually measured a vanilla ChromaDB lookup</strong>, not its advertised architecture. The skeptic alone could not catch this: the reasoning was coherent on top of a fraudulent source. That is the architectural argument for separating "attack the argument" from "attack the evidence."</p>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3 class="subh">Memory: the ACE loop</h3>
+      <p>Generator (retrospector) extracts 3-7 durable lessons at session close. Reflector applies a durability test ("would this help in 3 months on an unrelated question?"). Curator (scribe) merges into a persistent <span class="mono">MEMORY.md</span>, deduplicating via grow-and-refine. Memory is <strong>global</strong> so lessons transfer across projects; sessions are <strong>per-project</strong>.</p>
+    </div>
+    <div>
+      <h3 class="subh">The hard primitive: concurrent merge</h3>
+      <p>Many teams finish near-simultaneously wanting to append to one file. Naive append corrupts. Solution: <span class="mono">flock</span> (5s acquire) + <span class="mono">timeout --kill-after</span> (closes a lock-leak found empirically) + write-to-temp-then-atomic <span class="mono">mv</span>. Measured: <strong>10 concurrent writers, ~70ms, zero lost writes.</strong> This is the foundation the cross-tool roadmap rests on.</p>
+    </div>
+  </div>
+
+  <h3 class="subh">Evidence-as-contract &amp; Eval-Driven Development</h3>
+  <p>Every specialist writes its evidence to disk, and a worker with no file is treated as a worker that did not run (full-activation enforcement). <strong>No code is written until its quality criteria already exist on disk</strong> in <span class="mono">EXPECTED_EVALS.md</span>. An auditor runs <span class="mono">audit_evidence.py &lt;slug&gt; --strict</span> to reconstruct why a verdict was reached from files, not transcripts. The difference between "the agent says it's done" and "here is the on-disk proof."</p>
+
+  <div class="callout accent">
+    <h4>The roadmap, framed honestly</h4>
+    <p>Shipped: the Claude Code procedure, 128 skills, 685-check CI, the Demo Day result, accepted papers. <strong>Roadmap:</strong> an always-on local-first monitor across Claude Code, Cursor, Codex and ChatGPT, plus live multi-developer shared memory. Credible because the hard part (concurrency-safe merge + a working Forge pipeline) is already shipped and tested. Not yet shipped: the cross-tool ingestion surface and multi-tenant sync.</p>
+  </div>
+
+  <div class="pg-foot"><span>re-forge.vercel.app · Akasxh &amp; Shine · <span class="conf">confidential</span></span><span class="site">page 6</span></div>
+</section>
+
+<!-- ════════════════════ PAGE 7 -INVESTOR OBJECTIONS ════════════════════ -->
+<section class="page anchor" id="objections">
+  <div class="sec-head"><span class="idx">06</span><h2>Investor objections + rebuttals</h2></div>
+
+  <div class="qa"><div class="q"><span class="qn">1</span>"Isn't this a feature, not a company?"</div>
+    <div class="a">Memory looked like a feature until <b>Mem0 raised $24M and AWS named it the exclusive memory provider for its Agent SDK</b>. The market prices memory as infrastructure. re-forge is broader: it bundles memory, skill-forging and an adversarial quality system into a team-scoped layer that compounds per account. Features do not produce a per-team data asset that grows with use; platforms do.</div></div>
+
+  <div class="qa"><div class="q"><span class="qn">2</span>"What stops Cursor or Copilot from building this?"</div>
+    <div class="a">Two structural reasons. <b>Conflict of interest:</b> an agnostic layer spanning Cursor and Copilot and Codex cannot be built by any one of them, because each is incentivized to lock memory to its own surface, and a team using two assistants will not trust either walled garden. <b>Focus:</b> their roadmaps are model and editor quality; a cross-tool memory-and-audit layer is orthogonal and self-cannibalizing for them. Our neutrality is exactly what an incumbent cannot offer.</div></div>
+
+  <div class="qa"><div class="q"><span class="qn">3</span>"You are pre-revenue."</div>
+    <div class="a">Correct, stated plainly. Pricing is planned, not live. What de-risks the stage is <b>shipped, verifiable proof</b>: a top-5 Demo Day result with 130+ votes, 685-check green CI, 128 OSS skills, 6 teams + Forge, two ICML 2026 papers. The funnel is OSS to paid; first milestone 1,000 to 3,000 seats, not the $40M wedge.</div></div>
+
+  <div class="qa"><div class="q"><span class="qn">4</span>"What is your moat against Mem0, Letta and Zep?"</div>
+    <div class="a">They are horizontal, general-purpose memory primitives. re-forge is a <b>vertical, integrated layer for software teams</b> combining memory with auto-forged skills and adversarial gates, and could even run on top of a primitive like theirs. Storing facts is the commodity; forging team-specific skills, curating lessons and gating output is the differentiated product. The concurrent-merge primitive is the infrastructure the cross-tool roadmap rests on.</div></div>
+
+  <div class="qa"><div class="q"><span class="qn">5</span>"Why now? Why not two years ago or two years from now?"</div>
+    <div class="a">Two years ago, agents were not adopted enough for a layer on top to have a market. Today <b>62% of professional developers use an AI assistant</b>, multi-tool sprawl is the norm, and memory has just been funded as a category. Two years from now, per-team data assets will already be locked to whoever moved first. The window is now: agents ubiquitous but still amnesiac.</div></div>
+
+  <div class="qa"><div class="q"><span class="qn">6</span>"It only works on Claude Code today; the agnostic story is vaporware."</div>
+    <div class="a">The shipped product is the Claude Code procedure; the cross-tool monitor is roadmap, and we will not pretend otherwise. But the hardest component, the <b>file-locked concurrent-merge primitive</b> for safe parallel writes, is already built and exercised by green CI. Extending to Cursor, Codex and ChatGPT is integration on an existing foundation, not net-new core research.</div></div>
+
+  <div class="qa"><div class="q"><span class="qn">7</span>"The cross-tool monitor is your headline but isn't shipped. Selling roadmap as traction?"</div>
+    <div class="a">No, and we separate them explicitly. <b>Shipped:</b> the Claude Code procedure, 128 skills, 685-check CI, the Demo Day result, the accepted papers. <b>Roadmap:</b> the always-on cross-tool monitor and live shared team memory. We underwrite the company on the shipped product plus the OSS funnel; the monitor is upside, not the base case.</div></div>
+
+  <div class="qa"><div class="q"><span class="qn">8</span>"Why is this team the one to build it?"</div>
+    <div class="a">The work imports and correctly applies peer-reviewed methods (MAST, ACE, DebateCV, Magentic-One, Anthropic's multi-agent system) and the results are externally validated by two ICML 2026 SCALE Workshop papers. <b>S Akash</b> is a EuroLLVM 2026 speaker with IIT Patna, CERN GSoC and vLLM-contributor credentials. A team that ships peer-reviewed systems infrastructure, which is exactly what this layer requires.</div></div>
+
+  <div class="pg-foot"><span>re-forge.vercel.app · Akasxh &amp; Shine · <span class="conf">confidential</span></span><span class="site">page 7</span></div>
+</section>
+
+<!-- ════════════════════ PAGE 8 -TECHNICAL Q&A ════════════════════ -->
+<section class="page anchor" id="techq">
+  <div class="sec-head"><span class="idx">07</span><h2>Likely technical questions + answers</h2></div>
+
+  <div class="qa"><div class="q"><span class="qn">Q1</span>Scalability. Does it fall over as you add teams / agents?</div>
+    <div class="a">The orchestrator-worker topology scales horizontally: workers are stateless w.r.t. each other and communicate only through disk, so adding specialists adds breadth without <b>O(n&sup2;)</b> chatter. Cross-team parallelism is bounded only by the host's concurrency cap and the memory merge, already proven safe at 10 concurrent writers. The ceiling is the host runtime's limits, not re-forge's design.</div></div>
+
+  <div class="qa"><div class="q"><span class="qn">Q2</span>Cost / tokens. Adversarial gates sound expensive.</div>
+    <div class="a">An explicit, <b>bounded</b> cost. A toy <span class="mono">/research</span> lands a synthesis in 2-3 minutes for under 50K tokens; a full investigation is 50K-500K. The alternative is a cheap, confident, wrong answer (the fraud the adversary caught). Our Compute-Aware Mixture-of-Agents paper is literally research on spending a fixed token budget optimally. <b>Cost is a dial, not a fixed tax.</b></div></div>
+
+  <div class="qa"><div class="q"><span class="qn">Q3</span>Security of evidence files on local disk. What stops tampering?</div>
+    <div class="a">Evidence lives under the project's <span class="mono">.claude/teams/</span> and global <span class="mono">~/.claude/</span>, governed by OS permissions, the same trust boundary as the source tree. The guarantee is <b>detection, not DRM</b>: the audit script verifies every dispatched specialist has its file and that a PASS is backed by a reconciled checklist. Merges are atomic, so a concurrent writer cannot corrupt the record mid-write.</div></div>
+
+  <div class="qa"><div class="q"><span class="qn">Q4</span>How does memory avoid context bloat?</div>
+    <div class="a">Three mechanisms. (1) The reflector's <b>durability test</b> discards session trivia at generation; only 3-7 transferable lessons survive. (2) The curator <b>deduplicates</b> via grow-and-refine and marks stale entries. (3) Hook A routes long-tail overflow to topic files with reference pointers, keeping the hot <span class="mono">MEMORY.md</span> small. Memory is a curated playbook, not an append-only log.</div></div>
+
+  <div class="qa"><div class="q"><span class="qn">Q5</span>What happens on a model change?</div>
+    <div class="a">Almost nothing, by design. The procedure is markdown + shell, decoupled from weights. Agents declare a preferred model with graceful fallback to the plan's strongest available; swap the model and the contract (gates, evidence, memory merge) is identical. That is the entire point of being a procedure, not a model.</div></div>
+
+  <div class="qa"><div class="q"><span class="qn">Q6</span>Data privacy of the cross-tool monitor (roadmap).</div>
+    <div class="a">Designed <b>local-first</b>: it observes session activity on the developer's machine and the shared store is the team's own (Enterprise offers on-prem memory + SSO). Nothing requires shipping source or transcripts to a third party for the core loop. Stated honestly: this is a design commitment, not yet a shipped, audited control.</div></div>
+
+  <div class="qa"><div class="q"><span class="qn">Q7</span>Latency.</div>
+    <div class="a">Two regimes. Main-thread mode fans workers out in parallel, so wall-clock is roughly the slowest worker plus the serial gate chain (a toy question is 2-3 minutes). Subagent mode degrades to serial (correct but slower). The memory merge adds <b>~70ms even at 10 concurrent writers</b>, negligible. Latency is dominated by investigation depth, which the user controls.</div></div>
+
+  <div class="qa"><div class="q"><span class="qn">Q8</span>How are skills forged?</div>
+    <div class="a">Five stages: <b>gap</b> (diff the capability set against a taxonomy, often seeded by a recurring memory lesson), <b>scout</b> (check the MCP Registry to reuse before building), <b>draft</b> (wrap the official skill-creator / mcp-builder), <b>test</b> (smoke case), <b>promote</b> (install + attach helpful/harmful counters). Proven end-to-end: the Forge authored the <span class="mono">hn-search</span> skill in a smoke test. Forged skills are then drift-checked by the same 685-check harness.</div></div>
+
+  <div class="pg-foot"><span>re-forge.vercel.app · Akasxh &amp; Shine · <span class="conf">confidential</span></span><span class="site">page 8</span></div>
+</section>
+
+<!-- ════════════════════ PAGE 9 -DEMO TALKING POINTS + CHEAT SHEET ════════════════════ -->
+<section class="page anchor" id="demo">
+  <div class="sec-head"><span class="idx">08</span><h2>Demo talking points</h2></div>
+  <p class="lead">The demo is one story: <strong>"looks done" is not "verified."</strong> Show the gap, give credit where it is due, never cry wolf.</p>
+
+  <div class="demo-step">
+    <div class="sn">1</div>
+    <div class="sc">
+      <h4>Frame the layer, not the model</h4>
+      <p>One prompt becomes a coordinated org of specialist agents. re-forge sits above the assistant.</p>
+      <div class="say"><b>Say:</b> "This is not another copilot. It is the layer that makes whichever copilot you use remember and prove its work."</div>
+    </div>
+  </div>
+  <div class="demo-step">
+    <div class="sn">2</div>
+    <div class="sc">
+      <h4>Give the plain agent credit</h4>
+      <p>A plain agent built secure JWT auth and did a genuinely good job: sound token core (Argon2id, refresh rotation, reuse-detection, revocation) that passed all 19 of its own tests.</p>
+      <div class="say"><b>Say:</b> "Green tests, real work. We give credit where it's due. Watch what the tests missed."</div>
+    </div>
+  </div>
+  <div class="demo-step">
+    <div class="sn">3</div>
+    <div class="sc">
+      <h4>The adversary finds the hole the suite missed</h4>
+      <p>The security team audited that passing code and found broken object-level authorization (IDOR): any logged-in user could read and DELETE every other user's data. Reproduced cross-user against the running app.</p>
+      <div class="say"><b>Say:</b> "Nineteen green tests. One HIGH-severity hole they could never have caught. That gap is the product."</div>
+    </div>
+  </div>
+  <div class="demo-step">
+    <div class="sn">4</div>
+    <div class="sc">
+      <h4>It refuses to inflate</h4>
+      <p>Honest verdict: 1 HIGH + 5 MEDIUM, marked ADVISORY. The adversary refused to inflate demo-convenience findings.</p>
+      <div class="say"><b>Say:</b> "It doesn't cry wolf. An honest gate is the only one a regulated buyer will trust."</div>
+    </div>
+  </div>
+  <div class="demo-step">
+    <div class="sn">5</div>
+    <div class="sc">
+      <h4>Close on the compounding loop</h4>
+      <p>The lesson is written to memory; the next session starts smarter. Point at the green 685-check CI and the two ICML papers the system produced on itself.</p>
+      <div class="say"><b>Say:</b> "Every session makes the next one smarter. That is the asset that compounds, and the one no single model can own."</div>
+    </div>
+  </div>
+
+  <!-- CHEAT SHEET -->
+  <div class="sec-head anchor" id="cheat" style="margin-top:7mm"><span class="idx">09</span><h2>Numbers to remember</h2></div>
+  <div class="cheat">
+    <div class="ch">Memorize these · do not fumble a figure on stage</div>
+    <div class="cheat-grid">
+      <div class="cheat-row"><span class="v accent">$52.6B</span><span class="k">TAM, AI agents 2030, 46.3% CAGR (MarketsandMarkets)</span></div>
+      <div class="cheat-row"><span class="v accent">~$26B</span><span class="k">Conservative TAM, AI code tools 2030 (Grand View)</span></div>
+      <div class="cheat-row"><span class="v">~$8.1B</span><span class="k">SAM: 22.6M serviceable devs &times; $360/seat/yr</span></div>
+      <div class="cheat-row"><span class="v win">~$40M</span><span class="k">SOM, ~0.5% of seat base (multi-year ceiling)</span></div>
+      <div class="cheat-row"><span class="v">36.5M</span><span class="k">Professional developers worldwide (SlashData)</span></div>
+      <div class="cheat-row"><span class="v">62%</span><span class="k">On at least one AI assistant (JetBrains)</span></div>
+      <div class="cheat-row"><span class="v win">1k-3k</span><span class="k">First paid-seat milestone (the real near-term target)</span></div>
+      <div class="cheat-row"><span class="v">$0 / $30</span><span class="k">Free OSS / Team per seat per month; Enterprise custom</span></div>
+      <div class="cheat-row"><span class="v win">685</span><span class="k">Machine checks, green CI on every push</span></div>
+      <div class="cheat-row"><span class="v">128 / 6+1</span><span class="k">Skills / specialist teams + Forge meta-agent</span></div>
+      <div class="cheat-row"><span class="v accent">Top 5 · 130+</span><span class="k">Demo Day placement and votes</span></div>
+      <div class="cheat-row"><span class="v">2</span><span class="k">ICML 2026 SCALE Workshop papers accepted</span></div>
+      <div class="cheat-row"><span class="v win">~70ms</span><span class="k">Memory merge at 10 concurrent writers, zero lost writes</span></div>
+      <div class="cheat-row"><span class="v">&lt;50K</span><span class="k">Tokens for a toy research synthesis (2-3 min)</span></div>
+      <div class="cheat-row"><span class="v accent">$24M</span><span class="k">Mem0 raise; AWS exclusive memory provider (the comp)</span></div>
+      <div class="cheat-row"><span class="v">~$2B</span><span class="k">Cursor ARR; Copilot 20M+ users (the amnesiacs)</span></div>
+    </div>
+  </div>
+
+  <div class="pg-foot"><span>re-forge.vercel.app · Akasxh &amp; Shine · <span class="conf">confidential</span></span><span class="site">page 9</span></div>
+</section>
+
+<!-- screen-only, hidden in print -->
+<div class="screen-note">Reading on your phone. <b>Print &rarr; Save as PDF (A4)</b> for a clean multi-page take-away.</div>
+
+</body>
+</html>

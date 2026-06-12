@@ -1,0 +1,952 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>re-forge · the tech behind it · technical deep-dive</title>
+<link rel="icon" type="image/png" href="/mark-dark.png" />
+<!-- Fonts: copied verbatim from handout.html / src/styles/tokens.css -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap");
+
+/* ── Brand tokens (mirrored from src/styles/tokens.css) ─────────────────── */
+:root {
+  --paper: #f7f8fa;
+  --paper-raised: #ffffff;
+  --ink: #14161d;
+  --ink-soft: #515968;
+  --ink-faint: #8b909c;
+  --line: #e6e8ee;
+  --line-strong: #d3d7e0;
+
+  --primary: #4f46e5;
+  --primary-bright: #6d5dfc;
+  --accent: #f2a93b;
+  --danger: #ef4444;
+  --danger-soft: #b91c1c;
+  --win: #35d07f;
+  --win-soft: #1b8f55;
+
+  --panel-deep: #11121b;
+
+  --font-display: "Instrument Serif", "Times New Roman", serif;
+  --font-ui: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+/* ── Print geometry ─────────────────────────────────────────────────────── */
+@page { size: A4 portrait; margin: 14mm; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 28px;
+  background:
+    radial-gradient(120% 60% at 50% -6%, #eef0f6 0%, #e7e9f1 55%, #dfe2ec 100%);
+}
+
+/* Each .page is one A4 sheet (live area = A4 minus 14mm margins). */
+.page {
+  width: 182mm;
+  min-height: 269mm;
+  background: var(--paper);
+  color: var(--ink);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  box-shadow: 0 24px 70px -28px rgba(17, 18, 27, 0.42);
+  border-radius: 4px;
+}
+.page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(58% 34% at 100% 0%, rgba(79, 70, 229, 0.05) 0%, transparent 60%),
+    radial-gradient(52% 28% at 0% 100%, rgba(53, 208, 127, 0.045) 0%, transparent 60%);
+}
+.page-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* ── Typography helpers ─────────────────────────────────────────────────── */
+.display { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.026em; line-height: 0.99; }
+.display em { color: var(--primary); font-style: italic; }
+.mono, .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 7.4pt;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+/* ════════ HEADER (page 1 only) ════════ */
+.head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8mm;
+  align-items: start;
+  padding-bottom: 4.4mm;
+  border-bottom: 1.4px solid var(--line-strong);
+}
+.brand-row { display: flex; align-items: center; gap: 9px; margin-bottom: 6px; }
+.anvil {
+  width: 27px; height: 27px;
+  flex: none;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 5px rgba(79,70,229,0.22));
+}
+.wordmark {
+  font-family: var(--font-display);
+  font-size: 25pt;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.headline {
+  font-family: var(--font-display);
+  font-size: 24pt;
+  line-height: 1.0;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  max-width: 130mm;
+  margin-top: 1mm;
+}
+.headline em { color: var(--primary); font-style: italic; }
+.subhead {
+  font-size: 8.6pt;
+  line-height: 1.42;
+  color: var(--ink-soft);
+  max-width: 132mm;
+  margin-top: 2.6mm;
+}
+.head-tags {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3.2mm;
+}
+.head-tag {
+  font-family: var(--font-mono);
+  font-size: 6.4pt;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border: 1px solid var(--line-strong);
+  background: var(--paper-raised);
+  border-radius: 7px;
+  padding: 1.6mm 2.6mm;
+  line-height: 1.3;
+  text-align: right;
+}
+.head-tag b { color: var(--ink); }
+.head-tag.green { border-color: rgba(53,208,127,0.5); color: var(--win-soft); }
+.head-tag.green b { color: var(--win-soft); }
+
+/* ════════ BODY ════════ */
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 4.2mm;
+  gap: 4.6mm;
+  min-height: 0;
+}
+
+.sec-title {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-bottom: 2.2mm;
+}
+.sec-title h2 {
+  font-family: var(--font-display);
+  font-size: 14.5pt;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  line-height: 1;
+}
+.sec-title .idx {
+  font-family: var(--font-mono);
+  font-size: 6.6pt;
+  font-weight: 600;
+  color: var(--primary);
+  letter-spacing: 0.08em;
+}
+
+p.copy { font-size: 8.4pt; line-height: 1.46; color: var(--ink); }
+p.copy + p.copy { margin-top: 2mm; }
+p.copy strong { color: var(--ink); font-weight: 700; }
+.muted { color: var(--ink-soft); }
+em.hl { font-style: italic; color: var(--primary); }
+
+ul.tight { list-style: none; margin-top: 1.4mm; }
+ul.tight li {
+  font-size: 8.2pt;
+  line-height: 1.4;
+  color: var(--ink);
+  padding-left: 4.6mm;
+  position: relative;
+  margin-top: 1.5mm;
+}
+ul.tight li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 2.6mm;
+  width: 4.4px; height: 4.4px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+ul.tight li b { font-weight: 700; }
+ul.tight.win li::before { background: var(--win); }
+
+/* ── ARCHITECTURE diagram (inline SVG) ──────────────────────────────────── */
+.diagram {
+  border: 1px solid var(--line);
+  background: var(--paper-raised);
+  border-radius: 11px;
+  padding: 3mm 3.4mm 2.4mm;
+  margin-top: 1mm;
+}
+.diagram svg { width: 100%; height: auto; display: block; }
+.diagram .legend {
+  font-family: var(--font-mono);
+  font-size: 6.2pt;
+  color: var(--ink-soft);
+  letter-spacing: 0.02em;
+  margin-top: 1.6mm;
+  display: flex;
+  gap: 5mm;
+  flex-wrap: wrap;
+}
+.diagram .legend span { display: inline-flex; align-items: center; gap: 4px; }
+.diagram .legend i { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+
+/* ── GATES table ────────────────────────────────────────────────────────── */
+.gates {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1mm;
+}
+.gates th, .gates td {
+  text-align: left;
+  vertical-align: top;
+  padding: 2.2mm 2.6mm;
+  border-bottom: 1px solid var(--line);
+  font-size: 8pt;
+  line-height: 1.36;
+}
+.gates thead th {
+  font-family: var(--font-mono);
+  font-size: 6.4pt;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border-bottom: 1.4px solid var(--line-strong);
+}
+.gates td.gate {
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.gates td.gate .dot {
+  display: inline-block;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--primary);
+  margin-right: 5px;
+  vertical-align: 1px;
+}
+.gates td.fm {
+  font-family: var(--font-mono);
+  font-size: 6.8pt;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.gates td b { font-weight: 700; }
+
+/* ── CODE block (the merge primitive) ───────────────────────────────────── */
+.code {
+  background: var(--panel-deep);
+  border-radius: 10px;
+  padding: 3mm 3.4mm;
+  color: #d7d6ea;
+  font-family: var(--font-mono);
+  font-size: 6.7pt;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  white-space: pre;
+  overflow: hidden;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  margin-top: 1mm;
+}
+.code .c { color: #8b90b6; }
+.code .k { color: var(--primary-bright); }
+.code .s { color: var(--win); }
+.code .a { color: var(--accent); }
+
+/* ── two-column split ───────────────────────────────────────────────────── */
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 4.4mm; }
+.split.wide-left { grid-template-columns: 1.12fr 1fr; }
+
+/* ── callout / panel ────────────────────────────────────────────────────── */
+.panel {
+  border: 1px solid var(--line);
+  border-left: 2.6px solid var(--primary);
+  background: var(--paper-raised);
+  border-radius: 9px;
+  padding: 2.8mm 3.2mm;
+}
+.panel.win { border-left-color: var(--win); }
+.panel.danger { border-left-color: var(--danger); }
+.panel.accent { border-left-color: var(--accent); }
+.panel .ph {
+  font-family: var(--font-mono);
+  font-size: 6.4pt;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 1.6mm;
+}
+.panel.win .ph { color: var(--win-soft); }
+.panel.danger .ph { color: var(--danger-soft); }
+.panel.accent .ph { color: var(--accent); }
+.panel p { font-size: 8pt; line-height: 1.42; color: var(--ink); }
+.panel p b { font-weight: 700; }
+
+/* ── roadmap tag inline ─────────────────────────────────────────────────── */
+.tag {
+  font-family: var(--font-mono);
+  font-size: 6pt;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid rgba(242,169,59,0.5);
+  border-radius: 999px;
+  padding: 0.6px 6px;
+  margin-right: 5px;
+  vertical-align: 1px;
+}
+.tag.ships { color: var(--win-soft); border-color: rgba(53,208,127,0.5); }
+
+/* ── papers ─────────────────────────────────────────────────────────────── */
+.papers { display: grid; grid-template-columns: 1fr 1fr; gap: 3.6mm; margin-top: 1mm; }
+.paper {
+  border: 1px solid var(--line);
+  border-left: 2.4px solid var(--primary);
+  border-radius: 9px;
+  background: var(--paper-raised);
+  padding: 2.9mm 3.2mm;
+}
+.paper .venue {
+  font-family: var(--font-mono);
+  font-size: 6.2pt;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 1.8mm;
+}
+.paper .venue::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--win); flex: none;
+}
+.paper .ptitle {
+  font-family: var(--font-display);
+  font-size: 11pt;
+  line-height: 1.1;
+  color: var(--ink);
+  letter-spacing: -0.012em;
+}
+.paper .pauthors { font-size: 7pt; color: var(--ink-soft); margin-top: 1.4mm; font-style: italic; }
+.paper .pcontrib { font-size: 7.4pt; line-height: 1.36; color: var(--ink); margin-top: 1.8mm; }
+.paper .pcontrib b { font-weight: 700; }
+
+/* ── harness check grid ─────────────────────────────────────────────────── */
+.checks { display: grid; grid-template-columns: 1fr 1fr; gap: 2.4mm 4.4mm; margin-top: 1mm; }
+.check {
+  font-size: 7.8pt;
+  line-height: 1.34;
+  color: var(--ink);
+  padding-left: 5mm;
+  position: relative;
+}
+.check::before {
+  content: "✓";
+  position: absolute;
+  left: 0; top: 0;
+  font-family: var(--font-mono);
+  font-size: 7.4pt;
+  font-weight: 700;
+  color: var(--win-soft);
+}
+.check b { font-family: var(--font-mono); font-weight: 600; font-size: 7.2pt; }
+.check .fam { color: var(--ink); font-weight: 700; }
+
+/* ── Q&A ────────────────────────────────────────────────────────────────── */
+.qa { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm 5mm; margin-top: 1mm; }
+.qitem { break-inside: avoid; }
+.qitem .q {
+  font-size: 8.2pt;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.28;
+  display: flex;
+  gap: 5px;
+}
+.qitem .q .qn {
+  font-family: var(--font-mono);
+  font-size: 7pt;
+  font-weight: 600;
+  color: var(--primary);
+  flex: none;
+}
+.qitem .a {
+  font-size: 7.8pt;
+  line-height: 1.38;
+  color: var(--ink-soft);
+  margin-top: 1.2mm;
+}
+.qitem .a b { color: var(--ink); font-weight: 600; }
+
+/* ════════ FOOTER (each page) ════════ */
+.foot {
+  margin-top: auto;
+  padding-top: 3.4mm;
+  border-top: 1.4px solid var(--line-strong);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8mm;
+}
+.foot .fl {
+  font-family: var(--font-mono);
+  font-size: 7.2pt;
+  font-weight: 600;
+  color: var(--ink-soft);
+  letter-spacing: 0.02em;
+}
+.foot .fl b { color: var(--ink); }
+.foot .fl .conf { color: var(--ink-faint); font-weight: 500; }
+.foot .pageno {
+  font-family: var(--font-mono);
+  font-size: 7.2pt;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* ── Screen-only helper note (hidden in print) ──────────────────────────── */
+.screen-note {
+  position: fixed;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+  background: rgba(255,255,255,0.86);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 7px 16px;
+  box-shadow: 0 10px 30px -16px rgba(17,18,27,0.4);
+  backdrop-filter: blur(6px);
+  z-index: 10;
+}
+.screen-note b { color: var(--ink); }
+
+@media print {
+  html, body { background: #fff; }
+  body { display: block; padding: 0; gap: 0; background: #fff; }
+  .page {
+    width: 100%;
+    min-height: auto;
+    box-shadow: none;
+    border-radius: 0;
+    page-break-after: always;
+    break-after: page;
+  }
+  .page:last-of-type { page-break-after: auto; break-after: auto; }
+  .screen-note { display: none !important; }
+  .code, .findings { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     PAGE 1 - architecture, gates, memory
+     ══════════════════════════════════════════════════════════════════════ -->
+<main class="page">
+ <div class="page-inner" style="padding:0;">
+  <div style="flex:1; display:flex; flex-direction:column;">
+
+  <!-- HEADER -->
+  <header class="head">
+    <div>
+      <div class="brand-row">
+        <img class="anvil" src="/mark-dark.png" alt="re-forge anvil logo" />
+        <span class="wordmark">re-forge</span>
+      </div>
+      <h1 class="headline">The tech behind <em>re-forge.</em></h1>
+      <p class="subhead">
+        Not a model, not a graph runtime, not another coding assistant. re-forge is a
+        hardened <strong>operating procedure</strong> on top of Claude Code's subagent
+        primitives: a contract that forces a fleet of specialist agents to disagree, audit
+        each other's sources, write evidence to disk, and carry lessons forward across
+        sessions and projects. The binary is markdown plus shell. The test suite is a
+        685-check validation harness.
+      </p>
+    </div>
+    <div class="head-tags">
+      <div class="head-tag green"><b>685 checks</b><br/>green CI, every push</div>
+      <div class="head-tag"><b>80+ agents</b> · 128 skills<br/>6 teams + Forge</div>
+      <div class="head-tag"><b>2 papers</b><br/>ICML 2026 SCALE</div>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <!-- 01 ARCHITECTURE -->
+    <section>
+      <div class="sec-title"><span class="idx">01</span><h2>Architecture: one prompt becomes coordinated specialist teams</h2></div>
+      <p class="copy">
+        The orchestrator (<b>research-lead</b>, <b>engineering-lead</b>, ...) is the single entry
+        point. It does three things: <strong>decompose</strong> the question into disjoint
+        sub-questions, <strong>dispatch</strong> specialists in parallel (one message, multiple
+        <span class="mono">Agent()</span> calls, following Anthropic's 1 / 2-4 / 10+ workers
+        scaling rule), and <strong>sequence</strong> the verification gates. Workers never talk to
+        each other; they communicate only through evidence files on disk. That is deliberate: it
+        removes the MAST conversation-failure mode where agents corrupt each other through
+        unstructured chatter.
+      </p>
+
+      <div class="diagram">
+        <svg viewBox="0 0 700 196" role="img" aria-label="Architecture: one prompt fans out to parallel specialist workers, whose evidence is synthesized, run through four adversarial gates, then distilled into memory.">
+          <defs>
+            <marker id="ah" markerWidth="7" markerHeight="7" refX="5.5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#8b909c"/>
+            </marker>
+            <marker id="ahp" markerWidth="7" markerHeight="7" refX="5.5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#4f46e5"/>
+            </marker>
+          </defs>
+          <style>
+            .b{fill:#fff;stroke:#d3d7e0;stroke-width:1;rx:6;}
+            .bp{fill:#fff;stroke:#4f46e5;stroke-width:1.4;}
+            .bd{fill:#11121b;}
+            .t{font-family:'JetBrains Mono',monospace;font-size:9px;fill:#14161d;font-weight:600;}
+            .tc{fill:#fff;}
+            .tw{font-family:'JetBrains Mono',monospace;font-size:7.6px;fill:#515968;}
+            .lab{font-family:'JetBrains Mono',monospace;font-size:7px;fill:#8b909c;}
+            .ln{stroke:#8b909c;stroke-width:1;fill:none;}
+            .lp{stroke:#4f46e5;stroke-width:1.3;fill:none;}
+          </style>
+
+          <!-- prompt -->
+          <rect class="b bp" x="8" y="10" width="150" height="26" rx="6"/>
+          <text class="t" x="18" y="22">/research  ...</text>
+          <text class="tw" x="18" y="32">one prompt in</text>
+          <line class="lp" x1="158" y1="23" x2="186" y2="23" marker-end="url(#ahp)"/>
+
+          <!-- orchestrator -->
+          <rect class="b bp" x="190" y="6" width="150" height="34" rx="6"/>
+          <text class="t" x="200" y="20">research-lead</text>
+          <text class="tw" x="200" y="31">orchestrator · decompose</text>
+
+          <!-- fan-out label -->
+          <text class="lab" x="350" y="20">fan-out: N parallel Agent()</text>
+
+          <!-- workers row -->
+          <g>
+            <rect class="b" x="8"   y="62" width="92" height="30" rx="6"/><text class="tw" x="16" y="80">librarian</text>
+            <rect class="b" x="106" y="62" width="92" height="30" rx="6"/><text class="tw" x="114" y="80">web-miner</text>
+            <rect class="b" x="204" y="62" width="92" height="30" rx="6"/><text class="tw" x="212" y="80">github-miner</text>
+            <rect class="b" x="302" y="62" width="92" height="30" rx="6"/><text class="tw" x="310" y="80">tracer</text>
+            <rect class="b" x="400" y="62" width="92" height="30" rx="6"/><text class="tw" x="408" y="80">empiricist</text>
+            <rect class="b" x="498" y="62" width="92" height="30" rx="6"/><text class="tw" x="506" y="80">historian</text>
+            <rect class="b" x="596" y="62" width="96" height="30" rx="6"/><text class="tw" x="604" y="80">cartographer</text>
+          </g>
+          <!-- orchestrator to workers -->
+          <line class="lp" x1="265" y1="40" x2="54"  y2="62" marker-end="url(#ahp)"/>
+          <line class="lp" x1="265" y1="40" x2="152" y2="62" marker-end="url(#ahp)"/>
+          <line class="lp" x1="265" y1="40" x2="250" y2="62" marker-end="url(#ahp)"/>
+          <line class="lp" x1="265" y1="40" x2="348" y2="62" marker-end="url(#ahp)"/>
+          <line class="lp" x1="265" y1="40" x2="446" y2="62" marker-end="url(#ahp)"/>
+          <line class="lp" x1="265" y1="40" x2="544" y2="62" marker-end="url(#ahp)"/>
+          <line class="lp" x1="265" y1="40" x2="644" y2="62" marker-end="url(#ahp)"/>
+
+          <text class="lab" x="8" y="106">each writes EVIDENCE/&lt;name&gt;.md to disk</text>
+
+          <!-- synthesis -->
+          <rect class="b bp" x="8" y="114" width="150" height="30" rx="6"/>
+          <text class="t" x="18" y="127">synthesist</text>
+          <text class="tw" x="18" y="138">SYNTHESIS.md (draft)</text>
+          <line class="ln" x1="158" y1="129" x2="190" y2="129" marker-end="url(#ah)"/>
+
+          <!-- gates -->
+          <rect class="b bd" x="192" y="110" width="316" height="38" rx="6"/>
+          <text class="tc t" x="202" y="124" style="fill:#fff">ADVERSARIAL GATES</text>
+          <text class="tw" x="202" y="138" style="fill:#cfd0e4">moderator → skeptic → adversary → evaluator</text>
+          <line class="lp" x1="508" y1="129" x2="540" y2="129" marker-end="url(#ahp)"/>
+
+          <!-- memory -->
+          <rect class="b bp" x="542" y="114" width="150" height="30" rx="6"/>
+          <text class="t" x="552" y="127">retrospector + scribe</text>
+          <text class="tw" x="552" y="138">→ MEMORY.md (locked merge)</text>
+
+          <!-- memory feedback to orchestrator -->
+          <path class="lp" d="M617,114 C617,52 470,52 340,30" marker-end="url(#ahp)" stroke-dasharray="3 3"/>
+          <text class="lab" x="430" y="60">lessons become priors next run</text>
+        </svg>
+        <div class="legend">
+          <span><i style="background:var(--primary)"></i> orchestrator + gated path</span>
+          <span><i style="background:#d3d7e0"></i> stateless workers (disk-only comms)</span>
+          <span><i style="background:var(--panel-deep)"></i> verification gates</span>
+        </div>
+      </div>
+
+      <p class="copy" style="margin-top:2.6mm">
+        Two execution modes ship in every lead. <strong>Main-thread mode</strong>: the lead is the
+        top thread and spawns specialists via the Agent tool with
+        <span class="mono">run_in_background</span>. <strong>Subagent mode</strong>: when the lead is
+        itself a dispatched subagent and cannot spawn its own, it runs the specialists' protocols
+        inline, in sequence. Same procedure, degraded parallelism. This is what makes teams
+        composable. Six specialist teams plus the <strong>Forge</strong> meta-agent (a
+        gap&nbsp;→&nbsp;scout&nbsp;→&nbsp;draft&nbsp;→&nbsp;test&nbsp;→&nbsp;promote pipeline that
+        authors new skills) total 80+ agent definition files. The Forge built the
+        <span class="mono">hn-search</span> skill end-to-end in a smoke test: every session makes the
+        next smarter in <em class="hl">capability</em>, not just memory.
+      </p>
+    </section>
+
+    <!-- 02 GATES -->
+    <section>
+      <div class="sec-title"><span class="idx">02</span><h2>Adversarial verification gates</h2></div>
+      <p class="copy">
+        Most multi-agent systems fail by adding agents without adding verification: more voices,
+        same confident errors. re-forge imports the <strong>MAST failure taxonomy</strong>
+        (NeurIPS 2025, 14 failure modes) and gives each relevant mode an owner. A SYNTHESIS cannot
+        be marked high-confidence until it survives four gates in fixed order. The gates run
+        <em class="hl">after</em> synthesis with a mandate to reopen, which is the structural cure
+        for anchoring: anchoring is a single-pass disease, and this pipeline is multi-pass with an
+        adversary that never saw the synthesist's framing.
+      </p>
+      <table class="gates">
+        <thead>
+          <tr><th>Gate</th><th>Attacks</th><th>MAST</th><th>Why it works</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="gate"><span class="dot"></span>Skeptic</td>
+            <td>the reasoning</td>
+            <td class="fm">FM-3.3</td>
+            <td>Hunts unsupported leaps, overgeneralization, single-source claims dressed as consensus. Forces each conclusion to re-derive from evidence, not from the first framing.</td>
+          </tr>
+          <tr>
+            <td class="gate"><span class="dot"></span>Adversary</td>
+            <td>the sources</td>
+            <td class="fm">FM-3.3*</td>
+            <td>Treats the corpus as hostile: SEO farms, benchmark fraud, citation laundering, astroturfed stars. A different job from the skeptic: reasoning can be flawless on top of a fraudulent source.</td>
+          </tr>
+          <tr>
+            <td class="gate"><span class="dot"></span>Moderator</td>
+            <td>contradictions</td>
+            <td class="fm">FM-2.5</td>
+            <td>When two workers disagree, runs a 3-round debate with five verdict types (A_WINS, B_WINS, COMPLEMENTARITY, REFRAME, DEFER), removing leader bias from conflict resolution.</td>
+          </tr>
+          <tr>
+            <td class="gate"><span class="dot"></span>Evaluator</td>
+            <td>the output</td>
+            <td class="fm">FM-3.2</td>
+            <td>Scores a 5-dimension rubric (Anthropic's). A strict-dimension miss blocks PASS.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="panel danger" style="margin-top:2.6mm">
+        <div class="ph">Why the skeptic / adversary split is load-bearing</div>
+        <p>In the first pilot, the <b>adversary caught a widely-starred memory project</b> publishing a 96.6% LongMemEval R@5 number that, on reading the benchmark file, actually measured a vanilla ChromaDB lookup, not the advertised architecture. The skeptic alone could not have caught it: the reasoning around the number was internally coherent. Only an agent whose entire job is to read the source artifact adversarially surfaced it. That is the architectural argument for separating "attack the argument" from "attack the evidence."</p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- FOOTER page 1 -->
+  <footer class="foot">
+    <div class="fl"><b>re-forge.vercel.app</b> · Akasxh &amp; Shine <span class="conf">· confidential</span></div>
+    <div class="pageno">01 / 03</div>
+  </footer>
+  </div>
+ </div>
+</main>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     PAGE 2 - memory, evidence, agnostic, roadmap
+     ══════════════════════════════════════════════════════════════════════ -->
+<main class="page">
+ <div class="page-inner" style="padding:0;">
+  <div style="flex:1; display:flex; flex-direction:column;">
+  <div class="body" style="padding-top:0;">
+
+    <!-- 03 MEMORY -->
+    <section>
+      <div class="sec-title"><span class="idx">03</span><h2>The memory system: ACE plus a file-locked concurrent merge</h2></div>
+      <div class="split wide-left">
+        <div>
+          <p class="copy">
+            Memory follows the <strong>ACE pattern</strong> (Agentic Context Engineering, Stanford):
+            three roles, three phases.
+          </p>
+          <ul class="tight">
+            <li><b>Generator</b> (retrospector): at session close, extracts 3-7 durable lessons from evidence and verdicts.</li>
+            <li><b>Reflector</b>: applies a durability test, "would this still help in 3 months, on an unrelated question?" Session trivia is dropped; transferable patterns survive.</li>
+            <li><b>Curator</b> (scribe): merges survivors into persistent <span class="mono">MEMORY.md</span>, dedupes via grow-and-refine, marks stale entries.</li>
+          </ul>
+          <p class="copy" style="margin-top:2.4mm">
+            Memory is <strong>global</strong> (<span class="mono">~/.claude/agent-memory/&lt;agent&gt;/</span>)
+            so lessons transfer across projects, while sessions are <strong>per-project</strong> so
+            evidence stays isolated. The next lead consults its playbook <em class="hl">before
+            acting</em>: lessons become priors on the next dispatch.
+          </p>
+        </div>
+        <div class="panel">
+          <div class="ph">The hard problem</div>
+          <p>Multiple teams run in parallel and finish near-simultaneously, each appending to the same <b>MEMORY.md</b>. Naive append corrupts. The solution is a file-locked, atomic merge: the retrospector writes to <span class="mono">staging/&lt;slug&gt;.md</span>; the scribe runs the canonical merge below. Measured: <b>10 concurrent scribes, ~70ms total, zero lost writes, zero duplicates.</b></p>
+        </div>
+      </div>
+      <div class="code"><span class="k">flock</span> -w 5 -x <span class="s">"$LOCK"</span> <span class="k">timeout</span> --signal=KILL --kill-after=1 30 bash -c <span class="s">'</span>
+  <span class="k">set</span> -e
+  TMP=<span class="s">"$MEM.tmp.$$"</span>
+  [ -f <span class="s">"$MEM"</span> ] &amp;&amp; cp <span class="s">"$MEM"</span> <span class="s">"$TMP"</span> || : &gt; <span class="s">"$TMP"</span>
+  <span class="k">for</span> f <span class="k">in</span> <span class="s">"$STAGING"</span>/*.md; <span class="k">do</span>
+    cat <span class="s">"$f"</span> &gt;&gt; <span class="s">"$TMP"</span>
+    mkdir -p <span class="s">"$STAGING/_merged"</span>; mv <span class="s">"$f"</span> <span class="s">"$STAGING/_merged/"</span>
+  <span class="k">done</span>
+  mv <span class="s">"$TMP"</span> <span class="s">"$MEM"</span>          <span class="c"># atomic rename: readers never see a half-merge</span>
+<span class="s">'</span> || { <span class="k">echo</span> <span class="a">"deferred merge: staging preserved"</span> &gt;&amp;2; exit 0; }</div>
+      <ul class="tight win" style="margin-top:2.2mm">
+        <li><b>flock -w 5 -x</b>: exclusive advisory lock with a 5s acquire timeout, so writers serialize instead of racing.</li>
+        <li><b>timeout --signal=KILL --kill-after=1 30</b>: required, not decoration. A bare <span class="mono">flock -c</span> leaks the lock on child-process inheritance when the parent is killed. Found empirically.</li>
+        <li><b>temp + mv</b>: <span class="mono">mv</span> is atomic on POSIX, so a concurrent reader sees the old file or the fully-merged new one, never a torn write. On lock timeout the merge <b>defers and exits 0</b>: staging is durable, the next scribe picks it up. No lost writes, no aborted session.</li>
+      </ul>
+    </section>
+
+    <!-- 04 EVIDENCE -->
+    <section>
+      <div class="sec-title"><span class="idx">04</span><h2>Evidence-as-contract: how auditability works</h2></div>
+      <p class="copy">
+        The integrity rule: <strong>every specialist writes its evidence to disk, and only the
+        named specialist writes its file.</strong> A worker that ran but produced no
+        <span class="mono">EVIDENCE/&lt;name&gt;.md</span> is treated as a worker that did not run.
+        This "full-activation enforcement" makes shortcutting <em class="hl">detectable</em> rather
+        than silent. On top sits <strong>Eval-Driven Development</strong> (binding on every team):
+        no production code, test, or refactor is written until the criteria it must satisfy already
+        exist on disk in <span class="mono">EXPECTED_EVALS.md</span>.
+      </p>
+      <div class="split" style="margin-top:1mm">
+        <div class="panel accent">
+          <div class="ph">The EDD cycle</div>
+          <p>1. <b>Define evals first</b> (per-dimension pass conditions: correctness, security, accessibility/perf, maintainability). 2. <b>Implement against the evals</b>, which are the spec. 3. <b>Verification loop</b>: the verifier runs each check fresh, no cached output, and pastes raw results into <span class="mono">EVIDENCE/verification.md</span>. 4. <b>Gate on evidence</b>: the evaluator may not record PASS until every criterion is met or covered by a documented exception.</p>
+        </div>
+        <div class="panel win">
+          <div class="ph">The payoff: reconstruct the verdict from files</div>
+          <p>Anyone can reconstruct <b>why</b> a session reached its verdict by reading files, not transcripts:</p>
+          <p style="margin-top:1.4mm" class="mono" style="font-size:6.8pt">python3 ~/.claude/scripts/audit_evidence.py &lt;slug&gt; --gate=synthesis --strict -v</p>
+          <p style="margin-top:1.4mm">It verifies every dispatched specialist has an evidence file, that EDD artifacts are complete, and that a PASS is backed by a reconciled checklist. An unrecorded gap is a defect; a recorded exception is legitimate evidence. The difference between "the agent says it's done" and "here is the on-disk proof."</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 AGNOSTIC -->
+    <section>
+      <div class="sec-title"><span class="idx">05</span><h2>Model and tool-agnostic by design: a procedure, not a model</h2></div>
+      <p class="copy">
+        re-forge owns no model and bets on no single assistant winning. It is a layer of
+        <strong>procedure</strong> (decomposition, adversarial gating, evidence contracts,
+        accumulated memory) expressed as markdown and shell. None of that is coupled to a specific
+        model's weights. Today the procedure runs on Claude Code's primitives and agents declare
+        Opus at max effort, with graceful fallback to a plan's strongest available model. But the
+        contract is model-independent: when the underlying model changes, the procedure is
+        unchanged and only the executor swaps. That is what lets the same operating procedure span
+        Claude Code, Cursor, Codex, and ChatGPT. <strong>re-forge wins regardless of which base
+        model or assistant wins the market</strong>, because it sits <em class="hl">above</em> all
+        of them as the memory, skill, and audit layer.
+      </p>
+    </section>
+
+    <!-- 06 ROADMAP -->
+    <section>
+      <div class="sec-title"><span class="idx">06</span><h2>Cross-tool monitor and live team-memory sync <span style="font-size:8pt;color:var(--ink-faint)">(roadmap, honest)</span></h2></div>
+      <p class="copy">
+        <span class="tag">Roadmap</span>This is the product vision, not shipped traction. The
+        shipped product today is for Claude Code. Here is how the cross-tool layer works
+        technically, built strictly on primitives that already exist:
+      </p>
+      <ul class="tight">
+        <li><b>Always-on monitor across tools.</b> A lightweight, read-mostly local daemon observes session activity across Claude Code, Cursor, Codex, and ChatGPT (via session logs, extension hooks, local surfaces), detects recurring friction, and feeds the signal to the Evolution team and the Forge.</li>
+        <li><b>Forged personalized skills.</b> On a recurring gap, the Forge's gap&nbsp;→&nbsp;scout&nbsp;→&nbsp;draft&nbsp;→&nbsp;test&nbsp;→&nbsp;promote pipeline (already shipped) authors a personalized skill, driven by your actual usage.</li>
+        <li><b>Live shared team memory.</b> The same flock + timeout + atomic-rename merge that already gives safe parallel writes within Claude Code generalizes to multiple developers and tools writing into one lock-serialized store. Because the merge is already proven safe at 10 writers, the multi-developer case is an extension, not a new invention.</li>
+      </ul>
+      <div class="panel accent" style="margin-top:2.2mm">
+        <div class="ph">Honesty boundary</div>
+        <p>The cross-tool monitor and multi-developer sync are <b>roadmap</b>. They are credible because the hard part, concurrency-safe merge and a working Forge pipeline, is already shipped and tested. <b>What is not yet shipped</b> is the cross-tool ingestion surface and the multi-tenant sync service on top of it.</p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- FOOTER page 2 -->
+  <footer class="foot">
+    <div class="fl"><b>re-forge.vercel.app</b> · Akasxh &amp; Shine <span class="conf">· confidential</span></div>
+    <div class="pageno">02 / 03</div>
+  </footer>
+  </div>
+ </div>
+</main>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     PAGE 3 - papers, harness, Q&A
+     ══════════════════════════════════════════════════════════════════════ -->
+<main class="page">
+ <div class="page-inner" style="padding:0;">
+  <div style="flex:1; display:flex; flex-direction:column;">
+  <div class="body" style="padding-top:0;">
+
+    <!-- 07 PAPERS -->
+    <section>
+      <div class="sec-title"><span class="idx">07</span><h2>Two ICML 2026 SCALE Workshop papers</h2></div>
+      <p class="copy">
+        Both were accepted to the SCALE Workshop at ICML 2026, and both had their research and
+        engineering runs orchestrated <em class="hl">by re-forge teams</em>: the system used itself
+        to produce research that fed back into its own prompts. The findings,
+        <strong>verifier-gated aggregation</strong> and <strong>tool-registry re-prompting</strong>,
+        were merged into the agents' prompts and memory. The papers are both output of the system
+        and inputs to its next version.
+      </p>
+      <div class="papers">
+        <div class="paper">
+          <div class="venue">SCALE Workshop · ICML 2026</div>
+          <div class="ptitle">Compute-Aware Mixture-of-Agents: Verifier-Gated Adaptive Aggregation under a Fixed Token Budget</div>
+          <div class="pauthors">Shine Gupta · S Akash</div>
+          <div class="pcontrib">A mixture-of-agents scheme that gates aggregation through a <b>verifier</b> and adapts how much it aggregates under a <b>fixed token budget</b>, instead of aggregating many outputs linearly. The principled version of "don't run every gate at full width when the budget is tight."</div>
+        </div>
+        <div class="paper">
+          <div class="venue">SCALE Workshop · ICML 2026</div>
+          <div class="ptitle">Who Hallucinates Tools, How Often, and What Fixes It?</div>
+          <div class="pauthors">S Akash · Shine Gupta</div>
+          <div class="pcontrib">An empirical study of <b>tool hallucination</b> (inventing a tool that does not exist, or misusing one that does): how often, and what fixes it. The fix fed back as <b>tool-registry re-prompting</b>: agents are re-grounded on the actual available tool set, cutting invented-tool calls.</div>
+        </div>
+      </div>
+      <p class="copy muted" style="margin-top:2mm; font-size:7.4pt; font-style:italic">
+        Provenance: S Akash is a EuroLLVM 2026 speaker (IIT Patna), CERN GSoC, and a vLLM contributor. Paper links public at camera-ready.
+      </p>
+    </section>
+
+    <!-- 08 HARNESS -->
+    <section>
+      <div class="sec-title"><span class="idx">08</span><h2>The 685-check validation harness as rigor evidence</h2></div>
+      <p class="copy">
+        Because there is no application code, <strong>the harness is the product's test suite.</strong>
+        It proves the procedure is internally consistent, installs cleanly on a fresh machine, and
+        cannot silently rot. It runs green in CI on every push (685 checks), plus
+        <span class="mono">markdownlint</span> across every markdown file.
+      </p>
+      <div class="checks">
+        <div class="check"><span class="fam">Frontmatter.</span> Every agent/skill YAML is valid and the invariant <b>name: == dir/filename stem</b> holds across 80+ agents and 128 skills, so <span class="mono">/forge:gap</span> resolves correctly.</div>
+        <div class="check"><span class="fam">Links.</span> No dead links across repo markdown; a slower <b>external</b> job checks live URLs over the network.</div>
+        <div class="check"><span class="fam">Shell.</span> Every entry point is <span class="mono">shellcheck</span>-clean and enforces <b>set -euo pipefail</b> where required. Hooks are exempted from <span class="mono">set -e</span> (an aborting hook can kill the host session), and that exemption is itself test-enforced.</div>
+        <div class="check"><span class="fam">Catalog.</span> <span class="mono">docs/CATALOG.md</span> is generated from frontmatter and <b>drift-checked</b>: hand-edit or forget to regenerate, CI fails. The inventory cannot go stale.</div>
+        <div class="check"><span class="fam">Install smoke.</span> A <b>fresh-HOME</b> end-to-end install: <span class="mono">setup.sh</span> into a clean <span class="mono">$HOME</span>, then <span class="mono">doctor.sh</span> must exit 0. Proof that "git clone + bash setup.sh" works off the author's machine.</div>
+        <div class="check"><span class="fam">Hooks.</span> The three registered hooks (Stop, PostToolUse, SessionStart) install and behave correctly.</div>
+        <div class="check"><span class="fam">Memory-MCP.</span> The optional SQLite + FTS5 memory server boot-tests.</div>
+        <div class="check"><span class="fam">Uninstall + prose counts.</span> <span class="mono">uninstall.sh</span> removes exactly what it installed, leaving user lessons and third-party skills untouched; headline claims are kept honest against the repo.</div>
+      </div>
+    </section>
+
+    <!-- 09 Q&A -->
+    <section>
+      <div class="sec-title"><span class="idx">09</span><h2>Technical Q&amp;A: the eight hardest questions</h2></div>
+      <div class="qa">
+        <div class="qitem">
+          <div class="q"><span class="qn">Q1</span><span>Scalability: does this fall over as you add teams?</span></div>
+          <div class="a">No. Workers are stateless w.r.t. each other and talk only through disk, so adding specialists adds breadth without <b>O(n²)</b> chatter. Cross-team parallelism is bounded by the host's concurrency cap and the merge, proven safe at 10 writers. The ceiling is the host runtime, not re-forge's design.</div>
+        </div>
+        <div class="qitem">
+          <div class="q"><span class="qn">Q2</span><span>Cost: adversarial gates sound expensive.</span></div>
+          <div class="a">An explicit, bounded cost. A toy <span class="mono">/research</span> lands SYNTHESIS in 2-3 min under 50K tokens; a full investigation is 50K-500K. The alternative is a cheap, confident, wrong answer (the fraud the adversary caught). The Compute-Aware MoA paper is literally our research on spending a <b>fixed budget</b> optimally. Cost is a dial, not a fixed tax.</div>
+        </div>
+        <div class="qitem">
+          <div class="q"><span class="qn">Q3</span><span>Security of on-disk evidence: tampering?</span></div>
+          <div class="a">Evidence lives under the project tree and <span class="mono">~/.claude/</span>, governed by OS file permissions, the same trust boundary as source. The guarantee is <b>detection</b>, not DRM: the audit script fails on any missing/incomplete file or an unbacked PASS. Merges are atomic, so a concurrent writer cannot corrupt the record mid-write.</div>
+        </div>
+        <div class="qitem">
+          <div class="q"><span class="qn">Q4</span><span>How does memory avoid context bloat?</span></div>
+          <div class="a">Three mechanisms. The reflector's <b>durability test</b> drops trivia at generation (3-7 lessons/session). The curator <b>dedupes</b> via grow-and-refine and marks stale entries. <b>Hook A</b> routes long-tail overflow to topic files with pointers, keeping hot MEMORY.md small. It is a curated playbook, not an append-only log.</div>
+        </div>
+        <div class="qitem">
+          <div class="q"><span class="qn">Q5</span><span>What happens on a model change?</span></div>
+          <div class="a">Almost nothing, by design. The procedure is markdown + shell, decoupled from weights. Agents declare a preferred model with graceful fallback; swap the model and the contract (gates, evidence, merge) is identical. This is the entire point of being a procedure, not a model.</div>
+        </div>
+        <div class="qitem">
+          <div class="q"><span class="qn">Q6</span><span>Data privacy of the cross-tool monitor (roadmap)?</span></div>
+          <div class="a">Designed <b>local-first</b>: it observes session activity on the developer's machine, and the shared store is the team's own (Enterprise tier offers on-prem memory and SSO). Nothing requires shipping source or transcripts to a third party for the core loop. Stated honestly: a design commitment, not yet a shipped, audited control.</div>
+        </div>
+        <div class="qitem">
+          <div class="q"><span class="qn">Q7</span><span>Latency?</span></div>
+          <div class="a">Two regimes. Main-thread mode fans workers out in parallel, so wall-clock is roughly the slowest worker plus the serial gate chain (a toy question is 2-3 min). Subagent mode degrades to serial: correct but slower. The merge adds <b>~70ms even at 10 writers</b>. Latency is dominated by investigation depth, which the user controls via the command.</div>
+        </div>
+        <div class="qitem">
+          <div class="q"><span class="qn">Q8</span><span>How are skills forged?</span></div>
+          <div class="a">Five stages. <b>gap</b> diffs the capability set against a taxonomy (often seeded by a recurring memory lesson); <b>scout</b> checks the MCP Registry and marketplaces to reuse first; <b>draft</b> wraps the official skill-creator/mcp-builder; <b>test</b> runs a smoke case; <b>promote</b> installs it with helpful/harmful counters. Proven end-to-end on <span class="mono">hn-search</span>, then drift-checked by the same 685 harness.</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- FOOTER page 3 -->
+  <footer class="foot">
+    <div class="fl"><b>re-forge.vercel.app</b> · Akasxh &amp; Shine <span class="conf">· confidential</span></div>
+    <div class="pageno">03 / 03</div>
+  </footer>
+  </div>
+ </div>
+</main>
+
+<!-- screen-only, hidden in print -->
+<div class="screen-note">Viewing on screen. <b>Print → Save as PDF (A4)</b> for the technical take-away.</div>
+
+</body>
+</html>
