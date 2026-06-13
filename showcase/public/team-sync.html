@@ -451,8 +451,9 @@ function run(){
     $('stat').classList.add('show');
   });
   at(46400, ()=> $('sceneNo').textContent='05 · the payoff');
-  if(!REC) at(52000, ()=> $('replay').classList.add('show'));
-  at(53000, ()=> running=false);
+  // booth loop: hold the payoff, then replay forever (standalone view only;
+  // the recorder runs in REC mode and captures a single clean pass).
+  if(!REC) at(54000, run);
 }
 
 window.run = run; window.resetAll = resetAll;
