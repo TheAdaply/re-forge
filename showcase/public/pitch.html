@@ -2243,6 +2243,9 @@ html, body {
           <p style="font-family:var(--font-mono);font-size:12.5px;color:var(--panel-muted);line-height:1.5;margin-top:2px;">
             <span style="color:#b7f0cf;">✓ ships today:</span> the concurrent file-locked memory merge (flock + atomic-rename, zero lost writes). <span style="color:var(--accent);">roadmap:</span> the cross-user LIVE sync.
           </p>
+          <div style="align-self:flex-start;margin-top:4px;font-family:var(--font-ui);font-size:13px;line-height:1.46;color:#d7d9ef;border:1px solid rgba(53,208,127,0.4);background:rgba(53,208,127,0.06);border-radius:10px;padding:9px 13px;max-width:44ch;">
+            <b style="color:#b7f0cf;">Measured · a real 2-dev parallel merge:</b> the shared spec reconciled both contracts before code, turning <b style="color:#ff9a9a;">13 conflict hunks</b> across 4 files into <b style="color:#b7f0cf;">0</b>. <b>~25&ndash;45 min</b> of rebase-and-debug saved per overlapping feature pair <span style="opacity:0.62;">· modeled</span>. <a href="/team-sync.html" style="color:var(--primary-bright);text-decoration:none;font-weight:600;">watch the demo &#8599;</a>
+          </div>
         </div>
 
         <!-- right: the SAME live-team-memory panel markup as product.html -->
@@ -2373,14 +2376,14 @@ html, body {
             </div>
             <div class="mkt-row">
               <span class="sw sam"></span>
-              <div class="mt"><span class="lab">SAM · <span class="big">~$8.1B</span></span><br>~22.6M AI-agent developers reachable at the planned seat price.</div>
+              <div class="mt"><span class="lab">SAM · <span class="big">~$8.1B</span></span><br>~22.6M AI-agent developers reachable at a typical AI-tool seat price.</div>
             </div>
             <div class="mkt-row">
               <span class="sw som"></span>
               <div class="mt"><span class="lab">SOM · <span class="big">~$40M</span> ARR</span><br>~0.5% of that base (~110K paid seats). Entry wedge is far smaller: the first 1K to 3K paid seats.</div>
             </div>
             <div class="mkt-seatmath">
-              <b>Bottom-up SAM:</b> 36.5M pro developers × 62% on an AI coding agent = ~22.6M, × $360 / seat / yr = <b>~$8.1B</b>.
+              <b>Bottom-up SAM:</b> 36.5M pro developers × 62% on an AI coding agent = ~22.6M, × ~$360 / seat / yr <span style="opacity:0.7;">(assumed industry benchmark)</span> = <b>~$8.1B</b>.
             </div>
             <div class="mkt-srcline">
               <span class="sl-lab">sources</span>
@@ -2397,18 +2400,18 @@ html, body {
     </section>
 
     <!-- ═══════════════ SLIDE 15 - MONETIZATION · per-seat pricing ═══════════════ -->
-    <section class="slide paper" id="s15" data-title="Monetization · per-seat pricing" aria-label="Slide 15 of 17: Monetization · per-seat pricing">
+    <section class="slide paper" id="s15" data-title="Monetization · open-core + enterprise" aria-label="Slide 15 of 17: Monetization · open-core, configured per team">
       <span class="kicker">15 · monetization</span>
       <div class="stack" style="flex:1;min-height:0;justify-content:center;">
-        <div class="eyebrow" style="margin-bottom:6px;"><span class="tick"></span>monetization · per-seat
-          <span class="note" style="margin-left:6px;border-style:solid;"><b>planned pricing</b> · pre-revenue</span>
+        <div class="eyebrow" style="margin-bottom:6px;"><span class="tick"></span>monetization · open-core + enterprise
+          <span class="note" style="margin-left:6px;border-style:solid;"><b>planned</b> · pre-revenue</span>
         </div>
-        <h2 class="display" style="font-size:42px;margin-bottom:18px;">Open-core, priced <em>per seat.</em></h2>
+        <h2 class="display" style="font-size:42px;margin-bottom:18px;">Open-core. Enterprise, <em>configured per team.</em></h2>
         <div class="price-grid">
 
           <div class="price-card">
             <div class="ptier"><span class="pd"></span>Free · OSS</div>
-            <div class="pprice">$0</div>
+            <div class="pprice">Free</div>
             <div class="pwho">Individual devs, self-hosters, bottom-up inside teams. The adoption wedge.</div>
             <ul>
               <li><span class="pb"></span><div>Open-source operating + <b>memory + skill</b> layer.</div></li>
@@ -2420,19 +2423,19 @@ html, body {
           <div class="price-card feature">
             <div class="price-flag">where we monetize</div>
             <div class="ptier"><span class="pd"></span>Team</div>
-            <div class="pprice">$30 <span class="pu">/ seat / month</span></div>
-            <div class="pwho">Eng teams standardizing AI agents across tools.</div>
+            <div class="pprice">Configured <span class="pu">per team</span></div>
+            <div class="pwho">Eng teams standardizing AI agents across tools. Priced to the value we meter, not a public seat tag.</div>
             <ul>
               <li><span class="pb"></span><div><b>Shared team memory</b> + cross-session skill forging across the team.</div></li>
-              <li><span class="pb"></span><div>Sync across tools, role-based access.</div></li>
-              <li><span class="pb"></span><div>Usage analytics.</div></li>
+              <li><span class="pb"></span><div><b>Spec-sync</b>: reconciles parallel work before it becomes a merge conflict.</div></li>
+              <li><span class="pb"></span><div>Sync across tools, role-based access, usage analytics.</div></li>
             </ul>
-            <div class="punit">the SAM unit · <b>$360 / seat / yr</b></div>
+            <div class="punit">value-based · <b>we configure it with you</b></div>
           </div>
 
           <div class="price-card">
             <div class="ptier"><span class="pd"></span>Enterprise</div>
-            <div class="pprice">Custom</div>
+            <div class="pprice">Configured</div>
             <div class="pwho">Large orgs with security, compliance, and on-prem needs.</div>
             <ul>
               <li><span class="pb"></span><div><b>SSO / SAML</b>, full audit trail of agent activity.</div></li>
@@ -2442,7 +2445,7 @@ html, body {
           </div>
 
         </div>
-        <div class="price-land">Land with <b>one developer's free layer</b>, expand to the <b>team's shared brain</b>, then the <b>enterprise audit trail.</b></div>
+        <div class="price-land">Land with <b>one developer's free layer</b>, expand to the <b>team's shared brain</b>, then the <b>enterprise audit trail</b> &mdash; pricing <b>configured to each team</b>, never a public tag.</div>
       </div>
       <div class="wm"><img class="wmk" src="/mark-dark.png" alt="" /> re-forge.vercel.app</div>
     </section>
