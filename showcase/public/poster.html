@@ -474,14 +474,14 @@ body {
 <script>
   /* ════════════════════════════════════════════════════════════════════════
      WAITLIST_URL - single source of truth for the booth CTA + QR.
-     Swap this to the real signup link when it ships; today it points at the
-     live site and uses /qr/site.svg (which already encodes re-forge.vercel.app).
+     Points at the live Tally signup form; /qr/waitlist.svg encodes the same
+     URL (decode-verified). Keep URL, label and QR asset in sync if it moves.
      ════════════════════════════════════════════════════════════════════════ */
-  const WAITLIST_URL = "https://re-forge.vercel.app";
-  const WAITLIST_LABEL = "re-forge.vercel.app";
+  const WAITLIST_URL = "https://tally.so/r/lb4Rkp";
+  const WAITLIST_LABEL = "tally.so/r/lb4Rkp";
   // QR asset paired with WAITLIST_URL. Replace with a freshly-generated SVG
   // if WAITLIST_URL ever changes to a different destination.
-  const WAITLIST_QR = "/qr/site.svg";
+  const WAITLIST_QR = "/qr/waitlist.svg";
 </script>
 
 <div class="artboard">
@@ -642,10 +642,10 @@ body {
         <div class="copy">
           <span class="lab">Get early access</span>
           <h3>Join the waitlist</h3>
-          <span class="link"><span class="arrow">→</span><span id="cta-link">re-forge.vercel.app</span></span>
+          <span class="link"><span class="arrow">→</span><span id="cta-link">tally.so/r/lb4Rkp</span></span>
         </div>
         <div class="qr-box">
-          <img id="cta-qr" src="/qr/site.svg" alt="QR code to join the re-forge waitlist" />
+          <img id="cta-qr" src="/qr/waitlist.svg" alt="QR code to join the re-forge waitlist" />
         </div>
       </div>
     </footer>

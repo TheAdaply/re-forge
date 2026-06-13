@@ -37,8 +37,8 @@
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* ── loop timing ──  6 panels × 6s = 36s  */
-  --loop: 36s;
+  /* ── loop timing ──  7 panels × 6s = 42s  */
+  --loop: 42s;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -106,24 +106,25 @@ html, body {
   animation: panelCycle var(--loop) infinite var(--ease-out);
 }
 /* stagger each panel by 6s so exactly one is visible at a time */
-.panel.p1 { animation-delay: calc(var(--loop) / -6 * 0); }
-.panel.p2 { animation-delay: calc(var(--loop) / -6 * -1); }
-.panel.p3 { animation-delay: calc(var(--loop) / -6 * -2); }
-.panel.p4 { animation-delay: calc(var(--loop) / -6 * -3); }
-.panel.p5 { animation-delay: calc(var(--loop) / -6 * -4); }
-.panel.p6 { animation-delay: calc(var(--loop) / -6 * -5); }
+.panel.p1 { animation-delay: calc(var(--loop) / -7 * 0); }
+.panel.p2 { animation-delay: calc(var(--loop) / -7 * -1); }
+.panel.p3 { animation-delay: calc(var(--loop) / -7 * -2); }
+.panel.p4 { animation-delay: calc(var(--loop) / -7 * -3); }
+.panel.p5 { animation-delay: calc(var(--loop) / -7 * -4); }
+.panel.p6 { animation-delay: calc(var(--loop) / -7 * -5); }
+.panel.p7 { animation-delay: calc(var(--loop) / -7 * -6); }
 
 /*
-  one 6s slot inside a 36s loop = 16.667%.
+  one 6s slot inside a 42s loop = 14.286%.
   visible ~5s with a ~0.9s crossfade in and out.
-  0%   in-start   →  5%  full-in
-  ~14% hold       →  16.667% slot end (start fading) → 17.6% fully out, then hidden.
+  0%   in-start   →  2.2%  full-in
+  ~12% hold       →  14.286% slot end (start fading), then hidden.
 */
 @keyframes panelCycle {
   0%      { opacity: 0; transform: scale(0.965); }
-  2.6%    { opacity: 1; transform: scale(1); }
-  14.0%   { opacity: 1; transform: scale(1); }
-  16.667% { opacity: 0; transform: scale(1.03); }
+  2.2%    { opacity: 1; transform: scale(1); }
+  12.0%   { opacity: 1; transform: scale(1); }
+  14.286% { opacity: 0; transform: scale(1.03); }
   100%    { opacity: 0; transform: scale(0.965); }
 }
 
@@ -356,7 +357,8 @@ html, body {
   flex-wrap: wrap;
   justify-content: center;
 }
-.scanwrap .copy { text-align: left; max-width: 16ch; }
+.scanwrap .copy { text-align: left; max-width: 30ch; }
+.links a, .links span { white-space: nowrap; }
 .scanwrap .copy .headline { text-align: left; }
 .qr-big {
   flex: none;
@@ -369,6 +371,45 @@ html, body {
   display: block;
   width: clamp(220px, 30vw, 420px);
   height: clamp(220px, 30vw, 420px);
+}
+.qr-big .qr-cap {
+  margin-top: clamp(10px, 1.4vh, 20px);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(15px, 1.7vw, 30px);
+  letter-spacing: -0.01em;
+  color: #11121b;
+}
+
+/* ───────────────────────── panel 6: teams share one brain ───────────────────────── */
+.brain {
+  margin-top: clamp(18px, 2.8vh, 40px);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: clamp(16px, 2vw, 36px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--win);
+  padding: clamp(10px, 1.4vh, 18px) clamp(18px, 2.2vw, 34px);
+  border: 1px solid rgba(53, 208, 127, 0.45);
+  border-radius: var(--r-pill);
+  background: rgba(53, 208, 127, 0.08);
+}
+.team-join {
+  margin-top: clamp(12px, 1.8vh, 24px);
+  font-family: var(--font-mono);
+  font-size: clamp(16px, 2vw, 34px);
+  color: var(--panel-line);
+  letter-spacing: 0.6em;
+}
+.team-note {
+  margin-top: clamp(16px, 2.4vh, 32px);
+  font-family: var(--font-mono);
+  font-size: clamp(11px, 1.2vw, 18px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--panel-muted);
 }
 .links {
   margin-top: clamp(22px, 3.2vh, 44px);
@@ -483,16 +524,17 @@ html, body {
   transform: scaleX(0);
   animation: fillBar var(--loop) linear infinite;
 }
-#progress i:nth-child(1) span { animation-delay: calc(var(--loop) / -6 * 0); }
-#progress i:nth-child(2) span { animation-delay: calc(var(--loop) / -6 * -1); }
-#progress i:nth-child(3) span { animation-delay: calc(var(--loop) / -6 * -2); }
-#progress i:nth-child(4) span { animation-delay: calc(var(--loop) / -6 * -3); }
-#progress i:nth-child(5) span { animation-delay: calc(var(--loop) / -6 * -4); }
-#progress i:nth-child(6) span { animation-delay: calc(var(--loop) / -6 * -5); }
+#progress i:nth-child(1) span { animation-delay: calc(var(--loop) / -7 * 0); }
+#progress i:nth-child(2) span { animation-delay: calc(var(--loop) / -7 * -1); }
+#progress i:nth-child(3) span { animation-delay: calc(var(--loop) / -7 * -2); }
+#progress i:nth-child(4) span { animation-delay: calc(var(--loop) / -7 * -3); }
+#progress i:nth-child(5) span { animation-delay: calc(var(--loop) / -7 * -4); }
+#progress i:nth-child(6) span { animation-delay: calc(var(--loop) / -7 * -5); }
+#progress i:nth-child(7) span { animation-delay: calc(var(--loop) / -7 * -6); }
 @keyframes fillBar {
   0%      { transform: scaleX(0); }
-  16.667% { transform: scaleX(1); }
-  16.668% { transform: scaleX(0); }
+  14.286% { transform: scaleX(1); }
+  14.287% { transform: scaleX(0); }
   100%    { transform: scaleX(0); }
 }
 
@@ -501,9 +543,9 @@ html, body {
   .panel { transform: none !important; }
   @keyframes panelCycle {
     0%      { opacity: 0; }
-    2.6%    { opacity: 1; }
-    14.0%   { opacity: 1; }
-    16.667% { opacity: 0; }
+    2.2%    { opacity: 1; }
+    12.0%   { opacity: 1; }
+    14.286% { opacity: 0; }
     100%    { opacity: 0; }
   }
   .swarm .pulse, .swarm .pulse.adv { animation: none; opacity: 0.9; }
@@ -521,7 +563,7 @@ html, body {
 
     <!-- progress rhythm -->
     <div id="progress" aria-hidden="true">
-      <i><span></span></i><i><span></span></i><i><span></span></i>
+      <i><span></span></i><i><span></span></i><i><span></span></i><i><span></span></i>
       <i><span></span></i><i><span></span></i><i><span></span></i>
     </div>
 
@@ -621,15 +663,32 @@ html, body {
         <div class="loopnote">watch → forge → remember → repeat</div>
       </section>
 
-      <!-- ── PANEL 6: scan ── -->
+      <!-- ── PANEL 6: teams share one brain ── -->
       <section class="panel p6">
+        <div class="eyebrow">For teams</div>
+        <h1 class="headline" style="font-size:clamp(42px,7vw,136px)">Every teammate.<br><em>One brain.</em></h1>
+        <div class="tools" aria-hidden="true">
+          <span class="tool">Alice's agent</span>
+          <span class="tool">Bob's agent</span>
+          <span class="tool">your CI agent</span>
+        </div>
+        <div class="team-join" aria-hidden="true">⌄&#xFE0E;</div>
+        <div class="brain">one shared memory</div>
+        <p class="sub">A lesson learned in one session is known in <strong>everyone's next one</strong> — skills forged once, shared by all.</p>
+        <div class="team-note">merge measured: 10 concurrent writers · zero lost writes</div>
+      </section>
+
+      <!-- ── PANEL 7: scan → waitlist ── -->
+      <section class="panel p7">
         <div class="scanwrap">
           <div class="qr-big">
-            <img src="/qr/site.svg" alt="QR code to re-forge.vercel.app" />
+            <img src="/qr/waitlist.svg" alt="QR code to join the re-forge waitlist" />
+            <div class="qr-cap">tally.so/r/lb4Rkp</div>
           </div>
           <div class="copy">
-            <h1 class="headline" style="font-size:clamp(44px,7.4vw,150px)">Scan to <em>try it.</em></h1>
+            <h1 class="headline" style="font-size:clamp(44px,7.4vw,150px)">Join the <em>waitlist.</em></h1>
             <div class="links">
+              <a href="https://tally.so/r/lb4Rkp">tally.so/r/lb4Rkp</a>
               <a href="https://re-forge.vercel.app">re-forge.vercel.app</a>
               <span class="repo">github.com/Akasxh/re-forge</span>
             </div>
@@ -647,8 +706,8 @@ html, body {
 
     <!-- persistent scan chip (bottom-right), available on every panel -->
     <div class="chrome scanchip" aria-hidden="true">
-      <div class="qr"><img src="/qr/site.svg" alt="QR code to re-forge.vercel.app" /></div>
-      <div class="cap">re-forge.vercel.app</div>
+      <div class="qr"><img src="/qr/waitlist.svg" alt="QR code to join the re-forge waitlist" /></div>
+      <div class="cap">Join the waitlist</div>
     </div>
 
   </main>

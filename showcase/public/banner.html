@@ -214,6 +214,18 @@ body {
   box-shadow: 0 2cqh 7cqh -2cqh rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.1);
 }
 .qr-box svg, .qr-box img { width: 100%; height: 100%; display: block; }
+/* duo: site + waitlist side by side, each slightly smaller than the solo box */
+.qr-row { display: flex; gap: 5cqw; align-items: flex-start; }
+.qr-unit { display: flex; flex-direction: column; align-items: center; gap: 0.9cqh; }
+.qr-unit .qr-box { width: 24cqw; height: 24cqw; border-radius: 3cqw; padding: 2cqw; }
+.qr-cap {
+  font-family: var(--font-mono);
+  font-size: 2.9cqw;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--panel-muted);
+}
 .scan {
   font-family: var(--font-mono);
   font-size: 3.1cqw;
@@ -401,10 +413,21 @@ body {
 
     <!-- BOTTOM -->
     <div class="foot">
-      <div class="scan">Scan to try it</div>
-      <div class="qr-box">
-        <!-- vector QR so it stays crisp at large format -->
-        <img src="/qr/site.svg" alt="QR code to re-forge.vercel.app" />
+      <div class="scan">Scan to get started</div>
+      <div class="qr-row">
+        <div class="qr-unit">
+          <div class="qr-box">
+            <!-- vector QR so it stays crisp at large format -->
+            <img src="/qr/site.svg" alt="QR code to re-forge.vercel.app" />
+          </div>
+          <div class="qr-cap">try it</div>
+        </div>
+        <div class="qr-unit">
+          <div class="qr-box">
+            <img src="/qr/waitlist.svg" alt="QR code to join the re-forge waitlist" />
+          </div>
+          <div class="qr-cap">waitlist</div>
+        </div>
       </div>
       <div>
         <div class="url">re-forge.vercel.app</div>
