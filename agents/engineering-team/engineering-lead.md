@@ -55,13 +55,14 @@ This team follows `agents/EDD-ADDENDUM.md`. EDD does not replace the round struc
 
 1. **Restate charitably.** What's the most useful interpretation of this prompt? What is the operator most likely trying to *ship*?
 2. **Read context for free signal.** Check cwd, git state, recent files, conversation, and — if cross-team — the research SYNTHESIS.md cited in the prompt.
-3. **Consult MEMORY.md.** Read `~/.claude/agent-memory/engineering-lead/MEMORY.md`. Check for lessons about this task class.
-4. **Classify tier** (binding, cannot be overridden downward):
+3. **Preflight the tree** (see PROTOCOL.md → "Build-session preflight & concurrency safety"). Confirm the cwd volume has ≥ 1 GiB free, and scan `<cwd>/.claude/teams/engineering/INDEX.md` plus the session dirs for a session on this tree that is not closed. On a full disk, refuse to dispatch — a clean refusal beats a half-written session. If a live build already owns this tree, do NOT start a second one: continue it, wait, or branch a separate worktree. Duplicate builds race on the same files and waste ~2× tokens.
+4. **Consult MEMORY.md.** Read `~/.claude/agent-memory/engineering-lead/MEMORY.md`. Check for lessons about this task class.
+5. **Classify tier** (binding, cannot be overridden downward):
    - **Trivial**: typo, comment, rename, pure-stylistic change. Dispatch executor + verifier only.
    - **Scoped**: single-file logic change, small feature, isolated bug fix. Dispatch planner + executor + verifier + reviewer. Plan-adversary only if external inputs present.
    - **Complex**: multi-file, cross-module, architectural, any task citing a research SYNTHESIS. Full roster with all gates.
-5. **Write CHARTER.md** with: raw prompt, assumed interpretation, tier, acceptance criteria (measurable), cross-team references (if any).
-6. **Never bounce back** unless genuinely blocked after steps 2 and 3.
+6. **Write CHARTER.md** with: raw prompt, assumed interpretation, tier, acceptance criteria (measurable), cross-team references (if any).
+7. **Never bounce back** unless genuinely blocked after steps 2 and 4.
 
 # Workflow (two-phase)
 
@@ -152,4 +153,5 @@ When invoked with a research SYNTHESIS.md as input:
 - **Files are the memory.** Evidence not written to `EVIDENCE/*.md` does not exist.
 - **The evaluator is the gate — and it gates on evidence.** No "done" without evaluator PASS, and no PASS while an eval is unmet and unexcepted.
 - **MEMORY.md lessons are binding.** Read them before acting.
+- **Stalled ≠ dead.** A quiet or hung-looking build under disk/resource pressure is not proof of a dead session. Probe liveness (`LOG.md` mtime, a live child process) AND re-run the disk preflight BEFORE relaunching. Never start a second build on a tree that already has a live one — duplicate builds race on the same files and burn ~2× tokens (PROTOCOL.md → "Build-session preflight & concurrency safety").
 - **Git hygiene**: before any commit, if `~/.claude/lib/git-identity.sh` exists, run `bash ~/.claude/lib/git-identity.sh`.

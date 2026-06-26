@@ -81,6 +81,63 @@ ways to run this team:
    files. The protocol's gates still hold; they are procedural, not
    tool-dependent.
 
+## Build-session preflight & concurrency safety (v1.2)
+
+Two cheap pre-build checks, added after a session where an `ENOSPC`
+(disk-full) stalled a build, the stall was misread as a *dead* workflow, and a
+DUPLICATE build was launched on the same tree — roughly doubling token spend
+and forcing one executor to *verify rather than author* bytes the other had
+already written.
+
+### Disk preflight (before CHARTER.md)
+
+A build streams evidence, diffs, logs, and often a test sandbox to disk. On a
+full volume those writes fail *mid-iteration*, so the session looks hung rather
+than erroring cleanly. The lead checks free space first and refuses to dispatch
+onto a full disk:
+
+```bash
+# FAIL preflight if the cwd volume has < 1 GiB free (portable: macOS + Linux).
+avail=$(df -Pk . | awk 'NR==2 {print $4}')   # KiB available
+[ "${avail:-0}" -ge 1048576 ] || {
+  echo "PREFLIGHT FAIL: < 1 GiB free on this volume — free space before dispatching a build"
+  exit 1
+}
+```
+
+Record the verdict in `LOG.md`. A clean refusal is cheaper than a half-written
+session that has to be diagnosed after the fact.
+
+### Single writer per tree (no duplicate concurrent builds)
+
+The memory-segregation protocol below stops two scribes racing on `MEMORY.md`;
+this rule stops two *builds* racing on the same source tree. Two executors
+editing the same files interleave diffs, and the loser is reduced to verifying
+bytes it did not author — pure waste.
+
+- **Claim the tree at Round 0.** Before writing CHARTER.md, scan
+  `<cwd>/.claude/teams/engineering/INDEX.md` and the session dirs for a session
+  that is not closed. The newest session `LOG.md` mtime is the liveness signal.
+- **One active build per tree.** If a live session already owns this tree, do
+  not start a second one — continue it, wait, or branch a separate worktree.
+  Never fork a parallel build over the same files.
+
+### Stalled ≠ dead — probe before relaunching
+
+A long-quiet session is not a dead session. The usual cause of apparent death
+is **back-pressure, not failure** — a full disk, a blocked write, a slow test,
+a rate-limit pause — and **disk pressure in particular makes a healthy build
+look hung.** Before declaring a session dead and relaunching:
+
+1. **Probe liveness.** Has `LOG.md` / `VERIFY_LOG.md` mtime advanced in the last
+   few minutes? Is a child process (test, build, install) still running?
+2. **Check the cheap killer first.** Re-run the disk preflight. If the disk is
+   full, the fix is to *free space and let the existing session resume*, not to
+   launch a second build onto the same full disk.
+3. **Relaunch only on an affirmative death signal** — process gone AND no mtime
+   advance AND a recorded fatal error. Relaunch-on-suspicion duplicates work
+   (MAST FM-1.3, step repetition); it is the expensive default, not the safe one.
+
 ## Tier classification (binding)
 
 Every task is classified before work begins. Classification cannot be

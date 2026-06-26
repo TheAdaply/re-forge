@@ -36,3 +36,4 @@ You are invoking the Engineering Team (v1 protocol, 12 specialists).
 - Reviewer is read-only (disallowedTools: Write, Edit)
 - 3-failure circuit breaker on debugger → escalate to architect
 - DIFF_LOG.md and VERIFY_LOG.md are append-only
+- Preflight before dispatch: ≥ 1 GiB free disk, and no live engineering session already owns this tree. A build that looks hung under disk pressure is not necessarily dead — probe liveness and free space before relaunching; never fork a duplicate build over the same files
