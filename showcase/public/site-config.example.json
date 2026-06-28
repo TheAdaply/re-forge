@@ -1,0 +1,5 @@
+{
+  "_comment": "TEMPLATE — copy to site-config.json and fill real values at DEPLOY (no rebuild: this file is fetched at runtime, not bundled). BOTH values are NON-SECRET and safe in public client code. SUPABASE_URL = Supabase Dashboard -> Project Settings -> API -> Project URL. SUPABASE_ANON_KEY = the PUBLIC 'anon' key on that same page (a JWT starting with eyJ...). NEVER put the service-role key, a database connection string, or the master encryption key here — RLS + the org-scoped policies protect data, not key secrecy. getSupabase() throws a clear error while these dummy placeholders are present.",
+  "SUPABASE_URL": "https://YOUR_PROJECT_REF.supabase.co",
+  "SUPABASE_ANON_KEY": "REPLACE_WITH_PUBLIC_ANON_KEY"
+}

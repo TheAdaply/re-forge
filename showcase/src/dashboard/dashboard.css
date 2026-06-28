@@ -1,0 +1,159 @@
+/* ============================================================================
+   Page-local styles for /dashboard/ — layered on the shared design system
+   (reforge.css). Ported from the FastAPI dashboard's demo.html + overview.html
+   so the customer dashboard reuses the proven visual language (cluster map,
+   procedure cards, sample watermark) verbatim, plus the new WORK STATUS,
+   STUCK and DEADLINES sections. Brand vars only — no re-skin.
+   ========================================================================== */
+
+/* ---------- honesty badge: the sample watermark (ported from demo.html) -----
+   A persistent, unmissable banner so a screenshot can never be mistaken for
+   live org data. Shown by default in the static HTML; only a successful load
+   of a source:"live" file removes it (honest by construction). */
+.sample-bar {
+  position: sticky; top: 64px; z-index: 20;
+  background: var(--accent-tint); border-bottom: 1px solid #ECD3A0;
+}
+.sample-bar .in {
+  max-width: var(--maxw); margin: 0 auto; padding: 9px 32px;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.sample-bar .tag {
+  font-family: var(--font-mono); font-weight: 700; font-size: 10.5px;
+  letter-spacing: .14em; text-transform: uppercase; color: #9a6a14;
+}
+.sample-bar .txt { font-size: 13px; color: #7a5a14; }
+.sample-bar .cta { margin-left: auto; }
+
+.cta-btn {
+  font-family: var(--font-ui); font-weight: 600; font-size: 13px; padding: 8px 16px;
+  border-radius: var(--r-pill); cursor: pointer; text-decoration: none; background: var(--primary);
+  border: 1px solid var(--primary); color: #fff; box-shadow: 0 2px 10px -2px rgba(79,70,229,.5);
+  transition: background .15s var(--ease); white-space: nowrap; display: inline-block;
+}
+.cta-btn:hover { background: var(--primary-bright); }
+
+/* masthead state pill — sample (amber) vs live (green-win, server-confirmed) */
+.masthead .src-pill {
+  font-family: var(--font-mono); font-weight: 700; font-size: 10px;
+  letter-spacing: .12em; text-transform: uppercase; padding: 5px 11px;
+  border-radius: var(--r-pill); white-space: nowrap;
+}
+.masthead .src-pill.sample { color: #9a6a14; background: var(--accent-tint); border: 1px solid #ECD3A0; }
+.masthead .src-pill.live   { color: var(--win); background: var(--win-tint); border: 1px solid #BFE7CF; }
+
+/* ---------- (a) CLUSTERS — the t-SNE map (ported from demo.html) ------------ */
+.map-wrap { display: grid; grid-template-columns: 1.4fr .8fr; gap: 26px; align-items: stretch; }
+.map-svg { width: 100%; height: auto; aspect-ratio: 1 / .72; display: block; }
+.map-svg .dot { transition: r .2s var(--ease); }
+.map-svg text { font-family: var(--font-mono); font-size: 2.5px; letter-spacing: .04em; fill: #fff; }
+.legend { display: flex; flex-direction: column; gap: 9px; align-content: start; }
+.legend .row {
+  display: flex; align-items: center; gap: 9px;
+  font-family: var(--font-mono); font-size: 11.5px; color: var(--panel-ink);
+}
+.legend .sw { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.legend .n { color: var(--panel-muted); margin-left: auto; }
+
+/* honest hash-embedding warning — sits above the cluster map when
+   embeddings_real === false. Never present hash groupings as semantic. */
+.warn-embed {
+  display: flex; gap: 11px; align-items: flex-start; margin: 0 0 18px;
+  padding: 13px 16px; background: var(--accent-tint); border: 1px solid #ECD3A0;
+  border-radius: var(--r-md); font-size: 13px; color: #7a5a14; line-height: 1.5;
+}
+.warn-embed .k {
+  font-family: var(--font-mono); font-weight: 700; font-size: 10px; letter-spacing: .1em;
+  text-transform: uppercase; color: #9a6a14; flex: none; margin-top: 1px;
+}
+
+/* ---------- (b) REPEATED TASKS — procedure cards (ported from demo.html) ---- */
+.proc { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin: 12px 0 2px; }
+.proc .step {
+  font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-soft); background: #F4F5F8;
+  border: 1px solid var(--line); border-radius: var(--r-sm); padding: 4px 9px;
+}
+.proc .arrow { color: var(--ink-faint); font-size: 11px; }
+.clu { padding: 20px 0; border-top: 1px solid var(--line); }
+.clu:first-child { border-top: 0; padding-top: 2px; }
+.clu .top { display: grid; grid-template-columns: 1fr auto; gap: 6px 24px; align-items: baseline; }
+.clu .rank {
+  font-family: var(--font-mono); font-weight: 700; font-size: 11px; letter-spacing: .1em;
+  color: var(--ink-faint);
+}
+.clu .intent {
+  font-family: var(--font-display); font-weight: 400; font-size: 23px; letter-spacing: -.02em;
+  color: var(--ink); line-height: 1.1;
+}
+.clu .saved {
+  font-family: var(--font-display); font-size: 27px; letter-spacing: -.02em; color: var(--win);
+  font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; line-height: 1;
+}
+.clu .saved small {
+  font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-faint); display: block;
+  margin-top: 6px; letter-spacing: .02em;
+}
+.clu .freq { font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); margin-top: 9px; }
+.clu .freq b { color: var(--ink); font-weight: 600; }
+.clu .fix { margin-top: 10px; font-size: 13px; color: var(--ink-soft); }
+.clu .fix b {
+  font-family: var(--font-mono); font-weight: 700; font-size: 10px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--primary); margin-right: 8px;
+}
+.clu .fix code {
+  font-family: var(--font-mono); font-size: 12px; color: var(--ink); background: var(--primary-tint);
+  border-radius: var(--r-sm); padding: 2px 8px;
+}
+.pill.dom { background: var(--primary-tint); color: var(--primary); }
+.pill.dev { background: #EEF0F4; color: var(--ink-soft); }
+
+/* ---------- (c) WORK STATUS — dark panel hero + sparkline (from overview.html) */
+.status-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
+.status-spark { text-align: right; min-width: 160px; }
+.status-foot {
+  margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--panel-line);
+  display: flex; gap: 14px 28px; flex-wrap: wrap; align-items: baseline;
+  font-family: var(--font-mono); font-size: 12px; color: var(--panel-muted);
+}
+.status-foot b { color: var(--win-bright); font-size: 13.5px; font-weight: 500; }
+
+/* ---------- (d) STUCK + (e) DEADLINES — the .anom list pattern -------------- */
+.anom .body { flex: 1; min-width: 0; }
+.anom .title { color: var(--ink); }
+.anom .where {
+  font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-faint); margin-top: 3px;
+}
+.anom .mins {
+  font-family: var(--font-mono); font-size: 12.5px; color: var(--ink-soft);
+  font-variant-numeric: tabular-nums; white-space: nowrap; flex: none; margin-top: 1px;
+}
+.anom .sev.spiral  { background: var(--danger); }
+.anom .sev.waste   { background: var(--accent); }
+.anom .sev.anomaly { background: var(--primary); }
+.anom .sev.on_track, .anom .sev.shipped { background: var(--win); }
+.anom .sev.due_soon, .anom .sev.at_risk { background: var(--accent); }
+.anom .sev.overdue { background: var(--danger); }
+
+/* deadline status pills (semantic colours travel with the status) */
+.pill.on_track { background: var(--win-tint); color: var(--win); }
+.pill.shipped  { background: var(--win-tint); color: var(--win); }
+.pill.due_soon { background: var(--accent-tint); color: #9a6a14; }
+.pill.at_risk  { background: var(--accent-tint); color: #9a6a14; }
+.pill.overdue  { background: var(--danger-tint); color: var(--danger-soft); }
+
+/* signal pills for the STUCK list */
+.pill.spiral  { background: var(--danger-tint); color: var(--danger-soft); }
+.pill.waste   { background: var(--accent-tint); color: #9a6a14; }
+.pill.anomaly { background: var(--primary-tint); color: var(--primary); }
+
+/* ---------- closing CTA ----------------------------------------------------- */
+.cta-card { margin-top: 46px; text-align: center; }
+.cta-card h2 {
+  font-family: var(--font-display); font-weight: 400; font-size: 30px; letter-spacing: -.02em;
+  margin: 6px 0 10px; color: var(--ink);
+}
+
+@media (max-width: 880px) {
+  .map-wrap { grid-template-columns: 1fr; }
+  .status-spark { min-width: 0; text-align: left; }
+}

@@ -1,0 +1,959 @@
+{
+  "source": "sample",
+  "generated_at": "2026-06-28T10:06:10Z",
+  "workspace": "tasklib · sample team",
+  "subtitle": "A 30-day sample capture across 6 developers — what re-forge sees, with nothing installed.",
+  "embeddings_real": false,
+  "embeddings_note": "Sample cluster map — the positions are an illustrative layout for readability, not a real semantic projection. Request a live demo to cluster your own work.",
+  "notice": "Sample data — request a live demo",
+  "kpis": {
+    "repeated_procedures": 48,
+    "time_reclaimable_hours": 31.0,
+    "sessions": 274,
+    "developers": 6,
+    "monthly_spend_usd": 4120.0
+  },
+  "clusters": [
+    {
+      "id": "ci",
+      "label": "Re-run flaky CI until green",
+      "color": "#6D5DFC",
+      "size": 14,
+      "centroid": [
+        0.18,
+        0.3
+      ],
+      "points": [
+        [
+          0.18,
+          0.3
+        ],
+        [
+          0.1841,
+          0.2854
+        ],
+        [
+          0.1985,
+          0.2854
+        ],
+        [
+          0.1537,
+          0.327
+        ],
+        [
+          0.1523,
+          0.3305
+        ],
+        [
+          0.1918,
+          0.3249
+        ],
+        [
+          0.2095,
+          0.2695
+        ],
+        [
+          0.2225,
+          0.2645
+        ],
+        [
+          0.1622,
+          0.315
+        ],
+        [
+          0.1371,
+          0.3104
+        ],
+        [
+          0.1572,
+          0.3115
+        ],
+        [
+          0.1477,
+          0.315
+        ],
+        [
+          0.1498,
+          0.3274
+        ],
+        [
+          0.2208,
+          0.3139
+        ]
+      ]
+    },
+    {
+      "id": "ingest",
+      "label": "Wire a new ingest event type",
+      "color": "#4F46E5",
+      "size": 9,
+      "centroid": [
+        0.34,
+        0.2
+      ],
+      "points": [
+        [
+          0.34,
+          0.2
+        ],
+        [
+          0.3102,
+          0.1765
+        ],
+        [
+          0.3518,
+          0.2185
+        ],
+        [
+          0.3158,
+          0.173
+        ],
+        [
+          0.355,
+          0.1635
+        ],
+        [
+          0.337,
+          0.1557
+        ],
+        [
+          0.3335,
+          0.2016
+        ],
+        [
+          0.3335,
+          0.2129
+        ],
+        [
+          0.3049,
+          0.1988
+        ]
+      ]
+    },
+    {
+      "id": "schema",
+      "label": "Add a column + migration + backfill",
+      "color": "#1B8F55",
+      "size": 7,
+      "centroid": [
+        0.72,
+        0.27
+      ],
+      "points": [
+        [
+          0.72,
+          0.27
+        ],
+        [
+          0.6937,
+          0.2945
+        ],
+        [
+          0.7149,
+          0.2592
+        ],
+        [
+          0.6951,
+          0.3094
+        ],
+        [
+          0.6866,
+          0.3069
+        ],
+        [
+          0.7558,
+          0.3005
+        ],
+        [
+          0.7421,
+          0.3111
+        ]
+      ]
+    },
+    {
+      "id": "reporting",
+      "label": "Regenerate the savings report",
+      "color": "#F2A93B",
+      "size": 6,
+      "centroid": [
+        0.81,
+        0.55
+      ],
+      "points": [
+        [
+          0.81,
+          0.55
+        ],
+        [
+          0.8091,
+          0.5382
+        ],
+        [
+          0.7809,
+          0.5516
+        ],
+        [
+          0.7809,
+          0.5301
+        ],
+        [
+          0.7805,
+          0.5325
+        ],
+        [
+          0.7943,
+          0.5512
+        ]
+      ]
+    },
+    {
+      "id": "security",
+      "label": "Debug an RLS / tenant-isolation test",
+      "color": "#EF4444",
+      "size": 5,
+      "centroid": [
+        0.29,
+        0.7
+      ],
+      "points": [
+        [
+          0.29,
+          0.7
+        ],
+        [
+          0.2814,
+          0.6578
+        ],
+        [
+          0.3166,
+          0.7242
+        ],
+        [
+          0.2771,
+          0.6628
+        ],
+        [
+          0.2768,
+          0.7115
+        ]
+      ]
+    },
+    {
+      "id": "dashboard",
+      "label": "Stand up a new dashboard page",
+      "color": "#6D5DFC",
+      "size": 5,
+      "centroid": [
+        0.55,
+        0.41
+      ],
+      "points": [
+        [
+          0.55,
+          0.41
+        ],
+        [
+          0.5946,
+          0.4494
+        ],
+        [
+          0.5802,
+          0.3798
+        ],
+        [
+          0.5886,
+          0.4359
+        ],
+        [
+          0.5932,
+          0.4448
+        ]
+      ]
+    },
+    {
+      "id": "cost",
+      "label": "Right-size an opus run to sonnet",
+      "color": "#35D07F",
+      "size": 8,
+      "centroid": [
+        0.63,
+        0.73
+      ],
+      "points": [
+        [
+          0.63,
+          0.73
+        ],
+        [
+          0.6016,
+          0.7365
+        ],
+        [
+          0.6249,
+          0.7111
+        ],
+        [
+          0.6496,
+          0.6988
+        ],
+        [
+          0.6351,
+          0.6854
+        ],
+        [
+          0.6454,
+          0.7168
+        ],
+        [
+          0.6415,
+          0.7566
+        ],
+        [
+          0.6584,
+          0.7598
+        ]
+      ]
+    },
+    {
+      "id": "testing",
+      "label": "Reproduce a flaky preflight test",
+      "color": "#8B909C",
+      "size": 6,
+      "centroid": [
+        0.45,
+        0.57
+      ],
+      "points": [
+        [
+          0.45,
+          0.57
+        ],
+        [
+          0.4717,
+          0.5546
+        ],
+        [
+          0.4886,
+          0.5271
+        ],
+        [
+          0.4156,
+          0.6055
+        ],
+        [
+          0.4579,
+          0.561
+        ],
+        [
+          0.4156,
+          0.5695
+        ]
+      ]
+    },
+    {
+      "id": "retrieval",
+      "label": "Tune embedding / semantic search",
+      "color": "#4F46E5",
+      "size": 4,
+      "centroid": [
+        0.15,
+        0.54
+      ],
+      "points": [
+        [
+          0.15,
+          0.54
+        ],
+        [
+          0.1692,
+          0.5352
+        ],
+        [
+          0.1869,
+          0.5476
+        ],
+        [
+          0.1385,
+          0.5398
+        ]
+      ]
+    },
+    {
+      "id": "deploy",
+      "label": "Ship a Vercel / Lambda deploy",
+      "color": "#F2A93B",
+      "size": 3,
+      "centroid": [
+        0.86,
+        0.79
+      ],
+      "points": [
+        [
+          0.86,
+          0.79
+        ],
+        [
+          0.8891,
+          0.7831
+        ],
+        [
+          0.8514,
+          0.8262
+        ]
+      ]
+    },
+    {
+      "id": "docs",
+      "label": "Regenerate CATALOG + docs",
+      "color": "#1B8F55",
+      "size": 5,
+      "centroid": [
+        0.5,
+        0.13
+      ],
+      "points": [
+        [
+          0.5,
+          0.13
+        ],
+        [
+          0.4737,
+          0.1715
+        ],
+        [
+          0.5157,
+          0.1538
+        ],
+        [
+          0.4921,
+          0.1115
+        ],
+        [
+          0.4628,
+          0.1415
+        ]
+      ]
+    },
+    {
+      "id": "auth",
+      "label": "Fix a device-key / token issue",
+      "color": "#4F46E5",
+      "size": 4,
+      "centroid": [
+        0.78,
+        0.41
+      ],
+      "points": [
+        [
+          0.78,
+          0.41
+        ],
+        [
+          0.7837,
+          0.4141
+        ],
+        [
+          0.7728,
+          0.4469
+        ],
+        [
+          0.8204,
+          0.4084
+        ]
+      ]
+    }
+  ],
+  "cluster_labels": {
+    "clusters": "Each dot is a sub-task; colour groups the procedures the team runs over and over"
+  },
+  "repeated": {
+    "total_time_saved_min": 711.0,
+    "total_time_saved_hours": 11.8,
+    "n_procedures": 48,
+    "total_tokens_saved": 476000,
+    "total_repeats": 52,
+    "tasks": [
+      {
+        "id": "47b8fc94781ffa041f75a41d8ac86fec",
+        "intent": "Stand up a new dashboard page (the install pattern)",
+        "domain": "dashboard",
+        "steps": [
+          "add module",
+          "write a pure compose() fn",
+          "expose install(app)",
+          "ship the static html"
+        ],
+        "frequency": 5,
+        "n_sessions": 5,
+        "developers": [
+          {
+            "name": "akash",
+            "count": 3
+          },
+          {
+            "name": "shine",
+            "count": 2
+          }
+        ],
+        "avg_minutes": 26.0,
+        "time_saved_min": 104.0,
+        "tokens_saved": 96000,
+        "skill_sketch": "skill: dashboard-page-scaffold"
+      },
+      {
+        "id": "be3d48d018ea9b071589190aacac0aa9",
+        "intent": "Resolve a failing CI run by re-running until green",
+        "domain": "ci",
+        "steps": [
+          "read the failing job",
+          "re-run",
+          "patch the flaky test",
+          "re-run"
+        ],
+        "frequency": 14,
+        "n_sessions": 11,
+        "developers": [
+          {
+            "name": "shine",
+            "count": 6
+          },
+          {
+            "name": "akash",
+            "count": 5
+          },
+          {
+            "name": "mei",
+            "count": 3
+          }
+        ],
+        "avg_minutes": 8.0,
+        "time_saved_min": 104.0,
+        "tokens_saved": 52000,
+        "skill_sketch": "/forge:ci-triage — read, reproduce, patch, re-run"
+      },
+      {
+        "id": "cf19538bb716a731babcc0387c18a180",
+        "intent": "Add a column + migration + backfill end to end",
+        "domain": "schema migrations",
+        "steps": [
+          "write migration",
+          "add column",
+          "backfill",
+          "update model"
+        ],
+        "frequency": 7,
+        "n_sessions": 6,
+        "developers": [
+          {
+            "name": "akash",
+            "count": 4
+          },
+          {
+            "name": "rui",
+            "count": 3
+          }
+        ],
+        "avg_minutes": 16.0,
+        "time_saved_min": 96.0,
+        "tokens_saved": 61000,
+        "skill_sketch": "skill: migration-scaffold (migration + model + backfill)"
+      },
+      {
+        "id": "b63b510de4acdb8ae47c86b941233d2f",
+        "intent": "Wire a new ingest event type end to end",
+        "domain": "ingest",
+        "steps": [
+          "add the Pydantic model",
+          "register in the router",
+          "add the RLS policy",
+          "write a smoke test"
+        ],
+        "frequency": 9,
+        "n_sessions": 6,
+        "developers": [
+          {
+            "name": "akash",
+            "count": 5
+          },
+          {
+            "name": "shine",
+            "count": 4
+          }
+        ],
+        "avg_minutes": 12.0,
+        "time_saved_min": 96.0,
+        "tokens_saved": 84000,
+        "skill_sketch": "/forge:new-event-type — scaffolds model + router + RLS + test"
+      },
+      {
+        "id": "69ae7d5ba746bdc9cdb00a1aad8f6ee6",
+        "intent": "Regenerate and reconcile the savings report",
+        "domain": "reporting",
+        "steps": [
+          "run cost_insights",
+          "run savings_report",
+          "diff vs last"
+        ],
+        "frequency": 6,
+        "n_sessions": 5,
+        "developers": [
+          {
+            "name": "shine",
+            "count": 6
+          }
+        ],
+        "avg_minutes": 18.0,
+        "time_saved_min": 90.0,
+        "tokens_saved": 44000,
+        "skill_sketch": "nightly cron on savings_report"
+      },
+      {
+        "id": "c65501ce9c2243d29fe67a88af22758a",
+        "intent": "Debug a tenant-isolation (RLS) test failure",
+        "domain": "security",
+        "steps": [
+          "reproduce",
+          "set app.org_id",
+          "check the policy",
+          "re-run"
+        ],
+        "frequency": 5,
+        "n_sessions": 4,
+        "developers": [
+          {
+            "name": "rui",
+            "count": 3
+          },
+          {
+            "name": "akash",
+            "count": 2
+          }
+        ],
+        "avg_minutes": 22.0,
+        "time_saved_min": 88.0,
+        "tokens_saved": 71000,
+        "skill_sketch": "/forge:rls-debug — set org, diff policy, re-run"
+      },
+      {
+        "id": "2f5e9566aeaf125f34c4ab8d998ab170",
+        "intent": "Reproduce and fix a flaky embedding / preflight test",
+        "domain": "testing",
+        "steps": [
+          "mock the embedder",
+          "seed prompts",
+          "assert the threshold",
+          "re-run"
+        ],
+        "frequency": 6,
+        "n_sessions": 5,
+        "developers": [
+          {
+            "name": "mei",
+            "count": 4
+          },
+          {
+            "name": "shine",
+            "count": 2
+          }
+        ],
+        "avg_minutes": 14.0,
+        "time_saved_min": 70.0,
+        "tokens_saved": 38000,
+        "skill_sketch": "/forge:flaky-hunt"
+      },
+      {
+        "id": "66943908a002d967ee187d7dbedceab1",
+        "intent": "Right-size an overspending agent run from opus to sonnet",
+        "domain": "cost",
+        "steps": [
+          "find the opus run",
+          "check the task",
+          "switch the model",
+          "verify the output"
+        ],
+        "frequency": 8,
+        "n_sessions": 7,
+        "developers": [
+          {
+            "name": "akash",
+            "count": 4
+          },
+          {
+            "name": "rui",
+            "count": 4
+          }
+        ],
+        "avg_minutes": 9.0,
+        "time_saved_min": 63.0,
+        "tokens_saved": 30000,
+        "skill_sketch": "policy: default sonnet, opus on demand"
+      }
+    ],
+    "tasks_truncated": 40,
+    "labels": {
+      "time": "Time reclaimable if each repeated procedure were automated once (do it once, not N times — an upper bound on the repeats removed, not the first honest run)",
+      "procedures": "Distinct procedures the team performs over and over",
+      "tokens": "Tokens the same do-it-once automation would stop re-spending"
+    }
+  },
+  "status": {
+    "work_hours": 142.0,
+    "sessions": 274,
+    "avg_session_min": 31.1,
+    "velocity_trend": "down",
+    "recent_session_min": 24.0,
+    "older_session_min": 33.0,
+    "messages": 8120,
+    "clusters": 12,
+    "activity": [
+      {
+        "day": "2026-05-30",
+        "sessions": 4,
+        "runs": 24
+      },
+      {
+        "day": "2026-05-31",
+        "sessions": 4,
+        "runs": 24
+      },
+      {
+        "day": "2026-06-01",
+        "sessions": 9,
+        "runs": 36
+      },
+      {
+        "day": "2026-06-02",
+        "sessions": 12,
+        "runs": 72
+      },
+      {
+        "day": "2026-06-03",
+        "sessions": 10,
+        "runs": 50
+      },
+      {
+        "day": "2026-06-04",
+        "sessions": 13,
+        "runs": 78
+      },
+      {
+        "day": "2026-06-05",
+        "sessions": 11,
+        "runs": 55
+      },
+      {
+        "day": "2026-06-06",
+        "sessions": 4,
+        "runs": 24
+      },
+      {
+        "day": "2026-06-07",
+        "sessions": 3,
+        "runs": 18
+      },
+      {
+        "day": "2026-06-08",
+        "sessions": 8,
+        "runs": 32
+      },
+      {
+        "day": "2026-06-09",
+        "sessions": 12,
+        "runs": 48
+      },
+      {
+        "day": "2026-06-10",
+        "sessions": 11,
+        "runs": 55
+      },
+      {
+        "day": "2026-06-11",
+        "sessions": 13,
+        "runs": 52
+      },
+      {
+        "day": "2026-06-12",
+        "sessions": 9,
+        "runs": 45
+      },
+      {
+        "day": "2026-06-13",
+        "sessions": 4,
+        "runs": 20
+      },
+      {
+        "day": "2026-06-14",
+        "sessions": 2,
+        "runs": 8
+      },
+      {
+        "day": "2026-06-15",
+        "sessions": 11,
+        "runs": 55
+      },
+      {
+        "day": "2026-06-16",
+        "sessions": 8,
+        "runs": 40
+      },
+      {
+        "day": "2026-06-17",
+        "sessions": 13,
+        "runs": 78
+      },
+      {
+        "day": "2026-06-18",
+        "sessions": 9,
+        "runs": 36
+      },
+      {
+        "day": "2026-06-19",
+        "sessions": 10,
+        "runs": 60
+      },
+      {
+        "day": "2026-06-20",
+        "sessions": 2,
+        "runs": 8
+      },
+      {
+        "day": "2026-06-21",
+        "sessions": 2,
+        "runs": 10
+      },
+      {
+        "day": "2026-06-22",
+        "sessions": 9,
+        "runs": 36
+      },
+      {
+        "day": "2026-06-23",
+        "sessions": 9,
+        "runs": 54
+      },
+      {
+        "day": "2026-06-24",
+        "sessions": 13,
+        "runs": 65
+      },
+      {
+        "day": "2026-06-25",
+        "sessions": 10,
+        "runs": 40
+      },
+      {
+        "day": "2026-06-26",
+        "sessions": 8,
+        "runs": 40
+      },
+      {
+        "day": "2026-06-27",
+        "sessions": 3,
+        "runs": 18
+      },
+      {
+        "day": "2026-06-28",
+        "sessions": 3,
+        "runs": 18
+      }
+    ],
+    "labels": {
+      "status": "Engineer-time driving agents — measured from session spans. Velocity is the median session getting shorter as memory compounds."
+    }
+  },
+  "stuck": {
+    "count": 5,
+    "spirals": 2,
+    "waste": 2,
+    "anomalies": 1,
+    "items": [
+      {
+        "signal": "retry_spiral",
+        "kind": "error_retry",
+        "title": "CI job retried 9× without a green run",
+        "where": "tasklib · session a1f3c9",
+        "repo": "tasklib",
+        "minutes": 38,
+        "z": null
+      },
+      {
+        "signal": "retry_spiral",
+        "kind": "edit_revert",
+        "title": "Same file edited and reverted 6× in one session",
+        "where": "retrieval · session 7be204",
+        "repo": "retrieval",
+        "minutes": 27,
+        "z": null
+      },
+      {
+        "signal": "waste",
+        "kind": "redo",
+        "title": "Opus re-ran a task already solved earlier that day",
+        "where": "reporting · session c4d8a0",
+        "repo": "reporting",
+        "minutes": 21,
+        "z": null
+      },
+      {
+        "signal": "waste",
+        "kind": "long_context",
+        "title": "Full repo re-read on every turn (no scoping)",
+        "where": "dashboard · session 9f2e1b",
+        "repo": "dashboard",
+        "minutes": 18,
+        "z": null
+      },
+      {
+        "signal": "anomaly",
+        "kind": "unusual",
+        "title": "Session ran 4.2× longer than this repo's median",
+        "where": "security · session 02bb77",
+        "repo": null,
+        "minutes": null,
+        "z": 3.1
+      }
+    ],
+    "label": "Where work is stuck — retry spirals, wasteful runs and unusual sessions flagged for REVIEW (keyed by session/repo, never a person). Support, not surveillance."
+  },
+  "deadlines": {
+    "items": [
+      {
+        "label": "Ship the deadlines panel in tasklib",
+        "date": "2026-07-03",
+        "status": "at_risk",
+        "repo": "tasklib",
+        "note": "2 contested surfaces still open in preflight"
+      },
+      {
+        "label": "Cut the monthly savings report",
+        "date": "2026-06-30",
+        "status": "due_soon",
+        "repo": "reporting",
+        "note": "nightly cron green; needs a final reconcile"
+      },
+      {
+        "label": "Roll out semantic-search reindex",
+        "date": "2026-07-10",
+        "status": "on_track",
+        "repo": "retrieval",
+        "note": "embeddings backfill 60% complete"
+      },
+      {
+        "label": "Tenant-isolation (RLS) hardening pass",
+        "date": "2026-06-27",
+        "status": "overdue",
+        "repo": "security",
+        "note": "one policy test still red — flagged for review"
+      },
+      {
+        "label": "Dashboard page-scaffold skill GA",
+        "date": "2026-06-24",
+        "status": "shipped",
+        "repo": "dashboard",
+        "note": "merged; now reused across 5 pages"
+      }
+    ],
+    "label": "Upcoming delivery dates from tracked work — surfaces/repos only, never individuals."
+  },
+  "footnote": "Time and tokens are do-it-once upper bounds ((frequency−1)×avg); avg minutes is measured and shown apart. Spend is context, not a saving. Stuck items are flagged for review, keyed by session/repo, never a person."
+}

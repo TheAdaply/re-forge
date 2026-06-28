@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="What re-forge sees of your team's coding-agent work — repeated procedures, work status, where it's stuck, and deadlines. Safe aggregates only."
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#4f46e5" />
+    <title>re-forge — team dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="masthead">
+      <div class="masthead-in">
+        <a class="brand" href="/" aria-label="re-forge home">
+          <span class="mark">★</span>
+          <span class="word">re-forge</span>
+          <span class="tag">DASHBOARD</span>
+        </a>
+        <nav class="nav" aria-label="Dashboard sections">
+          <a href="#clusters">Clusters</a>
+          <a href="#repeated">Repeated</a>
+          <a href="#status">Work status</a>
+          <a href="#stuck">Stuck</a>
+          <a href="#deadlines">Deadlines</a>
+        </nav>
+        <span class="spacer"></span>
+        <span class="src-pill sample" id="srcPill">Sample · no login</span>
+      </div>
+    </header>
+
+    <!-- Honesty badge: ships VISIBLE by default; only a successful source:"live"
+         load removes it, so a screenshot can never hide that this is sample data. -->
+    <div class="sample-bar" id="sampleBar">
+      <div class="in">
+        <span class="tag">★ Sample data</span>
+        <span class="txt">This is a baked-in sample workspace — not live data, no account required. Numbers are illustrative.</span>
+        <a class="cta-btn cta" href="mailto:hello@re-forge.dev?subject=re-forge%20live%20demo">Request a live demo</a>
+      </div>
+    </div>
+
+    <main class="wrap">
+      <div class="pagehead rise">
+        <div class="eyebrow"><span class="dot"></span><span id="wsLabel">Sample workspace</span> · zero install</div>
+        <h1>What re-forge sees of your team's work.</h1>
+        <p class="lede" id="subtitle">
+          re-forge watches your team's coding-agent work across Claude Code, Cursor and Codex, and turns it
+          into the procedures you repeat, how work is going, where it's stuck, and what's due — safe
+          aggregates only, never raw prompts.
+        </p>
+      </div>
+      <div id="content"><div class="connect"><p class="muted">Loading the workspace…</p></div></div>
+    </main>
+
+    <script type="module" src="./dashboard.js"></script>
+  </body>
+</html>

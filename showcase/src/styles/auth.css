@@ -1,0 +1,151 @@
+/* Auth surface — self-contained, uses the shared tokens from tokens.css.
+   Imported by the auth entry (see specs/site-auth.md "Wiring"). Scoped under
+   .auth-screen / .auth-* so it never collides with the dashboard styles the
+   concurrent workflow is building. */
+
+.auth-screen {
+  align-items: center;
+  background: var(--paper);
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--gutter);
+}
+
+.auth-card {
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: 0 30px 80px -50px rgba(20, 22, 29, 0.5);
+  max-width: 420px;
+  padding: clamp(28px, 4vw, 40px);
+  width: 100%;
+}
+
+.auth-brand {
+  align-items: center;
+  color: var(--ink);
+  display: inline-flex;
+  gap: 10px;
+  margin-bottom: 22px;
+  text-decoration: none;
+}
+
+.auth-brand img {
+  border-radius: var(--r-sm);
+}
+
+.auth-brand .brand-name {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth-title {
+  font-size: clamp(1.7rem, 4vw, 2.1rem);
+  margin: 6px 0 2px;
+}
+
+.auth-sub,
+.auth-note {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+.auth-note {
+  color: var(--win-soft);
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.auth-field > span {
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.auth-field input {
+  background: var(--paper);
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  color: var(--ink);
+  font: inherit;
+  padding: 11px 13px;
+  transition: border-color 0.16s, box-shadow 0.16s;
+  width: 100%;
+}
+
+.auth-field input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 18%, transparent);
+  outline: none;
+}
+
+.auth-otp {
+  font-size: 1.3rem;
+  letter-spacing: 0.5em;
+  text-align: center;
+}
+
+.auth-submit {
+  margin-top: 4px;
+  width: 100%;
+}
+
+.auth-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+
+.auth-error {
+  background: color-mix(in srgb, var(--danger) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--danger) 30%, transparent);
+  border-radius: var(--r-sm);
+  color: var(--danger-soft);
+  font-size: 0.88rem;
+  margin: 0;
+  padding: 9px 12px;
+}
+
+.auth-alt {
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  margin: 2px 0 0;
+  text-align: center;
+}
+
+.auth-link {
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  padding: 0;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+.auth-link:disabled {
+  color: var(--ink-faint);
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+.auth-loading {
+  color: var(--ink-faint);
+  font-size: 0.95rem;
+}

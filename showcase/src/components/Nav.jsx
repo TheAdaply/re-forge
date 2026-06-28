@@ -9,7 +9,9 @@ export default function Nav({ onDemo }) {
         </a>
         <nav className="mono nav-links" aria-label="Primary navigation">
           <a href="#top">Live demo</a>
+          <a href="/dashboard/">Dashboard</a>
           <a href="#commands">Commands</a>
+          <a href="/signin/">Sign in</a>
         </nav>
         <button className="btn btn-primary nav-cta" onClick={onDemo} type="button">
           Try the skill
