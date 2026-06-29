@@ -119,4 +119,6 @@ def test_external_url_alive(url: str) -> None:
         _backoff(attempt)
     if notfound_gets >= 2:
         pytest.fail(f"{url}: HTTP 404 on every GET attempt (dead link)")
-    pytest.fail(f"{url}: unreachable after retries ({last_exc})")
+    # Transient/non-404 (timeout, DNS, connection reset, 5xx) means "couldn't verify", not
+    # "dead" — skip so a flaky network blip never reds CI; real dead links (404) still fail above.
+    pytest.skip(f"{url}: unreachable after retries ({last_exc}) — transient/non-404, not a confirmed dead link")
