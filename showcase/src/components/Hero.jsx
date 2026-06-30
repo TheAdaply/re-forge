@@ -7,7 +7,7 @@ const rise = (delay) => ({
   transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] },
 });
 
-const REPO = "https://github.com/Akasxh/re-forge";
+const REPO = "https://github.com/TheAdaply/re-forge";
 
 // Every chip is traceable to the repo:
 //  - LICENSE (MIT License header)
@@ -21,7 +21,7 @@ const trustChips = [
   { label: "v0.4", href: `${REPO}#readme` },
 ];
 
-const INSTALL = "git clone https://github.com/Akasxh/re-forge.git && cd re-forge && bash setup.sh";
+const INSTALL = "git clone https://github.com/TheAdaply/re-forge.git && cd re-forge && bash setup.sh";
 
 export default function Hero({ onDemo }) {
   const [copied, setCopied] = useState(false);

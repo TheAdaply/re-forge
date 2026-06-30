@@ -23,7 +23,7 @@ export default function DemoCTA({ onDemo }) {
               </button>
               <a
                 className="btn btn-ghost"
-                href="https://github.com/Akasxh/re-forge"
+                href="https://github.com/TheAdaply/re-forge"
                 target="_blank"
                 rel="noreferrer"
               >

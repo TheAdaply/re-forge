@@ -24,13 +24,13 @@ export const receipts = {
     {
       tag: "CI",
       title: "Every install path smoke-tested in a fresh HOME on every push.",
-      href: "https://github.com/Akasxh/re-forge/actions/workflows/ci.yml",
+      href: "https://github.com/TheAdaply/re-forge/actions/workflows/ci.yml",
       cite: "ci.yml · install smoke",
     },
     {
       tag: "Benchmarks",
       title: "One measured session, errata included.",
-      href: "https://github.com/Akasxh/re-forge/blob/main/BENCHMARKS_v0.2.md",
+      href: "https://github.com/TheAdaply/re-forge/blob/main/BENCHMARKS_v0.2.md",
       cite: "BENCHMARKS_v0.2.md",
     },
   ],

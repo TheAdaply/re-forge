@@ -10,8 +10,8 @@ export default function Footer({ onDemo }) {
         </div>
         <div className="footer-meta">
           <span>re-forge — multi-agent operating procedure for coding agents</span>
-          <a href="https://github.com/Akasxh/re-forge" target="_blank" rel="noreferrer">
-            github.com/Akasxh/re-forge
+          <a href="https://github.com/TheAdaply/re-forge" target="_blank" rel="noreferrer">
+            github.com/TheAdaply/re-forge
           </a>
         </div>
       </div>
