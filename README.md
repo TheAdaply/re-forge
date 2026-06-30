@@ -1,6 +1,6 @@
 # re-forge
 
-[![CI](https://github.com/Akasxh/re-forge/actions/workflows/ci.yml/badge.svg)](https://github.com/Akasxh/re-forge/actions/workflows/ci.yml)
+[![CI](https://github.com/TheAdaply/re-forge/actions/workflows/ci.yml/badge.svg)](https://github.com/TheAdaply/re-forge/actions/workflows/ci.yml)
 
 re-forge is a hardened operating procedure for [Claude Code](https://claude.ai/code)'s native subagent and agent-teams primitives — adversarial gating, institutional memory, and on-disk evidence baked into a multi-role research protocol. It is for operators who need their agents to disagree, audit each other, and remember, not for users who just need one assistant to edit a file.
 
@@ -106,7 +106,7 @@ The full generated inventory (every team agent + all 128 skills, with descriptio
 ### Installation
 
 ```bash
-git clone https://github.com/Akasxh/re-forge.git
+git clone https://github.com/TheAdaply/re-forge.git
 cd re-forge
 bash setup.sh           # installs all 6 teams + forge + 128 skills + hooks
 bash scripts/doctor.sh  # verify install — exits 0 only on a clean, complete install
@@ -114,7 +114,7 @@ bash scripts/doctor.sh  # verify install — exits 0 only on a clean, complete i
 
 Then restart Claude Code so it reloads agents and skills.
 
-The installer copies agents, team protocols, scripts, hooks, skills, and the forge to `~/.claude/`, auto-discovering every `agents/*-team/` and every `memory/*.md`, and registers three hooks (Stop, PostToolUse, SessionStart) in `~/.claude/settings.json` (created if absent; snapshotted before any merge). It backs up any file it would change (and only those — re-runs are no-ops). To remove everything it installed: `bash scripts/uninstall.sh --force` (your `agent-memory/` lessons and third-party skills are left untouched; run without `--force` for a dry run). The exact inventory is [docs/CATALOG.md](./docs/CATALOG.md); the install layout is verified by `scripts/doctor.sh` and exercised on every push by [CI](https://github.com/Akasxh/re-forge/actions/workflows/ci.yml)'s fresh-HOME smoke test.
+The installer copies agents, team protocols, scripts, hooks, skills, and the forge to `~/.claude/`, auto-discovering every `agents/*-team/` and every `memory/*.md`, and registers three hooks (Stop, PostToolUse, SessionStart) in `~/.claude/settings.json` (created if absent; snapshotted before any merge). It backs up any file it would change (and only those — re-runs are no-ops). To remove everything it installed: `bash scripts/uninstall.sh --force` (your `agent-memory/` lessons and third-party skills are left untouched; run without `--force` for a dry run). The exact inventory is [docs/CATALOG.md](./docs/CATALOG.md); the install layout is verified by `scripts/doctor.sh` and exercised on every push by [CI](https://github.com/TheAdaply/re-forge/actions/workflows/ci.yml)'s fresh-HOME smoke test.
 
 ### First run
 

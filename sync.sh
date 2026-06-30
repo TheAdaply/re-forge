@@ -164,7 +164,7 @@ No project-specific content included.
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
 
   git push origin main
-  echo "Pushed to github.com/Akasxh/re-forge"
+  echo "Pushed to github.com/TheAdaply/re-forge"
 fi
 
 echo ""
