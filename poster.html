@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>re-forge · booth poster · A0 landscape</title>
+<link rel="icon" type="image/png" href="/mark-dark.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap");
+
+/* ── Brand tokens - verbatim from src/styles/tokens.css ─────────────────── */
+:root {
+  --paper: #f7f8fa;
+  --paper-raised: #ffffff;
+  --ink: #14161d;
+  --ink-soft: #515968;
+  --ink-faint: #8b909c;
+  --line: #e6e8ee;
+  --line-strong: #d3d7e0;
+
+  --primary: #4f46e5;
+  --primary-bright: #6d5dfc;
+  --accent: #f2a93b;
+  --danger: #ef4444;
+  --danger-soft: #b91c1c;
+  --win: #35d07f;
+  --win-soft: #1b8f55;
+
+  --panel-deep: #11121b;
+  --panel-raised: #1c1d2b;
+  --panel-line: #34374f;
+  --panel-ink: #f3f0ff;
+  --panel-muted: #9ea1bd;
+
+  --font-display: "Instrument Serif", "Times New Roman", serif;
+  --font-ui: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* ISO A0 landscape: 1189mm × 841mm  →  aspect 1189/841 = 1.4138 */
+  --aspect-w: 1189;
+  --aspect-h: 841;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: #07080e;
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  /* soft studio backdrop behind the artboard (screen only) */
+  background:
+    radial-gradient(70% 60% at 50% 0%, #15172a 0%, #0a0b12 58%, #07080e 100%);
+}
+
+/* ── The artboard: locked to 1189:841, scales to fit the viewport ───────── */
+.artboard {
+  position: relative;
+  /* fill width when possible; never overflow height */
+  width: min(96vw, calc(94vh * (var(--aspect-w) / var(--aspect-h))));
+  height: min(94vh, calc(96vw * (var(--aspect-h) / var(--aspect-w))));
+  aspect-ratio: var(--aspect-w) / var(--aspect-h);
+  /* enable cqw/cqh so type scales with the board, crisp at any output size */
+  container-type: size;
+  background:
+    radial-gradient(52% 62% at 22% 0%, rgba(79,70,229,0.20) 0%, rgba(79,70,229,0) 55%),
+    radial-gradient(48% 70% at 88% 102%, rgba(53,208,127,0.10) 0%, rgba(53,208,127,0) 60%),
+    radial-gradient(40% 60% at 100% 0%, rgba(242,169,59,0.06) 0%, rgba(242,169,59,0) 55%),
+    linear-gradient(155deg, #14152a 0%, var(--panel-deep) 44%, #0c0d16 100%);
+  color: var(--panel-ink);
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 40px 120px -40px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.05) inset;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* faint engineered grid texture + edge vignette */
+.artboard::before {
+  content: "";
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.020) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.020) 1px, transparent 1px);
+  background-size: 2.6cqw 2.6cqw;
+  mask-image: radial-gradient(120% 90% at 50% 45%, #000 40%, transparent 95%);
+}
+.artboard::after {
+  content: "";
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  box-shadow: 0 0 18cqw 6cqw rgba(0,0,0,0.5) inset;
+}
+
+.stage {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 4.4cqh 4.6cqw 4cqh;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   ROW 1 - masthead: anvil logo + wordmark · receipts strip
+   ════════════════════════════════════════════════════════════════════════ */
+.masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4cqw;
+  flex: none;
+}
+.brand { display: flex; align-items: center; gap: 1.5cqw; }
+.brand .anvil {
+  width: 6.2cqh; height: 6.2cqh;
+  border-radius: 1.5cqh;
+  background: linear-gradient(150deg, var(--primary), var(--primary-bright));
+  padding: 1.25cqh;
+  box-shadow: 0 1.4cqh 3.2cqh -1cqh rgba(79,70,229,0.7), 0 0 0 1px rgba(255,255,255,0.06) inset;
+  flex: none;
+}
+.brand .anvil img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.brand .wm {
+  font-family: var(--font-mono);
+  font-size: 2.5cqh;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #d6d3f7;
+}
+.brand .wm .sub {
+  display: block;
+  font-size: 1.35cqh;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--panel-muted);
+  margin-top: 0.5cqh;
+  font-weight: 600;
+}
+
+/* receipts strip - big mono figures, all real */
+.receipts { display: flex; align-items: stretch; gap: 1.1cqw; }
+.receipt {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 1.5cqh 1.6cqw;
+  border-radius: 1.4cqh;
+  border: 1px solid var(--panel-line);
+  background: linear-gradient(180deg, rgba(40,42,68,0.66), rgba(22,23,40,0.66));
+  min-width: 0;
+}
+.receipt .fig {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: 2.7cqh;
+  letter-spacing: -0.01em;
+  color: #fff;
+  line-height: 1;
+  white-space: nowrap;
+}
+.receipt .fig .u { color: var(--primary-bright); }
+.receipt .lab {
+  font-family: var(--font-mono);
+  font-size: 1.3cqh;
+  letter-spacing: 0.04em;
+  color: var(--panel-muted);
+  margin-top: 0.7cqh;
+  white-space: nowrap;
+}
+.receipt.win .fig .u { color: var(--win); }
+.receipt.accent .fig .u { color: var(--accent); }
+
+/* ════════════════════════════════════════════════════════════════════════
+   ROW 2 - hero headline
+   ════════════════════════════════════════════════════════════════════════ */
+.hero { flex: none; margin-top: 2.4cqh; }
+.hero .eyebrow {
+  font-family: var(--font-mono);
+  font-size: 1.5cqh;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--panel-muted);
+  display: inline-flex; align-items: center; gap: 0.9cqw;
+}
+.hero .eyebrow .tick {
+  width: 0.9cqh; height: 0.9cqh; border-radius: 2px;
+  background: var(--win); box-shadow: 0 0 0 0.5cqh rgba(53,208,127,0.18);
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 7.7cqh;
+  line-height: 0.96;
+  letter-spacing: -0.026em;
+  color: #fff;
+  margin-top: 1.2cqh;
+}
+.hero h1 em {
+  font-style: italic;
+  background: linear-gradient(96deg, #b9b0ff 0%, var(--primary-bright) 60%, #8f82ff 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero .sub {
+  font-family: var(--font-display);
+  font-size: 2.9cqh;
+  line-height: 1.06;
+  letter-spacing: -0.012em;
+  color: var(--panel-muted);
+  margin-top: 1cqh;
+  max-width: 70ch;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   ROW 3 - main grid: swarm motif · hook proof
+   ════════════════════════════════════════════════════════════════════════ */
+.grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.02fr 0.98fr;
+  gap: 2.4cqw;
+  margin-top: 2.4cqh;
+  min-height: 0;
+}
+
+/* - WHAT IT IS: swarm motif panel - */
+.swarm-panel {
+  position: relative;
+  border: 1px solid var(--panel-line);
+  border-radius: 2cqh;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(79,70,229,0.12), transparent 62%),
+    var(--panel-raised);
+  padding: 2.6cqh 2.4cqw 2.2cqh;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.swarm-panel .ptag {
+  font-family: var(--font-mono);
+  font-size: 1.45cqh;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--panel-muted);
+  flex: none;
+}
+.swarm-panel .ptag b { color: var(--primary-bright); font-weight: 600; }
+.swarm-stage {
+  flex: 1; min-height: 0;
+  display: flex; align-items: center; justify-content: center;
+  margin: 1.2cqh 0;
+}
+.swarm-svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.swarm-panel .pcap {
+  font-family: var(--font-display);
+  font-size: 2.5cqh;
+  line-height: 1.12;
+  letter-spacing: -0.012em;
+  color: #e9e7fb;
+  flex: none;
+}
+.swarm-panel .pcap em { font-style: italic; color: var(--danger); }
+.swarm-panel .pcap b { color: var(--win); font-weight: inherit; font-style: italic; font-family: var(--font-display); }
+
+/* - THE HOOK PROOF - */
+.proof {
+  position: relative;
+  border-radius: 2cqh;
+  border: 1px solid rgba(239,68,68,0.34);
+  background:
+    radial-gradient(90% 80% at 80% 0%, rgba(239,68,68,0.13), transparent 60%),
+    linear-gradient(165deg, #1f1424 0%, var(--panel-raised) 55%, #16172a 100%);
+  box-shadow: inset 0 0 0 1px rgba(239,68,68,0.08), 0 1.6cqh 5cqh -2cqh rgba(0,0,0,0.6);
+  padding: 3cqh 2.6cqw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
+}
+.proof .eyebrow {
+  font-family: var(--font-mono);
+  font-size: 1.5cqh;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ff8a8a;
+  display: inline-flex; align-items: center; gap: 0.9cqw;
+}
+.proof .eyebrow .spark {
+  width: 1cqh; height: 1cqh; border-radius: 50%;
+  background: var(--danger);
+  box-shadow: 0 0 1.6cqh 0.3cqh rgba(239,68,68,0.8);
+}
+.proof h2 {
+  font-family: var(--font-display);
+  font-size: 6.6cqh;
+  line-height: 0.96;
+  letter-spacing: -0.022em;
+  color: #fff;
+  margin-top: 1.6cqh;
+}
+.proof h2 em { font-style: italic; color: #ff6b6b; }
+.proof .detail {
+  font-size: 2.05cqh;
+  line-height: 1.42;
+  color: #cfd2e6;
+  margin-top: 2.2cqh;
+  max-width: 40ch;
+}
+.proof .detail b { color: #fff; font-weight: 600; }
+.proof .detail .caught {
+  color: var(--win); font-weight: 600;
+}
+.proof .verdict {
+  display: flex; align-items: center; gap: 1cqw;
+  margin-top: 2.6cqh;
+}
+.proof .verdict .vchip {
+  display: inline-flex; align-items: center; gap: 0.7cqw;
+  font-family: var(--font-mono);
+  font-size: 1.5cqh; font-weight: 600;
+  padding: 1cqh 1.2cqw;
+  border-radius: 999px;
+}
+.proof .verdict .vchip.red {
+  color: #ffb4b4; border: 1px solid rgba(239,68,68,0.45);
+  background: rgba(239,68,68,0.1);
+}
+.proof .verdict .vchip.green {
+  color: #9fe9c2; border: 1px solid rgba(53,208,127,0.45);
+  background: rgba(53,208,127,0.1);
+}
+.proof .verdict .vchip .d { width: 0.8cqh; height: 0.8cqh; border-radius: 50%; }
+.proof .verdict .vchip.red .d { background: var(--danger); }
+.proof .verdict .vchip.green .d { background: var(--win); }
+
+/* ════════════════════════════════════════════════════════════════════════
+   ROW 4 - product line · waitlist CTA + QR
+   ════════════════════════════════════════════════════════════════════════ */
+.foot {
+  flex: none;
+  margin-top: 2.4cqh;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3cqw;
+  align-items: stretch;
+}
+.product {
+  border-left: 0.5cqh solid var(--primary);
+  padding: 0.4cqh 0 0.4cqh 1.8cqw;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.product .plab {
+  font-family: var(--font-mono);
+  font-size: 1.4cqh; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--primary-bright);
+}
+.product .pline {
+  font-family: var(--font-display);
+  font-size: 3.05cqh;
+  line-height: 1.14;
+  letter-spacing: -0.014em;
+  color: #ece9fb;
+  margin-top: 1cqh;
+  max-width: 46ch;
+}
+.product .pline b { color: #fff; font-style: italic; }
+.product .footer {
+  font-family: var(--font-mono);
+  font-size: 1.45cqh;
+  letter-spacing: 0.05em;
+  color: var(--panel-muted);
+  margin-top: 1.8cqh;
+  display: flex; align-items: center; gap: 0.8cqw;
+}
+.product .footer img { width: 1.8cqh; height: 1.8cqh; object-fit: contain; opacity: 0.85; }
+
+/* waitlist CTA card */
+.cta {
+  display: flex; align-items: center; gap: 1.8cqw;
+  border-radius: 1.8cqh;
+  border: 1.5px solid rgba(109,93,252,0.5);
+  background: linear-gradient(180deg, rgba(79,70,229,0.16), rgba(79,70,229,0.04));
+  box-shadow: 0 1.8cqh 5cqh -2cqh rgba(79,70,229,0.45), 0 0 0 1px rgba(255,255,255,0.04) inset;
+  padding: 1.8cqh 1.8cqw;
+}
+.cta .copy { display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+.cta .copy .lab {
+  font-family: var(--font-mono);
+  font-size: 1.35cqh; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--accent);
+}
+.cta .copy h3 {
+  font-family: var(--font-display);
+  font-size: 4.4cqh;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-top: 0.7cqh;
+}
+.cta .copy .link {
+  font-family: var(--font-mono);
+  font-size: 1.7cqh; font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #cfcaf6;
+  margin-top: 1cqh;
+  display: inline-flex; align-items: center; gap: 0.6cqw;
+}
+.cta .copy .link .arrow { color: var(--primary-bright); }
+.qr-box {
+  width: 13.5cqh; height: 13.5cqh; flex: none;
+  background: #fff;
+  border-radius: 1.4cqh;
+  padding: 1cqh;
+  box-shadow: 0 1.6cqh 4cqh -1.4cqh rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.12);
+}
+.qr-box img { width: 100%; height: 100%; display: block; }
+
+/* ── Screen-only export helper (hidden in print) ────────────────────────── */
+.export-note {
+  position: fixed;
+  left: 50%; bottom: 12px;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: #c7c9e0;
+  background: rgba(20,22,40,0.88);
+  border: 1px solid var(--panel-line);
+  border-radius: 999px;
+  padding: 7px 16px;
+  box-shadow: 0 12px 34px -16px rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  z-index: 20;
+  text-align: center;
+  max-width: 92vw;
+}
+.export-note b { color: #fff; }
+
+/* ── PRINT: scale the artboard to fill an A0 landscape page ──────────────── */
+@media print {
+  @page { size: A0 landscape; margin: 0; }
+  html, body {
+    background: #fff;
+    width: 100%; height: 100%;
+    margin: 0; padding: 0;
+    overflow: hidden;          /* never spill onto a 2nd page */
+  }
+  body { display: block; min-height: 0; }
+  .artboard {
+    position: fixed; inset: 0; /* fill exactly one page, no overflow */
+    width: 100vw; height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .export-note { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<script>
+  /* ════════════════════════════════════════════════════════════════════════
+     WAITLIST_URL - single source of truth for the booth CTA + QR.
+     Points at the live Tally signup form; /qr/waitlist.svg encodes the same
+     URL (decode-verified). Keep URL, label and QR asset in sync if it moves.
+     ════════════════════════════════════════════════════════════════════════ */
+  const WAITLIST_URL = "https://tally.so/r/lb4Rkp";
+  const WAITLIST_LABEL = "tally.so/r/lb4Rkp";
+  // QR asset paired with WAITLIST_URL. Replace with a freshly-generated SVG
+  // if WAITLIST_URL ever changes to a different destination.
+  const WAITLIST_QR = "/qr/waitlist.svg";
+</script>
+
+<div class="artboard">
+  <div class="stage">
+
+    <!-- ─────────── ROW 1 · MASTHEAD ─────────── -->
+    <header class="masthead">
+      <div class="brand">
+        <span class="anvil"><img src="/mark-light.png" alt="re-forge anvil logo" /></span>
+        <span class="wm">re-forge<span class="sub">UCWS Singapore 2026</span></span>
+      </div>
+      <div class="receipts">
+        <div class="receipt">
+          <div class="fig"><span class="u">2×</span> papers</div>
+          <div class="lab">ICML 2026 · SCALE Workshop</div>
+        </div>
+        <div class="receipt accent">
+          <div class="fig">Top <span class="u">5</span> · <span class="u">130+</span></div>
+          <div class="lab">leaderboard rank · votes</div>
+        </div>
+        <div class="receipt win">
+          <div class="fig"><span class="u">685</span> checks</div>
+          <div class="lab">machine-checked · green CI</div>
+        </div>
+        <div class="receipt">
+          <div class="fig"><span class="u">128</span> skills</div>
+          <div class="lab">open-source · model-agnostic</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ─────────── ROW 2 · HERO ─────────── -->
+    <section class="hero">
+      <span class="eyebrow"><span class="tick"></span>The compounding layer for your AI toolchain</span>
+      <h1>Your AI tools forget.<br /><em>re-forge remembers.</em></h1>
+      <p class="sub">One prompt becomes an engineering org that attacks its own work, leaves evidence on disk, and compounds.</p>
+    </section>
+
+    <!-- ─────────── ROW 3 · SWARM + HOOK PROOF ─────────── -->
+    <section class="grid">
+
+      <!-- WHAT IT IS · swarm motif -->
+      <div class="swarm-panel">
+        <div class="ptag">What it is <b>· one prompt → a whole org</b></div>
+        <div class="swarm-stage">
+        <svg class="swarm-svg" viewBox="0 0 520 270" preserveAspectRatio="xMidYMid meet" role="img"
+             aria-label="A lead agent fans out to specialist agents; a red adversary kills a weak claim; findings converge on a green synthesis core.">
+          <defs>
+            <linearGradient id="edge" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#6d5dfc" stop-opacity="0.9"/>
+              <stop offset="1" stop-color="#4f46e5" stop-opacity="0.3"/>
+            </linearGradient>
+            <radialGradient id="core" cx="50%" cy="42%" r="60%">
+              <stop offset="0" stop-color="#7df0b5"/>
+              <stop offset="0.55" stop-color="#35d07f"/>
+              <stop offset="1" stop-color="#1b8f55"/>
+            </radialGradient>
+            <filter id="soft" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- prompt pill -->
+          <rect x="14" y="128" width="92" height="44" rx="10" fill="rgba(79,70,229,0.16)" stroke="rgba(109,93,252,0.6)" stroke-width="1.4"/>
+          <text x="60" y="148" text-anchor="middle" fill="#cfcaf6" font-family="JetBrains Mono, monospace" font-size="11" font-weight="600">"build</text>
+          <text x="60" y="162" text-anchor="middle" fill="#cfcaf6" font-family="JetBrains Mono, monospace" font-size="11" font-weight="600">auth"</text>
+
+          <!-- prompt → lead -->
+          <path d="M106 150 L150 150" stroke="url(#edge)" stroke-width="2.2" fill="none"/>
+
+          <!-- LEAD → specialist edges -->
+          <g stroke="url(#edge)" stroke-width="2.2" fill="none">
+            <path d="M188 150 L300 56"/>
+            <path d="M188 150 L300 112"/>
+            <path d="M188 150 L300 168"/>
+            <path d="M188 150 L300 224"/>
+          </g>
+          <!-- adversary edge (red flank) -->
+          <path d="M188 150 L300 56" stroke="#ef4444" stroke-width="2.2" fill="none" stroke-opacity="0.55"/>
+
+          <!-- specialist → CORE convergence -->
+          <g stroke="#35d07f" stroke-width="1.7" fill="none" stroke-opacity="0.5" stroke-dasharray="2 5" stroke-linecap="round">
+            <path d="M300 112 L426 150"/>
+            <path d="M300 168 L426 150"/>
+            <path d="M300 224 L426 150"/>
+          </g>
+
+          <!-- LEAD node -->
+          <circle cx="168" cy="150" r="22" fill="#1c1d2b" stroke="#6d5dfc" stroke-width="2.4"/>
+          <circle cx="168" cy="150" r="22" fill="none" stroke="#6d5dfc" stroke-width="2.4" filter="url(#soft)" opacity="0.5"/>
+          <text x="168" y="154" text-anchor="middle" fill="#f3f0ff" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600">lead</text>
+
+          <!-- SPECIALIST nodes -->
+          <g font-family="JetBrains Mono, monospace" font-size="9" font-weight="600">
+            <!-- ADVERSARY (red flank, top) -->
+            <circle cx="300" cy="56" r="19" fill="#241318" stroke="#ef4444" stroke-width="2.4"/>
+            <text x="300" y="59" text-anchor="middle" fill="#ffb4b4">adv</text>
+            <!-- build -->
+            <circle cx="300" cy="112" r="19" fill="#1c1d2b" stroke="#34374f" stroke-width="2"/>
+            <text x="300" y="115" text-anchor="middle" fill="#c9cbe6">build</text>
+            <!-- test -->
+            <circle cx="300" cy="168" r="19" fill="#1c1d2b" stroke="#34374f" stroke-width="2"/>
+            <text x="300" y="171" text-anchor="middle" fill="#c9cbe6">test</text>
+            <!-- review -->
+            <circle cx="300" cy="224" r="19" fill="#1c1d2b" stroke="#34374f" stroke-width="2"/>
+            <text x="300" y="227" text-anchor="middle" fill="#c9cbe6">review</text>
+          </g>
+
+          <!-- KILL: doomed claim, struck out in red off the adversary flank -->
+          <g transform="translate(300 56)">
+            <g transform="rotate(-9)">
+              <rect x="24" y="-15" width="118" height="30" rx="6" fill="#1a0f13" stroke="#ef4444" stroke-width="1.5" stroke-opacity="0.85"/>
+              <text x="83" y="-1" text-anchor="middle" fill="#ff9a9a" font-family="JetBrains Mono, monospace" font-size="8.2" font-weight="600">"green = secure"</text>
+              <line x1="29" y1="0" x2="137" y2="0" stroke="#ef4444" stroke-width="2.4"/>
+              <text x="83" y="12" text-anchor="middle" fill="#ef4444" font-family="JetBrains Mono, monospace" font-size="7.6" font-weight="600" letter-spacing="0.1em">KILLED</text>
+            </g>
+          </g>
+
+          <!-- SYNTHESIS CORE (green) -->
+          <g filter="url(#soft)">
+            <circle cx="426" cy="150" r="27" fill="url(#core)"/>
+          </g>
+          <circle cx="426" cy="150" r="27" fill="none" stroke="#7df0b5" stroke-width="1.4" stroke-opacity="0.8"/>
+          <path d="M415 150 l8 8 16 -18" fill="none" stroke="#06281a" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="426" y="196" text-anchor="middle" fill="#9fe9c2" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" letter-spacing="0.12em">SYNTHESIS</text>
+          <text x="426" y="210" text-anchor="middle" fill="#7e88a8" font-family="JetBrains Mono, monospace" font-size="7.6" letter-spacing="0.02em">evidence on disk</text>
+        </svg>
+        </div>
+        <p class="pcap">One prompt becomes a whole engineering org that <b>attacks its own work</b>, leaves <b>evidence on disk</b>, and remembers.</p>
+      </div>
+
+      <!-- THE HOOK PROOF -->
+      <div class="proof">
+        <span class="eyebrow"><span class="spark"></span>The proof</span>
+        <h2>Green tests are<br /><em>not secure.</em></h2>
+        <p class="detail">A plain agent's auth passed <b>all 19 of its own tests</b>, and still let any user delete everyone's data. <span class="caught">re-forge caught it.</span></p>
+        <div class="verdict">
+          <span class="vchip green"><span class="d"></span>19 / 19 tests pass</span>
+          <span class="vchip red"><span class="d"></span>any user → delete all</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ─────────── ROW 4 · PRODUCT + WAITLIST ─────────── -->
+    <footer class="foot">
+      <div class="product">
+        <div class="plab">The product · the roadmap</div>
+        <p class="pline">Watches your agents across <b>Claude Code, Cursor, Codex and ChatGPT</b>, forges personalized skills, and gives your team <b>one shared memory.</b></p>
+        <div class="footer">
+          <img src="/mark-light.png" alt="" />
+          <span id="footer-line">re-forge.vercel.app · github.com/TheAdaply/re-forge · TheAdaply &amp; Shine · UCWS Singapore 2026</span>
+        </div>
+      </div>
+
+      <div class="cta">
+        <div class="copy">
+          <span class="lab">Get early access</span>
+          <h3>Join the waitlist</h3>
+          <span class="link"><span class="arrow">→</span><span id="cta-link">tally.so/r/lb4Rkp</span></span>
+        </div>
+        <div class="qr-box">
+          <img id="cta-qr" src="/qr/waitlist.svg" alt="QR code to join the re-forge waitlist" />
+        </div>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+<!-- screen-only, hidden in print -->
+<div class="export-note">
+  Print → <b>Save as PDF (A0 landscape)</b>, or send to a large-format printer.
+</div>
+
+<script>
+  /* Wire the single WAITLIST_URL constant into the visible CTA + QR. */
+  document.getElementById("cta-link").textContent = WAITLIST_LABEL;
+  document.getElementById("cta-qr").src = WAITLIST_QR;
+  document.getElementById("cta-qr").alt = "QR code to " + WAITLIST_LABEL;
+</script>
+
+</body>
+</html>
