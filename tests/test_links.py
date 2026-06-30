@@ -8,6 +8,7 @@ failure is dead; 403/405/429 from bot-blocking hosts counts as alive.
 from __future__ import annotations
 
 import re
+import subprocess
 import time
 import urllib.error
 import urllib.request
@@ -54,9 +55,35 @@ def _internal_links() -> list[tuple[Path, str]]:
     ]
 
 
+def _origin_slug() -> str | None:
+    """``owner/repo`` for the repo's ``origin`` remote, or None if unavailable.
+
+    Derived from the live remote rather than hardcoded so the self-referential
+    allowlist below can never drift out of sync with the repo's real home (e.g.
+    after a GitHub org transfer) and silently stop catching a stale badge URL.
+    """
+    try:
+        url = subprocess.run(
+            ["git", "-C", str(REPO_ROOT), "remote", "get-url", "origin"],
+            capture_output=True,
+            text=True,
+            check=True,
+            timeout=5,
+        ).stdout.strip()
+    except (OSError, subprocess.SubprocessError):
+        return None
+    # https://github.com/OWNER/REPO(.git)  or  git@github.com:OWNER/REPO(.git)
+    m = re.search(r"github\.com[:/]+([^/]+/[^/]+?)(?:\.git)?/?$", url)
+    return m.group(1) if m else None
+
+
 # The repo's own CI badge cannot resolve until the workflow has run on GitHub,
-# and checking it from inside that same CI would be circular anyway.
-SELF_REFERENTIAL = {"https://github.com/Akasxh/re-forge/actions/workflows/ci.yml/badge.svg"}
+# and checking it from inside that same CI would be circular anyway. The slug is
+# read from the `origin` remote so this allowlist tracks the repo automatically.
+_SLUG = _origin_slug()
+SELF_REFERENTIAL = (
+    {f"https://github.com/{_SLUG}/actions/workflows/ci.yml/badge.svg"} if _SLUG else set()
+)
 
 
 def _external_urls() -> list[str]:
