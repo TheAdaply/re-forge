@@ -31,6 +31,9 @@ External-link job (network, slower): `uv run --group dev pytest -m external`
 - Forge sub-skills are namespaced on purpose: dir `agents/forge/skills/gap/` has
   name `forge-gap`, invoked as `/forge:gap`. Do not "fix" the mismatch.
 - `agents/*-team/PROTOCOL.md` are team docs, not agent defs — no frontmatter.
+- Authoring a multi-agent team/workflow? Build it for agent-death (API disconnects
+  kill long agents): see `teams/AGENT-RESILIENCE.md` (WIP-checkpoint, file-based
+  deliverables, retry-on-disconnect) + the drop-in `teams/templates/resilient-orchestrator.md`.
 - Install paths under `~/.claude/` are created by `setup.sh`; verify with
   `bash scripts/doctor.sh` (exit 1 on drift, `--fix` repairs).
 
