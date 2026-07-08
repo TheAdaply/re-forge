@@ -114,11 +114,12 @@ Agent-death resilience checklist (see teams/AGENT-RESILIENCE.md):
 
 ## Product tie-in
 
-reforge captures these transcripts, so it can be the thing that **detects** the
-D1 failure after the fact: a coding session that ended on an API error /
-abnormal termination while the git tree was still dirty — work started, never
-committed, at risk of being lost. reforge surfaces it as a **stranded-work**
-insight, priced in **hours at risk**, and clears it once the work is committed.
-That detection is a genuine selling point ("reforge caught the hour of work your
-agent stranded when it died"). The engine-side spec for that insight lives in the
-private engine repo (`reforge-cloud`, `specs/stranded-work/`).
+reforge captures these transcripts, so it is well placed to **detect** the D1
+failure after the fact: a coding session that ended on an API error / abnormal
+termination while the git tree was still dirty — work started, never committed,
+at risk of being lost. This is a **planned** capability, not a shipped one: the
+*stranded-work* insight (spec'd, not yet built) **would** surface such a session
+priced in **hours at risk** and clear it once the work is committed. Built, it
+would be a genuine selling point — "reforge caught the hour of work your agent
+stranded when it died." The engine-side spec lives in the private engine repo
+(`reforge-cloud`, `specs/stranded-work/`); until it ships, treat this as roadmap.
